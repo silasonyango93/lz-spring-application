@@ -1,4 +1,4 @@
-package livelihoodzone.model;
+package livelihoodzone.entity.user_management;
 
 import javax.persistence.*;
 @javax.persistence.Entity

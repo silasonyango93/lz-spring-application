@@ -1,13 +1,12 @@
-package livelihoodzone.controller;
+package livelihoodzone.controller.user_management;
 
 import javax.servlet.http.HttpServletRequest;
 
-import livelihoodzone.dto.AuthenticationObject;
+import livelihoodzone.dto.user_management.AuthenticationObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,10 +22,10 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
-import livelihoodzone.dto.UserDataDTO;
-import livelihoodzone.dto.UserResponseDTO;
-import livelihoodzone.model.User;
-import livelihoodzone.service.UserService;
+import livelihoodzone.dto.user_management.UserDataDTO;
+import livelihoodzone.dto.user_management.UserResponseDTO;
+import livelihoodzone.entity.user_management.User;
+import livelihoodzone.service.user_management.UserService;
 
 @RestController
 @RequestMapping("/users")

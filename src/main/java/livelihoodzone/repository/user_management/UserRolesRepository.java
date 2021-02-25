@@ -1,6 +1,6 @@
-package livelihoodzone.repository;
+package livelihoodzone.repository.user_management;
 
-import livelihoodzone.model.UserRoles;
+import livelihoodzone.entity.user_management.UserRoles;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 

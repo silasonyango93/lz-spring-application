@@ -1,14 +1,14 @@
 package livelihoodzone.security;
 
-import livelihoodzone.repository.UserRolesRepository;
+import livelihoodzone.repository.user_management.UserRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import livelihoodzone.model.User;
-import livelihoodzone.repository.UserRepository;
+import livelihoodzone.entity.user_management.User;
+import livelihoodzone.repository.user_management.UserRepository;
 
 @Service
 public class MyUserDetails implements UserDetailsService {

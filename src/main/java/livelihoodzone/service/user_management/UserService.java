@@ -1,21 +1,19 @@
-package livelihoodzone.service;
+package livelihoodzone.service.user_management;
 
 import javax.servlet.http.HttpServletRequest;
 
-import livelihoodzone.dto.AuthenticationObject;
-import livelihoodzone.repository.UserRolesRepository;
+import livelihoodzone.dto.user_management.AuthenticationObject;
+import livelihoodzone.repository.user_management.UserRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import livelihoodzone.exception.CustomException;
-import livelihoodzone.model.User;
-import livelihoodzone.repository.UserRepository;
+import livelihoodzone.entity.user_management.User;
+import livelihoodzone.repository.user_management.UserRepository;
 import livelihoodzone.security.JwtTokenProvider;
 
 @Service

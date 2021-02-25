@@ -1,4 +1,4 @@
-package livelihoodzone.model;
+package livelihoodzone.entity.user_management;
 
 import org.springframework.security.core.GrantedAuthority;
 

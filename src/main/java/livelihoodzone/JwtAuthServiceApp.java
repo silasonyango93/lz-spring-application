@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import livelihoodzone.service.UserService;
+import livelihoodzone.service.user_management.UserService;
 
 @SpringBootApplication
 public class JwtAuthServiceApp implements CommandLineRunner {

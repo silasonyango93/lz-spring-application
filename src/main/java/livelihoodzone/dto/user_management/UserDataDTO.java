@@ -1,9 +1,6 @@
-package livelihoodzone.dto;
-
-import java.util.List;
+package livelihoodzone.dto.user_management;
 
 import io.swagger.annotations.ApiModelProperty;
-import livelihoodzone.model.Role;
 
 public class UserDataDTO {
   

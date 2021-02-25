@@ -1,4 +1,4 @@
-package livelihoodzone.dto;
+package livelihoodzone.dto.user_management;
 
 public class AuthenticationObject {
     private boolean isAuthenticationSuccessful;
