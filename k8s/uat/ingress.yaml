@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: uat
+  name: lz-spring-application
+  annotations:
+    kubernetes.io/ingress.class: nginx
+#    certmanager.k8s.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  rules:
+    - host: application.livelihoodzone.xyz
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: lz-spring-application
+              servicePort: 8080
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: uat
+  name: pma
+  annotations:
+    kubernetes.io/ingress.class: nginx
+#    certmanager.k8s.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  rules:
+    - host: pma.livelihoodzone.xyz
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: pma
+              servicePort: 80

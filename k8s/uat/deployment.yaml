@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: uat
+  name: lz-spring-application
+  labels:
+    name: lz-spring-application
+    app: lz-spring-application
+spec:
+  selector:
+    matchLabels:
+      app: lz-spring-application
+  template:
+    metadata:
+      name: lz-spring-application
+      labels:
+        name: lz-spring-application
+        app: lz-spring-application
+    spec:
+      containers:
+        - name: lz-spring-application
+          imagePullPolicy: Always
+          image: sevenskies/lz-spring-application:latest
+          ports:
+            - containerPort: 8080
