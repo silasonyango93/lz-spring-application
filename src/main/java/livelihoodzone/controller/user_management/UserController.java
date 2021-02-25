@@ -3,6 +3,7 @@ package livelihoodzone.controller.user_management;
 import javax.servlet.http.HttpServletRequest;
 
 import livelihoodzone.dto.user_management.AuthenticationObject;
+import livelihoodzone.dto.user_management.UserLoginDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,10 +45,8 @@ public class UserController {
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 200, message = "Succesful authentication"), //
             @ApiResponse(code = 401, message = "Invalid username/password supplied")})
-    public ResponseEntity<AuthenticationObject> login(//
-                                                      @ApiParam("Email") @RequestParam String email, //
-                                                      @ApiParam("Password") @RequestParam String password) {
-        AuthenticationObject authenticationObject = userService.signin(email, password);
+    public ResponseEntity<AuthenticationObject> login(@ApiParam("Login User") @RequestBody UserLoginDTO userLoginDTO) {
+        AuthenticationObject authenticationObject = userService.signin(userLoginDTO.getEmail(), userLoginDTO.getPassword());
         if (authenticationObject.isAuthenticationSuccessful()) {
             return new ResponseEntity<AuthenticationObject>(authenticationObject, HttpStatus.valueOf(200));
         } else {
