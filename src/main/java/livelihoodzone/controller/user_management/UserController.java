@@ -40,9 +40,9 @@ public class UserController {
     private ModelMapper modelMapper;
 
     @PostMapping("/signin")
-    @ApiOperation(value = "${UserController.signin}")
+    @ApiOperation(value = "${UserController.signin}", response = AuthenticationObject.class)
     @ApiResponses(value = {//
-            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 400, message = "Bad request"), //
             @ApiResponse(code = 200, message = "Succesful authentication"), //
             @ApiResponse(code = 401, message = "Invalid username/password supplied")})
     public ResponseEntity<AuthenticationObject> login(@ApiParam("Login User") @RequestBody UserLoginDTO userLoginDTO) {
