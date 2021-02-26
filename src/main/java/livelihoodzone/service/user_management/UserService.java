@@ -37,10 +37,13 @@ public class UserService {
   public AuthenticationObject signin(String email, String attemtedPassword) {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     User user = userRepository.findByUserEmail(email);
-    if (passwordEncoder.matches(attemtedPassword,user.getEncryptedPassword())) {
-      return new AuthenticationObject(true,jwtTokenProvider.createToken(email, userRolesRepository.findByUserId(userRepository.findByUserEmail(email).getUserId())));
+    if (passwordEncoder.matches(attemtedPassword, user.getEncryptedPassword())) {
+      return new AuthenticationObject(true
+              , jwtTokenProvider.createToken(email, userRolesRepository.findByUserId(userRepository.findByUserEmail(email).getUserId()))
+              ,user.getUserEmail()
+              ,user.getOrganizationName());
     } else {
-      return new AuthenticationObject(false,null);
+      return new AuthenticationObject(false, null,null,null);
     }
   }
 

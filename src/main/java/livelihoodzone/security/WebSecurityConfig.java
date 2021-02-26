@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -31,12 +34,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     // Entry points
-    http.authorizeRequests()//
-        .antMatchers("/users/signin").permitAll()//
-        .antMatchers("/users/signup").permitAll()//
-        .antMatchers("/h2-console/**/**").permitAll()
-        // Disallow everything else..
-        .anyRequest().authenticated();
+    http.cors().and().authorizeRequests()//
+            .antMatchers("/users/signin").permitAll()//
+            .antMatchers("/users/signup").permitAll()//
+            .antMatchers("/h2-console/**/**").permitAll()
+            // Disallow everything else..
+            .anyRequest().authenticated();
 
     // If a user try to access a resource without having enough permissions
     http.exceptionHandling().accessDeniedPage("/login");
@@ -52,16 +55,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(WebSecurity web) throws Exception {
     // Allow swagger to be accessed without authentication
     web.ignoring().antMatchers("/v2/api-docs")//
-        .antMatchers("/swagger-resources/**")//
-        .antMatchers("/swagger-ui.html")//
-        .antMatchers("/configuration/**")//
-        .antMatchers("/webjars/**")//
-        .antMatchers("/public")
-        
-        // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-        .and()
-        .ignoring()
-        .antMatchers("/h2-console/**/**");;
+            .antMatchers("/swagger-resources/**")//
+            .antMatchers("/swagger-ui.html")//
+            .antMatchers("/configuration/**")//
+            .antMatchers("/webjars/**")//
+            .antMatchers("/public")
+
+            // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
+            .and()
+            .ignoring()
+            .antMatchers("/h2-console/**/**");;
   }
 
   @Bean
@@ -73,6 +76,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
+  }
+
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+    CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
+    source.registerCorsConfiguration("/**", corsConfiguration);
+
+    return source;
   }
 
 }

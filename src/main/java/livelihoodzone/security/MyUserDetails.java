@@ -1,5 +1,6 @@
 package livelihoodzone.security;
 
+import livelihoodzone.entity.user_management.Role;
 import livelihoodzone.repository.user_management.UserRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.user_management.UserRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MyUserDetails implements UserDetailsService {
@@ -27,15 +31,20 @@ public class MyUserDetails implements UserDetailsService {
       throw new UsernameNotFoundException("User '" + email + "' not found");
     }
 
+    //TODO: This is to replace spring role management with custom role management
+    List<Role> roles = new ArrayList<>();
+    roles.add(Role.ROLE_ADMIN);
+    roles.add(Role.ROLE_CLIENT);
+
     return org.springframework.security.core.userdetails.User//
-        .withUsername(email)//
-        .password(user.getEncryptedPassword())//
-        //.authorities(user.getRoles())//
-        .accountExpired(false)//
-        .accountLocked(false)//
-        .credentialsExpired(false)//
-        .disabled(false)//
-        .build();
+            .withUsername(email)//
+            .password(user.getEncryptedPassword())//
+            .authorities(roles)//
+            .accountExpired(false)//
+            .accountLocked(false)//
+            .credentialsExpired(false)//
+            .disabled(false)//
+            .build();
   }
 
 }
