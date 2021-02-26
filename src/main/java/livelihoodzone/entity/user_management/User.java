@@ -19,8 +19,14 @@ public class User implements java.io.Serializable{
   @Column(name = "CountyId")
   private String countyId;
 
-  @Column(name = "UserName")
-  private String userName;
+  @Column(name = "UserFirstName")
+  private String firstName;
+
+  @Column(name = "UserMiddleName")
+  private String middleName;
+
+  @Column(name = "UserSurname")
+  private String surname;
 
   @Column(name = "UserEmail")
   private String userEmail;
@@ -47,14 +53,6 @@ public class User implements java.io.Serializable{
     this.countyId = countyId;
   }
 
-  public String getUserName() {
-    return userName;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
   public String getUserEmail() {
     return userEmail;
   }
@@ -77,5 +75,29 @@ public class User implements java.io.Serializable{
 
   public void setEncryptedPassword(String encryptedPassword) {
     this.encryptedPassword = encryptedPassword;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getMiddleName() {
+    return middleName;
+  }
+
+  public void setMiddleName(String middleName) {
+    this.middleName = middleName;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
   }
 }

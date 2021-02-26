@@ -51,11 +51,14 @@ public class UserService {
     if (passwordEncoder.matches(attemtedPassword, user.getEncryptedPassword())) {
       return new AuthenticationObject(true
               , jwtTokenProvider.createToken(email, userRolesRepository.findByUserId(userRepository.findByUserEmail(email).getUserId()))
+              ,user.getFirstName()
+              ,user.getMiddleName()
+              ,user.getSurname()
               ,user.getUserEmail()
               ,user.getOrganizationName()
       ,getAUserSimplifiedRoles(user.getUserId()));
     } else {
-      return new AuthenticationObject(false, null,null,null,null);
+      return new AuthenticationObject(false, null,null,null,null,null,null,null);
     }
   }
 
