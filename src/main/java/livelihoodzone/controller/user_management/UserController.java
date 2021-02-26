@@ -2,8 +2,8 @@ package livelihoodzone.controller.user_management;
 
 import javax.servlet.http.HttpServletRequest;
 
-import livelihoodzone.dto.user_management.AuthenticationObject;
-import livelihoodzone.dto.user_management.UserLoginDTO;
+import livelihoodzone.dto.user_management.*;
+import livelihoodzone.entity.user_management.AuthenticationStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +23,6 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
-import livelihoodzone.dto.user_management.UserDataDTO;
-import livelihoodzone.dto.user_management.UserResponseDTO;
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.service.user_management.UserService;
 
@@ -43,25 +41,43 @@ public class UserController {
     @ApiOperation(value = "${UserController.signin}", response = AuthenticationObject.class)
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "A user does not exist by this email"), //
             @ApiResponse(code = 200, message = "Succesful authentication"), //
             @ApiResponse(code = 401, message = "Invalid username/password supplied")})
     public ResponseEntity<AuthenticationObject> login(@ApiParam("Login User") @RequestBody UserLoginDTO userLoginDTO) {
         AuthenticationObject authenticationObject = userService.signin(userLoginDTO.getEmail(), userLoginDTO.getPassword());
         if (authenticationObject.isAuthenticationSuccessful()) {
             return new ResponseEntity<AuthenticationObject>(authenticationObject, HttpStatus.valueOf(200));
-        } else {
+        } else if (authenticationObject.getAuthenticationStatus() == AuthenticationStatus.WRONG_CREDENTIALS){
             return new ResponseEntity<AuthenticationObject>(authenticationObject, HttpStatus.valueOf(401));
+        } else if(authenticationObject.getAuthenticationStatus() == AuthenticationStatus.USER_DOES_NOT_EXIST) {
+            return new ResponseEntity<AuthenticationObject>(authenticationObject, HttpStatus.valueOf(422));
+        } else {
+            return new ResponseEntity<AuthenticationObject>(authenticationObject, HttpStatus.valueOf(400));
         }
     }
 
     @PostMapping("/signup")
-    @ApiOperation(value = "${UserController.signup}")
+    @ApiOperation(value = "${UserController.signup}", response = SignupStatusDto.class)
     @ApiResponses(value = {//
-            @ApiResponse(code = 400, message = "Something went wrong"), //
-            @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 422, message = "Username is already in use")})
-    public String signup(@ApiParam("Signup User") @RequestBody UserDataDTO user) {
-        return userService.signup(modelMapper.map(user, User.class));
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Email is already in use")})
+    public ResponseEntity<SignupStatusDto> signup(@ApiParam("Signup User") @RequestBody UserDataDTO user) {
+        SignupStatusDto signupStatusDto = userService.signup(new User(
+                user.getCountyId(),
+                user.getFirstName(),
+                user.getMiddleName(),
+                user.getSurname(),
+                user.getUserEmail(),
+                user.getOrganizationName(),
+                user.getPassword()
+        ), user.getRolesToBeAssigned());
+
+        if (signupStatusDto.getIsSignupSuccessful()) {
+            return new ResponseEntity<SignupStatusDto>(signupStatusDto, HttpStatus.valueOf(200));
+        } else {
+            return new ResponseEntity<SignupStatusDto>(signupStatusDto, HttpStatus.valueOf(422));
+        }
     }
 
     @DeleteMapping(value = "/{username}")

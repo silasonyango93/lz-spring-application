@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface UserRolesRepository extends JpaRepository<UserRoles, Long> {
     public List<UserRoles> findByUserId(@Param("UserId") int userId);
+
+    public UserRoles findByUserRoleId(@Param("UserRoleId") int userRoleId);
 }

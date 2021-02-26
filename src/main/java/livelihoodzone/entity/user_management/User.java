@@ -17,7 +17,7 @@ public class User implements java.io.Serializable{
   private int userId;
 
   @Column(name = "CountyId")
-  private String countyId;
+  private int countyId;
 
   @Column(name = "UserFirstName")
   private String firstName;
@@ -37,6 +37,19 @@ public class User implements java.io.Serializable{
   @Column(name = "EncryptedPassword")
   private String encryptedPassword;
 
+  public User() {
+  }
+
+  public User(int countyId, String firstName, String middleName, String surname, String userEmail, String organizationName, String encryptedPassword) {
+    this.countyId = countyId;
+    this.firstName = firstName;
+    this.middleName = middleName;
+    this.surname = surname;
+    this.userEmail = userEmail;
+    this.organizationName = organizationName;
+    this.encryptedPassword = encryptedPassword;
+  }
+
   public int getUserId() {
     return userId;
   }
@@ -45,11 +58,11 @@ public class User implements java.io.Serializable{
     this.userId = userId;
   }
 
-  public String getCountyId() {
+  public int getCountyId() {
     return countyId;
   }
 
-  public void setCountyId(String countyId) {
+  public void setCountyId(int countyId) {
     this.countyId = countyId;
   }
 

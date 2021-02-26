@@ -74,4 +74,4 @@ spring-boot-jwt/
 - Report issues
 - Open pull request with improvements
 - Review pull requests
-- Reach out to me directly at <silasonyango93@gmail.com>
+- Reach out to me directly at <silas.onyango93@gmail.com>

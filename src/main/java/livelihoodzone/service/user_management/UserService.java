@@ -3,7 +3,13 @@ package livelihoodzone.service.user_management;
 import javax.servlet.http.HttpServletRequest;
 
 import livelihoodzone.dto.user_management.AuthenticationObject;
+import livelihoodzone.dto.user_management.RoleAssignmentDto;
+import livelihoodzone.dto.user_management.SignupStatusDto;
 import livelihoodzone.dto.user_management.SimplifiedUserRolesDto;
+import livelihoodzone.entity.user_management.AuthenticationStatus;
+import livelihoodzone.entity.user_management.Roles;
+import livelihoodzone.entity.user_management.UserRoles;
+import livelihoodzone.repository.user_management.RolesRepository;
 import livelihoodzone.repository.user_management.UserRolesRepository;
 import livelihoodzone.service.user_management.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.user_management.retrofit.user_management.UserRetrofitService;
@@ -37,6 +43,9 @@ public class UserService {
   private UserRolesRepository userRolesRepository;
 
   @Autowired
+  private RolesRepository rolesRepository;
+
+  @Autowired
   private PasswordEncoder passwordEncoder;
 
   @Autowired
@@ -46,8 +55,13 @@ public class UserService {
   private AuthenticationManager authenticationManager;
 
   public AuthenticationObject signin(String email, String attemtedPassword) {
-    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     User user = userRepository.findByUserEmail(email);
+    if (user == null) {
+      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.USER_DOES_NOT_EXIST);
+    }
+
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     if (passwordEncoder.matches(attemtedPassword, user.getEncryptedPassword())) {
       return new AuthenticationObject(true
               , jwtTokenProvider.createToken(email, userRolesRepository.findByUserId(userRepository.findByUserEmail(email).getUserId()))
@@ -56,20 +70,55 @@ public class UserService {
               ,user.getSurname()
               ,user.getUserEmail()
               ,user.getOrganizationName()
-      ,getAUserSimplifiedRoles(user.getUserId()));
+      ,getAUserSimplifiedRoles(user.getUserId()),
+              AuthenticationStatus.SUCCESSFUL_AUTHENTICATION);
     } else {
-      return new AuthenticationObject(false, null,null,null,null,null,null,null);
+      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.WRONG_CREDENTIALS);
     }
   }
 
-  public String signup(User user) {
+  public SignupStatusDto signup(User user, List<RoleAssignmentDto> rolesToBeAssigned) {
     if (!userRepository.existsByUserEmail(user.getUserEmail())) {
       user.setEncryptedPassword(passwordEncoder.encode(user.getEncryptedPassword()));
-      userRepository.save(user);
-      return jwtTokenProvider.createToken(user.getUserEmail(), userRolesRepository.findByUserId(userRepository.findByUserEmail(user.getUserEmail()).getUserId()));
+      User createdUser = userRepository.save(user);
+      assignAUserRoles(createdUser.getUserId());
+      designateSelectedRoles(createdUser.getUserId(), rolesToBeAssigned);
+      return new SignupStatusDto(true,"User registration successful");
     } else {
-      throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
+      return new SignupStatusDto(false,"A user already exists by this email");
     }
+  }
+
+  public void assignAUserRoles(int userId) {
+    List<Roles> roles = rolesRepository.findAll();
+    for (Roles role : roles) {
+      userRolesRepository.save(new UserRoles(
+              userId,
+              role.getRoleId(),
+              0
+      ));
+    }
+  }
+
+  public void designateSelectedRoles(int userId, List<RoleAssignmentDto> rolesToBeAssigned) {
+    for (RoleAssignmentDto roleToBeAssigned : rolesToBeAssigned) {
+      UserRoles userRole = fetchAUserSpecificRoleByRoleId(userId, roleToBeAssigned.getRoleId());
+      userRole.setConfirmationStatus(1);
+      userRolesRepository.save(userRole);
+    }
+  }
+
+  public UserRoles fetchAUserSpecificRoleByRoleId(int userId, int roleId) {
+    UserRetrofitService userRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(UserRetrofitService.class);
+    Call<UserRolesRetrofitModel> callSync = userRetrofitService.fetchAUserSpecificRolesByUserIdAndRoleId(userId,roleId);
+    try {
+      Response<UserRolesRetrofitModel> response = callSync.execute();
+
+      return userRolesRepository.findByUserRoleId(response.body().getUserRoleId());
+
+    } catch (Exception ex) {}
+
+    return null;
   }
 
   public void delete(String userEmail) {

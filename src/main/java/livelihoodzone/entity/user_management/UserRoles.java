@@ -18,6 +18,15 @@ public class UserRoles implements java.io.Serializable{
     @Column(name = "ConfirmationStatus")
     private int confirmationStatus;
 
+    public UserRoles() {
+    }
+
+    public UserRoles(int userId, int roleId, int confirmationStatus) {
+        this.userId = userId;
+        this.roleId = roleId;
+        this.confirmationStatus = confirmationStatus;
+    }
+
     public int getUserRoleId() {
         return userRoleId;
     }

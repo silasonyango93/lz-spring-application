@@ -1,5 +1,7 @@
 package livelihoodzone.dto.user_management;
 
+import livelihoodzone.entity.user_management.AuthenticationStatus;
+
 import java.util.List;
 
 public class AuthenticationObject {
@@ -11,9 +13,10 @@ public class AuthenticationObject {
     private String userEmail;
     private String organizationName;
     private List<SimplifiedUserRolesDto> roles;
+    private AuthenticationStatus authenticationStatus;
 
 
-    public AuthenticationObject(boolean isAuthenticationSuccessful, String accessToken,String firstName ,String middleName ,String surname , String userEmail, String organizationName, List<SimplifiedUserRolesDto> roles) {
+    public AuthenticationObject(boolean isAuthenticationSuccessful, String accessToken,String firstName ,String middleName ,String surname , String userEmail, String organizationName, List<SimplifiedUserRolesDto> roles, AuthenticationStatus authenticationStatus) {
         this.isAuthenticationSuccessful = isAuthenticationSuccessful;
         this.accessToken = accessToken;
         this.userEmail = userEmail;
@@ -22,6 +25,7 @@ public class AuthenticationObject {
         this.firstName = firstName;
         this.middleName = middleName;
         this.surname = surname;
+        this.authenticationStatus = authenticationStatus;
     }
 
     public boolean isAuthenticationSuccessful() {
@@ -86,5 +90,13 @@ public class AuthenticationObject {
 
     public void setRoles(List<SimplifiedUserRolesDto> roles) {
         this.roles = roles;
+    }
+
+    public AuthenticationStatus getAuthenticationStatus() {
+        return authenticationStatus;
+    }
+
+    public void setAuthenticationStatus(AuthenticationStatus authenticationStatus) {
+        this.authenticationStatus = authenticationStatus;
     }
 }

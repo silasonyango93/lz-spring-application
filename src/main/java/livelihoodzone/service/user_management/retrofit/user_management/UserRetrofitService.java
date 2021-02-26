@@ -11,4 +11,8 @@ public interface UserRetrofitService {
     @FormUrlEncoded
     @POST("fetch_a_user_roles")
     Call<List<UserRolesRetrofitModel>> fetchAUserRolesByUserId(@Field("userId") int userId);
+
+    @FormUrlEncoded
+    @POST("fetch_a_user_specific_role")
+    Call<UserRolesRetrofitModel> fetchAUserSpecificRolesByUserIdAndRoleId(@Field("userId") int userId, @Field("roleId") int roleId);
 }

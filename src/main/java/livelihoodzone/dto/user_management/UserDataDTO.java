@@ -2,25 +2,49 @@ package livelihoodzone.dto.user_management;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.List;
+
 public class UserDataDTO {
   
   @ApiModelProperty(position = 0)
-  private String userName;
+  private String firstName;
   @ApiModelProperty(position = 1)
-  private String userEmail;
+  private String middleName;
   @ApiModelProperty(position = 2)
-  private String encryptedPassword;
+  private String surname;
   @ApiModelProperty(position = 3)
-  private int countyId;
+  private String userEmail;
   @ApiModelProperty(position = 4)
+  private String password;
+  @ApiModelProperty(position = 5)
+  private int countyId;
+  @ApiModelProperty(position = 6)
   private String organizationName;
+  @ApiModelProperty(position = 7)
+  private List<RoleAssignmentDto> rolesToBeAssigned;
 
-  public String getUserName() {
-    return userName;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getMiddleName() {
+    return middleName;
+  }
+
+  public void setMiddleName(String middleName) {
+    this.middleName = middleName;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
   }
 
   public String getUserEmail() {
@@ -31,12 +55,12 @@ public class UserDataDTO {
     this.userEmail = userEmail;
   }
 
-  public String getEncryptedPassword() {
-    return encryptedPassword;
+  public String getPassword() {
+    return password;
   }
 
-  public void setEncryptedPassword(String encryptedPassword) {
-    this.encryptedPassword = encryptedPassword;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public int getCountyId() {
@@ -53,5 +77,13 @@ public class UserDataDTO {
 
   public void setOrganizationName(String organizationName) {
     this.organizationName = organizationName;
+  }
+
+  public List<RoleAssignmentDto> getRolesToBeAssigned() {
+    return rolesToBeAssigned;
+  }
+
+  public void setRolesToBeAssigned(List<RoleAssignmentDto> rolesToBeAssigned) {
+    this.rolesToBeAssigned = rolesToBeAssigned;
   }
 }
