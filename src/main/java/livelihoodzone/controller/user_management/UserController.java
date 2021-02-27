@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import livelihoodzone.dto.user_management.*;
 import livelihoodzone.entity.user_management.AuthenticationStatus;
+import livelihoodzone.entity.user_management.Roles;
+import livelihoodzone.repository.user_management.RolesRepository;
 import livelihoodzone.repository.user_management.UserRepository;
 import livelihoodzone.service.user_management.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.user_management.retrofit.user_management.UserRetrofitModel;
@@ -45,6 +47,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RolesRepository rolesRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -110,8 +115,7 @@ public class UserController {
     @ApiOperation(value = "${UserController.all-users}", response = UserResponseDTO.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
-            @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+            @ApiResponse(code = 403, message = "Access denied")})
     public List<UserResponseDTO> getAllUsers() {
         UserRetrofitService userRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(UserRetrofitService.class);
         Call<List<UserRetrofitModel>> callSync = userRetrofitService.fetchAllUsers();
@@ -135,6 +139,16 @@ public class UserController {
         } catch (Exception ex) {}
 
         return null;
+    }
+
+
+    @GetMapping(value = "/all-roles")
+    @ApiOperation(value = "${UserController.all-roles}", response = Roles.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied")})
+    public List<Roles> getAllRoles() {
+        return rolesRepository.findAll();
     }
 
 //    @GetMapping(value = "/{username}")

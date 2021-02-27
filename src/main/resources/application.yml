@@ -51,6 +51,7 @@ UserController:
   search: Returns specific user by username
   me: Returns current user's data
   all-users: Returns all registered users
+  all-roles: Returns all roles in the system
 
 
 org:
