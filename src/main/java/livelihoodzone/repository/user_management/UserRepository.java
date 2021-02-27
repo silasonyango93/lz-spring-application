@@ -8,11 +8,11 @@ import livelihoodzone.entity.user_management.User;
 import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-
+  @Transactional
   boolean existsByUserEmail(@Param("UserEmail") String userName);
 
   //User findByUserName(@Param("UserName") String userName);
-
+  @Transactional
   User findByUserEmail(@Param("UserEmail") String userEmail);
 
   @Transactional

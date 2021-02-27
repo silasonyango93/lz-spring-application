@@ -113,7 +113,6 @@ public class UserService {
     Call<UserRolesRetrofitModel> callSync = userRetrofitService.fetchAUserSpecificRolesByUserIdAndRoleId(userId,roleId);
     try {
       Response<UserRolesRetrofitModel> response = callSync.execute();
-
       return userRolesRepository.findByUserRoleId(response.body().getUserRoleId());
 
     } catch (Exception ex) {}

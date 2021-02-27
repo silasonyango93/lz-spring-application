@@ -4,6 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import livelihoodzone.dto.user_management.*;
 import livelihoodzone.entity.user_management.AuthenticationStatus;
+import livelihoodzone.repository.user_management.UserRepository;
+import livelihoodzone.service.user_management.retrofit.RetrofitClientInstance;
+import livelihoodzone.service.user_management.retrofit.user_management.UserRetrofitModel;
+import livelihoodzone.service.user_management.retrofit.user_management.UserRetrofitService;
+import livelihoodzone.service.user_management.retrofit.user_management.UserRolesRetrofitModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +30,13 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.service.user_management.UserService;
+import retrofit2.Call;
+import retrofit2.Response;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @RestController
 @RequestMapping("/users")
@@ -92,28 +104,61 @@ public class UserController {
         return username;
     }
 
-    @GetMapping(value = "/{username}")
+
+    @GetMapping(value = "/all-users")
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
-    @ApiOperation(value = "${UserController.search}", response = UserResponseDTO.class, authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${UserController.all-users}", response = UserResponseDTO.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 404, message = "The user doesn't exist"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public UserResponseDTO search(@ApiParam("Username") @PathVariable String username) {
-        return modelMapper.map(userService.search(username), UserResponseDTO.class);
+    public List<UserResponseDTO> getAllUsers() {
+        UserRetrofitService userRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(UserRetrofitService.class);
+        Call<List<UserRetrofitModel>> callSync = userRetrofitService.fetchAllUsers();
+        try {
+            Response<List<UserRetrofitModel>> response = callSync.execute();
+            List<UserResponseDTO> userResponseDTOList = new ArrayList<>();
+            for (UserRetrofitModel userRetrofitModel : response.body()) {
+                userResponseDTOList.add(new UserResponseDTO(
+                        userRetrofitModel.getUserId(),
+                        userRetrofitModel.getCountyName(),
+                        userRetrofitModel.getUserFirstName(),
+                        userRetrofitModel.getUserMiddleName(),
+                        userRetrofitModel.getUserSurname(),
+                        userRetrofitModel.getUserEmail(),
+                        userRetrofitModel.getOrganizationName()
+                ));
+            }
+
+            return userResponseDTOList;
+
+        } catch (Exception ex) {}
+
+        return null;
     }
 
-    @GetMapping(value = "/me")
-    @ApiOperation(value = "${UserController.me}", response = UserResponseDTO.class, authorizations = {@Authorization(value = "apiKey")})
-    @ApiResponses(value = {//
-            @ApiResponse(code = 400, message = "Something went wrong"), //
-            @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public boolean whoami(HttpServletRequest req) {
-        //return modelMapper.map(userService.whoami(req), UserResponseDTO.class);
-        return true;
-    }
+//    @GetMapping(value = "/{username}")
+//    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @ApiOperation(value = "${UserController.search}", response = UserResponseDTO.class, authorizations = {@Authorization(value = "apiKey")})
+//    @ApiResponses(value = {//
+//            @ApiResponse(code = 400, message = "Something went wrong"), //
+//            @ApiResponse(code = 403, message = "Access denied"), //
+//            @ApiResponse(code = 404, message = "The user doesn't exist"), //
+//            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+//    public UserResponseDTO search(@ApiParam("Username") @PathVariable String username) {
+//        return modelMapper.map(userService.search(username), UserResponseDTO.class);
+//    }
+//
+//    @GetMapping(value = "/me")
+//    @ApiOperation(value = "${UserController.me}", response = UserResponseDTO.class, authorizations = {@Authorization(value = "apiKey")})
+//    @ApiResponses(value = {//
+//            @ApiResponse(code = 400, message = "Something went wrong"), //
+//            @ApiResponse(code = 403, message = "Access denied"), //
+//            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+//    public boolean whoami(HttpServletRequest req) {
+//        //return modelMapper.map(userService.whoami(req), UserResponseDTO.class);
+//        return true;
+//    }
 
     @GetMapping("/refresh")
     //@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")

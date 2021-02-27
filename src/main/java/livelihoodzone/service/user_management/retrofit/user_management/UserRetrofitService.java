@@ -8,6 +8,10 @@ import retrofit2.http.POST;
 import java.util.List;
 
 public interface UserRetrofitService {
+    @POST("fetch_all_users")
+    Call<List<UserRetrofitModel>> fetchAllUsers();
+
+
     @FormUrlEncoded
     @POST("fetch_a_user_roles")
     Call<List<UserRolesRetrofitModel>> fetchAUserRolesByUserId(@Field("userId") int userId);
