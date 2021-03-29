@@ -9,6 +9,7 @@ import livelihoodzone.dto.user_management.SimplifiedUserRolesDto;
 import livelihoodzone.entity.user_management.AuthenticationStatus;
 import livelihoodzone.entity.user_management.Roles;
 import livelihoodzone.entity.user_management.UserRoles;
+import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
 import livelihoodzone.repository.user_management.RolesRepository;
 import livelihoodzone.repository.user_management.UserRolesRepository;
 import livelihoodzone.service.user_management.retrofit.RetrofitClientInstance;
@@ -54,11 +55,14 @@ public class UserService {
   @Autowired
   private AuthenticationManager authenticationManager;
 
+  @Autowired
+  CountiesRepository countiesRepository;
+
   public AuthenticationObject signin(String email, String attemtedPassword) {
 
     User user = userRepository.findByUserEmail(email);
     if (user == null) {
-      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.USER_DOES_NOT_EXIST);
+      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.USER_DOES_NOT_EXIST,null);
     }
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -71,9 +75,10 @@ public class UserService {
               ,user.getUserEmail()
               ,user.getOrganizationName()
       ,getAUserSimplifiedRoles(user.getUserId()),
-              AuthenticationStatus.SUCCESSFUL_AUTHENTICATION);
+              AuthenticationStatus.SUCCESSFUL_AUTHENTICATION,
+              countiesRepository.findByCountyId(user.getCountyId()));
     } else {
-      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.WRONG_CREDENTIALS);
+      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.WRONG_CREDENTIALS,null);
     }
   }
 
