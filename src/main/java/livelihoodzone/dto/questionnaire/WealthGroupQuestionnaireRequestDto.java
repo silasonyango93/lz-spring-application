@@ -4,6 +4,7 @@ public class WealthGroupQuestionnaireRequestDto {
     private String uniqueId;
     private String questionnaireName;
     private IncomeAndFoodSourcesDto incomeAndFoodSourceResponses;
+    private QuestionnaireGeography questionnaireGeography;
 
     public String getUniqueId() {
         return uniqueId;
@@ -27,5 +28,13 @@ public class WealthGroupQuestionnaireRequestDto {
 
     public void setIncomeAndFoodSourceResponses(IncomeAndFoodSourcesDto incomeAndFoodSourceResponses) {
         this.incomeAndFoodSourceResponses = incomeAndFoodSourceResponses;
+    }
+
+    public QuestionnaireGeography getQuestionnaireGeography() {
+        return questionnaireGeography;
+    }
+
+    public void setQuestionnaireGeography(QuestionnaireGeography questionnaireGeography) {
+        this.questionnaireGeography = questionnaireGeography;
     }
 }

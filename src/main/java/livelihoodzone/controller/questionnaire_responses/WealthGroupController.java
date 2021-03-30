@@ -24,6 +24,6 @@ public class WealthGroupController {
             @ApiResponse(code = 400, message = "Bad request"), //
             @ApiResponse(code = 422, message = "Duplicate questionnaire")})
     public void acceptResponses(@ApiParam("Accept Responses") @RequestBody WealthGroupQuestionnaireRequestDto wealthGroupQuestionnaireRequestDto) {
-        wealthGroupService.processQuestionnaire();
+        wealthGroupService.processQuestionnaire(wealthGroupQuestionnaireRequestDto);
     }
 }
