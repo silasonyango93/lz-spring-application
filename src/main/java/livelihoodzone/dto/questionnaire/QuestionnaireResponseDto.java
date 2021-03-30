@@ -9,6 +9,8 @@ public class QuestionnaireResponseDto {
     public QuestionnaireResponseDto() {
     }
 
+
+
     public QuestionnaireResponseDto(QuestionnaireResponseStatus questionnaireResponseStatus, String responseMessage) {
         this.questionnaireResponseStatus = questionnaireResponseStatus;
         this.responseMessage = responseMessage;
