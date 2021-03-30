@@ -2,13 +2,14 @@ package livelihoodzone.service.user_management;
 
 import javax.servlet.http.HttpServletRequest;
 
-import livelihoodzone.dto.user_management.AuthenticationObject;
-import livelihoodzone.dto.user_management.RoleAssignmentDto;
-import livelihoodzone.dto.user_management.SignupStatusDto;
-import livelihoodzone.dto.user_management.SimplifiedUserRolesDto;
+import livelihoodzone.dto.user_management.*;
 import livelihoodzone.entity.user_management.AuthenticationStatus;
 import livelihoodzone.entity.user_management.Roles;
 import livelihoodzone.entity.user_management.UserRoles;
+import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
+import livelihoodzone.repository.administrative_boundaries.subcounties.SubCountiesRepository;
+import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
+import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
 import livelihoodzone.repository.user_management.RolesRepository;
 import livelihoodzone.repository.user_management.UserRolesRepository;
 import livelihoodzone.service.user_management.retrofit.RetrofitClientInstance;
@@ -54,11 +55,23 @@ public class UserService {
   @Autowired
   private AuthenticationManager authenticationManager;
 
+  @Autowired
+  CountiesRepository countiesRepository;
+
+  @Autowired
+  SubCountiesRepository subCountiesRepository;
+
+  @Autowired
+  WardsRepository wardsRepository;
+
+  @Autowired
+  SubLocationRepository subLocationRepository;
+
   public AuthenticationObject signin(String email, String attemtedPassword) {
 
     User user = userRepository.findByUserEmail(email);
     if (user == null) {
-      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.USER_DOES_NOT_EXIST);
+      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.USER_DOES_NOT_EXIST,null,null);
     }
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -71,9 +84,10 @@ public class UserService {
               ,user.getUserEmail()
               ,user.getOrganizationName()
       ,getAUserSimplifiedRoles(user.getUserId()),
-              AuthenticationStatus.SUCCESSFUL_AUTHENTICATION);
+              AuthenticationStatus.SUCCESSFUL_AUTHENTICATION,
+              countiesRepository.findByCountyId(user.getCountyId()),processGeography(user.getCountyId()));
     } else {
-      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.WRONG_CREDENTIALS);
+      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.WRONG_CREDENTIALS,null,null);
     }
   }
 
@@ -157,6 +171,17 @@ public class UserService {
     } catch (Exception ex) {}
 
     return null;
+  }
+
+
+  public GeographyObjectDto processGeography(int countyId) {
+
+    GeographyObjectDto geographyObjectDto = new GeographyObjectDto();
+    geographyObjectDto.setSubCounties(subCountiesRepository.findByCountyId(countyId));
+    geographyObjectDto.setWards(wardsRepository.findAll());
+    geographyObjectDto.setSubLocations(subLocationRepository.findAll());
+
+    return geographyObjectDto;
   }
 
 }

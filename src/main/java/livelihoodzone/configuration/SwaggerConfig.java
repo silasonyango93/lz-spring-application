@@ -28,48 +28,49 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-  @Bean
-  public Docket api() {
-    return new Docket(DocumentationType.SWAGGER_2)//
-            .select()//
-            .apis(RequestHandlerSelectors.any())//
-            .paths(Predicates.not(PathSelectors.regex("/error")))//
-            .build()//
-            .apiInfo(metadata())//
-            .useDefaultResponseMessages(false)//
-            .securitySchemes(Collections.singletonList(apiKey()))
-            .securityContexts(Collections.singletonList(securityContext()))
-            .tags(new Tag("users", "Operations about users"))//
-            .genericModelSubstitutes(Optional.class);
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)//
+                .select()//
+                .apis(RequestHandlerSelectors.any())//
+                .paths(Predicates.not(PathSelectors.regex("/error")))//
+                .build()//
+                .apiInfo(metadata())//
+                .useDefaultResponseMessages(false)//
+                .securitySchemes(Collections.singletonList(apiKey()))
+                .securityContexts(Collections.singletonList(securityContext()))
+                .tags(new Tag("users", "Operations about users"),
+                        new Tag("counties", "Operations about counties"))//
+                .genericModelSubstitutes(Optional.class);
 
-  }
+    }
 
-  private ApiInfo metadata() {
-    return new ApiInfoBuilder()//
-            .title("Kenya Livelihood zones data collection tool")//
-            .description("This is the documentation for the endpoints of this spring application. For the secret-key, consult with the developers to be able to try out the endpoints from swagger")//
-            .version("1.0.0")//
-            .license("MIT License").licenseUrl("http://opensource.org/licenses/MIT")//
-            .contact(new Contact(null, null, "silas.onyango93@gmail.com"))//
-            .build();
-  }
+    private ApiInfo metadata() {
+        return new ApiInfoBuilder()//
+                .title("Kenya Livelihood zones data collection tool")//
+                .description("This is the documentation for the endpoints of this spring application. For the secret-key, consult with the developers to be able to try out the endpoints from swagger")//
+                .version("1.0.0")//
+                .license("MIT License").licenseUrl("http://opensource.org/licenses/MIT")//
+                .contact(new Contact(null, null, "silas.onyango93@gmail.com"))//
+                .build();
+    }
 
-  private ApiKey apiKey() {
-    return new ApiKey("Authorization", "Authorization", "header");
-  }
+    private ApiKey apiKey() {
+        return new ApiKey("Authorization", "Authorization", "header");
+    }
 
-  private SecurityContext securityContext() {
-    return SecurityContext.builder()
-            .securityReferences(defaultAuth())
-            .forPaths(PathSelectors.any())
-            .build();
-  }
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any())
+                .build();
+    }
 
-  private List<SecurityReference> defaultAuth() {
-    AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-    AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-    authorizationScopes[0] = authorizationScope;
-    return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
-  }
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
+    }
 
 }

@@ -1,12 +1,12 @@
 spring:
   datasource:
     #url: jdbc:h2:mem:test_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    url: jdbc:mysql://mysql-db/livelihoodzones?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
-    #url: jdbc:mysql://localhost:3306/livelihoodzones?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
-    username: sevenskies
-    password: sevenskies
-    #username: silas
-    #password: 8032
+    #url: jdbc:mysql://mysql-db/livelihoodzones?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/livelihoodzones?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    #username: sevenskies
+    #password: sevenskies
+    username: silas
+    password: 8032
 #  tomcat:
 #    max-wait: 20000
 #    max-active: 50
@@ -52,6 +52,13 @@ UserController:
   me: Returns current user's data
   all-users: Returns all registered users
   all-roles: Returns all roles in the system
+
+
+CountiesController:
+  all-counties: Returns all registered counties in the system
+
+WealthGroupController:
+  responses: Accepts the responses of a wealth group questionnaire
 
 
 org:
