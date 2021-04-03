@@ -6,6 +6,8 @@ import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntit
 public class WealthGroupQuestionnaireRequestDto {
     private String uniqueId;
     private String questionnaireName;
+    private String questionnaireStartDate;
+    private String questionnaireEndDate;
     private IncomeAndFoodSourcesDto incomeAndFoodSourceResponses;
     private QuestionnaireGeography questionnaireGeography;
 
@@ -39,5 +41,21 @@ public class WealthGroupQuestionnaireRequestDto {
 
     public void setQuestionnaireGeography(QuestionnaireGeography questionnaireGeography) {
         this.questionnaireGeography = questionnaireGeography;
+    }
+
+    public String getQuestionnaireStartDate() {
+        return questionnaireStartDate;
+    }
+
+    public void setQuestionnaireStartDate(String questionnaireStartDate) {
+        this.questionnaireStartDate = questionnaireStartDate;
+    }
+
+    public String getQuestionnaireEndDate() {
+        return questionnaireEndDate;
+    }
+
+    public void setQuestionnaireEndDate(String questionnaireEndDate) {
+        this.questionnaireEndDate = questionnaireEndDate;
     }
 }

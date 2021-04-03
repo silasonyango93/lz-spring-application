@@ -7,6 +7,8 @@ import livelihoodzone.entity.questionnaire.LivelihoodZonesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
 
 public class QuestionnaireGeography {
+    private double latitude;
+    private double longitude;
     private SubCountyEntity selectedSubCounty;
     private WardEntity selectedWard;
     private SubLocationEntity selectedSubLocation;
@@ -60,5 +62,21 @@ public class QuestionnaireGeography {
 
     public void setSelectedWgQuestionnaireType(WgQuestionnaireTypesEntity selectedWgQuestionnaireType) {
         this.selectedWgQuestionnaireType = selectedWgQuestionnaireType;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
