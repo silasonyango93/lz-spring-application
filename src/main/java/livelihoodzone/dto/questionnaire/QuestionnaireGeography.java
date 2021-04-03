@@ -3,12 +3,16 @@ package livelihoodzone.dto.questionnaire;
 import livelihoodzone.entity.administrative_boundaries.subcounties.SubCountyEntity;
 import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
 import livelihoodzone.entity.administrative_boundaries.ward.WardEntity;
+import livelihoodzone.entity.questionnaire.LivelihoodZonesEntity;
+import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
 
 public class QuestionnaireGeography {
     private SubCountyEntity selectedSubCounty;
     private WardEntity selectedWard;
     private SubLocationEntity selectedSubLocation;
     private WealthGroupDto selectedWealthGroup;
+    private LivelihoodZonesEntity selectedLivelihoodZone;
+    private WgQuestionnaireTypesEntity selectedWgQuestionnaireType;
 
     public SubCountyEntity getSelectedSubCounty() {
         return selectedSubCounty;
@@ -40,5 +44,21 @@ public class QuestionnaireGeography {
 
     public void setSelectedWealthGroup(WealthGroupDto selectedWealthGroup) {
         this.selectedWealthGroup = selectedWealthGroup;
+    }
+
+    public LivelihoodZonesEntity getSelectedLivelihoodZone() {
+        return selectedLivelihoodZone;
+    }
+
+    public void setSelectedLivelihoodZone(LivelihoodZonesEntity selectedLivelihoodZone) {
+        this.selectedLivelihoodZone = selectedLivelihoodZone;
+    }
+
+    public WgQuestionnaireTypesEntity getSelectedWgQuestionnaireType() {
+        return selectedWgQuestionnaireType;
+    }
+
+    public void setSelectedWgQuestionnaireType(WgQuestionnaireTypesEntity selectedWgQuestionnaireType) {
+        this.selectedWgQuestionnaireType = selectedWgQuestionnaireType;
     }
 }

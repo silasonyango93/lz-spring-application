@@ -7,6 +7,7 @@ import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireSessionEnt
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
 import livelihoodzone.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class WealthGroupService {
 
     @Autowired
     WealthGroupRepository wealthGroupRepository;
+
+    @Autowired
+    WgQuestionnaireTypesRepository wgQuestionnaireTypesRepository;
 
     public QuestionnaireResponseDto processQuestionnaire(WealthGroupQuestionnaireRequestDto wealthGroupQuestionnaireRequestDto, User dataCollector) {
 
@@ -40,7 +44,7 @@ public class WealthGroupService {
         questionnaireSession.setSubCountyId(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedSubCounty().getSubCountyId());
         questionnaireSession.setWardId(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWard().getWardId());
         questionnaireSession.setSubLocationId(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedSubLocation().getSubLocationId());
-        questionnaireSession.setLivelihoodZoneId(1);
+        questionnaireSession.setLivelihoodZoneId(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedLivelihoodZone().getLivelihoodZoneId());
         questionnaireSession.setQuestionnaireSessionDescription(wealthGroupQuestionnaireRequestDto.getQuestionnaireName());
         questionnaireSession.setLatitude(0.0);
         questionnaireSession.setLongitude(0.0);
@@ -48,6 +52,7 @@ public class WealthGroupService {
         questionnaireSession.setSessionEndDate(Util.getToday());
         questionnaireSession.setHasBeenSubmitted(1);
         questionnaireSession.setQuestionnaireUniqueId(wealthGroupQuestionnaireRequestDto.getUniqueId());
+        questionnaireSession.setWgQuestionnaireTypeId(wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeCode(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWgQuestionnaireType().getWgQuestionnaireTypeCode()).getWgQuestionnaireTypeId());
 
         wgQuestionnaireSessionRepository.save(questionnaireSession);
 
