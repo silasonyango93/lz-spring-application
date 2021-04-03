@@ -34,3 +34,23 @@ spec:
             backend:
               serviceName: pma
               servicePort: 80
+
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: uat
+  name: db
+  annotations:
+    kubernetes.io/ingress.class: nginx
+#    certmanager.k8s.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  rules:
+    - host: db.livelihoodzone.xyz
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: mysql-db
+              servicePort: 3306

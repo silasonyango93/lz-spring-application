@@ -7,7 +7,7 @@ import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.user_management.UserRepository;
 import livelihoodzone.security.JwtTokenProvider;
-import livelihoodzone.service.user_management.questionnaire.WealthGroupService;
+import livelihoodzone.service.questionnaire.WealthGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

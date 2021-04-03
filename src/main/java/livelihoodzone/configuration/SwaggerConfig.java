@@ -40,7 +40,8 @@ public class SwaggerConfig {
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .securityContexts(Collections.singletonList(securityContext()))
                 .tags(new Tag("users", "Operations about users"),
-                        new Tag("counties", "Operations about counties"))//
+                        new Tag("counties", "Operations about counties"),
+                        new Tag("wealthgroup", "Operations around the questionnaire by wealth group"))//
                 .genericModelSubstitutes(Optional.class);
 
     }

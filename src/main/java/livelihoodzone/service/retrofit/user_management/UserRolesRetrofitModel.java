@@ -1,4 +1,4 @@
-package livelihoodzone.service.user_management.retrofit.user_management;
+package livelihoodzone.service.retrofit.user_management;
 
 import com.google.gson.annotations.SerializedName;
 

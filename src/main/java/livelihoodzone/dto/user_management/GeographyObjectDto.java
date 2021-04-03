@@ -3,6 +3,7 @@ package livelihoodzone.dto.user_management;
 import livelihoodzone.entity.administrative_boundaries.subcounties.SubCountyEntity;
 import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
 import livelihoodzone.entity.administrative_boundaries.ward.WardEntity;
+import livelihoodzone.entity.questionnaire.LivelihoodZonesEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ public class GeographyObjectDto {
     private List<SubCountyEntity> subCounties = new ArrayList<>();
     private List<WardEntity> wards = new ArrayList<>();
     private List<SubLocationEntity> subLocations = new ArrayList<>();
+    private List<LivelihoodZonesEntity> livelihoodZones;
 
     public List<SubCountyEntity> getSubCounties() {
         return subCounties;
@@ -34,5 +36,13 @@ public class GeographyObjectDto {
 
     public void setSubLocations(List<SubLocationEntity> subLocations) {
         this.subLocations = subLocations;
+    }
+
+    public List<LivelihoodZonesEntity> getLivelihoodZones() {
+        return livelihoodZones;
+    }
+
+    public void setLivelihoodZones(List<LivelihoodZonesEntity> livelihoodZones) {
+        this.livelihoodZones = livelihoodZones;
     }
 }

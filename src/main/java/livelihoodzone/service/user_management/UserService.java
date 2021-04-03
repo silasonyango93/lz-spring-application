@@ -10,11 +10,12 @@ import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepo
 import livelihoodzone.repository.administrative_boundaries.subcounties.SubCountiesRepository;
 import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
 import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
+import livelihoodzone.repository.questionnaire.LivelihoodZonesRepository;
 import livelihoodzone.repository.user_management.RolesRepository;
 import livelihoodzone.repository.user_management.UserRolesRepository;
-import livelihoodzone.service.user_management.retrofit.RetrofitClientInstance;
-import livelihoodzone.service.user_management.retrofit.user_management.UserRetrofitService;
-import livelihoodzone.service.user_management.retrofit.user_management.UserRolesRetrofitModel;
+import livelihoodzone.service.retrofit.RetrofitClientInstance;
+import livelihoodzone.service.retrofit.user_management.UserRetrofitService;
+import livelihoodzone.service.retrofit.user_management.UserRolesRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,151 +38,157 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 @Service
 public class UserService {
 
-  @Autowired
-  private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-  @Autowired
-  private UserRolesRepository userRolesRepository;
+    @Autowired
+    private UserRolesRepository userRolesRepository;
 
-  @Autowired
-  private RolesRepository rolesRepository;
+    @Autowired
+    private RolesRepository rolesRepository;
 
-  @Autowired
-  private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-  @Autowired
-  private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
-  @Autowired
-  private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-  @Autowired
-  CountiesRepository countiesRepository;
+    @Autowired
+    CountiesRepository countiesRepository;
 
-  @Autowired
-  SubCountiesRepository subCountiesRepository;
+    @Autowired
+    SubCountiesRepository subCountiesRepository;
 
-  @Autowired
-  WardsRepository wardsRepository;
+    @Autowired
+    WardsRepository wardsRepository;
 
-  @Autowired
-  SubLocationRepository subLocationRepository;
+    @Autowired
+    SubLocationRepository subLocationRepository;
 
-  public AuthenticationObject signin(String email, String attemtedPassword) {
+    @Autowired
+    LivelihoodZonesRepository livelihoodZonesRepository;
 
-    User user = userRepository.findByUserEmail(email);
-    if (user == null) {
-      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.USER_DOES_NOT_EXIST,null,null);
+    public AuthenticationObject signin(String email, String attemtedPassword) {
+
+        User user = userRepository.findByUserEmail(email);
+        if (user == null) {
+            return new AuthenticationObject(false, null, null, null, null, null, null, null, AuthenticationStatus.USER_DOES_NOT_EXIST, null, null);
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (passwordEncoder.matches(attemtedPassword, user.getEncryptedPassword())) {
+            return new AuthenticationObject(true
+                    , jwtTokenProvider.createToken(email, userRolesRepository.findByUserId(userRepository.findByUserEmail(email).getUserId()))
+                    , user.getFirstName()
+                    , user.getMiddleName()
+                    , user.getSurname()
+                    , user.getUserEmail()
+                    , user.getOrganizationName()
+                    , getAUserSimplifiedRoles(user.getUserId()),
+                    AuthenticationStatus.SUCCESSFUL_AUTHENTICATION,
+                    countiesRepository.findByCountyId(user.getCountyId()), processGeography(user.getCountyId()));
+        } else {
+            return new AuthenticationObject(false, null, null, null, null, null, null, null, AuthenticationStatus.WRONG_CREDENTIALS, null, null);
+        }
     }
 
-    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    if (passwordEncoder.matches(attemtedPassword, user.getEncryptedPassword())) {
-      return new AuthenticationObject(true
-              , jwtTokenProvider.createToken(email, userRolesRepository.findByUserId(userRepository.findByUserEmail(email).getUserId()))
-              ,user.getFirstName()
-              ,user.getMiddleName()
-              ,user.getSurname()
-              ,user.getUserEmail()
-              ,user.getOrganizationName()
-      ,getAUserSimplifiedRoles(user.getUserId()),
-              AuthenticationStatus.SUCCESSFUL_AUTHENTICATION,
-              countiesRepository.findByCountyId(user.getCountyId()),processGeography(user.getCountyId()));
-    } else {
-      return new AuthenticationObject(false, null,null,null,null,null,null,null,AuthenticationStatus.WRONG_CREDENTIALS,null,null);
+    public SignupStatusDto signup(User user, List<RoleAssignmentDto> rolesToBeAssigned) {
+        if (!userRepository.existsByUserEmail(user.getUserEmail())) {
+            user.setEncryptedPassword(passwordEncoder.encode(user.getEncryptedPassword()));
+            User createdUser = userRepository.save(user);
+            assignAUserRoles(createdUser.getUserId());
+            designateSelectedRoles(createdUser.getUserId(), rolesToBeAssigned);
+            return new SignupStatusDto(true, "User registration successful");
+        } else {
+            return new SignupStatusDto(false, "A user already exists by this email");
+        }
     }
-  }
 
-  public SignupStatusDto signup(User user, List<RoleAssignmentDto> rolesToBeAssigned) {
-    if (!userRepository.existsByUserEmail(user.getUserEmail())) {
-      user.setEncryptedPassword(passwordEncoder.encode(user.getEncryptedPassword()));
-      User createdUser = userRepository.save(user);
-      assignAUserRoles(createdUser.getUserId());
-      designateSelectedRoles(createdUser.getUserId(), rolesToBeAssigned);
-      return new SignupStatusDto(true,"User registration successful");
-    } else {
-      return new SignupStatusDto(false,"A user already exists by this email");
+    public void assignAUserRoles(int userId) {
+        List<Roles> roles = rolesRepository.findAll();
+        for (Roles role : roles) {
+            userRolesRepository.save(new UserRoles(
+                    userId,
+                    role.getRoleId(),
+                    0
+            ));
+        }
     }
-  }
 
-  public void assignAUserRoles(int userId) {
-    List<Roles> roles = rolesRepository.findAll();
-    for (Roles role : roles) {
-      userRolesRepository.save(new UserRoles(
-              userId,
-              role.getRoleId(),
-              0
-      ));
+    public void designateSelectedRoles(int userId, List<RoleAssignmentDto> rolesToBeAssigned) {
+        for (RoleAssignmentDto roleToBeAssigned : rolesToBeAssigned) {
+            UserRoles userRole = fetchAUserSpecificRoleByRoleId(userId, roleToBeAssigned.getRoleId());
+            userRole.setConfirmationStatus(1);
+            userRolesRepository.save(userRole);
+        }
     }
-  }
 
-  public void designateSelectedRoles(int userId, List<RoleAssignmentDto> rolesToBeAssigned) {
-    for (RoleAssignmentDto roleToBeAssigned : rolesToBeAssigned) {
-      UserRoles userRole = fetchAUserSpecificRoleByRoleId(userId, roleToBeAssigned.getRoleId());
-      userRole.setConfirmationStatus(1);
-      userRolesRepository.save(userRole);
+    public UserRoles fetchAUserSpecificRoleByRoleId(int userId, int roleId) {
+        UserRetrofitService userRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(UserRetrofitService.class);
+        Call<UserRolesRetrofitModel> callSync = userRetrofitService.fetchAUserSpecificRolesByUserIdAndRoleId(userId, roleId);
+        try {
+            Response<UserRolesRetrofitModel> response = callSync.execute();
+            return userRolesRepository.findByUserRoleId(response.body().getUserRoleId());
+
+        } catch (Exception ex) {
+        }
+
+        return null;
     }
-  }
 
-  public UserRoles fetchAUserSpecificRoleByRoleId(int userId, int roleId) {
-    UserRetrofitService userRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(UserRetrofitService.class);
-    Call<UserRolesRetrofitModel> callSync = userRetrofitService.fetchAUserSpecificRolesByUserIdAndRoleId(userId,roleId);
-    try {
-      Response<UserRolesRetrofitModel> response = callSync.execute();
-      return userRolesRepository.findByUserRoleId(response.body().getUserRoleId());
-
-    } catch (Exception ex) {}
-
-    return null;
-  }
-
-  public void delete(String userEmail) {
-    userRepository.deleteByUserEmail(userEmail);
-  }
-
-  public User search(String userEmail) {
-    User user = userRepository.findByUserEmail(userEmail);
-    if (user == null) {
-      throw new CustomException("The user doesn't exist", HttpStatus.NOT_FOUND);
+    public void delete(String userEmail) {
+        userRepository.deleteByUserEmail(userEmail);
     }
-    return user;
-  }
 
-  public User whoami(HttpServletRequest req) {
-    return userRepository.findByUserEmail(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(req)));
-  }
+    public User search(String userEmail) {
+        User user = userRepository.findByUserEmail(userEmail);
+        if (user == null) {
+            throw new CustomException("The user doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        return user;
+    }
 
-  public String refresh(String userEmail) {
-    return jwtTokenProvider.createToken(userEmail, userRolesRepository.findByUserId(userRepository.findByUserEmail(userEmail).getUserId()));
-  }
+    public User whoami(HttpServletRequest req) {
+        return userRepository.findByUserEmail(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(req)));
+    }
 
-
-  public List<SimplifiedUserRolesDto> getAUserSimplifiedRoles(int userId) {
-    UserRetrofitService userRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(UserRetrofitService.class);
-    Call<List<UserRolesRetrofitModel>> callSync = userRetrofitService.fetchAUserRolesByUserId(userId);
-    try {
-      Response<List<UserRolesRetrofitModel>> response = callSync.execute();
-      List<SimplifiedUserRolesDto> simplifiedUserRolesDtoList = new ArrayList<>();
-
-      for (UserRolesRetrofitModel userRolesRetrofitModel : response.body()) {
-        simplifiedUserRolesDtoList.add(new SimplifiedUserRolesDto(userRolesRetrofitModel.getRoleDescription(),userRolesRetrofitModel.getConfirmationStatus() == 1));
-      }
-
-      return simplifiedUserRolesDtoList;
-
-    } catch (Exception ex) {}
-
-    return null;
-  }
+    public String refresh(String userEmail) {
+        return jwtTokenProvider.createToken(userEmail, userRolesRepository.findByUserId(userRepository.findByUserEmail(userEmail).getUserId()));
+    }
 
 
-  public GeographyObjectDto processGeography(int countyId) {
+    public List<SimplifiedUserRolesDto> getAUserSimplifiedRoles(int userId) {
+        UserRetrofitService userRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(UserRetrofitService.class);
+        Call<List<UserRolesRetrofitModel>> callSync = userRetrofitService.fetchAUserRolesByUserId(userId);
+        try {
+            Response<List<UserRolesRetrofitModel>> response = callSync.execute();
+            List<SimplifiedUserRolesDto> simplifiedUserRolesDtoList = new ArrayList<>();
 
-    GeographyObjectDto geographyObjectDto = new GeographyObjectDto();
-    geographyObjectDto.setSubCounties(subCountiesRepository.findByCountyId(countyId));
-    geographyObjectDto.setWards(wardsRepository.findAll());
-    geographyObjectDto.setSubLocations(subLocationRepository.findAll());
+            for (UserRolesRetrofitModel userRolesRetrofitModel : response.body()) {
+                simplifiedUserRolesDtoList.add(new SimplifiedUserRolesDto(userRolesRetrofitModel.getRoleDescription(), userRolesRetrofitModel.getConfirmationStatus() == 1));
+            }
 
-    return geographyObjectDto;
-  }
+            return simplifiedUserRolesDtoList;
+
+        } catch (Exception ex) {
+        }
+
+        return null;
+    }
+
+
+    public GeographyObjectDto processGeography(int countyId) {
+
+        GeographyObjectDto geographyObjectDto = new GeographyObjectDto();
+        geographyObjectDto.setSubCounties(subCountiesRepository.findByCountyId(countyId));
+        geographyObjectDto.setWards(wardsRepository.findAll());
+        geographyObjectDto.setSubLocations(subLocationRepository.findAll());
+        geographyObjectDto.setLivelihoodZones(livelihoodZonesRepository.findAll());
+
+        return geographyObjectDto;
+    }
 
 }

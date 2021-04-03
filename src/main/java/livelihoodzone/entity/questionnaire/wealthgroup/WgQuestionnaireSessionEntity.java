@@ -12,6 +12,9 @@ public class WgQuestionnaireSessionEntity implements java.io.Serializable{
     @Column(name = "UserId")
     private int userId;
 
+    @Column(name = "WgQuestionnaireTypeId")
+    private int wgQuestionnaireTypeId;
+
     @Column(name = "WealthGroupId")
     private int wealthGroupId;
 
@@ -68,6 +71,14 @@ public class WgQuestionnaireSessionEntity implements java.io.Serializable{
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getWgQuestionnaireTypeId() {
+        return wgQuestionnaireTypeId;
+    }
+
+    public void setWgQuestionnaireTypeId(int wgQuestionnaireTypeId) {
+        this.wgQuestionnaireTypeId = wgQuestionnaireTypeId;
     }
 
     public int getWealthGroupId() {

@@ -1,4 +1,4 @@
-package livelihoodzone.service.user_management.retrofit;
+package livelihoodzone.service.retrofit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;

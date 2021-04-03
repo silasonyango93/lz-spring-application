@@ -1,4 +1,4 @@
-package livelihoodzone.service.user_management.questionnaire;
+package livelihoodzone.service.questionnaire;
 
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
 import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
@@ -29,7 +29,7 @@ public class WealthGroupService {
         if (existingQuestionnaires.size() > 0) {
             return new QuestionnaireResponseDto(
                     QuestionnaireResponseStatus.DUPLICATE,
-                    "Questionnaire submitted successfully"
+                    "Duplicate questionnaire"
             );
         }
 
