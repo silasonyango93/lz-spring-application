@@ -2,7 +2,9 @@ package livelihoodzone.service.user_management;
 
 import javax.servlet.http.HttpServletRequest;
 
+import livelihoodzone.dao.administrative_boundaries.CountiesDao;
 import livelihoodzone.dto.user_management.*;
+import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.user_management.AuthenticationStatus;
 import livelihoodzone.entity.user_management.Roles;
 import livelihoodzone.entity.user_management.UserRoles;
@@ -71,11 +73,14 @@ public class UserService {
     @Autowired
     LivelihoodZonesRepository livelihoodZonesRepository;
 
+    @Autowired
+    CountiesDao countiesDao;
+
     public AuthenticationObject signin(String email, String attemtedPassword) {
 
         User user = userRepository.findByUserEmail(email);
         if (user == null) {
-            return new AuthenticationObject(false, null, null, null, null, null, null, null, AuthenticationStatus.USER_DOES_NOT_EXIST, null, null);
+            return new AuthenticationObject(false, null, null, null, null, null, null, null, AuthenticationStatus.USER_DOES_NOT_EXIST , null);
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -88,10 +93,9 @@ public class UserService {
                     , user.getUserEmail()
                     , user.getOrganizationName()
                     , getAUserSimplifiedRoles(user.getUserId()),
-                    AuthenticationStatus.SUCCESSFUL_AUTHENTICATION,
-                    countiesRepository.findByCountyId(user.getCountyId()), processGeography(user.getCountyId()));
+                    AuthenticationStatus.SUCCESSFUL_AUTHENTICATION, processGeography(user.getCountyId()));
         } else {
-            return new AuthenticationObject(false, null, null, null, null, null, null, null, AuthenticationStatus.WRONG_CREDENTIALS, null, null);
+            return new AuthenticationObject(false, null, null, null, null, null, null, null, AuthenticationStatus.WRONG_CREDENTIALS, null);
         }
     }
 
@@ -183,10 +187,13 @@ public class UserService {
     public GeographyObjectDto processGeography(int countyId) {
 
         GeographyObjectDto geographyObjectDto = new GeographyObjectDto();
-        geographyObjectDto.setSubCounties(subCountiesRepository.findByCountyId(countyId));
-        geographyObjectDto.setWards(wardsRepository.findAll());
-        geographyObjectDto.setSubLocations(subLocationRepository.findAll());
         geographyObjectDto.setLivelihoodZones(livelihoodZonesRepository.findAll());
+
+        List<CountiesEntity> countiesEntityList = countiesDao.fetchCountyComprehensively(countyId);
+
+        if (countiesEntityList.size() > 0) {
+            geographyObjectDto.setCounty(countiesEntityList.get(0));
+        }
 
         return geographyObjectDto;
     }

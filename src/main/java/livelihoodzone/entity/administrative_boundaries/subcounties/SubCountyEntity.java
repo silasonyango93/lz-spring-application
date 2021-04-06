@@ -1,6 +1,9 @@
 package livelihoodzone.entity.administrative_boundaries.subcounties;
 
+import livelihoodzone.entity.administrative_boundaries.ward.WardEntity;
+
 import javax.persistence.*;
+import java.util.List;
 
 @javax.persistence.Entity
 @Table(name = "subcounties")
@@ -19,6 +22,9 @@ public class SubCountyEntity {
 
     @Column(name = "SubCountyCode")
     private int subCountyCode;
+
+    @OneToMany(mappedBy = "subCountyId",fetch = FetchType.EAGER)
+    private List<WardEntity> wards;
 
     public SubCountyEntity() {
     }
@@ -59,5 +65,13 @@ public class SubCountyEntity {
 
     public void setSubCountyCode(int subCountyCode) {
         this.subCountyCode = subCountyCode;
+    }
+
+    public List<WardEntity> getWards() {
+        return wards;
+    }
+
+    public void setWards(List<WardEntity> wards) {
+        this.wards = wards;
     }
 }

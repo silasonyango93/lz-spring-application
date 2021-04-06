@@ -16,11 +16,10 @@ public class AuthenticationObject {
     private String organizationName;
     private List<SimplifiedUserRolesDto> roles;
     private AuthenticationStatus authenticationStatus;
-    private CountiesEntity county;
     private GeographyObjectDto geography;
 
 
-    public AuthenticationObject(boolean isAuthenticationSuccessful, String accessToken, String firstName, String middleName, String surname, String userEmail, String organizationName, List<SimplifiedUserRolesDto> roles, AuthenticationStatus authenticationStatus, CountiesEntity county, GeographyObjectDto geography) {
+    public AuthenticationObject(boolean isAuthenticationSuccessful, String accessToken, String firstName, String middleName, String surname, String userEmail, String organizationName, List<SimplifiedUserRolesDto> roles, AuthenticationStatus authenticationStatus, GeographyObjectDto geography) {
         this.isAuthenticationSuccessful = isAuthenticationSuccessful;
         this.accessToken = accessToken;
         this.userEmail = userEmail;
@@ -30,7 +29,6 @@ public class AuthenticationObject {
         this.middleName = middleName;
         this.surname = surname;
         this.authenticationStatus = authenticationStatus;
-        this.county = county;
         this.geography = geography;
     }
 
@@ -104,14 +102,6 @@ public class AuthenticationObject {
 
     public void setAuthenticationStatus(AuthenticationStatus authenticationStatus) {
         this.authenticationStatus = authenticationStatus;
-    }
-
-    public CountiesEntity getCounty() {
-        return county;
-    }
-
-    public void setCounty(CountiesEntity county) {
-        this.county = county;
     }
 
     public GeographyObjectDto getGeography() {
