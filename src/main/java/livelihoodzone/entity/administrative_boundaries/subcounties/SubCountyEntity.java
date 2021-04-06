@@ -20,6 +20,15 @@ public class SubCountyEntity {
     @Column(name = "SubCountyCode")
     private int subCountyCode;
 
+    public SubCountyEntity() {
+    }
+
+    public SubCountyEntity(int countyId, String subCountyName, int subCountyCode) {
+        this.countyId = countyId;
+        this.subCountyName = subCountyName;
+        this.subCountyCode = subCountyCode;
+    }
+
     public int getSubCountyId() {
         return subCountyId;
     }

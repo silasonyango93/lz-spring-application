@@ -20,6 +20,14 @@ public class WardEntity {
     @Column(name = "WardCode")
     private int wardCode;
 
+    public WardEntity() {
+    }
+
+    public WardEntity(int subCountyId, String wardName, int wardCode) {
+        this.subCountyId = subCountyId;
+        this.wardName = wardName;
+        this.wardCode = wardCode;
+    }
 
     public int getWardId() {
         return wardId;

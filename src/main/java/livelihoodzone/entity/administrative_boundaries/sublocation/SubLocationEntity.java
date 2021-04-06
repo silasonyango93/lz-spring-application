@@ -20,6 +20,15 @@ public class SubLocationEntity {
     @Column(name = "SubLocationCode")
     private int subLocationCode;
 
+    public SubLocationEntity() {
+    }
+
+    public SubLocationEntity(int wardId, String subLocationName, int subLocationCode) {
+        this.wardId = wardId;
+        this.subLocationName = subLocationName;
+        this.subLocationCode = subLocationCode;
+    }
+
     public int getSubLocationId() {
         return subLocationId;
     }
