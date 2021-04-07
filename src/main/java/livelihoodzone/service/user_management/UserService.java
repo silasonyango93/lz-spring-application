@@ -189,11 +189,20 @@ public class UserService {
         GeographyObjectDto geographyObjectDto = new GeographyObjectDto();
         geographyObjectDto.setLivelihoodZones(livelihoodZonesRepository.findAll());
 
+        /*
+
+        todo: The inner join fetches too many duplicates reason why iv commented this part out never to be needed
+
         List<CountiesEntity> countiesEntityList = countiesDao.fetchCountyComprehensively(countyId);
 
         if (countiesEntityList.size() > 0) {
             geographyObjectDto.setCounty(countiesEntityList.get(0));
         }
+
+        */
+
+        geographyObjectDto.setCounty(countiesRepository.findByCountyId(countyId));
+        geographyObjectDto.setSubLocations(subLocationRepository.findAll());
 
         return geographyObjectDto;
     }

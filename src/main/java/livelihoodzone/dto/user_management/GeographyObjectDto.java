@@ -12,6 +12,7 @@ import java.util.List;
 public class GeographyObjectDto {
     private List<LivelihoodZonesEntity> livelihoodZones;
     private CountiesEntity county;
+    private List<SubLocationEntity> subLocations;
 
     public List<LivelihoodZonesEntity> getLivelihoodZones() {
         return livelihoodZones;
@@ -27,5 +28,13 @@ public class GeographyObjectDto {
 
     public void setCounty(CountiesEntity county) {
         this.county = county;
+    }
+
+    public List<SubLocationEntity> getSubLocations() {
+        return subLocations;
+    }
+
+    public void setSubLocations(List<SubLocationEntity> subLocations) {
+        this.subLocations = subLocations;
     }
 }
