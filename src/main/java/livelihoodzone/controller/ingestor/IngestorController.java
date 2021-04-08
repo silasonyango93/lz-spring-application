@@ -2,8 +2,10 @@ package livelihoodzone.controller.ingestor;
 
 import livelihoodzone.service.ingestor.ExcelService;
 import livelihoodzone.service.ingestor.crops.CropsExcellService;
+import livelihoodzone.service.ingestor.tribe.TribeExcelService;
 import livelihoodzone.util.excel.ExcelHelper;
 import livelihoodzone.util.excel.crops.CropExcelHelper;
+import livelihoodzone.util.excel.tribe.TribeExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ public class IngestorController {
 
     @Autowired
     CropsExcellService cropsExcellService;
+
+    @Autowired
+    TribeExcelService tribeExcelService;
 
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
@@ -52,6 +57,27 @@ public class IngestorController {
         if (CropExcelHelper.hasExcelFormat(file)) {
             try {
                 cropsExcellService.save(file);
+
+                message = "Uploaded the file successfully: " + file.getOriginalFilename();
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            } catch (Exception e) {
+                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
+            }
+        }
+
+        message = "Please upload an excel file!";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
+
+    @PostMapping("/tribe")
+    public ResponseEntity<ResponseMessage> uploadTribes(@RequestParam("file") MultipartFile file) {
+        String message = "";
+
+        if (TribeExcelHelper.hasExcelFormat(file)) {
+            try {
+                tribeExcelService.save(file);
 
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(null);

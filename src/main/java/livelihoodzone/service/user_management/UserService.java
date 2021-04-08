@@ -13,6 +13,8 @@ import livelihoodzone.repository.administrative_boundaries.subcounties.SubCounti
 import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
 import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
 import livelihoodzone.repository.questionnaire.LivelihoodZonesRepository;
+import livelihoodzone.repository.questionnaire.crops.CropsRepository;
+import livelihoodzone.repository.questionnaire.tribe.EthnicGroupsRepository;
 import livelihoodzone.repository.user_management.RolesRepository;
 import livelihoodzone.repository.user_management.UserRolesRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
@@ -76,11 +78,17 @@ public class UserService {
     @Autowired
     CountiesDao countiesDao;
 
+    @Autowired
+    CropsRepository cropsRepository;
+
+    @Autowired
+    EthnicGroupsRepository ethnicGroupsRepository;
+
     public AuthenticationObject signin(String email, String attemtedPassword) {
 
         User user = userRepository.findByUserEmail(email);
         if (user == null) {
-            return new AuthenticationObject(false, null, null, null, null, null, null, null, AuthenticationStatus.USER_DOES_NOT_EXIST , null);
+            return new AuthenticationObject(false, null, null, null, null, null, null, null, AuthenticationStatus.USER_DOES_NOT_EXIST, null);
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -191,7 +199,7 @@ public class UserService {
 
         /*
 
-        todo: The inner join fetches too many duplicates reason why iv commented this part out never to be needed
+        todo: The inner join fetches too many duplicates reason why iv commented this part out never to be needed(Replaceb by entity EAGER FETCH)
 
         List<CountiesEntity> countiesEntityList = countiesDao.fetchCountyComprehensively(countyId);
 
@@ -203,6 +211,8 @@ public class UserService {
 
         geographyObjectDto.setCounty(countiesRepository.findByCountyId(countyId));
         geographyObjectDto.setSubLocations(subLocationRepository.findAll());
+        geographyObjectDto.setCrops(cropsRepository.findAll());
+        geographyObjectDto.setEthnicGroups(ethnicGroupsRepository.findAll());
 
         return geographyObjectDto;
     }
