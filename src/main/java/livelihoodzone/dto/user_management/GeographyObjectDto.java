@@ -5,9 +5,11 @@ import livelihoodzone.entity.administrative_boundaries.subcounties.SubCountyEnti
 import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
 import livelihoodzone.entity.administrative_boundaries.ward.WardEntity;
 import livelihoodzone.entity.questionnaire.LivelihoodZonesEntity;
+import livelihoodzone.entity.questionnaire.calendar.MonthsEntity;
 import livelihoodzone.entity.questionnaire.crops.CropsEntity;
 import livelihoodzone.entity.questionnaire.tribe.EthnicGroupsEntity;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class GeographyObjectDto {
     private List<SubLocationEntity> subLocations;
     private List<CropsEntity> crops;
     private List<EthnicGroupsEntity> ethnicGroups;
+    private List<MonthsEntity> months;
 
     public List<LivelihoodZonesEntity> getLivelihoodZones() {
         return livelihoodZones;
@@ -56,5 +59,13 @@ public class GeographyObjectDto {
 
     public void setEthnicGroups(List<EthnicGroupsEntity> ethnicGroups) {
         this.ethnicGroups = ethnicGroups;
+    }
+
+    public List<MonthsEntity> getMonths() {
+        return months;
+    }
+
+    public void setMonths(List<MonthsEntity> months) {
+        this.months = months;
     }
 }

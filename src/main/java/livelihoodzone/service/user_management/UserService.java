@@ -13,6 +13,7 @@ import livelihoodzone.repository.administrative_boundaries.subcounties.SubCounti
 import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
 import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
 import livelihoodzone.repository.questionnaire.LivelihoodZonesRepository;
+import livelihoodzone.repository.questionnaire.calendar.MonthsRepositrory;
 import livelihoodzone.repository.questionnaire.crops.CropsRepository;
 import livelihoodzone.repository.questionnaire.tribe.EthnicGroupsRepository;
 import livelihoodzone.repository.user_management.RolesRepository;
@@ -83,6 +84,9 @@ public class UserService {
 
     @Autowired
     EthnicGroupsRepository ethnicGroupsRepository;
+
+    @Autowired
+    MonthsRepositrory monthsRepositrory;
 
     public AuthenticationObject signin(String email, String attemtedPassword) {
 
@@ -213,6 +217,7 @@ public class UserService {
         geographyObjectDto.setSubLocations(subLocationRepository.findAll());
         geographyObjectDto.setCrops(cropsRepository.findAll());
         geographyObjectDto.setEthnicGroups(ethnicGroupsRepository.findAll());
+        geographyObjectDto.setMonths(monthsRepositrory.findAll());
 
         return geographyObjectDto;
     }
