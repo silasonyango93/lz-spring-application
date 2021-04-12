@@ -69,6 +69,7 @@ CountiesController:
 
 WealthGroupController:
   responses: Accepts the responses of a wealth group questionnaire
+  zone-level: Accepts the responses of a Zonal level questionnaire
 
 
 org:

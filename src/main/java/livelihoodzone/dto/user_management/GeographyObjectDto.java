@@ -20,6 +20,7 @@ public class GeographyObjectDto {
     private List<CropsEntity> crops;
     private List<EthnicGroupsEntity> ethnicGroups;
     private List<MonthsEntity> months;
+    private List<SubCountyEntity> subCounties;
 
     public List<LivelihoodZonesEntity> getLivelihoodZones() {
         return livelihoodZones;
@@ -67,5 +68,13 @@ public class GeographyObjectDto {
 
     public void setMonths(List<MonthsEntity> months) {
         this.months = months;
+    }
+
+    public List<SubCountyEntity> getSubCounties() {
+        return subCounties;
+    }
+
+    public void setSubCounties(List<SubCountyEntity> subCounties) {
+        this.subCounties = subCounties;
     }
 }

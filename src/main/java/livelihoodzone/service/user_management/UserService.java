@@ -218,6 +218,7 @@ public class UserService {
         geographyObjectDto.setCrops(cropsRepository.findAll());
         geographyObjectDto.setEthnicGroups(ethnicGroupsRepository.findAll());
         geographyObjectDto.setMonths(monthsRepositrory.findAll());
+        geographyObjectDto.setSubCounties(subCountiesRepository.findAll());
 
         return geographyObjectDto;
     }
