@@ -33,7 +33,9 @@ public class WealthGroupService {
         if (existingQuestionnaires.size() > 0) {
             return new QuestionnaireResponseDto(
                     QuestionnaireResponseStatus.DUPLICATE,
-                    "Duplicate questionnaire"
+                    "Duplicate questionnaire",
+                    null,
+                    2
             );
         }
 
@@ -58,7 +60,9 @@ public class WealthGroupService {
 
         return new QuestionnaireResponseDto(
                 QuestionnaireResponseStatus.ACCEPTED,
-                "Questionnaire submitted successfully"
+                "Questionnaire submitted successfully",
+                wealthGroupQuestionnaireRequestDto.getUniqueId(),
+                2
         );
     }
 }

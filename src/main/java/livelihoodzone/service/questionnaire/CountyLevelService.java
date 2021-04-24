@@ -24,7 +24,9 @@ public class CountyLevelService {
         if (existingQuestionnaires.size() > 0) {
             return new QuestionnaireResponseDto(
                     QuestionnaireResponseStatus.DUPLICATE,
-                    "Duplicate questionnaire"
+                    "Duplicate questionnaire",
+                    null,
+                    1
             );
         }
 
@@ -42,7 +44,9 @@ public class CountyLevelService {
 
         return new QuestionnaireResponseDto(
                 QuestionnaireResponseStatus.ACCEPTED,
-                "Questionnaire submitted successfully"
+                "Questionnaire submitted successfully",
+                countyLevelQuestionnaireRequestDto.getUniqueId(),
+                1
         );
     }
 }

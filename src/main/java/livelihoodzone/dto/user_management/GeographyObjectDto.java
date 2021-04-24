@@ -3,14 +3,13 @@ package livelihoodzone.dto.user_management;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.administrative_boundaries.subcounties.SubCountyEntity;
 import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
-import livelihoodzone.entity.administrative_boundaries.ward.WardEntity;
-import livelihoodzone.entity.questionnaire.LivelihoodZonesEntity;
+import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
 import livelihoodzone.entity.questionnaire.calendar.MonthsEntity;
 import livelihoodzone.entity.questionnaire.crops.CropsEntity;
+import livelihoodzone.entity.questionnaire.livelihoodzones.SubLocationsLivelihoodZoneAssignmentEntity;
 import livelihoodzone.entity.questionnaire.tribe.EthnicGroupsEntity;
+import livelihoodzone.service.retrofit.livelihoodzones.CountySubLocationsLivelihoodZonesAssignmentRetrofitModel;
 
-import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GeographyObjectDto {
@@ -21,6 +20,7 @@ public class GeographyObjectDto {
     private List<EthnicGroupsEntity> ethnicGroups;
     private List<MonthsEntity> months;
     private List<SubCountyEntity> subCounties;
+    private List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel> sublocationsLivelihoodZoneAssignments;
 
     public List<LivelihoodZonesEntity> getLivelihoodZones() {
         return livelihoodZones;
@@ -76,5 +76,13 @@ public class GeographyObjectDto {
 
     public void setSubCounties(List<SubCountyEntity> subCounties) {
         this.subCounties = subCounties;
+    }
+
+    public List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel> getSublocationsLivelihoodZoneAssignments() {
+        return sublocationsLivelihoodZoneAssignments;
+    }
+
+    public void setSublocationsLivelihoodZoneAssignments(List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel> sublocationsLivelihoodZoneAssignments) {
+        this.sublocationsLivelihoodZoneAssignments = sublocationsLivelihoodZoneAssignments;
     }
 }

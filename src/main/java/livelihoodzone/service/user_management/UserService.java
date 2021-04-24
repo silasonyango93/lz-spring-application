@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import livelihoodzone.dao.administrative_boundaries.CountiesDao;
 import livelihoodzone.dto.user_management.*;
-import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.user_management.AuthenticationStatus;
 import livelihoodzone.entity.user_management.Roles;
 import livelihoodzone.entity.user_management.UserRoles;
@@ -12,13 +11,15 @@ import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepo
 import livelihoodzone.repository.administrative_boundaries.subcounties.SubCountiesRepository;
 import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
 import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
-import livelihoodzone.repository.questionnaire.LivelihoodZonesRepository;
+import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.calendar.MonthsRepositrory;
 import livelihoodzone.repository.questionnaire.crops.CropsRepository;
 import livelihoodzone.repository.questionnaire.tribe.EthnicGroupsRepository;
 import livelihoodzone.repository.user_management.RolesRepository;
 import livelihoodzone.repository.user_management.UserRolesRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
+import livelihoodzone.service.retrofit.livelihoodzones.CountySubLocationsLivelihoodZonesAssignmentRetrofitModel;
+import livelihoodzone.service.retrofit.livelihoodzones.CountySubLocationsLzAssignmentsRetrofitService;
 import livelihoodzone.service.retrofit.user_management.UserRetrofitService;
 import livelihoodzone.service.retrofit.user_management.UserRolesRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,6 +197,19 @@ public class UserService {
     }
 
 
+    public List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel> fetchACountySubLocationsLivelihoodZoneAssignment(int countyId) {
+        CountySubLocationsLzAssignmentsRetrofitService countySubLocationsLzAssignmentsRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(CountySubLocationsLzAssignmentsRetrofitService.class);
+        Call<List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel>> callSync = countySubLocationsLzAssignmentsRetrofitService.fetchACountySubLocationsLivelihoodZoneAssignment(countyId);
+        try {
+            Response<List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel>> response = callSync.execute();
+            return response.body();
+
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+
     public GeographyObjectDto processGeography(int countyId) {
 
         GeographyObjectDto geographyObjectDto = new GeographyObjectDto();
@@ -219,6 +233,7 @@ public class UserService {
         geographyObjectDto.setEthnicGroups(ethnicGroupsRepository.findAll());
         geographyObjectDto.setMonths(monthsRepositrory.findAll());
         geographyObjectDto.setSubCounties(subCountiesRepository.findAll());
+        geographyObjectDto.setSublocationsLivelihoodZoneAssignments(fetchACountySubLocationsLivelihoodZoneAssignment(countyId));
 
         return geographyObjectDto;
     }

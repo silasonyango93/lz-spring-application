@@ -1,4 +1,4 @@
-package livelihoodzone.entity.questionnaire;
+package livelihoodzone.entity.questionnaire.livelihoodzones;
 
 import javax.persistence.*;
 @javax.persistence.Entity

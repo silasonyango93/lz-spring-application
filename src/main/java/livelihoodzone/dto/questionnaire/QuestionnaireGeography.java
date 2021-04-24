@@ -3,7 +3,7 @@ package livelihoodzone.dto.questionnaire;
 import livelihoodzone.entity.administrative_boundaries.subcounties.SubCountyEntity;
 import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
 import livelihoodzone.entity.administrative_boundaries.ward.WardEntity;
-import livelihoodzone.entity.questionnaire.LivelihoodZonesEntity;
+import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
 
 public class QuestionnaireGeography {

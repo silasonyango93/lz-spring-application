@@ -1,7 +1,5 @@
 package livelihoodzone.dto.user_management;
 
-import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
-import livelihoodzone.entity.questionnaire.LivelihoodZonesEntity;
 import livelihoodzone.entity.user_management.AuthenticationStatus;
 
 import java.util.List;

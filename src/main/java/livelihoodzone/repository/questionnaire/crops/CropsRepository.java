@@ -1,6 +1,5 @@
 package livelihoodzone.repository.questionnaire.crops;
 
-import livelihoodzone.entity.questionnaire.LivelihoodZonesEntity;
 import livelihoodzone.entity.questionnaire.crops.CropsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

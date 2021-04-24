@@ -1,8 +1,5 @@
 package livelihoodzone.dto.questionnaire;
 
-import livelihoodzone.entity.questionnaire.LivelihoodZonesEntity;
-import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
-
 public class WealthGroupQuestionnaireRequestDto {
     private String uniqueId;
     private String questionnaireName;
