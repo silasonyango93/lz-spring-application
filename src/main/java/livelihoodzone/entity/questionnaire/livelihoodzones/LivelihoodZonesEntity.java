@@ -17,6 +17,15 @@ public class LivelihoodZonesEntity implements java.io.Serializable{
     @Column(name = "LivelihoodZoneCode")
     private int livelihoodZoneCode;
 
+    public LivelihoodZonesEntity() {
+    }
+
+    public LivelihoodZonesEntity(int livelihoodZoneId, String livelihoodZoneName, int livelihoodZoneCode) {
+        this.livelihoodZoneId = livelihoodZoneId;
+        this.livelihoodZoneName = livelihoodZoneName;
+        this.livelihoodZoneCode = livelihoodZoneCode;
+    }
+
     public int getLivelihoodZoneId() {
         return livelihoodZoneId;
     }

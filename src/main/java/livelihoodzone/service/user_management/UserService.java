@@ -19,7 +19,7 @@ import livelihoodzone.repository.user_management.RolesRepository;
 import livelihoodzone.repository.user_management.UserRolesRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.livelihoodzones.CountySubLocationsLivelihoodZonesAssignmentRetrofitModel;
-import livelihoodzone.service.retrofit.livelihoodzones.CountySubLocationsLzAssignmentsRetrofitService;
+import livelihoodzone.service.retrofit.livelihoodzones.LivelihoodZonesRetrofitService;
 import livelihoodzone.service.retrofit.user_management.UserRetrofitService;
 import livelihoodzone.service.retrofit.user_management.UserRolesRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -198,8 +198,8 @@ public class UserService {
 
 
     public List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel> fetchACountySubLocationsLivelihoodZoneAssignment(int countyId) {
-        CountySubLocationsLzAssignmentsRetrofitService countySubLocationsLzAssignmentsRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(CountySubLocationsLzAssignmentsRetrofitService.class);
-        Call<List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel>> callSync = countySubLocationsLzAssignmentsRetrofitService.fetchACountySubLocationsLivelihoodZoneAssignment(countyId);
+        LivelihoodZonesRetrofitService livelihoodZonesRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(LivelihoodZonesRetrofitService.class);
+        Call<List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel>> callSync = livelihoodZonesRetrofitService.fetchACountySubLocationsLivelihoodZoneAssignment(countyId);
         try {
             Response<List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel>> response = callSync.execute();
             return response.body();

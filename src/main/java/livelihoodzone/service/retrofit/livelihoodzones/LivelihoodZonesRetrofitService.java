@@ -8,8 +8,12 @@ import retrofit2.http.POST;
 
 import java.util.List;
 
-public interface CountySubLocationsLzAssignmentsRetrofitService {
+public interface LivelihoodZonesRetrofitService {
     @FormUrlEncoded
     @POST("fetch_a_county_sublocations_livelihoodzone_assignments")
     Call<List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel>> fetchACountySubLocationsLivelihoodZoneAssignment(@Field("countyId") int countyId);
+
+    @FormUrlEncoded
+    @POST("fetch_a_county_livelihoodzones")
+    Call<List<CountyLivelihoodZonesRetrofitModel>> fetchACountyLivelihoodZones(@Field("countyId") int countyId);
 }
