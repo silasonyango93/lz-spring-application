@@ -1,9 +1,13 @@
 package livelihoodzone.service.livelihoodzones;
 
 import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesAssignmentDto;
+import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesUpdateDetailsDto;
+import livelihoodzone.dto.livelihoodzones.LivelihoodZonesUpdateRequestModel;
+import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentEntity;
 import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentStatus;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
+import livelihoodzone.repository.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.livelihoodzones.CountyLivelihoodZonesRetrofitModel;
 import livelihoodzone.service.retrofit.livelihoodzones.CountySubLocationsLivelihoodZonesAssignmentRetrofitModel;
@@ -23,6 +27,9 @@ public class LivelihoodZonesService {
 
     @Autowired
     CountiesRepository countiesRepository;
+
+    @Autowired
+    CountyLivelihoodZonesAssignmentRepository countyLivelihoodZonesAssignmentRepository;
 
     public CountyLivelihoodZonesAssignmentDto fetchACountyLiveliHoodZones(int countyId) {
         List<CountyLivelihoodZonesRetrofitModel> countyLivelihoodZonesRetrofitModelList = retrofitFetchACountyLiveliHoodZones(countyId);
@@ -70,5 +77,44 @@ public class LivelihoodZonesService {
         } catch (Exception ex) {
             return null;
         }
+    }
+
+
+    public boolean updateACountyLivelihoodZones(CountyLivelihoodZonesUpdateDetailsDto countyLivelihoodZonesUpdateDetailsDto) {
+        if (countyLivelihoodZonesUpdateDetailsDto.isActive()) {
+            return addACountyLivelihoodZones(countyLivelihoodZonesUpdateDetailsDto.getCountyId(), countyLivelihoodZonesUpdateDetailsDto.getLivelihoodZoneIds());
+        }
+        return softDeleteACountyLivelihoodZones(countyLivelihoodZonesUpdateDetailsDto.getCountyId(), countyLivelihoodZonesUpdateDetailsDto.getLivelihoodZoneIds());
+    }
+
+    public boolean addACountyLivelihoodZones(int countyId, List<LivelihoodZonesUpdateRequestModel> livelihoodZoneIds) {
+        List<CountyLivelihoodZonesAssignmentEntity> countyLivelihoodZonesAssignmentEntityList = new ArrayList<>();
+        for (LivelihoodZonesUpdateRequestModel currentRequestModel : livelihoodZoneIds) {
+            countyLivelihoodZonesAssignmentEntityList.add(new CountyLivelihoodZonesAssignmentEntity(
+                    countyId,
+                    currentRequestModel.getLivelihoodZoneId(),
+                    1
+            ));
+        }
+
+        return countyLivelihoodZonesAssignmentRepository.saveAll(countyLivelihoodZonesAssignmentEntityList).size() > 0;
+    }
+
+    public boolean softDeleteACountyLivelihoodZones(int countyId, List<LivelihoodZonesUpdateRequestModel> livelihoodZoneIds) {
+        List<CountyLivelihoodZonesAssignmentEntity> countyLivelihoodZonesAssignmentEntityList = countyLivelihoodZonesAssignmentRepository.findByCountyId(countyId);
+        List<CountyLivelihoodZonesAssignmentEntity> assignmentsToBeDeleted = new ArrayList<>();
+
+        for (LivelihoodZonesUpdateRequestModel currentLzId : livelihoodZoneIds) {
+            for (CountyLivelihoodZonesAssignmentEntity currentAssignment : countyLivelihoodZonesAssignmentEntityList) {
+
+                if (currentAssignment.getLivelihoodZoneId() == currentLzId.getLivelihoodZoneId()) {
+                    currentAssignment.setIsActive(0);
+                    assignmentsToBeDeleted.add(currentAssignment);
+                }
+
+            }
+        }
+
+        return countyLivelihoodZonesAssignmentRepository.saveAll(assignmentsToBeDeleted).size() > 0;
     }
 }

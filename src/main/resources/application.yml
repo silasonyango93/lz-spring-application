@@ -70,6 +70,7 @@ CountiesController:
 LivelihoodZonesController:
   all-livelihoodzones: Returns all registered livelihoodzones in the system
   a-county-livelihoodzones: Returns all livelihood zones in the specified county
+  update-county-livelihoodzones: Adds or removes a livelihood zone assignment from a county
 
 WealthGroupController:
   responses: Accepts the responses of a wealth group questionnaire

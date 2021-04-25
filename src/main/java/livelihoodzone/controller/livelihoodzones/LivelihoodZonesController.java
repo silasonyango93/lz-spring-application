@@ -1,7 +1,9 @@
 package livelihoodzone.controller.livelihoodzones;
 
 import io.swagger.annotations.*;
+import livelihoodzone.dto.GenericResponse;
 import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesAssignmentDto;
+import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesUpdateDetailsDto;
 import livelihoodzone.dto.user_management.AuthenticationObject;
 import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentStatus;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
@@ -10,10 +12,7 @@ import livelihoodzone.service.livelihoodzones.LivelihoodZonesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -56,5 +55,19 @@ public class LivelihoodZonesController {
         }
 
         return new ResponseEntity<CountyLivelihoodZonesAssignmentDto>(countyLivelihoodZonesAssignmentDto, HttpStatus.valueOf(200));
+    }
+
+    @PutMapping(value = "/update-county-livelihoodzones")
+    @ApiOperation(value = "${LivelihoodZonesController.update-county-livelihoodzones}",response = GenericResponse.class , authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - Invalid token"),
+            @ApiResponse(code = 500, message = "Internal server error")})
+    public ResponseEntity<GenericResponse> updateACountyLivelihoodones(@ApiParam("County livelihoodzone update details") @RequestBody CountyLivelihoodZonesUpdateDetailsDto countyLivelihoodZonesUpdateDetailsDto) {
+        if (livelihoodZonesService.updateACountyLivelihoodZones(countyLivelihoodZonesUpdateDetailsDto)) {
+            return new ResponseEntity<GenericResponse>(new GenericResponse(true,"Update succesful"), HttpStatus.valueOf(200));
+        }
+
+        return new ResponseEntity<GenericResponse>(new GenericResponse(false,"Internal server error"), HttpStatus.valueOf(500));
     }
 }
