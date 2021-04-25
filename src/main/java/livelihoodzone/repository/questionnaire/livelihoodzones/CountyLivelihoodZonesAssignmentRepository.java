@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface CountyLivelihoodZonesAssignmentRepository extends JpaRepository<CountyLivelihoodZonesAssignmentEntity, Long> {
     public List<CountyLivelihoodZonesAssignmentEntity> findByCountyId(@Param("CountyId") int countyId);
+
+    public List<CountyLivelihoodZonesAssignmentEntity> findByLivelihoodZoneId(@Param("LivelihoodZoneId") int livelihoodZoneId);
 }

@@ -19,6 +19,7 @@ import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
@@ -88,16 +89,46 @@ public class LivelihoodZonesService {
     }
 
     public boolean addACountyLivelihoodZones(int countyId, List<LivelihoodZonesUpdateRequestModel> livelihoodZoneIds) {
-        List<CountyLivelihoodZonesAssignmentEntity> countyLivelihoodZonesAssignmentEntityList = new ArrayList<>();
-        for (LivelihoodZonesUpdateRequestModel currentRequestModel : livelihoodZoneIds) {
-            countyLivelihoodZonesAssignmentEntityList.add(new CountyLivelihoodZonesAssignmentEntity(
+        List<CountyLivelihoodZonesAssignmentEntity> currentlyExistingAssignments = countyLivelihoodZonesAssignmentRepository.findByCountyId(countyId);
+        List<LivelihoodZonesUpdateRequestModel> noneDuplicateLivelihoodZoneIds = new ArrayList<>();
+        List<LivelihoodZonesUpdateRequestModel> duplicateLivelihoodZoneIds = new ArrayList<>();
+
+        for (LivelihoodZonesUpdateRequestModel currentId : livelihoodZoneIds) {
+            List<CountyLivelihoodZonesAssignmentEntity> foundExistingAssignments = new ArrayList<>();
+            for (CountyLivelihoodZonesAssignmentEntity currentAssignment : currentlyExistingAssignments) {
+                if (currentId.getLivelihoodZoneId() == currentAssignment.getLivelihoodZoneId()) {
+                    foundExistingAssignments.add(currentAssignment);
+                }
+            }
+
+            if (foundExistingAssignments.size() == 0) {
+                noneDuplicateLivelihoodZoneIds.add(currentId);
+            } else {
+                duplicateLivelihoodZoneIds.add(currentId);
+            }
+        }
+
+
+
+        List<CountyLivelihoodZonesAssignmentEntity> newCountyLivelihoodZonesAssignmentEntityList = new ArrayList<>();
+        for (LivelihoodZonesUpdateRequestModel currentRequestModel : noneDuplicateLivelihoodZoneIds) {
+            newCountyLivelihoodZonesAssignmentEntityList.add(new CountyLivelihoodZonesAssignmentEntity(
                     countyId,
                     currentRequestModel.getLivelihoodZoneId(),
                     1
             ));
         }
 
-        return countyLivelihoodZonesAssignmentRepository.saveAll(countyLivelihoodZonesAssignmentEntityList).size() > 0;
+        List<CountyLivelihoodZonesAssignmentEntity> existingCountyLivelihoodZonesAssignmentEntityList = new ArrayList<>();
+        for (LivelihoodZonesUpdateRequestModel currentLzId : duplicateLivelihoodZoneIds) {
+            existingCountyLivelihoodZonesAssignmentEntityList.add(countyLivelihoodZonesAssignmentRepository.findByLivelihoodZoneId(currentLzId.getLivelihoodZoneId()).get(0));
+        }
+
+        for (CountyLivelihoodZonesAssignmentEntity currentAssignment : existingCountyLivelihoodZonesAssignmentEntityList) {
+            currentAssignment.setIsActive(1);
+        }
+
+        return countyLivelihoodZonesAssignmentRepository.saveAll(newCountyLivelihoodZonesAssignmentEntityList).size() > 0 || countyLivelihoodZonesAssignmentRepository.saveAll(existingCountyLivelihoodZonesAssignmentEntityList).size() > 0;
     }
 
     public boolean softDeleteACountyLivelihoodZones(int countyId, List<LivelihoodZonesUpdateRequestModel> livelihoodZoneIds) {
