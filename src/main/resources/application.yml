@@ -67,6 +67,9 @@ UserController:
 CountiesController:
   all-counties: Returns all registered counties in the system
 
+LivelihoodZonesController:
+  all-livelihoodzones: Returns all registered livelihoodzones in the system
+
 WealthGroupController:
   responses: Accepts the responses of a wealth group questionnaire
   zone-level: Accepts the responses of a Zonal level questionnaire
