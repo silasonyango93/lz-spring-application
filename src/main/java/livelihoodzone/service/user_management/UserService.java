@@ -17,6 +17,7 @@ import livelihoodzone.repository.questionnaire.crops.CropsRepository;
 import livelihoodzone.repository.questionnaire.tribe.EthnicGroupsRepository;
 import livelihoodzone.repository.user_management.RolesRepository;
 import livelihoodzone.repository.user_management.UserRolesRepository;
+import livelihoodzone.service.livelihoodzones.LivelihoodZonesService;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.livelihoodzones.CountySubLocationsLivelihoodZonesAssignmentRetrofitModel;
 import livelihoodzone.service.retrofit.livelihoodzones.LivelihoodZonesRetrofitService;
@@ -88,6 +89,9 @@ public class UserService {
 
     @Autowired
     MonthsRepositrory monthsRepositrory;
+
+    @Autowired
+    LivelihoodZonesService livelihoodZonesService;
 
     public AuthenticationObject signin(String email, String attemtedPassword) {
 
@@ -234,6 +238,7 @@ public class UserService {
         geographyObjectDto.setMonths(monthsRepositrory.findAll());
         geographyObjectDto.setSubCounties(subCountiesRepository.findAll());
         geographyObjectDto.setSublocationsLivelihoodZoneAssignments(fetchACountySubLocationsLivelihoodZoneAssignment(countyId));
+        geographyObjectDto.setCurrentUserAssignedCountyLivelihoodZones(livelihoodZonesService.fetchACountyLiveliHoodZones(countyId).getLivelihoodZones());
 
         return geographyObjectDto;
     }

@@ -1,5 +1,6 @@
 package livelihoodzone.dto.questionnaire;
 
+import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsResponses;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
 
 public class CountyLevelQuestionnaireRequestDto {
@@ -9,6 +10,7 @@ public class CountyLevelQuestionnaireRequestDto {
     private double longitude;
     private String questionnaireStartDate;
     private String questionnaireEndDate;
+    private WealthGroupCharectaristicsResponses wealthGroupCharectariticsResponses;
 
     public String getUniqueId() {
         return uniqueId;
@@ -56,5 +58,13 @@ public class CountyLevelQuestionnaireRequestDto {
 
     public void setQuestionnaireEndDate(String questionnaireEndDate) {
         this.questionnaireEndDate = questionnaireEndDate;
+    }
+
+    public WealthGroupCharectaristicsResponses getWealthGroupCharectariticsResponses() {
+        return wealthGroupCharectariticsResponses;
+    }
+
+    public void setWealthGroupCharectariticsResponses(WealthGroupCharectaristicsResponses wealthGroupCharectariticsResponses) {
+        this.wealthGroupCharectariticsResponses = wealthGroupCharectariticsResponses;
     }
 }

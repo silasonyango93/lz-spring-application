@@ -21,6 +21,7 @@ public class GeographyObjectDto {
     private List<MonthsEntity> months;
     private List<SubCountyEntity> subCounties;
     private List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel> sublocationsLivelihoodZoneAssignments;
+    private List<LivelihoodZonesEntity> currentUserAssignedCountyLivelihoodZones;
 
     public List<LivelihoodZonesEntity> getLivelihoodZones() {
         return livelihoodZones;
@@ -84,5 +85,13 @@ public class GeographyObjectDto {
 
     public void setSublocationsLivelihoodZoneAssignments(List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel> sublocationsLivelihoodZoneAssignments) {
         this.sublocationsLivelihoodZoneAssignments = sublocationsLivelihoodZoneAssignments;
+    }
+
+    public List<LivelihoodZonesEntity> getCurrentUserAssignedCountyLivelihoodZones() {
+        return currentUserAssignedCountyLivelihoodZones;
+    }
+
+    public void setCurrentUserAssignedCountyLivelihoodZones(List<LivelihoodZonesEntity> currentUserAssignedCountyLivelihoodZones) {
+        this.currentUserAssignedCountyLivelihoodZones = currentUserAssignedCountyLivelihoodZones;
     }
 }

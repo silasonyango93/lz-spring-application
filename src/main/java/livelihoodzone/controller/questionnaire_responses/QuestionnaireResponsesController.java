@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/wealthgroup")
-@Api(tags = "wealthgroup")
-public class WealthGroupController {
+@RequestMapping("/responses")
+@Api(tags = "responses")
+public class QuestionnaireResponsesController {
 
     @Autowired
     WealthGroupService wealthGroupService;
@@ -37,8 +37,8 @@ public class WealthGroupController {
     @Autowired
     CountyLevelService countyLevelService;
 
-    @PostMapping("/responses")
-    @ApiOperation(value = "${WealthGroupController.responses}", response = QuestionnaireResponseDto.class)
+    @PostMapping("/wealthgroup")
+    @ApiOperation(value = "${QuestionnaireResponsesController.wealthgroup}", response = QuestionnaireResponseDto.class)
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad request"), //
             @ApiResponse(code = 422, message = "Duplicate questionnaire")})
@@ -57,7 +57,7 @@ public class WealthGroupController {
 
 
     @PostMapping("/county")
-    @ApiOperation(value = "${WealthGroupController.zone-level}", response = QuestionnaireResponseDto.class)
+    @ApiOperation(value = "${QuestionnaireResponsesController.zone-level}", response = QuestionnaireResponseDto.class)
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad request"), //
             @ApiResponse(code = 422, message = "Duplicate questionnaire")})
