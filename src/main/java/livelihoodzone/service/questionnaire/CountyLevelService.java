@@ -4,12 +4,15 @@ import livelihoodzone.common.Constants;
 import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
 import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsResponses;
+import livelihoodzone.dto.questionnaire.county.WealthGroupPercentageResponse;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 import livelihoodzone.entity.questionnaire.county.LzWealthGroupCharacteristicsEntity;
+import livelihoodzone.entity.questionnaire.county.LzWealthGroupPopulationPercentageEntity;
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.questionnaire.county.LzQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.county.LzWealthGroupCharacteristicsRepository;
+import livelihoodzone.repository.questionnaire.county.LzWealthGroupPopulationPercentageRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,9 @@ public class CountyLevelService {
 
     @Autowired
     WealthGroupRepository wealthGroupRepository;
+
+    @Autowired
+    LzWealthGroupPopulationPercentageRepository lzWealthGroupPopulationPercentageRepository;
 
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
@@ -57,6 +63,7 @@ public class CountyLevelService {
         /* QUESTIONNAIRE PROCESSING SECTION ************************************************************************/
 
         saveLzWealthGroupcharacteristics(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        saveWealthGroupPopulationPercentages(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
 
         /***********************************************************************************************************/
 
@@ -116,6 +123,36 @@ public class CountyLevelService {
             ));
         }
         lzWealthGroupCharacteristicsRepository.saveAll(betterOffCharacteristics);
+
+    }
+
+    public void saveWealthGroupPopulationPercentages(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+
+        WealthGroupPercentageResponse wealthGroupPercentageResponse = countyLevelQuestionnaireRequestDto.getWealthGroupResponse();
+
+        lzWealthGroupPopulationPercentageRepository.save(new LzWealthGroupPopulationPercentageEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                wealthGroupRepository.findByWealthGroupCode(Constants.VERY_POOR_CODE).getWealthGroupId(),
+                wealthGroupPercentageResponse.getVerPoorResponse()
+        ));
+
+        lzWealthGroupPopulationPercentageRepository.save(new LzWealthGroupPopulationPercentageEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                wealthGroupRepository.findByWealthGroupCode(Constants.POOR_CODE).getWealthGroupId(),
+                wealthGroupPercentageResponse.getPoorResponse()
+        ));
+
+        lzWealthGroupPopulationPercentageRepository.save(new LzWealthGroupPopulationPercentageEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                wealthGroupRepository.findByWealthGroupCode(Constants.MEDIUM_CODE).getWealthGroupId(),
+                wealthGroupPercentageResponse.getMediumResponse()
+        ));
+
+        lzWealthGroupPopulationPercentageRepository.save(new LzWealthGroupPopulationPercentageEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                wealthGroupRepository.findByWealthGroupCode(Constants.BETTER_OFF_CODE).getWealthGroupId(),
+                wealthGroupPercentageResponse.getBetterOfResponse()
+        ));
 
     }
 }
