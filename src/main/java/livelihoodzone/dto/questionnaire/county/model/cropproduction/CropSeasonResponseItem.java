@@ -1,4 +1,6 @@
-package livelihoodzone.dto.questionnaire.county.model;
+package livelihoodzone.dto.questionnaire.county.model.cropproduction;
+
+import livelihoodzone.dto.questionnaire.county.model.cropproduction.CropProductionResponseValueModel;
 
 public class CropSeasonResponseItem {
     private CropProductionResponseValueModel rainfedCultivatedAreaPercentage;

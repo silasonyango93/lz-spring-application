@@ -1,5 +1,6 @@
-package livelihoodzone.dto.questionnaire.county.model;
+package livelihoodzone.dto.questionnaire.county.model.cropproduction;
 
+import livelihoodzone.dto.questionnaire.county.model.cropproduction.CropSeasonResponseItem;
 import livelihoodzone.entity.questionnaire.crops.CropsEntity;
 
 public class WgCropProductionResponseItem {

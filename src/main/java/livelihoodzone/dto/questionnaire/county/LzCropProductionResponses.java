@@ -1,6 +1,6 @@
 package livelihoodzone.dto.questionnaire.county;
 
-import livelihoodzone.dto.questionnaire.county.model.WgCropProductionResponseItem;
+import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProductionResponseItem;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package livelihoodzone.dto.questionnaire.county.model;
+package livelihoodzone.dto.questionnaire.county.model.cropproduction;
 
 public class CropProductionResponseValueModel {
     private double value;
