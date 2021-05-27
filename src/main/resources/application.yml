@@ -10,12 +10,12 @@ spring:
 
   datasource:
     #url: jdbc:h2:mem:test_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    #url: jdbc:mysql://mysql-db/livelihoodzones?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
-    url: jdbc:mysql://localhost:3306/livelihoodzones?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
-    #username: sevenskies
-    #password: sevenskies
-    username: silas
-    password: 8032
+    url: jdbc:mysql://mysql-db/livelihoodzones?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    #url: jdbc:mysql://localhost:3306/livelihoodzones?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: sevenskies
+    password: sevenskies
+    #username: silas
+    #password: 8032
 #  tomcat:
 #    max-wait: 20000
 #    max-active: 50
@@ -71,6 +71,7 @@ LivelihoodZonesController:
   all-livelihoodzones: Returns all registered livelihoodzones in the system
   a-county-livelihoodzones: Returns all livelihood zones in the specified county
   update-county-livelihoodzones: Adds or removes a livelihood zone assignment from a county
+  assign-a-sublocation-a-livelihoodzone: Assign a sub-location to a livelihood zone
 
 QuestionnaireResponsesController:
   wealthgroup: Accepts the responses of a wealth group questionnaire

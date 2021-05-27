@@ -6,12 +6,17 @@ import livelihoodzone.dto.livelihoodzones.LivelihoodZonesUpdateRequestModel;
 import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentEntity;
 import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentStatus;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
+import livelihoodzone.entity.questionnaire.livelihoodzones.SubLocationsLivelihoodZoneAssignmentEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
+import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentRepository;
+import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
+import livelihoodzone.repository.questionnaire.livelihoodzones.SubLocationsLivelihoodZoneAssignmentRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.livelihoodzones.CountyLivelihoodZonesRetrofitModel;
 import livelihoodzone.service.retrofit.livelihoodzones.CountySubLocationsLivelihoodZonesAssignmentRetrofitModel;
 import livelihoodzone.service.retrofit.livelihoodzones.LivelihoodZonesRetrofitService;
+import livelihoodzone.service.retrofit.livelihoodzones.SubLocationLivelihoodZonePairRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
@@ -31,6 +36,15 @@ public class LivelihoodZonesService {
 
     @Autowired
     CountyLivelihoodZonesAssignmentRepository countyLivelihoodZonesAssignmentRepository;
+
+    @Autowired
+    LivelihoodZonesRepository livelihoodZonesRepository;
+
+    @Autowired
+    SubLocationRepository subLocationRepository;
+
+    @Autowired
+    SubLocationsLivelihoodZoneAssignmentRepository subLocationsLivelihoodZoneAssignmentRepository;
 
     public CountyLivelihoodZonesAssignmentDto fetchACountyLiveliHoodZones(int countyId) {
         List<CountyLivelihoodZonesRetrofitModel> countyLivelihoodZonesRetrofitModelList = retrofitFetchACountyLiveliHoodZones(countyId);
@@ -109,7 +123,6 @@ public class LivelihoodZonesService {
         }
 
 
-
         List<CountyLivelihoodZonesAssignmentEntity> newCountyLivelihoodZonesAssignmentEntityList = new ArrayList<>();
         for (LivelihoodZonesUpdateRequestModel currentRequestModel : noneDuplicateLivelihoodZoneIds) {
             newCountyLivelihoodZonesAssignmentEntityList.add(new CountyLivelihoodZonesAssignmentEntity(
@@ -147,5 +160,29 @@ public class LivelihoodZonesService {
         }
 
         return countyLivelihoodZonesAssignmentRepository.saveAll(assignmentsToBeDeleted).size() > 0;
+    }
+
+
+    public boolean subLocationLivelihoodZoneAssignment(int sublocationId, int livelihoodzoneId) {
+        if (fetchASubLocationLivelihoodZonePair(sublocationId, livelihoodzoneId).isEmpty()) {
+            subLocationsLivelihoodZoneAssignmentRepository.save(new SubLocationsLivelihoodZoneAssignmentEntity(
+                    sublocationId,
+                    livelihoodzoneId
+            ));
+            return true;
+        }
+        return false;
+    }
+
+    public List<SubLocationLivelihoodZonePairRetrofitModel> fetchASubLocationLivelihoodZonePair(int sublocationId, int livelihoodzoneId) {
+        LivelihoodZonesRetrofitService livelihoodZonesRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(LivelihoodZonesRetrofitService.class);
+        Call<List<SubLocationLivelihoodZonePairRetrofitModel>> callSync = livelihoodZonesRetrofitService.fetchASubLocationLivelihoodZonePair(sublocationId, livelihoodzoneId);
+        try {
+            Response<List<SubLocationLivelihoodZonePairRetrofitModel>> response = callSync.execute();
+            return response.body();
+
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }

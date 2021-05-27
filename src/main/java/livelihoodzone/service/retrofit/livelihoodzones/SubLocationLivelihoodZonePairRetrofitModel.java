@@ -1,27 +1,17 @@
-package livelihoodzone.entity.questionnaire.livelihoodzones;
+package livelihoodzone.service.retrofit.livelihoodzones;
 
-import javax.persistence.*;
-@javax.persistence.Entity
-@Table(name = "sublocations_livelihoodzone_assignment")
-public class SubLocationsLivelihoodZoneAssignmentEntity implements java.io.Serializable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "LzSublocationLivelihoodZoneId")
+import com.google.gson.annotations.SerializedName;
+
+public class SubLocationLivelihoodZonePairRetrofitModel {
+
+    @SerializedName("LzSublocationLivelihoodZoneId")
     private int lzSublocationLivelihoodZoneId;
 
-    @Column(name = "SubLocationId")
+    @SerializedName("SubLocationId")
     private int subLocationId;
 
-    @Column(name = "LivelihoodZoneId")
+    @SerializedName("LivelihoodZoneId")
     private int livelihoodZoneId;
-
-    public SubLocationsLivelihoodZoneAssignmentEntity() {
-    }
-
-    public SubLocationsLivelihoodZoneAssignmentEntity(int subLocationId, int livelihoodZoneId) {
-        this.subLocationId = subLocationId;
-        this.livelihoodZoneId = livelihoodZoneId;
-    }
 
     public int getLzSublocationLivelihoodZoneId() {
         return lzSublocationLivelihoodZoneId;

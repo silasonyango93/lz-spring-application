@@ -16,4 +16,8 @@ public interface LivelihoodZonesRetrofitService {
     @FormUrlEncoded
     @POST("fetch_a_county_livelihoodzones")
     Call<List<CountyLivelihoodZonesRetrofitModel>> fetchACountyLivelihoodZones(@Field("countyId") int countyId);
+
+    @FormUrlEncoded
+    @POST("fetch_a_sublocation_livelihoodzone_pair")
+    Call<List<SubLocationLivelihoodZonePairRetrofitModel>> fetchASubLocationLivelihoodZonePair(@Field("sublocationId") int sublocationId, @Field("livelihoodzoneId") int livelihoodzoneId);
 }

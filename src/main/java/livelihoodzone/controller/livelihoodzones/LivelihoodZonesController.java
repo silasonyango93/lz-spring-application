@@ -4,6 +4,7 @@ import io.swagger.annotations.*;
 import livelihoodzone.dto.GenericResponse;
 import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesAssignmentDto;
 import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesUpdateDetailsDto;
+import livelihoodzone.dto.livelihoodzones.SubLocationLivelihoodZoneAssignmentDto;
 import livelihoodzone.dto.user_management.AuthenticationObject;
 import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentStatus;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
@@ -69,5 +70,21 @@ public class LivelihoodZonesController {
         }
 
         return new ResponseEntity<GenericResponse>(new GenericResponse(false,"Internal server error"), HttpStatus.valueOf(500));
+    }
+
+
+    @PostMapping("/assign_a_sublocation_a_livelihoodzone")
+    @ApiOperation(value = "${LivelihoodZonesController.assign-a-sublocation-a-livelihoodzone}", response = GenericResponse.class)
+    @ApiResponses(value = {//
+            @ApiResponse(code = 422, message = "Bad Request"),
+            @ApiResponse(code = 400, message = "Bad request")})
+    public ResponseEntity<GenericResponse> assignASubLocationALivelihoodZone(@ApiParam("Sublocation - livelihood zone id pair") @RequestBody SubLocationLivelihoodZoneAssignmentDto subLocationLivelihoodZoneAssignmentDto) {
+        Boolean isASuccess = livelihoodZonesService.subLocationLivelihoodZoneAssignment(subLocationLivelihoodZoneAssignmentDto.getSublocationId(), subLocationLivelihoodZoneAssignmentDto.getLivelihoodzoneId());
+
+        if (isASuccess) {
+            return new ResponseEntity<GenericResponse>(new GenericResponse(true, "Succesful assignment"), HttpStatus.valueOf(200));
+        } else {
+            return new ResponseEntity<GenericResponse>(new GenericResponse(false, "Duplicate assignment"), HttpStatus.valueOf(422));
+        }
     }
 }
