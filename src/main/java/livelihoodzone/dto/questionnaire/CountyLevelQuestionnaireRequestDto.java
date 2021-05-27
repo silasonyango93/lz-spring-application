@@ -1,5 +1,6 @@
 package livelihoodzone.dto.questionnaire;
 
+import livelihoodzone.dto.questionnaire.county.LzCropProductionResponses;
 import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsResponses;
 import livelihoodzone.dto.questionnaire.county.WealthGroupPercentageResponse;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
@@ -13,6 +14,7 @@ public class CountyLevelQuestionnaireRequestDto {
     private String questionnaireEndDate;
     private WealthGroupCharectaristicsResponses wealthGroupCharectariticsResponses;
     private WealthGroupPercentageResponse wealthGroupResponse;
+    private LzCropProductionResponses lzCropProductionResponses;
 
     public String getUniqueId() {
         return uniqueId;
@@ -76,5 +78,13 @@ public class CountyLevelQuestionnaireRequestDto {
 
     public void setWealthGroupResponse(WealthGroupPercentageResponse wealthGroupResponse) {
         this.wealthGroupResponse = wealthGroupResponse;
+    }
+
+    public LzCropProductionResponses getLzCropProductionResponses() {
+        return lzCropProductionResponses;
+    }
+
+    public void setLzCropProductionResponses(LzCropProductionResponses lzCropProductionResponses) {
+        this.lzCropProductionResponses = lzCropProductionResponses;
     }
 }

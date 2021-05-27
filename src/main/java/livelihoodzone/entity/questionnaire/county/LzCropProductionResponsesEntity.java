@@ -9,6 +9,9 @@ public class LzCropProductionResponsesEntity implements java.io.Serializable {
     @Column(name = "LzCropProductionResponseId")
     private int lzCropProductionResponseId;
 
+    @Column(name = "CropId")
+    private int cropId;
+
     @Column(name = "RainySeasonId")
     private int rainySeasonId;
 
@@ -23,6 +26,18 @@ public class LzCropProductionResponsesEntity implements java.io.Serializable {
 
     @Column(name = "AverageYieldKgPerHectare")
     private double averageYieldKgPerHectare;
+
+    public LzCropProductionResponsesEntity() {
+    }
+
+    public LzCropProductionResponsesEntity(int cropId, int rainySeasonId, int cropWaterAccessTypeId, int lzQuestionnaireSessionId, double cultivatedAreaPercentage, double averageYieldKgPerHectare) {
+        this.cropId = cropId;
+        this.rainySeasonId = rainySeasonId;
+        this.cropWaterAccessTypeId = cropWaterAccessTypeId;
+        this.lzQuestionnaireSessionId = lzQuestionnaireSessionId;
+        this.cultivatedAreaPercentage = cultivatedAreaPercentage;
+        this.averageYieldKgPerHectare = averageYieldKgPerHectare;
+    }
 
     public int getLzCropProductionResponseId() {
         return lzCropProductionResponseId;
@@ -70,5 +85,13 @@ public class LzCropProductionResponsesEntity implements java.io.Serializable {
 
     public void setAverageYieldKgPerHectare(double averageYieldKgPerHectare) {
         this.averageYieldKgPerHectare = averageYieldKgPerHectare;
+    }
+
+    public int getCropId() {
+        return cropId;
+    }
+
+    public void setCropId(int cropId) {
+        this.cropId = cropId;
     }
 }

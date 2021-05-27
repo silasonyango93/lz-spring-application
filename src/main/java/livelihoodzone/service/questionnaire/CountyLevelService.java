@@ -5,11 +5,14 @@ import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
 import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsResponses;
 import livelihoodzone.dto.questionnaire.county.WealthGroupPercentageResponse;
+import livelihoodzone.dto.questionnaire.county.model.WgCropProductionResponseItem;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
+import livelihoodzone.entity.questionnaire.county.LzCropProductionResponsesEntity;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 import livelihoodzone.entity.questionnaire.county.LzWealthGroupCharacteristicsEntity;
 import livelihoodzone.entity.questionnaire.county.LzWealthGroupPopulationPercentageEntity;
 import livelihoodzone.entity.user_management.User;
+import livelihoodzone.repository.questionnaire.county.LzCropProductionResponsesRepository;
 import livelihoodzone.repository.questionnaire.county.LzQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.county.LzWealthGroupCharacteristicsRepository;
 import livelihoodzone.repository.questionnaire.county.LzWealthGroupPopulationPercentageRepository;
@@ -34,6 +37,9 @@ public class CountyLevelService {
 
     @Autowired
     LzWealthGroupPopulationPercentageRepository lzWealthGroupPopulationPercentageRepository;
+
+    @Autowired
+    LzCropProductionResponsesRepository lzCropProductionResponsesRepository;
 
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
@@ -87,7 +93,7 @@ public class CountyLevelService {
                     savedQuestionnaireSession.getLzQuestionnaireSessionId(),
                     wealthGroupRepository.findByWealthGroupCode(Constants.VERY_POOR_CODE).getWealthGroupId(),
                     currentCharacteristic
-                    ));
+            ));
         }
         lzWealthGroupCharacteristicsRepository.saveAll(veryPoorCharacteristics);
 
@@ -126,7 +132,7 @@ public class CountyLevelService {
 
     }
 
-    public void saveWealthGroupPopulationPercentages(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+    private void saveWealthGroupPopulationPercentages(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
 
         WealthGroupPercentageResponse wealthGroupPercentageResponse = countyLevelQuestionnaireRequestDto.getWealthGroupResponse();
 
@@ -153,6 +159,17 @@ public class CountyLevelService {
                 wealthGroupRepository.findByWealthGroupCode(Constants.BETTER_OFF_CODE).getWealthGroupId(),
                 wealthGroupPercentageResponse.getBetterOfResponse()
         ));
+
+    }
+
+
+    private void saveCropProduction(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+
+//        for (WgCropProductionResponseItem currentItem : countyLevelQuestionnaireRequestDto.getLzCropProductionResponses().getCropProductionResponses()) {
+//            lzCropProductionResponsesRepository.save(new LzCropProductionResponsesEntity(
+//                    currentItem.getCrop().getCropId(),
+//            ));
+//        }
 
     }
 }
