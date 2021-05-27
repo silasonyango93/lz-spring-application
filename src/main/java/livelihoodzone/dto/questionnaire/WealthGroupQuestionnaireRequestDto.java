@@ -3,6 +3,7 @@ package livelihoodzone.dto.questionnaire;
 import livelihoodzone.dto.questionnaire.wealthgroup.FgdParticipantModel;
 import livelihoodzone.dto.questionnaire.wealthgroup.constraints.ConstraintsResponses;
 import livelihoodzone.dto.questionnaire.wealthgroup.copingstrategies.CopingStrategiesResponses;
+import livelihoodzone.dto.questionnaire.wealthgroup.cropcontribution.WgCropContributionResponseItem;
 import livelihoodzone.dto.questionnaire.wealthgroup.expenditurepatterns.ExpenditurePatternsResponses;
 import livelihoodzone.dto.questionnaire.wealthgroup.foodconsumption.FoodConsumptionResponsesDto;
 import livelihoodzone.dto.questionnaire.wealthgroup.incomefoodsources.IncomeAndFoodSourcesResponses;
@@ -20,6 +21,7 @@ public class WealthGroupQuestionnaireRequestDto {
     private String questionnaireEndDate;
     private IncomeAndFoodSourcesResponses incomeAndFoodSourceResponses;
     private QuestionnaireGeography questionnaireGeography;
+    private List<WgCropContributionResponseItem> cropContributionResponseItems;
     private FoodConsumptionResponsesDto foodConsumptionResponses;
     private LivestockPoultryOwnershipResponses livestockPoultryOwnershipResponses;
     private LivestockContributionResponses livestockContributionResponses;
@@ -148,5 +150,13 @@ public class WealthGroupQuestionnaireRequestDto {
 
     public void setFdgParticipants(List<FgdParticipantModel> fdgParticipants) {
         this.fdgParticipants = fdgParticipants;
+    }
+
+    public List<WgCropContributionResponseItem> getCropContributionResponseItems() {
+        return cropContributionResponseItems;
+    }
+
+    public void setCropContributionResponseItems(List<WgCropContributionResponseItem> cropContributionResponseItems) {
+        this.cropContributionResponseItems = cropContributionResponseItems;
     }
 }
