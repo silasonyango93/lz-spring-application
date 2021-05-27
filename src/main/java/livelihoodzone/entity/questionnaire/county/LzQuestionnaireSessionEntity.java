@@ -36,10 +36,13 @@ public class LzQuestionnaireSessionEntity implements java.io.Serializable{
     @Column(name = "LzQuestionnaireUniqueId")
     private String lzQuestionnaireUniqueId;
 
+    @Column(name = "QuestionnaireJsonString")
+    private String questionnaireJsonString;
+
     public LzQuestionnaireSessionEntity() {
     }
 
-    public LzQuestionnaireSessionEntity(int userId, int countyId, int livelihoodZoneId, String questionnaireSessionDescription, double latitude, double longitude, String sessionStartDate, String sessionEndDate, String lzQuestionnaireUniqueId) {
+    public LzQuestionnaireSessionEntity(int userId, int countyId, int livelihoodZoneId, String questionnaireSessionDescription, double latitude, double longitude, String sessionStartDate, String sessionEndDate, String lzQuestionnaireUniqueId, String questionnaireJsonString) {
         this.userId = userId;
         this.countyId = countyId;
         this.livelihoodZoneId = livelihoodZoneId;
@@ -49,6 +52,7 @@ public class LzQuestionnaireSessionEntity implements java.io.Serializable{
         this.sessionStartDate = sessionStartDate;
         this.sessionEndDate = sessionEndDate;
         this.lzQuestionnaireUniqueId = lzQuestionnaireUniqueId;
+        this.questionnaireJsonString = questionnaireJsonString;
     }
 
     public int getLzQuestionnaireSessionId() {
@@ -129,5 +133,13 @@ public class LzQuestionnaireSessionEntity implements java.io.Serializable{
 
     public void setLzQuestionnaireUniqueId(String lzQuestionnaireUniqueId) {
         this.lzQuestionnaireUniqueId = lzQuestionnaireUniqueId;
+    }
+
+    public String getQuestionnaireJsonString() {
+        return questionnaireJsonString;
+    }
+
+    public void setQuestionnaireJsonString(String questionnaireJsonString) {
+        this.questionnaireJsonString = questionnaireJsonString;
     }
 }

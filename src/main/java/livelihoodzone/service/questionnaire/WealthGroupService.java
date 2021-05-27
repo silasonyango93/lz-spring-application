@@ -1,5 +1,6 @@
 package livelihoodzone.service.questionnaire;
 
+import com.google.gson.Gson;
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
 import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
@@ -28,6 +29,9 @@ public class WealthGroupService {
 
     public QuestionnaireResponseDto processQuestionnaire(WealthGroupQuestionnaireRequestDto wealthGroupQuestionnaireRequestDto, User dataCollector) {
 
+        Gson gson = new Gson();
+        String questionnaireJsonString = gson.toJson(wealthGroupQuestionnaireRequestDto);
+
         List<WgQuestionnaireSessionEntity> existingQuestionnaires = wgQuestionnaireSessionRepository.findByQuestionnaireUniqueId(wealthGroupQuestionnaireRequestDto.getUniqueId());
 
         if (existingQuestionnaires.size() > 0) {
@@ -55,6 +59,7 @@ public class WealthGroupService {
         questionnaireSession.setHasBeenSubmitted(1);
         questionnaireSession.setQuestionnaireUniqueId(wealthGroupQuestionnaireRequestDto.getUniqueId());
         questionnaireSession.setWgQuestionnaireTypeId(wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeCode(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWgQuestionnaireType().getWgQuestionnaireTypeCode()).getWgQuestionnaireTypeId());
+        questionnaireSession.setQuestionnaireJsonString(questionnaireJsonString);
 
         wgQuestionnaireSessionRepository.save(questionnaireSession);
 

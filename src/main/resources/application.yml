@@ -76,6 +76,8 @@ LivelihoodZonesController:
 QuestionnaireResponsesController:
   wealthgroup: Accepts the responses of a wealth group questionnaire
   zone-level: Accepts the responses of a Zonal level questionnaire
+  retrieve-wealthgroup: Retrieves all user responses for a particular wealth group questionnaire when provided the questionnaire unique id
+  retrieve-zone-level: Retrieves all user responses for a particular zone-level questionnaire when provided the questionnaire unique id
 
 
 org:

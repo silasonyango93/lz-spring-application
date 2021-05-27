@@ -32,6 +32,9 @@ public class WealthGroupQuestionnaireRequestDto {
     private CopingStrategiesResponses copingStrategiesResponses;
     private List<FgdParticipantModel> fdgParticipants;
 
+    public WealthGroupQuestionnaireRequestDto() {
+    }
+
     public String getUniqueId() {
         return uniqueId;
     }

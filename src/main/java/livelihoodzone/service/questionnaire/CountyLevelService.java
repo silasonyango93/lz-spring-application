@@ -1,5 +1,6 @@
 package livelihoodzone.service.questionnaire;
 
+import com.google.gson.Gson;
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
@@ -41,6 +42,8 @@ public class CountyLevelService {
 
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
+        Gson gson = new Gson();
+        String questionnaireJsonString = gson.toJson(countyLevelQuestionnaireRequestDto);
         List<LzQuestionnaireSessionEntity> existingQuestionnaires = lzQuestionnaireSessionRepository.findByLzQuestionnaireUniqueId(countyLevelQuestionnaireRequestDto.getUniqueId());
 
         if (existingQuestionnaires.size() > 0) {
@@ -61,7 +64,8 @@ public class CountyLevelService {
                 countyLevelQuestionnaireRequestDto.getLongitude(),
                 countyLevelQuestionnaireRequestDto.getQuestionnaireStartDate(),
                 countyLevelQuestionnaireRequestDto.getQuestionnaireEndDate(),
-                countyLevelQuestionnaireRequestDto.getUniqueId()
+                countyLevelQuestionnaireRequestDto.getUniqueId(),
+                questionnaireJsonString
         ));
 
         /* QUESTIONNAIRE PROCESSING SECTION ************************************************************************/

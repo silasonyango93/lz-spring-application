@@ -54,6 +54,9 @@ public class WgQuestionnaireSessionEntity implements java.io.Serializable{
     @Column(name = "QuestionnaireUniqueId")
     private String questionnaireUniqueId;
 
+    @Column(name = "QuestionnaireJsonString")
+    private String questionnaireJsonString;
+
     public WgQuestionnaireSessionEntity() {
     }
 
@@ -183,5 +186,13 @@ public class WgQuestionnaireSessionEntity implements java.io.Serializable{
 
     public void setQuestionnaireUniqueId(String questionnaireUniqueId) {
         this.questionnaireUniqueId = questionnaireUniqueId;
+    }
+
+    public String getQuestionnaireJsonString() {
+        return questionnaireJsonString;
+    }
+
+    public void setQuestionnaireJsonString(String questionnaireJsonString) {
+        this.questionnaireJsonString = questionnaireJsonString;
     }
 }
