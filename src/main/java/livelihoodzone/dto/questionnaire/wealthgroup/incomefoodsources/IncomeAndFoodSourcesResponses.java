@@ -1,7 +1,8 @@
-package livelihoodzone.dto.questionnaire;
+package livelihoodzone.dto.questionnaire.wealthgroup.incomefoodsources;
 
-public class IncomeAndFoodSourcesDto {
+public class IncomeAndFoodSourcesResponses {
     private Double livestockProduction;
+    private Double pastureFodderProduction;
     private Double poultryProduction;
     private Double cashCropProduction;
     private Double foodCropProduction;
@@ -144,5 +145,13 @@ public class IncomeAndFoodSourcesDto {
 
     public void setOther(Double other) {
         this.other = other;
+    }
+
+    public Double getPastureFodderProduction() {
+        return pastureFodderProduction;
+    }
+
+    public void setPastureFodderProduction(Double pastureFodderProduction) {
+        this.pastureFodderProduction = pastureFodderProduction;
     }
 }
