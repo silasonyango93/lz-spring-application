@@ -80,6 +80,9 @@ QuestionnaireResponsesController:
   retrieve-zone-level: Retrieves all user responses for a particular zone-level questionnaire when provided the questionnaire unique id
 
 
+WealthGroupReports:
+  wealthgroup-distribution: Returns data on how the wealth groups are distributed in a particular county and zone
+
 org:
   hibernate:
     ConnectionReleaseMode: ON_CLOSE

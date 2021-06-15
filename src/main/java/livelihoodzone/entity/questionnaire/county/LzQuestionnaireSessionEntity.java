@@ -3,6 +3,20 @@ package livelihoodzone.entity.questionnaire.county;
 import javax.persistence.*;
 @javax.persistence.Entity
 @Table(name = "lz_questionnaire_sessions")
+
+@javax.persistence.SqlResultSetMapping(
+        name = "lz_questionnaire_sessions", entities =
+@javax.persistence.EntityResult(entityClass = LzQuestionnaireSessionEntity.class)
+)
+
+
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name="LzQuestionnaireSessionEntity.fetchQuestionnaireSessionByCountyAndLivelihoodZone",
+                query="SELECT * FROM lz_questionnaire_sessions WHERE lz_questionnaire_sessions.CountyId = ? AND lz_questionnaire_sessions.LivelihoodZoneId = ?",
+                resultSetMapping = "lz_questionnaire_sessions")
+})
+
 public class LzQuestionnaireSessionEntity implements java.io.Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

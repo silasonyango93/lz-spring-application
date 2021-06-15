@@ -42,7 +42,8 @@ public class SwaggerConfig {
                 .tags(new Tag("users", "Operations about users"),
                         new Tag("counties", "Operations about counties"),
                         new Tag("responses", "Operations around the questionnaire by wealth group"),
-                        new Tag("livelihoodzones", "Operations around the livelihoodzones"))//
+                        new Tag("livelihoodzones", "Operations around the livelihoodzones"),
+                        new Tag("wealthgroup-reports", "Reports surrounding the wealth groups"))//
                 .genericModelSubstitutes(Optional.class);
 
     }
