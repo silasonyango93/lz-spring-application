@@ -15,6 +15,7 @@ import java.util.List;
 
 public class CountyLevelQuestionnaireRequestDto {
     private String uniqueId;
+    private String questionnaireName;
     private LivelihoodZonesEntity selectedLivelihoodZone;
     private double latitude;
     private double longitude;
@@ -148,5 +149,13 @@ public class CountyLevelQuestionnaireRequestDto {
 
     public void setLivelihoodZoneSeasonsResponses(LzSeasonsResponses livelihoodZoneSeasonsResponses) {
         this.livelihoodZoneSeasonsResponses = livelihoodZoneSeasonsResponses;
+    }
+
+    public String getQuestionnaireName() {
+        return questionnaireName;
+    }
+
+    public void setQuestionnaireName(String questionnaireName) {
+        this.questionnaireName = questionnaireName;
     }
 }

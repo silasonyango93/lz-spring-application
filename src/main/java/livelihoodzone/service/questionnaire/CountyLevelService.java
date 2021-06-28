@@ -59,7 +59,7 @@ public class CountyLevelService {
                 dataCollector.getUserId(),
                 dataCollector.getCountyId(),
                 countyLevelQuestionnaireRequestDto.getSelectedLivelihoodZone().getLivelihoodZoneId(),
-                "none",
+                countyLevelQuestionnaireRequestDto.getQuestionnaireName(),
                 countyLevelQuestionnaireRequestDto.getLatitude(),
                 countyLevelQuestionnaireRequestDto.getLongitude(),
                 countyLevelQuestionnaireRequestDto.getQuestionnaireStartDate(),

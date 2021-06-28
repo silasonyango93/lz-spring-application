@@ -1,5 +1,7 @@
 package livelihoodzone.dto.questionnaire.wealthgroup;
 
+import livelihoodzone.dto.user_management.UserResponseDTO;
+
 public class WealthGroupQuestionnaireSessionResponseDto {
     private int questionnaireSessionId;
     private int userId;
@@ -16,11 +18,18 @@ public class WealthGroupQuestionnaireSessionResponseDto {
     private String sessionStartDate;
     private String sessionEndDate;
     private String questionnaireUniqueId;
+    private String countyName;
+    private String subCountyName;
+    private String wardName;
+    private String sublocationName;
+    private String livelihoodzoneName;
+    private String questionnaireTypeDescription;
+    private UserResponseDTO userDetails;
 
     public WealthGroupQuestionnaireSessionResponseDto() {
     }
 
-    public WealthGroupQuestionnaireSessionResponseDto(int questionnaireSessionId, int userId, int questionnaireTypeId, int wealthGroupId, int countyId, int subCountyId, int wardId, int subLocationId, int livelihoodZoneId, String questionnaireSessionDescription, double latitude, double longitude, String sessionStartDate, String sessionEndDate, String questionnaireUniqueId) {
+    public WealthGroupQuestionnaireSessionResponseDto(int questionnaireSessionId, int userId, int questionnaireTypeId, int wealthGroupId, int countyId, int subCountyId, int wardId, int subLocationId, int livelihoodZoneId, String questionnaireSessionDescription, double latitude, double longitude, String sessionStartDate, String sessionEndDate, String questionnaireUniqueId, String countyName, String subCountyName, String wardName, String sublocationName, String livelihoodzoneName, String questionnaireTypeDescription, UserResponseDTO userDetails) {
         this.questionnaireSessionId = questionnaireSessionId;
         this.userId = userId;
         this.questionnaireTypeId = questionnaireTypeId;
@@ -36,6 +45,14 @@ public class WealthGroupQuestionnaireSessionResponseDto {
         this.sessionStartDate = sessionStartDate;
         this.sessionEndDate = sessionEndDate;
         this.questionnaireUniqueId = questionnaireUniqueId;
+        this.countyName = countyName;
+        this.subCountyName = subCountyName;
+        this.subCountyName = subCountyName;
+        this.wardName = wardName;
+        this.sublocationName = sublocationName;
+        this.livelihoodzoneName = livelihoodzoneName;
+        this.questionnaireTypeDescription = questionnaireTypeDescription;
+        this.userDetails = userDetails;
     }
 
     public int getQuestionnaireSessionId() {
@@ -156,5 +173,61 @@ public class WealthGroupQuestionnaireSessionResponseDto {
 
     public void setQuestionnaireUniqueId(String questionnaireUniqueId) {
         this.questionnaireUniqueId = questionnaireUniqueId;
+    }
+
+    public String getCountyName() {
+        return countyName;
+    }
+
+    public void setCountyName(String countyName) {
+        this.countyName = countyName;
+    }
+
+    public String getSubCountyName() {
+        return subCountyName;
+    }
+
+    public void setSubCountyName(String subCountyName) {
+        this.subCountyName = subCountyName;
+    }
+
+    public String getWardName() {
+        return wardName;
+    }
+
+    public void setWardName(String wardName) {
+        this.wardName = wardName;
+    }
+
+    public String getSublocationName() {
+        return sublocationName;
+    }
+
+    public void setSublocationName(String sublocationName) {
+        this.sublocationName = sublocationName;
+    }
+
+    public String getLivelihoodzoneName() {
+        return livelihoodzoneName;
+    }
+
+    public void setLivelihoodzoneName(String livelihoodzoneName) {
+        this.livelihoodzoneName = livelihoodzoneName;
+    }
+
+    public String getQuestionnaireTypeDescription() {
+        return questionnaireTypeDescription;
+    }
+
+    public void setQuestionnaireTypeDescription(String questionnaireTypeDescription) {
+        this.questionnaireTypeDescription = questionnaireTypeDescription;
+    }
+
+    public UserResponseDTO getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserResponseDTO userDetails) {
+        this.userDetails = userDetails;
     }
 }

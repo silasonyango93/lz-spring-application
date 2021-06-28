@@ -7,12 +7,19 @@ import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
 import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.county.ZoneLevelQuestionnaireSessionResponseDto;
 import livelihoodzone.dto.questionnaire.wealthgroup.WealthGroupQuestionnaireSessionResponseDto;
+import livelihoodzone.dto.user_management.UserResponseDTO;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireSessionEntity;
 import livelihoodzone.entity.user_management.User;
+import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
+import livelihoodzone.repository.administrative_boundaries.subcounties.SubCountiesRepository;
+import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
+import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
 import livelihoodzone.repository.questionnaire.county.LzQuestionnaireSessionRepository;
+import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
 import livelihoodzone.repository.user_management.UserRepository;
 import livelihoodzone.security.JwtTokenProvider;
 import livelihoodzone.service.questionnaire.CountyLevelService;
@@ -49,6 +56,25 @@ public class QuestionnaireResponsesController {
     @Autowired
     LzQuestionnaireSessionRepository lzQuestionnaireSessionRepository;
 
+    @Autowired
+    CountiesRepository countiesRepository;
+
+    @Autowired
+    SubCountiesRepository subCountiesRepository;
+
+    @Autowired
+    WardsRepository wardsRepository;
+
+    @Autowired
+    SubLocationRepository subLocationRepository;
+
+    @Autowired
+    LivelihoodZonesRepository livelihoodZonesRepository;
+
+    @Autowired
+    WgQuestionnaireTypesRepository wgQuestionnaireTypesRepository;
+
+
     @PostMapping("/wealthgroup")
     @ApiOperation(value = "${QuestionnaireResponsesController.wealthgroup}", response = QuestionnaireResponseDto.class)
     @ApiResponses(value = {//
@@ -58,7 +84,7 @@ public class QuestionnaireResponsesController {
         String accessToken = jwtTokenProvider.resolveToken(httpServletRequest);
         String email = jwtTokenProvider.getUsername(accessToken);
         User dataCollector = userRepository.findByUserEmail(email);
-        QuestionnaireResponseDto questionnaireResponseDto = wealthGroupService.processQuestionnaire(wealthGroupQuestionnaireRequestDto,dataCollector);
+        QuestionnaireResponseDto questionnaireResponseDto = wealthGroupService.processQuestionnaire(wealthGroupQuestionnaireRequestDto, dataCollector);
 
         if (questionnaireResponseDto.getQuestionnaireResponseStatus() == QuestionnaireResponseStatus.DUPLICATE) {
             return new ResponseEntity<QuestionnaireResponseDto>(questionnaireResponseDto, HttpStatus.valueOf(422));
@@ -77,7 +103,7 @@ public class QuestionnaireResponsesController {
         String accessToken = jwtTokenProvider.resolveToken(httpServletRequest);
         String email = jwtTokenProvider.getUsername(accessToken);
         User dataCollector = userRepository.findByUserEmail(email);
-        QuestionnaireResponseDto questionnaireResponseDto = countyLevelService.submitCountyLevelQuestionnaire(countyLevelQuestionnaireRequestDto,dataCollector);
+        QuestionnaireResponseDto questionnaireResponseDto = countyLevelService.submitCountyLevelQuestionnaire(countyLevelQuestionnaireRequestDto, dataCollector);
 
         if (questionnaireResponseDto.getQuestionnaireResponseStatus() == QuestionnaireResponseStatus.DUPLICATE) {
             return new ResponseEntity<QuestionnaireResponseDto>(questionnaireResponseDto, HttpStatus.valueOf(422));
@@ -129,7 +155,7 @@ public class QuestionnaireResponsesController {
     }
 
     @GetMapping(value = "/all-zone-level-questionnaire-sessions")
-    @ApiOperation(value = "${QuestionnaireResponsesController.all-zone-level-questionnaire-sessions}", response = ZoneLevelQuestionnaireSessionResponseDto.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${QuestionnaireResponsesController.all-zone-level-questionnaire-sessions}", response = ZoneLevelQuestionnaireSessionResponseDto.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad request"), //
             @ApiResponse(code = 403, message = "Access denied")})
@@ -157,7 +183,7 @@ public class QuestionnaireResponsesController {
     }
 
     @GetMapping(value = "/all-wealth-group-questionnaire-sessions")
-    @ApiOperation(value = "${QuestionnaireResponsesController.all-wealth-group-questionnaire-sessions}", response = WealthGroupQuestionnaireSessionResponseDto.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${QuestionnaireResponsesController.all-wealth-group-questionnaire-sessions}", response = WealthGroupQuestionnaireSessionResponseDto.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad request"), //
             @ApiResponse(code = 403, message = "Access denied")})
@@ -167,6 +193,7 @@ public class QuestionnaireResponsesController {
         List<WgQuestionnaireSessionEntity> wealthGroupQuestionnaires = wgQuestionnaireSessionRepository.findAll();
 
         for (WgQuestionnaireSessionEntity currentEntity : wealthGroupQuestionnaires) {
+            User user = userRepository.findByUserId(currentEntity.getUserId());
             questionnairesResponseList.add(new WealthGroupQuestionnaireSessionResponseDto(
                     currentEntity.getWgQuestionnaireSessionId(),
                     currentEntity.getUserId(),
@@ -182,7 +209,23 @@ public class QuestionnaireResponsesController {
                     currentEntity.getLongitude(),
                     currentEntity.getSessionStartDate(),
                     currentEntity.getSessionEndDate(),
-                    currentEntity.getQuestionnaireUniqueId()
+                    currentEntity.getQuestionnaireUniqueId(),
+                    countiesRepository.findByCountyId(currentEntity.getCountyId()).getCountyName(),
+                    subCountiesRepository.findBySubCountyId(currentEntity.getSubCountyId()).getSubCountyName(),
+                    wardsRepository.findByWardId(currentEntity.getWardId()).getWardName(),
+                    subLocationRepository.findBySubLocationId(currentEntity.getSubLocationId()).getSubLocationName(),
+                    livelihoodZonesRepository.findByLivelihoodZoneId(currentEntity.getLivelihoodZoneId()).getLivelihoodZoneName(),
+                    wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeCode(currentEntity.getWgQuestionnaireTypeId()).getWgQuestionnaireTypeDescription(),
+                    new UserResponseDTO(
+                            user.getUserId(),
+                            countiesRepository.findByCountyId(user.getCountyId()).getCountyName(),
+                            user.getFirstName(),
+                            user.getMiddleName(),
+                            user.getSurname(),
+                            user.getUserEmail(),
+                            user.getOrganizationName()
+                    )
+
             ));
         }
 

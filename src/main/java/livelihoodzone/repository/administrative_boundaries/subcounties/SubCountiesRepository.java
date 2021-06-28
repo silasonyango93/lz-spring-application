@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface SubCountiesRepository extends JpaRepository<SubCountyEntity, Long> {
     public List<SubCountyEntity> findByCountyId(@Param("CountyId") int countyId);
+
+    public SubCountyEntity findBySubCountyId(@Param("SubCountyId") int subCountyId);
 }
