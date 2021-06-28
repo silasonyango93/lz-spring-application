@@ -31,10 +31,6 @@ public class WealthGroupReportsController {
     public ResponseEntity<WealthGroupReportResponseDto> getZoneWealthGroupDistribution(@RequestParam("countyId") int countyId, @RequestParam("livelihoodZoneId") int livelihoodZoneId) {
         WealthGroupReportResponseDto reportResponse = wealthGroupReportsService.retrieveWealthGroupPopulationPercentageReportByCountyAndLivelihoodZone(countyId, livelihoodZoneId);
 
-        if (reportResponse == null) {
-            return new ResponseEntity<WealthGroupReportResponseDto>(reportResponse, HttpStatus.valueOf(422));
-        }
-
         return new ResponseEntity<WealthGroupReportResponseDto>(reportResponse, HttpStatus.valueOf(200));
     }
 }

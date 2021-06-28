@@ -17,7 +17,7 @@ public class IncomeAndFoodSourcesResponses {
     private Double bodaboda;
     private Double beeKeeping;
     private Double sandHarvesting;
-    private Double other;
+    private ValueDescriptionPairModel other;
 
     public Double getLivestockProduction() {
         return livestockProduction;
@@ -139,11 +139,11 @@ public class IncomeAndFoodSourcesResponses {
         this.sandHarvesting = sandHarvesting;
     }
 
-    public Double getOther() {
+    public ValueDescriptionPairModel getOther() {
         return other;
     }
 
-    public void setOther(Double other) {
+    public void setOther(ValueDescriptionPairModel other) {
         this.other = other;
     }
 

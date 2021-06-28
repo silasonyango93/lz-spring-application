@@ -5,6 +5,8 @@ import io.swagger.annotations.*;
 import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
 import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
+import livelihoodzone.dto.questionnaire.county.ZoneLevelQuestionnaireSessionResponseDto;
+import livelihoodzone.dto.questionnaire.wealthgroup.WealthGroupQuestionnaireSessionResponseDto;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireSessionEntity;
@@ -21,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -124,4 +127,66 @@ public class QuestionnaireResponsesController {
 
         return new ResponseEntity<CountyLevelQuestionnaireRequestDto>(questionnaireResponseObject, HttpStatus.valueOf(200));
     }
+
+    @GetMapping(value = "/all-zone-level-questionnaire-sessions")
+    @ApiOperation(value = "${QuestionnaireResponsesController.all-zone-level-questionnaire-sessions}", response = ZoneLevelQuestionnaireSessionResponseDto.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 403, message = "Access denied")})
+    public ResponseEntity<List<ZoneLevelQuestionnaireSessionResponseDto>> getAllZoneLevelQuestionnaireSessions() {
+
+        List<ZoneLevelQuestionnaireSessionResponseDto> questionnairesResponseList = new ArrayList<>();
+        List<LzQuestionnaireSessionEntity> zoneLevelQuestionnaires = lzQuestionnaireSessionRepository.findAll();
+
+        for (LzQuestionnaireSessionEntity currentEntity : zoneLevelQuestionnaires) {
+            questionnairesResponseList.add(new ZoneLevelQuestionnaireSessionResponseDto(
+                    currentEntity.getLzQuestionnaireSessionId(),
+                    currentEntity.getUserId(),
+                    currentEntity.getCountyId(),
+                    currentEntity.getLivelihoodZoneId(),
+                    currentEntity.getQuestionnaireSessionDescription(),
+                    currentEntity.getLatitude(),
+                    currentEntity.getLongitude(),
+                    currentEntity.getSessionStartDate(),
+                    currentEntity.getSessionEndDate(),
+                    currentEntity.getLzQuestionnaireUniqueId()
+            ));
+        }
+
+        return new ResponseEntity<List<ZoneLevelQuestionnaireSessionResponseDto>>(questionnairesResponseList, HttpStatus.valueOf(200));
+    }
+
+    @GetMapping(value = "/all-wealth-group-questionnaire-sessions")
+    @ApiOperation(value = "${QuestionnaireResponsesController.all-wealth-group-questionnaire-sessions}", response = WealthGroupQuestionnaireSessionResponseDto.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 403, message = "Access denied")})
+    public ResponseEntity<List<WealthGroupQuestionnaireSessionResponseDto>> getAllWealthGroupQuestionnaireSessions() {
+
+        List<WealthGroupQuestionnaireSessionResponseDto> questionnairesResponseList = new ArrayList<>();
+        List<WgQuestionnaireSessionEntity> wealthGroupQuestionnaires = wgQuestionnaireSessionRepository.findAll();
+
+        for (WgQuestionnaireSessionEntity currentEntity : wealthGroupQuestionnaires) {
+            questionnairesResponseList.add(new WealthGroupQuestionnaireSessionResponseDto(
+                    currentEntity.getWgQuestionnaireSessionId(),
+                    currentEntity.getUserId(),
+                    currentEntity.getWgQuestionnaireTypeId(),
+                    currentEntity.getWealthGroupId(),
+                    currentEntity.getCountyId(),
+                    currentEntity.getSubCountyId(),
+                    currentEntity.getWardId(),
+                    currentEntity.getSubLocationId(),
+                    currentEntity.getLivelihoodZoneId(),
+                    currentEntity.getQuestionnaireSessionDescription(),
+                    currentEntity.getLatitude(),
+                    currentEntity.getLongitude(),
+                    currentEntity.getSessionStartDate(),
+                    currentEntity.getSessionEndDate(),
+                    currentEntity.getQuestionnaireUniqueId()
+            ));
+        }
+
+        return new ResponseEntity<List<WealthGroupQuestionnaireSessionResponseDto>>(questionnairesResponseList, HttpStatus.valueOf(200));
+    }
+
 }
