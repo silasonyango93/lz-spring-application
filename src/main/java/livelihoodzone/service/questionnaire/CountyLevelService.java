@@ -6,7 +6,9 @@ import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
 import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsResponses;
 import livelihoodzone.dto.questionnaire.county.WealthGroupPercentageResponse;
+import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProductionResponseItem;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
+import livelihoodzone.entity.questionnaire.county.LzCropProductionResponsesEntity;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 import livelihoodzone.entity.questionnaire.county.LzWealthGroupCharacteristicsEntity;
 import livelihoodzone.entity.questionnaire.county.LzWealthGroupPopulationPercentageEntity;
@@ -36,6 +38,12 @@ public class CountyLevelService {
 
     @Autowired
     LzCropProductionResponsesRepository lzCropProductionResponsesRepository;
+
+    @Autowired
+    RainySeasonsRepository rainySeasonsRepository;
+
+    @Autowired
+    CropWaterAccessTypesRepository cropWaterAccessTypesRepository;
 
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
@@ -69,6 +77,7 @@ public class CountyLevelService {
 
         saveLzWealthGroupcharacteristics(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveWealthGroupPopulationPercentages(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        saveCropProduction(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
 
         /***********************************************************************************************************/
 
@@ -164,11 +173,63 @@ public class CountyLevelService {
 
     private void saveCropProduction(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
 
-//        for (WgCropProductionResponseItem currentItem : countyLevelQuestionnaireRequestDto.getLzCropProductionResponses().getCropProductionResponses()) {
-//            lzCropProductionResponsesRepository.save(new LzCropProductionResponsesEntity(
-//                    currentItem.getCrop().getCropId(),
-//            ));
-//        }
+        List<LzCropProductionResponsesEntity> cropProductionResponseItems = new ArrayList<>();
+
+        for (WgCropProductionResponseItem currentItem : countyLevelQuestionnaireRequestDto.getLzCropProductionResponses().getCropProductionResponses()) {
+
+            //Long rains season - rainfed
+            LzCropProductionResponsesEntity longRainsRainfed = new LzCropProductionResponsesEntity(
+                    currentItem.getCrop().getCropId(),
+                    rainySeasonsRepository.findByRainySeasonCode(Constants.LONG_RAINS_SEASON).getRainySeasonId(),
+                    cropWaterAccessTypesRepository.findByCropWaterAccessTypeCode(Constants.RAINFED_CROPS).getCropWaterAccessTypeId(),
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    currentItem.getLongRainsSeason().getRainfedCultivatedAreaPercentage().getValue(),
+                    currentItem.getLongRainsSeason().getRainfedAverageYieldPerHa().getValue()
+            );
+
+            cropProductionResponseItems.add(longRainsRainfed);
+
+
+            //Long rains season - irrigated
+            LzCropProductionResponsesEntity longRainsIrrigated = new LzCropProductionResponsesEntity(
+                    currentItem.getCrop().getCropId(),
+                    rainySeasonsRepository.findByRainySeasonCode(Constants.LONG_RAINS_SEASON).getRainySeasonId(),
+                    cropWaterAccessTypesRepository.findByCropWaterAccessTypeCode(Constants.IRRIGATED_CROPS).getCropWaterAccessTypeId(),
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    currentItem.getLongRainsSeason().getIrrigatedCultivatedArea().getValue(),
+                    currentItem.getLongRainsSeason().getIrrigatedAverageYieldPerHa().getValue()
+            );
+
+            cropProductionResponseItems.add(longRainsIrrigated);
+
+
+            //Short rains season - rainfed
+            LzCropProductionResponsesEntity shortRainsRainfed = new LzCropProductionResponsesEntity(
+                    currentItem.getCrop().getCropId(),
+                    rainySeasonsRepository.findByRainySeasonCode(Constants.SHORT_RAINS_SEASON).getRainySeasonId(),
+                    cropWaterAccessTypesRepository.findByCropWaterAccessTypeCode(Constants.RAINFED_CROPS).getCropWaterAccessTypeId(),
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    currentItem.getShortRainsSeason().getRainfedCultivatedAreaPercentage().getValue(),
+                    currentItem.getShortRainsSeason().getRainfedAverageYieldPerHa().getValue()
+            );
+
+            cropProductionResponseItems.add(shortRainsRainfed);
+
+
+            //Short rains season - irrigated
+            LzCropProductionResponsesEntity shortRainsIrrigated = new LzCropProductionResponsesEntity(
+                    currentItem.getCrop().getCropId(),
+                    rainySeasonsRepository.findByRainySeasonCode(Constants.SHORT_RAINS_SEASON).getRainySeasonId(),
+                    cropWaterAccessTypesRepository.findByCropWaterAccessTypeCode(Constants.IRRIGATED_CROPS).getCropWaterAccessTypeId(),
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    currentItem.getShortRainsSeason().getIrrigatedCultivatedArea().getValue(),
+                    currentItem.getShortRainsSeason().getIrrigatedAverageYieldPerHa().getValue()
+            );
+
+            cropProductionResponseItems.add(shortRainsIrrigated);
+        }
+
+        lzCropProductionResponsesRepository.saveAll(cropProductionResponseItems);
 
     }
 }
