@@ -25,11 +25,12 @@ public class WealthGroupQuestionnaireSessionResponseDto {
     private String livelihoodzoneName;
     private String questionnaireTypeDescription;
     private UserResponseDTO userDetails;
+    private String wealthGroupName;
 
     public WealthGroupQuestionnaireSessionResponseDto() {
     }
 
-    public WealthGroupQuestionnaireSessionResponseDto(int questionnaireSessionId, int userId, int questionnaireTypeId, int wealthGroupId, int countyId, int subCountyId, int wardId, int subLocationId, int livelihoodZoneId, String questionnaireSessionDescription, double latitude, double longitude, String sessionStartDate, String sessionEndDate, String questionnaireUniqueId, String countyName, String subCountyName, String wardName, String sublocationName, String livelihoodzoneName, String questionnaireTypeDescription, UserResponseDTO userDetails) {
+    public WealthGroupQuestionnaireSessionResponseDto(int questionnaireSessionId, int userId, int questionnaireTypeId, int wealthGroupId, int countyId, int subCountyId, int wardId, int subLocationId, int livelihoodZoneId, String questionnaireSessionDescription, double latitude, double longitude, String sessionStartDate, String sessionEndDate, String questionnaireUniqueId, String countyName, String subCountyName, String wardName, String sublocationName, String livelihoodzoneName, String questionnaireTypeDescription, UserResponseDTO userDetails, String wealthGroupName) {
         this.questionnaireSessionId = questionnaireSessionId;
         this.userId = userId;
         this.questionnaireTypeId = questionnaireTypeId;
@@ -53,6 +54,7 @@ public class WealthGroupQuestionnaireSessionResponseDto {
         this.livelihoodzoneName = livelihoodzoneName;
         this.questionnaireTypeDescription = questionnaireTypeDescription;
         this.userDetails = userDetails;
+        this.wealthGroupName = wealthGroupName;
     }
 
     public int getQuestionnaireSessionId() {
@@ -229,5 +231,13 @@ public class WealthGroupQuestionnaireSessionResponseDto {
 
     public void setUserDetails(UserResponseDTO userDetails) {
         this.userDetails = userDetails;
+    }
+
+    public String getWealthGroupName() {
+        return wealthGroupName;
+    }
+
+    public void setWealthGroupName(String wealthGroupName) {
+        this.wealthGroupName = wealthGroupName;
     }
 }

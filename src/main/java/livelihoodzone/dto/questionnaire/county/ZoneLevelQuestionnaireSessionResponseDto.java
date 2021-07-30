@@ -1,5 +1,7 @@
 package livelihoodzone.dto.questionnaire.county;
 
+import livelihoodzone.dto.user_management.UserResponseDTO;
+
 public class ZoneLevelQuestionnaireSessionResponseDto {
     private int questionnaireSessionId;
     private int userId;
@@ -11,11 +13,14 @@ public class ZoneLevelQuestionnaireSessionResponseDto {
     private String sessionStartDate;
     private String sessionEndDate;
     private String questionnaireUniqueId;
+    private String countyName;
+    private String livelihoodzoneName;
+    private UserResponseDTO userDetails;
 
     public ZoneLevelQuestionnaireSessionResponseDto() {
     }
 
-    public ZoneLevelQuestionnaireSessionResponseDto(int questionnaireSessionId, int userId, int countyId, int livelihoodZoneId, String questionnaireSessionDescription, double latitude, double longitude, String sessionStartDate, String sessionEndDate, String questionnaireUniqueId) {
+    public ZoneLevelQuestionnaireSessionResponseDto(int questionnaireSessionId, int userId, int countyId, int livelihoodZoneId, String questionnaireSessionDescription, double latitude, double longitude, String sessionStartDate, String sessionEndDate, String questionnaireUniqueId, String countyName, String livelihoodzoneName, UserResponseDTO userDetails) {
         this.questionnaireSessionId = questionnaireSessionId;
         this.userId = userId;
         this.countyId = countyId;
@@ -26,6 +31,9 @@ public class ZoneLevelQuestionnaireSessionResponseDto {
         this.sessionStartDate = sessionStartDate;
         this.sessionEndDate = sessionEndDate;
         this.questionnaireUniqueId = questionnaireUniqueId;
+        this.countyName = countyName;
+        this.livelihoodzoneName = livelihoodzoneName;
+        this.userDetails = userDetails;
     }
 
     public int getQuestionnaireSessionId() {
@@ -106,5 +114,29 @@ public class ZoneLevelQuestionnaireSessionResponseDto {
 
     public void setQuestionnaireUniqueId(String questionnaireUniqueId) {
         this.questionnaireUniqueId = questionnaireUniqueId;
+    }
+
+    public String getCountyName() {
+        return countyName;
+    }
+
+    public void setCountyName(String countyName) {
+        this.countyName = countyName;
+    }
+
+    public String getLivelihoodzoneName() {
+        return livelihoodzoneName;
+    }
+
+    public void setLivelihoodzoneName(String livelihoodzoneName) {
+        this.livelihoodzoneName = livelihoodzoneName;
+    }
+
+    public UserResponseDTO getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserResponseDTO userDetails) {
+        this.userDetails = userDetails;
     }
 }

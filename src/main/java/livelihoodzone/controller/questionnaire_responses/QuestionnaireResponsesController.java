@@ -18,6 +18,7 @@ import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocati
 import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
 import livelihoodzone.repository.questionnaire.county.LzQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
 import livelihoodzone.repository.user_management.UserRepository;
@@ -73,6 +74,9 @@ public class QuestionnaireResponsesController {
 
     @Autowired
     WgQuestionnaireTypesRepository wgQuestionnaireTypesRepository;
+
+    @Autowired
+    WealthGroupRepository wealthGroupRepository;
 
 
     @PostMapping("/wealthgroup")
@@ -165,6 +169,7 @@ public class QuestionnaireResponsesController {
         List<LzQuestionnaireSessionEntity> zoneLevelQuestionnaires = lzQuestionnaireSessionRepository.findAll();
 
         for (LzQuestionnaireSessionEntity currentEntity : zoneLevelQuestionnaires) {
+            User user = userRepository.findByUserId(currentEntity.getUserId());
             questionnairesResponseList.add(new ZoneLevelQuestionnaireSessionResponseDto(
                     currentEntity.getLzQuestionnaireSessionId(),
                     currentEntity.getUserId(),
@@ -175,7 +180,18 @@ public class QuestionnaireResponsesController {
                     currentEntity.getLongitude(),
                     currentEntity.getSessionStartDate(),
                     currentEntity.getSessionEndDate(),
-                    currentEntity.getLzQuestionnaireUniqueId()
+                    currentEntity.getLzQuestionnaireUniqueId(),
+                    countiesRepository.findByCountyId(currentEntity.getCountyId()).getCountyName(),
+                    livelihoodZonesRepository.findByLivelihoodZoneId(currentEntity.getLivelihoodZoneId()).getLivelihoodZoneName(),
+                    new UserResponseDTO(
+                            user.getUserId(),
+                            countiesRepository.findByCountyId(user.getCountyId()).getCountyName(),
+                            user.getFirstName(),
+                            user.getMiddleName(),
+                            user.getSurname(),
+                            user.getUserEmail(),
+                            user.getOrganizationName()
+                    )
             ));
         }
 
@@ -215,7 +231,7 @@ public class QuestionnaireResponsesController {
                     wardsRepository.findByWardId(currentEntity.getWardId()).getWardName(),
                     subLocationRepository.findBySubLocationId(currentEntity.getSubLocationId()).getSubLocationName(),
                     livelihoodZonesRepository.findByLivelihoodZoneId(currentEntity.getLivelihoodZoneId()).getLivelihoodZoneName(),
-                    wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeCode(currentEntity.getWgQuestionnaireTypeId()).getWgQuestionnaireTypeDescription(),
+                    wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeId(currentEntity.getWgQuestionnaireTypeId()).getWgQuestionnaireTypeDescription(),
                     new UserResponseDTO(
                             user.getUserId(),
                             countiesRepository.findByCountyId(user.getCountyId()).getCountyName(),
@@ -224,8 +240,8 @@ public class QuestionnaireResponsesController {
                             user.getSurname(),
                             user.getUserEmail(),
                             user.getOrganizationName()
-                    )
-
+                    ),
+                    wealthGroupRepository.findByWealthGroupId(currentEntity.getWealthGroupId()).getWealthGroupDescription()
             ));
         }
 

@@ -6,4 +6,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface WgQuestionnaireTypesRepository extends JpaRepository<WgQuestionnaireTypesEntity, Long> {
     public WgQuestionnaireTypesEntity findByWgQuestionnaireTypeCode(@Param("WgQuestionnaireTypeCode") int wgQuestionnaireTypeCode);
+
+    public WgQuestionnaireTypesEntity findByWgQuestionnaireTypeId(@Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId);
 }
