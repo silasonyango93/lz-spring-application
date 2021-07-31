@@ -85,6 +85,9 @@ QuestionnaireResponsesController:
 WealthGroupReports:
   wealthgroup-distribution: Returns data on how the wealth groups are distributed in a particular county and zone
 
+ZoneLevelReports:
+  zone-level-report: A report on zone level questionnaire responses
+
 org:
   hibernate:
     ConnectionReleaseMode: ON_CLOSE
