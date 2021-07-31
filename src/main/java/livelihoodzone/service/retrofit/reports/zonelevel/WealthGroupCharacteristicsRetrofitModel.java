@@ -2,12 +2,15 @@ package livelihoodzone.service.retrofit.reports.zonelevel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class WealthGroupCharectaristicsRetrofitModel {
+public class WealthGroupCharacteristicsRetrofitModel {
     @SerializedName("WealthGroupId")
     private int wealthGroupId;
 
     @SerializedName("WealthGroupDescription")
     private String wealthGroupDescription;
+
+    @SerializedName("WealthGroupCode")
+    private int wealthGroupCode;
 
     @SerializedName("LzQuestionnaireSessionId")
     private int lzQuestionnaireSessionId;
@@ -35,6 +38,14 @@ public class WealthGroupCharectaristicsRetrofitModel {
 
     public void setWealthGroupDescription(String wealthGroupDescription) {
         this.wealthGroupDescription = wealthGroupDescription;
+    }
+
+    public int getWealthGroupCode() {
+        return wealthGroupCode;
+    }
+
+    public void setWealthGroupCode(int wealthGroupCode) {
+        this.wealthGroupCode = wealthGroupCode;
     }
 
     public int getLzQuestionnaireSessionId() {
