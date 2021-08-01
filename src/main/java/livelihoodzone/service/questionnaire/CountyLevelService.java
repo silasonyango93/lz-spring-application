@@ -4,14 +4,12 @@ import com.google.gson.Gson;
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
+import livelihoodzone.dto.questionnaire.county.WaterSourcesResponsesDto;
 import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsResponses;
 import livelihoodzone.dto.questionnaire.county.WealthGroupPercentageResponse;
 import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProductionResponseItem;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
-import livelihoodzone.entity.questionnaire.county.LzCropProductionResponsesEntity;
-import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
-import livelihoodzone.entity.questionnaire.county.LzWealthGroupCharacteristicsEntity;
-import livelihoodzone.entity.questionnaire.county.LzWealthGroupPopulationPercentageEntity;
+import livelihoodzone.entity.questionnaire.county.*;
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.questionnaire.county.*;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
@@ -44,6 +42,12 @@ public class CountyLevelService {
 
     @Autowired
     CropWaterAccessTypesRepository cropWaterAccessTypesRepository;
+
+    @Autowired
+    LzWaterSourceResponsesRepository lzWaterSourceResponsesRepository;
+
+    @Autowired
+    WaterSourceRepository waterSourceRepository;
 
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
@@ -78,6 +82,7 @@ public class CountyLevelService {
         saveLzWealthGroupcharacteristics(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveWealthGroupPopulationPercentages(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveCropProduction(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        saveWaterSourceResponses(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
 
         /***********************************************************************************************************/
 
@@ -230,6 +235,128 @@ public class CountyLevelService {
         }
 
         lzCropProductionResponsesRepository.saveAll(cropProductionResponseItems);
+
+    }
+
+    private void saveWaterSourceResponses(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        WaterSourcesResponsesDto waterSourceResponses = countyLevelQuestionnaireRequestDto.getWaterSourceResponses();
+
+        //Rivers
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.RIVERS).getWaterSourceId(),
+                waterSourceResponses.getRivers().getWetSeasonPopulation(),
+                waterSourceResponses.getRivers().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Traditional Rivers
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.TRADITIONAL_RIVERS).getWaterSourceId(),
+                waterSourceResponses.getTraditionalRiversWells().getWetSeasonPopulation(),
+                waterSourceResponses.getTraditionalRiversWells().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Natural Ponds
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.NATURAL_PONDS).getWaterSourceId(),
+                waterSourceResponses.getNaturalPonds().getWetSeasonPopulation(),
+                waterSourceResponses.getNaturalPonds().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Pans and Dams
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.PANS_AND_DAMS).getWaterSourceId(),
+                waterSourceResponses.getPansAndDams().getWetSeasonPopulation(),
+                waterSourceResponses.getPansAndDams().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Shallow wells
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.SHALLOW_WELLS).getWaterSourceId(),
+                waterSourceResponses.getShallowWells().getWetSeasonPopulation(),
+                waterSourceResponses.getShallowWells().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Boreholes
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.BOREHOLES).getWaterSourceId(),
+                waterSourceResponses.getBoreholes().getWetSeasonPopulation(),
+                waterSourceResponses.getBoreholes().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Springs
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.SPRINGS).getWaterSourceId(),
+                waterSourceResponses.getSprings().getWetSeasonPopulation(),
+                waterSourceResponses.getSprings().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Lakes
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.LAKES).getWaterSourceId(),
+                waterSourceResponses.getLakes().getWetSeasonPopulation(),
+                waterSourceResponses.getLakes().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Rock Catchment
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.ROCK_CATCHMENT).getWaterSourceId(),
+                waterSourceResponses.getRockCatchments().getWetSeasonPopulation(),
+                waterSourceResponses.getRockCatchments().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Piped Water
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.PIPED_WATER).getWaterSourceId(),
+                waterSourceResponses.getPipedWater().getWetSeasonPopulation(),
+                waterSourceResponses.getPipedWater().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Water Trucking
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.WATER_TRUCKING).getWaterSourceId(),
+                waterSourceResponses.getWaterTrucking().getWetSeasonPopulation(),
+                waterSourceResponses.getWaterTrucking().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Roof catchments
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.ROOF_CATCHMENTS).getWaterSourceId(),
+                waterSourceResponses.getRoofCatchments().getWetSeasonPopulation(),
+                waterSourceResponses.getRoofCatchments().getDrySeasonPopulationResponse(),
+                ""
+        ));
+
+        //Roof catchments
+        lzWaterSourceResponsesRepository.save(new LzWaterSourceResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                waterSourceRepository.findByWaterSourceCode(Constants.OTHERS).getWaterSourceId(),
+                waterSourceResponses.getOthers().getWetSeasonPopulation(),
+                waterSourceResponses.getOthers().getDrySeasonPopulationResponse(),
+                waterSourceResponses.getOthers().getExtraDescription()
+        ));
 
     }
 }
