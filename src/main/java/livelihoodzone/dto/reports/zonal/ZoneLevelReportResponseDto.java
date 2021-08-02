@@ -2,7 +2,7 @@ package livelihoodzone.dto.reports.zonal;
 
 import java.util.HashMap;
 
-public class ZoneLevelReportDto {
+public class ZoneLevelReportResponseDto {
     private HashMap<String, Object> reportHashMapObject = new HashMap<>();
 
     public HashMap<String, Object> getReportHashMapObject() {
