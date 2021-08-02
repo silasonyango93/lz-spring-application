@@ -3,6 +3,7 @@ package livelihoodzone.service.reports.zonal;
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.reports.zonal.QuestionnaireDetailsReportObjectDto;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsReportStringObject;
+import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
 import livelihoodzone.service.reports.zonal.wealthgroup.WealthGroupReportsService;
 import livelihoodzone.service.retrofit.reports.zonelevel.QuestionnaireDetailsRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.WealthGroupCharacteristicsRetrofitModel;
@@ -134,5 +135,9 @@ public class ZoneLevelReportService {
 
     public QuestionnaireDetailsReportObjectDto fetchQuestionnaireDetails() {
         return new QuestionnaireDetailsReportObjectDto(questionnaireDetailsService.fetchQuestionnaireDetails());
+    }
+
+    public WealthGroupPopulationPercentageReportResponseObject fetchWealthGroupsPopulationPercentages() {
+        return wealthGroupReportsService.processWealthGroupPopulationReport(wealthGroupReportsService.fetchWealthGroupPopulationPercentage());
     }
 }

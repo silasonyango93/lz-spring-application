@@ -16,8 +16,8 @@ public class ZoneLevelReportRequestDto {
         return questionnaireDetails;
     }
 
-    public void setQuestionnairedetails(boolean questionnairedetails) {
-        this.questionnaireDetails = questionnairedetails;
+    public void setQuestionnaireDetails(boolean questionnaireDetails) {
+        this.questionnaireDetails = questionnaireDetails;
     }
 
     public boolean isWealthGroupCharacteristics() {

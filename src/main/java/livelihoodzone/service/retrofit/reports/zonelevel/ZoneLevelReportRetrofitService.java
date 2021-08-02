@@ -12,4 +12,7 @@ public interface ZoneLevelReportRetrofitService {
 
     @GET("fetch_questionnaire_details")
     Call<List<QuestionnaireDetailsRetrofitModel>> fetchQuestionnaireDetails();
+
+    @GET("fetch_wealth_group_population_distribution")
+    Call<List<WealthGroupPopulationPercentageRetrofitModel>> fetchWealthGroupPopulationPercentage();
 }
