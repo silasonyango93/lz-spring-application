@@ -1,8 +1,10 @@
 package livelihoodzone.service.reports.zonal;
 
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.reports.zonal.QuestionnaireDetailsReportObjectDto;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsReportStringObject;
 import livelihoodzone.service.reports.zonal.wealthgroup.WealthGroupReportsService;
+import livelihoodzone.service.retrofit.reports.zonelevel.QuestionnaireDetailsRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.WealthGroupCharacteristicsRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class ZoneLevelReportService {
 
     @Autowired
     WealthGroupReportsService wealthGroupReportsService;
+
+    @Autowired
+    QuestionnaireDetailsService questionnaireDetailsService;
 
     public WealthGroupCharectaristicsReportStringObject comprehensivelyFetchWealthGroupCharacteristicsReport() {
         List<String> veryPoorCharacteristics = new ArrayList<>();
@@ -127,11 +132,7 @@ public class ZoneLevelReportService {
         return new WealthGroupCharectaristicsReportStringObject(veryPoorCharacteristics,poorCharacteristics,mediumCharacteristics,betterOffCharacteristics);
     }
 
-    public String convertAWealthGroupCharacteristicsToCommaSeperatedString(List<WealthGroupCharacteristicsRetrofitModel> wealthGroupCharacteristicsRetrofitModelList) {
-        String wealthGroupCharacteristicsString = "";
-        for (WealthGroupCharacteristicsRetrofitModel currentItem : wealthGroupCharacteristicsRetrofitModelList) {
-            wealthGroupCharacteristicsString = wealthGroupCharacteristicsString + currentItem.getCharectaristicDescription() + " ,";
-        }
-        return wealthGroupCharacteristicsString;
+    public QuestionnaireDetailsReportObjectDto fetchQuestionnaireDetails() {
+        return new QuestionnaireDetailsReportObjectDto(questionnaireDetailsService.fetchQuestionnaireDetails());
     }
 }

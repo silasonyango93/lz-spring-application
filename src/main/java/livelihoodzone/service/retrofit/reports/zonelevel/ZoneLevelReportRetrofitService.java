@@ -5,8 +5,11 @@ import retrofit2.http.GET;
 
 import java.util.List;
 
-public interface WealthGroupReportsRetrofitService {
+public interface ZoneLevelReportRetrofitService {
 
     @GET("fetch_wealth_group_reports_comprehensively")
     Call<List<WealthGroupCharacteristicsRetrofitModel>> fetchWealthGroupCharacteristicsReportsComprehensively();
+
+    @GET("fetch_questionnaire_details")
+    Call<List<QuestionnaireDetailsRetrofitModel>> fetchQuestionnaireDetails();
 }

@@ -2,6 +2,7 @@ package livelihoodzone.controller.reports.zonelevel;
 
 import io.swagger.annotations.*;
 import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
+import livelihoodzone.dto.reports.zonal.QuestionnaireDetailsReportObjectDto;
 import livelihoodzone.dto.reports.zonal.ZoneLevelReportRequestDto;
 import livelihoodzone.dto.reports.zonal.ZoneLevelReportResponseDto;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsReportStringObject;
@@ -31,10 +32,16 @@ public class ZoneLevelReportsController {
     public ZoneLevelReportResponseDto getZoneWealthGroupDistribution(@ApiParam("Questionnaire sections to report on") @RequestBody ZoneLevelReportRequestDto zoneLevelReportRequestDto, HttpServletRequest httpServletRequest) {
         ZoneLevelReportResponseDto zoneLevelReportResponseDto = new ZoneLevelReportResponseDto();
 
+        if (zoneLevelReportRequestDto.isQuestionnaireDetails()) {
+            QuestionnaireDetailsReportObjectDto questionnaireDetailsReportObjectDto = zoneLevelReportService.fetchQuestionnaireDetails();
+            zoneLevelReportResponseDto.setReportHashMapObject("questionnaireDetails",questionnaireDetailsReportObjectDto);
+        }
+
         if (zoneLevelReportRequestDto.isWealthGroupCharacteristics()) {
             WealthGroupCharectaristicsReportStringObject wealthGroupCharacteristicsData = zoneLevelReportService.comprehensivelyFetchWealthGroupCharacteristicsReport();
             zoneLevelReportResponseDto.setReportHashMapObject("wealthGroupCharacteristics",wealthGroupCharacteristicsData);
         }
+
 
         return zoneLevelReportResponseDto;
     }

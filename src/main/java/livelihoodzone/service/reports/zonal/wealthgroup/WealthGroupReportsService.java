@@ -9,7 +9,7 @@ import livelihoodzone.repository.questionnaire.county.LzWealthGroupPopulationPer
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.zonelevel.WealthGroupCharacteristicsRetrofitModel;
-import livelihoodzone.service.retrofit.reports.zonelevel.WealthGroupReportsRetrofitService;
+import livelihoodzone.service.retrofit.reports.zonelevel.ZoneLevelReportRetrofitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
@@ -67,8 +67,8 @@ public class WealthGroupReportsService {
 
 
     public List<WealthGroupCharacteristicsRetrofitModel> fetchWealthGroupCharacteristicsReportsComprehensively() {
-        WealthGroupReportsRetrofitService wealthGroupReportsRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportsRetrofitService.class);
-        Call<List<WealthGroupCharacteristicsRetrofitModel>> callSync = wealthGroupReportsRetrofitService.fetchWealthGroupCharacteristicsReportsComprehensively();
+        ZoneLevelReportRetrofitService zoneLevelReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(ZoneLevelReportRetrofitService.class);
+        Call<List<WealthGroupCharacteristicsRetrofitModel>> callSync = zoneLevelReportRetrofitService.fetchWealthGroupCharacteristicsReportsComprehensively();
         try {
             Response<List<WealthGroupCharacteristicsRetrofitModel>> response = callSync.execute();
             return response.body();

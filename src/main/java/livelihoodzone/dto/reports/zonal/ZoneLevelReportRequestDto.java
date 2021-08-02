@@ -1,7 +1,7 @@
 package livelihoodzone.dto.reports.zonal;
 
 public class ZoneLevelReportRequestDto {
-    private boolean sampleDataCollectionSubLocations;
+    private boolean questionnaireDetails;
     private boolean wealthGroupCharacteristics;
     private boolean wealthGroupPopulationDistribution;
     private boolean cropProduction;
@@ -12,12 +12,12 @@ public class ZoneLevelReportRequestDto {
     private boolean hazards;
     private boolean seasonalCalendar;
 
-    public boolean isSampleDataCollectionSubLocations() {
-        return sampleDataCollectionSubLocations;
+    public boolean isQuestionnaireDetails() {
+        return questionnaireDetails;
     }
 
-    public void setSampleDataCollectionSubLocations(boolean sampleDataCollectionSubLocations) {
-        this.sampleDataCollectionSubLocations = sampleDataCollectionSubLocations;
+    public void setQuestionnairedetails(boolean questionnairedetails) {
+        this.questionnaireDetails = questionnairedetails;
     }
 
     public boolean isWealthGroupCharacteristics() {
