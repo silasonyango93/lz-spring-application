@@ -5,6 +5,7 @@ import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
 import livelihoodzone.dto.reports.zonal.QuestionnaireDetailsReportObjectDto;
 import livelihoodzone.dto.reports.zonal.ZoneLevelReportRequestDto;
 import livelihoodzone.dto.reports.zonal.ZoneLevelReportResponseDto;
+import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObjectDto;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsReportStringObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
 import livelihoodzone.service.reports.zonal.ZoneLevelReportService;
@@ -43,6 +44,11 @@ public class ZoneLevelReportsController {
         if (zoneLevelReportRequestDto.isWealthGroupPopulationDistribution()) {
             WealthGroupPopulationPercentageReportResponseObject wealthGroupPopulationPercentageReportResponseObject = zoneLevelReportService.fetchWealthGroupsPopulationPercentages();
             zoneLevelReportResponseDto.setReportHashMapObject("wealthGroupsPopulationPercentages",wealthGroupPopulationPercentageReportResponseObject);
+        }
+
+        if (zoneLevelReportRequestDto.isCropProduction()) {
+            LzCropProductionReportObjectDto lzCropProductionReportObjectDto = zoneLevelReportService.fetchZoneLevelCropProductionReport();
+            zoneLevelReportResponseDto.setReportHashMapObject("cropProduction",lzCropProductionReportObjectDto);
         }
 
 

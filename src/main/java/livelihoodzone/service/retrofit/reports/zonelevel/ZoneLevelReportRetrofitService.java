@@ -15,4 +15,7 @@ public interface ZoneLevelReportRetrofitService {
 
     @GET("fetch_wealth_group_population_distribution")
     Call<List<WealthGroupPopulationPercentageRetrofitModel>> fetchWealthGroupPopulationPercentage();
+
+    @GET("fetch_zone_level_crop_production")
+    Call<List<LzCropProductionReportRetrofitModel>> fetchZoneLevelCropProduction();
 }

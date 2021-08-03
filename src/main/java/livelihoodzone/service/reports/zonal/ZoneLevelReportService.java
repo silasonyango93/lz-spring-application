@@ -2,8 +2,10 @@ package livelihoodzone.service.reports.zonal;
 
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.reports.zonal.QuestionnaireDetailsReportObjectDto;
+import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObjectDto;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsReportStringObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
+import livelihoodzone.service.reports.zonal.cropproduction.LzCropProductionReportService;
 import livelihoodzone.service.reports.zonal.wealthgroup.WealthGroupReportsService;
 import livelihoodzone.service.retrofit.reports.zonelevel.QuestionnaireDetailsRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.WealthGroupCharacteristicsRetrofitModel;
@@ -21,6 +23,9 @@ public class ZoneLevelReportService {
 
     @Autowired
     QuestionnaireDetailsService questionnaireDetailsService;
+
+    @Autowired
+    LzCropProductionReportService lzCropProductionReportService;
 
     public WealthGroupCharectaristicsReportStringObject comprehensivelyFetchWealthGroupCharacteristicsReport() {
         List<String> veryPoorCharacteristics = new ArrayList<>();
@@ -139,5 +144,9 @@ public class ZoneLevelReportService {
 
     public WealthGroupPopulationPercentageReportResponseObject fetchWealthGroupsPopulationPercentages() {
         return wealthGroupReportsService.processWealthGroupPopulationReport(wealthGroupReportsService.fetchWealthGroupPopulationPercentage());
+    }
+
+    public LzCropProductionReportObjectDto fetchZoneLevelCropProductionReport() {
+        return lzCropProductionReportService.processZoneLevelCropProductionReport(lzCropProductionReportService.fetchZoneLevelCropProductionReport());
     }
 }
