@@ -1,5 +1,6 @@
 package livelihoodzone.service.reports.zonal.cropproduction;
 
+import livelihoodzone.common.Constants;
 import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObjectDto;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzCropProductionReportRetrofitModel;
@@ -59,6 +60,36 @@ public class LzCropProductionReportService {
         }
         selectedCrops.add(selectedCropsStringReport);
         lzCropProductionReportObjectDto.setSelectedCrops(selectedCrops);
+
+
+
+        //Process Long Rains Rainfed Crops Percentage Cultivated Area
+
+        int longRainsRainFedPercentageCultivatedAreaCurrentQuestionnaireSessionId = lzCropProductionReportRetrofitModelList.get(0).getLzQuestionnaireSessionId();
+        String longRainsRainFedPercentageCultivatedAreaStringReport = "";
+        int longRainsRainFedPercentageCultivatedAreaCounter = 1;
+        for (LzCropProductionReportRetrofitModel currentItem : lzCropProductionReportRetrofitModelList) {
+            if (currentItem.getRainySeasonCode() == Constants.LONG_RAINS_SEASON) {
+                if (currentItem.getCropWaterAccessTypeCode() == Constants.RAINFED_CROPS) {
+                    if (currentItem.getLzQuestionnaireSessionId() == longRainsRainFedPercentageCultivatedAreaCurrentQuestionnaireSessionId) {
+
+                        longRainsRainFedPercentageCultivatedAreaStringReport = longRainsRainFedPercentageCultivatedAreaStringReport + longRainsRainFedPercentageCultivatedAreaCounter + ")" + currentItem.getCropName()
+                                + " -> " + currentItem.getCultivatedAreaPercentage() +"%, ";
+                        longRainsRainFedPercentageCultivatedAreaCounter++;
+                    } else {
+                        longRainsRainFedPercentageCultivatedArea.add(longRainsRainFedPercentageCultivatedAreaStringReport);
+                        longRainsRainFedPercentageCultivatedAreaCounter = 1;
+                        longRainsRainFedPercentageCultivatedAreaStringReport = longRainsRainFedPercentageCultivatedAreaCounter + ")" + currentItem.getCropName()
+                                + " -> " + currentItem.getCultivatedAreaPercentage() +"%, ";
+                        longRainsRainFedPercentageCultivatedAreaCounter++;
+                        longRainsRainFedPercentageCultivatedAreaCurrentQuestionnaireSessionId = currentItem.getLzQuestionnaireSessionId();
+                    }
+                }
+            }
+
+        }
+        longRainsRainFedPercentageCultivatedArea.add(longRainsRainFedPercentageCultivatedAreaStringReport);
+        lzCropProductionReportObjectDto.setLongRainsRainFedPercentageCultivatedArea(longRainsRainFedPercentageCultivatedArea);
 
 
         return lzCropProductionReportObjectDto;
