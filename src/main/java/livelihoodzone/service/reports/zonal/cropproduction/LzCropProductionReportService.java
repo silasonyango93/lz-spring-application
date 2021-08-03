@@ -92,6 +92,35 @@ public class LzCropProductionReportService {
         lzCropProductionReportObjectDto.setLongRainsRainFedPercentageCultivatedArea(longRainsRainFedPercentageCultivatedArea);
 
 
+        //Process Long Rains Rainfed Crops Percentage Cultivated Area
+
+        int longRainsRainFedAverageYieldCurrentQuestionnaireSessionId = lzCropProductionReportRetrofitModelList.get(0).getLzQuestionnaireSessionId();
+        String longRainsRainFedAverageYieldStringReport = "";
+        int longRainsRainFedAverageYieldCounter = 1;
+        for (LzCropProductionReportRetrofitModel currentItem : lzCropProductionReportRetrofitModelList) {
+            if (currentItem.getRainySeasonCode() == Constants.LONG_RAINS_SEASON) {
+                if (currentItem.getCropWaterAccessTypeCode() == Constants.RAINFED_CROPS) {
+                    if (currentItem.getLzQuestionnaireSessionId() == longRainsRainFedAverageYieldCurrentQuestionnaireSessionId) {
+
+                        longRainsRainFedAverageYieldStringReport = longRainsRainFedAverageYieldStringReport + longRainsRainFedAverageYieldCounter + ")" + currentItem.getCropName()
+                                + " -> " + currentItem.getAverageYieldKgPerHectare() +", ";
+                        longRainsRainFedAverageYieldCounter++;
+                    } else {
+                        longRainsRainFedAverageYieldKgPerHa.add(longRainsRainFedAverageYieldStringReport);
+                        longRainsRainFedAverageYieldCounter = 1;
+                        longRainsRainFedAverageYieldStringReport = longRainsRainFedAverageYieldCounter + ")" + currentItem.getCropName()
+                                + " -> " + currentItem.getAverageYieldKgPerHectare() +", ";
+                        longRainsRainFedAverageYieldCounter++;
+                        longRainsRainFedAverageYieldCurrentQuestionnaireSessionId = currentItem.getLzQuestionnaireSessionId();
+                    }
+                }
+            }
+
+        }
+        longRainsRainFedAverageYieldKgPerHa.add(longRainsRainFedAverageYieldStringReport);
+        lzCropProductionReportObjectDto.setLongRainsRainFedAverageYieldKgPerHa(longRainsRainFedAverageYieldKgPerHa);
+
+
         return lzCropProductionReportObjectDto;
     }
 
