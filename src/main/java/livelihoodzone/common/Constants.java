@@ -30,4 +30,22 @@ public class Constants {
     public static final int WATER_TRUCKING = 11;
     public static final int ROOF_CATCHMENTS = 12;
     public static final int OTHERS = 13;
+
+    //Income Food Sources Codes
+    public static final int LIVESTOCK_PRODUCTION = 1;
+    public static final int POULTRY_PRODUCTION = 2;
+    public static final int CASH_CROP_PRODUCTION = 3;
+    public static final int FOOD_CROP_PRODUCTION = 4;
+    public static final int CASUAL_WAGED_LABOUR_INCOME = 5;
+    public static final int FORMAL_WAGED_LABOUR = 6;
+    public static final int FISHING = 7;
+    public static final int HUNTING_AND_GATHERING = 8;
+    public static final int SMALL_BUSINESSES = 9;
+    public static final int FIREWOOD_COLLECTION = 10;
+    public static final int PETTY_TRADING = 11;
+    public static final int REMITTANCE_AND_GIFTS = 12;
+    public static final int BODABODA_TRANSPORT = 13;
+    public static final int BEE_KEEPING = 14;
+    public static final int SAND_HARVESTING = 15;
+    public static final int OTHERS_INCOME_SOURCES = 16;
 }

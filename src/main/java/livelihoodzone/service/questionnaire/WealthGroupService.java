@@ -9,6 +9,7 @@ import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
+import livelihoodzone.service.questionnaire.wealthgroup.income_food_sources.IncomeFoodSourcesService;
 import livelihoodzone.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class WealthGroupService {
 
     @Autowired
     WgQuestionnaireTypesRepository wgQuestionnaireTypesRepository;
+
+    @Autowired
+    IncomeFoodSourcesService incomeFoodSourcesService;
 
     public QuestionnaireResponseDto processQuestionnaire(WealthGroupQuestionnaireRequestDto wealthGroupQuestionnaireRequestDto, User dataCollector) {
 
@@ -61,7 +65,14 @@ public class WealthGroupService {
         questionnaireSession.setWgQuestionnaireTypeId(wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeCode(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWgQuestionnaireType().getWgQuestionnaireTypeCode()).getWgQuestionnaireTypeId());
         questionnaireSession.setQuestionnaireJsonString(questionnaireJsonString);
 
-        wgQuestionnaireSessionRepository.save(questionnaireSession);
+        WgQuestionnaireSessionEntity savedQuestionnaireSessionEntity = wgQuestionnaireSessionRepository.save(questionnaireSession);
+
+        /*Process Questionnaire Sections and Commit to db ***********************************************************************************************/
+
+        //Save Income and Food sources
+        incomeFoodSourcesService.saveIncomeAndFoodSources(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
+
+        /* ***********************************************************************************************************************************************/
 
         return new QuestionnaireResponseDto(
                 QuestionnaireResponseStatus.ACCEPTED,
