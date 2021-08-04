@@ -31,7 +31,7 @@ public class Constants {
     public static final int ROOF_CATCHMENTS = 12;
     public static final int OTHERS = 13;
 
-    //Income Food Sources Codes
+    //Income Sources Codes
     public static final int LIVESTOCK_PRODUCTION = 1;
     public static final int POULTRY_PRODUCTION = 2;
     public static final int CASH_CROP_PRODUCTION = 3;
@@ -48,4 +48,27 @@ public class Constants {
     public static final int BEE_KEEPING = 14;
     public static final int SAND_HARVESTING = 15;
     public static final int OTHERS_INCOME_SOURCES = 16;
+
+    //Food Sources Codes
+    public static final int OWN_FARM_PRODUCTION = 1;
+    public static final int MARKET_FOOD_PURCHASE = 2;
+    public static final int HUNTING_GATHERING_FISHING_FOOD_SOURCE = 3;
+    public static final int GIFTS_AND_FOOD_AID = 4;
+
+    //Food Types Codes
+    public static final int MAIZE_AND_POSHO = 1;
+    public static final int WHEAT_BARLEY_RYE = 2;
+    public static final int SORGHUM_MILLET_PRODUCTS = 3;
+    public static final int RICE_AND_PRODUCTS = 4;
+    public static final int BEANS = 5;
+    public static final int OTHER_PULSES = 6;
+    public static final int VEGETABLES = 7;
+    public static final int FRUITS_AND_BERRIES = 8;
+    public static final int WHITE_ROOTS_TUBERS = 9;
+    public static final int MEAT = 10;
+    public static final int MILKS_AND_DAIRY_PRODUCTS = 11;
+    public static final int FISH_AND_SEA_FOOD = 12;
+    public static final int EGGS = 13;
+    public static final int COOKING_FATS_AND_OILS = 14;
+    public static final int SPICES_CONDIMENTS_BEVERAGES = 15;
 }

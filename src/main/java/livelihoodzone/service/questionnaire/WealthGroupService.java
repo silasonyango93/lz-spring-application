@@ -70,7 +70,8 @@ public class WealthGroupService {
         /*Process Questionnaire Sections and Commit to db ***********************************************************************************************/
 
         //Save Income and Food sources
-        incomeFoodSourcesService.saveIncomeAndFoodSources(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
+        incomeFoodSourcesService.saveIncomeSources(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
+        incomeFoodSourcesService.saveFoodSources(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
 
         /* ***********************************************************************************************************************************************/
 

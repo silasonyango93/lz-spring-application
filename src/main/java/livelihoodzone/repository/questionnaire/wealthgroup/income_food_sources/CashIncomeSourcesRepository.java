@@ -1,6 +1,6 @@
-package livelihoodzone.repository.questionnaire.wealthgroup;
+package livelihoodzone.repository.questionnaire.wealthgroup.income_food_sources;
 
-import livelihoodzone.entity.questionnaire.wealthgroup.CashIncomeSourcesEntity;
+import livelihoodzone.entity.questionnaire.wealthgroup.income_food_sources.CashIncomeSourcesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 

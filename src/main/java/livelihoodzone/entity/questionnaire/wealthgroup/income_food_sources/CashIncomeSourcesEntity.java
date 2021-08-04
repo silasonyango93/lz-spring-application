@@ -1,4 +1,4 @@
-package livelihoodzone.entity.questionnaire.wealthgroup;
+package livelihoodzone.entity.questionnaire.wealthgroup.income_food_sources;
 
 import javax.persistence.*;
 @javax.persistence.Entity
