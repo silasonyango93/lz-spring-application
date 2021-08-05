@@ -9,6 +9,7 @@ import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
+import livelihoodzone.service.questionnaire.wealthgroup.cropcontribution.CropContributionService;
 import livelihoodzone.service.questionnaire.wealthgroup.income_food_sources.IncomeFoodSourcesService;
 import livelihoodzone.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class WealthGroupService {
 
     @Autowired
     IncomeFoodSourcesService incomeFoodSourcesService;
+
+    @Autowired
+    CropContributionService cropContributionService;
 
     public QuestionnaireResponseDto processQuestionnaire(WealthGroupQuestionnaireRequestDto wealthGroupQuestionnaireRequestDto, User dataCollector) {
 
@@ -69,9 +73,10 @@ public class WealthGroupService {
 
         /*Process Questionnaire Sections and Commit to db ***********************************************************************************************/
 
-        //Save Income and Food sources
+
         incomeFoodSourcesService.saveIncomeSources(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         incomeFoodSourcesService.saveFoodSources(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
+        cropContributionService.saveCropContribution(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
 
         /* ***********************************************************************************************************************************************/
 
