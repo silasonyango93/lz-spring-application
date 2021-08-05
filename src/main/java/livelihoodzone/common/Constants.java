@@ -84,4 +84,21 @@ public class Constants {
     public static final int DUCKS = 8;
     public static final int BEE_HIVES = 9;
     public static final int FISH_PONDS = 10;
+
+
+    //Livelihood zone activities
+    public static final int LABOUR_OWN_FARM = 1;
+    public static final int LIVESTOCK_HUSBANDRY = 2;
+    public static final int WAGED_LABOUR = 3;
+    public static final int LOW_SKILLED_NON_FARM_LABOUR = 4;
+    public static final int SKILLED_LABOUR = 5;
+    public static final int FORMAL_EMPLOYMENT = 6;
+    public static final int HUNTING_AND_GATHERING_LZ_ACTIVITY = 7;
+    public static final int FISHING_LZ_ACTIVITY = 8;
+    public static final int TRADING_LZ_ACTIVITY = 9;
+    public static final int DOMESTIC_UNPAID_WORK = 10;
+    public static final int BEGGING_LZ_ACTIVITY = 11;
+    public static final int COMMERCIAL_SEX_WORK = 12;
+    public static final int LEISURE_SOCIALIZING_ENTERTAINMENT = 13;
+    public static final int OTHER_LIVELIHOOD_ACTIVITIES = 14;
 }

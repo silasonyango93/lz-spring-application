@@ -16,6 +16,7 @@ public class LabourPatternResponses {
     private LabourPatternResponseItem commercialSexWork;
     private LabourPatternResponseItem begging;
     private LabourPatternResponseItem inactivity;
+    private LabourPatternResponseItem others;
 
     public LabourPatternResponseItem getOwnFarmCropProduction() {
         return ownFarmCropProduction;
@@ -135,5 +136,13 @@ public class LabourPatternResponses {
 
     public void setInactivity(LabourPatternResponseItem inactivity) {
         this.inactivity = inactivity;
+    }
+
+    public LabourPatternResponseItem getOthers() {
+        return others;
+    }
+
+    public void setOthers(LabourPatternResponseItem others) {
+        this.others = others;
     }
 }

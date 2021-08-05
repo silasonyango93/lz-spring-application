@@ -12,6 +12,7 @@ import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesR
 import livelihoodzone.service.questionnaire.wealthgroup.animal_contribution.AnimalContributionService;
 import livelihoodzone.service.questionnaire.wealthgroup.cropcontribution.CropContributionService;
 import livelihoodzone.service.questionnaire.wealthgroup.income_food_sources.IncomeFoodSourcesService;
+import livelihoodzone.service.questionnaire.wealthgroup.labour_patterns.LabourPatternsService;
 import livelihoodzone.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,9 @@ public class WealthGroupService {
 
     @Autowired
     AnimalContributionService animalContributionService;
+
+    @Autowired
+    LabourPatternsService labourPatternsService;
 
     public QuestionnaireResponseDto processQuestionnaire(WealthGroupQuestionnaireRequestDto wealthGroupQuestionnaireRequestDto, User dataCollector) {
 
@@ -83,6 +87,7 @@ public class WealthGroupService {
         cropContributionService.saveCropContribution(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         animalContributionService.saveAverageNoAnimalsPerHousehold(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         animalContributionService.saveAnimalContributions(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
+        labourPatternsService.saveLabourPatterns(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
 
         /* ***********************************************************************************************************************************************/
 
