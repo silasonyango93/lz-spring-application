@@ -82,6 +82,7 @@ public class WealthGroupService {
         incomeFoodSourcesService.saveFoodSources(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         cropContributionService.saveCropContribution(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         animalContributionService.saveAverageNoAnimalsPerHousehold(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
+        animalContributionService.saveAnimalContributions(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
 
         /* ***********************************************************************************************************************************************/
 
