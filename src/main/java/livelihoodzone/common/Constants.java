@@ -71,4 +71,17 @@ public class Constants {
     public static final int EGGS = 13;
     public static final int COOKING_FATS_AND_OILS = 14;
     public static final int SPICES_CONDIMENTS_BEVERAGES = 15;
+
+
+    //Animal Codes
+    public static final int CATTLE = 1;
+    public static final int GOATS = 2;
+    public static final int SHEEP = 3;
+    public static final int DONKEYS = 4;
+    public static final int CAMELS = 5;
+    public static final int PIGS = 6;
+    public static final int CHICKEN = 7;
+    public static final int DUCKS = 8;
+    public static final int BEE_HIVES = 9;
+    public static final int FISH_PONDS = 10;
 }

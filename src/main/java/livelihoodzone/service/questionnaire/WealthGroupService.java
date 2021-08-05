@@ -9,6 +9,7 @@ import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
+import livelihoodzone.service.questionnaire.wealthgroup.animal_contribution.AnimalContributionService;
 import livelihoodzone.service.questionnaire.wealthgroup.cropcontribution.CropContributionService;
 import livelihoodzone.service.questionnaire.wealthgroup.income_food_sources.IncomeFoodSourcesService;
 import livelihoodzone.util.Util;
@@ -34,6 +35,9 @@ public class WealthGroupService {
 
     @Autowired
     CropContributionService cropContributionService;
+
+    @Autowired
+    AnimalContributionService animalContributionService;
 
     public QuestionnaireResponseDto processQuestionnaire(WealthGroupQuestionnaireRequestDto wealthGroupQuestionnaireRequestDto, User dataCollector) {
 
@@ -77,6 +81,7 @@ public class WealthGroupService {
         incomeFoodSourcesService.saveIncomeSources(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         incomeFoodSourcesService.saveFoodSources(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         cropContributionService.saveCropContribution(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
+        animalContributionService.saveAverageNoAnimalsPerHousehold(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
 
         /* ***********************************************************************************************************************************************/
 
