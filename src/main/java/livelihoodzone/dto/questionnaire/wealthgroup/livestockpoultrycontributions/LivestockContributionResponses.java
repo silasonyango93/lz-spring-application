@@ -13,6 +13,8 @@ public class LivestockContributionResponses {
     private WgLivestockContributionResponseItem ducks;
     private WgLivestockContributionResponseItem beeHives;
     private WgLivestockContributionResponseItem fishPonds;
+    private WgLivestockContributionResponseItem improvedCattle;
+    private WgLivestockContributionResponseItem fishCages;
 
     public WgLivestockContributionResponseItem getCattle() {
         return cattle;
@@ -108,5 +110,21 @@ public class LivestockContributionResponses {
 
     public void setFishPonds(WgLivestockContributionResponseItem fishPonds) {
         this.fishPonds = fishPonds;
+    }
+
+    public WgLivestockContributionResponseItem getImprovedCattle() {
+        return improvedCattle;
+    }
+
+    public void setImprovedCattle(WgLivestockContributionResponseItem improvedCattle) {
+        this.improvedCattle = improvedCattle;
+    }
+
+    public WgLivestockContributionResponseItem getFishCages() {
+        return fishCages;
+    }
+
+    public void setFishCages(WgLivestockContributionResponseItem fishCages) {
+        this.fishCages = fishCages;
     }
 }

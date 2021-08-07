@@ -84,6 +84,7 @@ QuestionnaireResponsesController:
 
 WealthGroupReports:
   wealthgroup-distribution: Returns data on how the wealth groups are distributed in a particular county and zone
+  wealthgroup-aggregate-responses: Returns wealth group aggregate responses for all questionnaires within a county
 
 ZoneLevelReports:
   zone-level-report: A report on zone level questionnaire responses

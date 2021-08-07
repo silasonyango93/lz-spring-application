@@ -6,8 +6,7 @@ import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObj
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsReportStringObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
 import livelihoodzone.service.reports.zonal.cropproduction.LzCropProductionReportService;
-import livelihoodzone.service.reports.zonal.wealthgroup.WealthGroupReportsService;
-import livelihoodzone.service.retrofit.reports.zonelevel.QuestionnaireDetailsRetrofitModel;
+import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import livelihoodzone.service.retrofit.reports.zonelevel.WealthGroupCharacteristicsRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ import java.util.List;
 public class ZoneLevelReportService {
 
     @Autowired
-    WealthGroupReportsService wealthGroupReportsService;
+    LzWealthGroupDistributionReportsService lzWealthGroupDistributionReportsService;
 
     @Autowired
     QuestionnaireDetailsService questionnaireDetailsService;
@@ -38,7 +37,7 @@ public class ZoneLevelReportService {
         List<WealthGroupCharacteristicsRetrofitModel> mediumList = new ArrayList<>();
         List<WealthGroupCharacteristicsRetrofitModel> betterOffList = new ArrayList<>();
 
-        List<WealthGroupCharacteristicsRetrofitModel> wealthGroupCharacteristicsRetrofitModelList = wealthGroupReportsService.fetchWealthGroupCharacteristicsReportsComprehensively();
+        List<WealthGroupCharacteristicsRetrofitModel> wealthGroupCharacteristicsRetrofitModelList = lzWealthGroupDistributionReportsService.fetchWealthGroupCharacteristicsReportsComprehensively();
 
 
         for (WealthGroupCharacteristicsRetrofitModel currentItem : wealthGroupCharacteristicsRetrofitModelList) {
@@ -143,7 +142,7 @@ public class ZoneLevelReportService {
     }
 
     public WealthGroupPopulationPercentageReportResponseObject fetchWealthGroupsPopulationPercentages() {
-        return wealthGroupReportsService.processWealthGroupPopulationReport(wealthGroupReportsService.fetchWealthGroupPopulationPercentage());
+        return lzWealthGroupDistributionReportsService.processWealthGroupPopulationReport(lzWealthGroupDistributionReportsService.fetchWealthGroupPopulationPercentage());
     }
 
     public LzCropProductionReportObjectDto fetchZoneLevelCropProductionReport() {

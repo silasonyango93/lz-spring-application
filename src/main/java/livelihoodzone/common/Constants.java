@@ -74,16 +74,20 @@ public class Constants {
 
 
     //Animal Codes
-    public static final int CATTLE = 1;
+    public static final int LOCAL_CATTLE = 1;
     public static final int GOATS = 2;
     public static final int SHEEP = 3;
     public static final int DONKEYS = 4;
     public static final int CAMELS = 5;
     public static final int PIGS = 6;
-    public static final int CHICKEN = 7;
+    public static final int LOCAL_CHICKEN = 7;
     public static final int DUCKS = 8;
     public static final int BEE_HIVES = 9;
     public static final int FISH_PONDS = 10;
+    public static final int IMPROVED_CATTLE = 11;
+    public static final int IMPROVED_CHICKEN = 12;
+    public static final int FISH_CAGES = 13;
+    public static final int DAIRY_CATTLE = 14;
 
 
     //Livelihood zone activities

@@ -13,6 +13,8 @@ public class LivestockPoultryOwnershipResponses {
     private double ducks;
     private double beeHives;
     private double fishPonds;
+    private double improvedCattle;
+    private double fishCages;
 
     public double getCattle() {
         return cattle;
@@ -108,5 +110,21 @@ public class LivestockPoultryOwnershipResponses {
 
     public void setFishPonds(double fishPonds) {
         this.fishPonds = fishPonds;
+    }
+
+    public double getImprovedCattle() {
+        return improvedCattle;
+    }
+
+    public void setImprovedCattle(double improvedCattle) {
+        this.improvedCattle = improvedCattle;
+    }
+
+    public double getFishCages() {
+        return fishCages;
+    }
+
+    public void setFishCages(double fishCages) {
+        this.fishCages = fishCages;
     }
 }

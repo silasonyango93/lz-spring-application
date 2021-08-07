@@ -32,7 +32,7 @@ public class AnimalContributionService {
         //Cattle
         wgAveAnimalNoPerHouseholdRepository.save(new WgAveAnimalNoPerHouseholdEntity(
                 questionnaireSession.getWgQuestionnaireSessionId(),
-                animalsRepository.findByAnimalCode(Constants.CATTLE).getAnimalId(),
+                animalsRepository.findByAnimalCode(Constants.LOCAL_CATTLE).getAnimalId(),
                 livestockPoultryOwnershipResponses.getCattle()
         ));
 
@@ -74,7 +74,7 @@ public class AnimalContributionService {
         //Chicken
         wgAveAnimalNoPerHouseholdRepository.save(new WgAveAnimalNoPerHouseholdEntity(
                 questionnaireSession.getWgQuestionnaireSessionId(),
-                animalsRepository.findByAnimalCode(Constants.CHICKEN).getAnimalId(),
+                animalsRepository.findByAnimalCode(Constants.LOCAL_CHICKEN).getAnimalId(),
                 livestockPoultryOwnershipResponses.getChicken()
         ));
 
@@ -98,6 +98,34 @@ public class AnimalContributionService {
                 animalsRepository.findByAnimalCode(Constants.FISH_PONDS).getAnimalId(),
                 livestockPoultryOwnershipResponses.getFishPonds()
         ));
+
+        //Improved Cattle
+        wgAveAnimalNoPerHouseholdRepository.save(new WgAveAnimalNoPerHouseholdEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                animalsRepository.findByAnimalCode(Constants.IMPROVED_CATTLE).getAnimalId(),
+                livestockPoultryOwnershipResponses.getImprovedCattle()
+        ));
+
+        //Improved Chicken
+        wgAveAnimalNoPerHouseholdRepository.save(new WgAveAnimalNoPerHouseholdEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                animalsRepository.findByAnimalCode(Constants.IMPROVED_CHICKEN).getAnimalId(),
+                livestockPoultryOwnershipResponses.getImprovedChicken()
+        ));
+
+        //Fish Cages
+        wgAveAnimalNoPerHouseholdRepository.save(new WgAveAnimalNoPerHouseholdEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                animalsRepository.findByAnimalCode(Constants.FISH_CAGES).getAnimalId(),
+                livestockPoultryOwnershipResponses.getFishCages()
+        ));
+
+        //Dairy Cattle
+        wgAveAnimalNoPerHouseholdRepository.save(new WgAveAnimalNoPerHouseholdEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                animalsRepository.findByAnimalCode(Constants.DAIRY_CATTLE).getAnimalId(),
+                livestockPoultryOwnershipResponses.getDairyCattle()
+        ));
     }
 
 
@@ -110,7 +138,7 @@ public class AnimalContributionService {
         //Cattle
         wgAnimalContributionsRepository.save(new WgAnimalContributionsEntity(
                 questionnaireSession.getWgQuestionnaireSessionId(),
-                animalsRepository.findByAnimalCode(Constants.CATTLE).getAnimalId(),
+                animalsRepository.findByAnimalCode(Constants.LOCAL_CATTLE).getAnimalId(),
                 (int) livestockContributionResponses.getCattle().getIncomeRank().getActualValue(),
                 livestockContributionResponses.getCattle().getIncomePercentage().getActualValue(),
                 (int) livestockContributionResponses.getCattle().getConsumptionRank().getActualValue(),
@@ -178,11 +206,22 @@ public class AnimalContributionService {
         //Chicken
         wgAnimalContributionsRepository.save(new WgAnimalContributionsEntity(
                 questionnaireSession.getWgQuestionnaireSessionId(),
-                animalsRepository.findByAnimalCode(Constants.CHICKEN).getAnimalId(),
+                animalsRepository.findByAnimalCode(Constants.LOCAL_CHICKEN).getAnimalId(),
                 (int) livestockContributionResponses.getChicken().getIncomeRank().getActualValue(),
                 livestockContributionResponses.getChicken().getIncomePercentage().getActualValue(),
                 (int) livestockContributionResponses.getChicken().getConsumptionRank().getActualValue(),
                 livestockContributionResponses.getChicken().getConsumptionPercentage().getActualValue()
+
+        ));
+
+        //Improved Chicken
+        wgAnimalContributionsRepository.save(new WgAnimalContributionsEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                animalsRepository.findByAnimalCode(Constants.IMPROVED_CHICKEN).getAnimalId(),
+                (int) livestockContributionResponses.getImprovedChicken().getIncomeRank().getActualValue(),
+                livestockContributionResponses.getImprovedChicken().getIncomePercentage().getActualValue(),
+                (int) livestockContributionResponses.getImprovedChicken().getConsumptionRank().getActualValue(),
+                livestockContributionResponses.getImprovedChicken().getConsumptionPercentage().getActualValue()
 
         ));
 
@@ -216,6 +255,41 @@ public class AnimalContributionService {
                 livestockContributionResponses.getFishPonds().getIncomePercentage().getActualValue(),
                 (int) livestockContributionResponses.getFishPonds().getConsumptionRank().getActualValue(),
                 livestockContributionResponses.getFishPonds().getConsumptionPercentage().getActualValue()
+
+        ));
+
+
+        //Fish Cages
+        wgAnimalContributionsRepository.save(new WgAnimalContributionsEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                animalsRepository.findByAnimalCode(Constants.FISH_CAGES).getAnimalId(),
+                (int) livestockContributionResponses.getFishCages().getIncomeRank().getActualValue(),
+                livestockContributionResponses.getFishCages().getIncomePercentage().getActualValue(),
+                (int) livestockContributionResponses.getFishCages().getConsumptionRank().getActualValue(),
+                livestockContributionResponses.getFishCages().getConsumptionPercentage().getActualValue()
+
+        ));
+
+
+        //Dairy Cattle
+        wgAnimalContributionsRepository.save(new WgAnimalContributionsEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                animalsRepository.findByAnimalCode(Constants.DAIRY_CATTLE).getAnimalId(),
+                (int) livestockContributionResponses.getDairyCattle().getIncomeRank().getActualValue(),
+                livestockContributionResponses.getDairyCattle().getIncomePercentage().getActualValue(),
+                (int) livestockContributionResponses.getDairyCattle().getConsumptionRank().getActualValue(),
+                livestockContributionResponses.getDairyCattle().getConsumptionPercentage().getActualValue()
+
+        ));
+
+        //Improved Cattle
+        wgAnimalContributionsRepository.save(new WgAnimalContributionsEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                animalsRepository.findByAnimalCode(Constants.IMPROVED_CATTLE).getAnimalId(),
+                (int) livestockContributionResponses.getImprovedCattle().getIncomeRank().getActualValue(),
+                livestockContributionResponses.getImprovedCattle().getIncomePercentage().getActualValue(),
+                (int) livestockContributionResponses.getImprovedCattle().getConsumptionRank().getActualValue(),
+                livestockContributionResponses.getImprovedCattle().getConsumptionPercentage().getActualValue()
 
         ));
     }

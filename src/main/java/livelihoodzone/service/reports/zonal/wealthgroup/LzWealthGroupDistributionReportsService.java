@@ -23,7 +23,7 @@ import java.util.List;
 import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
-public class WealthGroupReportsService {
+public class LzWealthGroupDistributionReportsService {
 
     @Autowired
     LzQuestionnaireSessionDao lzQuestionnaireSessionDao;
