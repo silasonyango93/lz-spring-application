@@ -1,5 +1,6 @@
 package livelihoodzone.service.reports.wealthgroup;
 
+import livelihoodzone.dto.reports.wealthgroup.WgFoodSourcesDataSetReponseDto;
 import livelihoodzone.dto.reports.wealthgroup.WgIncomeSourcesReportResponseDto;
 import livelihoodzone.dto.reports.wealthgroup.WgQuestionnaireDetailsResponseObjectDto;
 import livelihoodzone.service.reports.wealthgroup.income_food_sources.IncomeFoodSourcesAggregateResponsesService;
@@ -39,6 +40,10 @@ public class WealthGroupReportService {
 
     public WgIncomeSourcesReportResponseDto processIncomeSourcesIntegratedData(int countyId, int questionnaireTypeId) {
         return incomeFoodSourcesAggregateResponsesService.processWealthGroupIncomeSources(incomeFoodSourcesAggregateResponsesService.fetchWealthGroupIncomeSources(countyId,questionnaireTypeId));
+    }
+
+    public WgFoodSourcesDataSetReponseDto processFoodSourcesAggregatedResponses(int countyId, int questionnaireTypeId) {
+        return incomeFoodSourcesAggregateResponsesService.processFoodSourcesDataSet(incomeFoodSourcesAggregateResponsesService.fetchWealthGroupFoodSources(countyId,questionnaireTypeId));
     }
 
 }

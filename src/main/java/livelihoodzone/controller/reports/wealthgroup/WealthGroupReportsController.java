@@ -1,10 +1,7 @@
 package livelihoodzone.controller.reports.wealthgroup;
 
 import io.swagger.annotations.*;
-import livelihoodzone.dto.reports.wealthgroup.WealthGroupReportRequestDto;
-import livelihoodzone.dto.reports.wealthgroup.WealthGroupReportResponseHashMapObject;
-import livelihoodzone.dto.reports.wealthgroup.WgIncomeSourcesReportResponseDto;
-import livelihoodzone.dto.reports.wealthgroup.WgQuestionnaireDetailsResponseObjectDto;
+import livelihoodzone.dto.reports.wealthgroup.*;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
@@ -61,7 +58,12 @@ public class WealthGroupReportsController {
         }
         if (wealthGroupReportRequestDto.isSourcesOfIncome()) {
             WgIncomeSourcesReportResponseDto wgIncomeSourcesReportResponseDto = wealthGroupReportService.processIncomeSourcesIntegratedData(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
-            wealthGroupReportResponseHashMapObject.setReportHashMapObject("incomeAndFoodSources", wgIncomeSourcesReportResponseDto);
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("incomeSources", wgIncomeSourcesReportResponseDto);
+        }
+
+        if (wealthGroupReportRequestDto.isSourcesOfFood()) {
+            WgFoodSourcesDataSetReponseDto wgFoodSourcesDataSetReponseDto = wealthGroupReportService.processFoodSourcesAggregatedResponses(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("foodSources", wgFoodSourcesDataSetReponseDto);
         }
 
         return wealthGroupReportResponseHashMapObject;
