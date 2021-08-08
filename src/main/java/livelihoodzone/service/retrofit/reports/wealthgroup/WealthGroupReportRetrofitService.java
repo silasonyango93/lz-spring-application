@@ -13,5 +13,13 @@ public interface WealthGroupReportRetrofitService {
 
     @FormUrlEncoded
     @POST("fetch_wealth_group_questionnaire_details")
-    Call<List<WgQuestionnaireDetailsRetrofitModel>> fetchWealthGroupQuestionnaireDetails(@Field("questionnaireTypeId") int questionnaireTypeId);
+    Call<List<WgQuestionnaireDetailsRetrofitModel>> fetchWealthGroupQuestionnaireDetails(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
+
+    @FormUrlEncoded
+    @POST("fetch_wealth_group_income_sources")
+    Call<List<WgIncomeSourcesRetrofitModel>> fetchWealthGroupIncomeSources(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
+
+    @FormUrlEncoded
+    @POST("fetch_wealth_group_food_sources")
+    Call<List<WgFoodSourcesRetrofitModel>> fetchWealthGroupFoodSources(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
 }

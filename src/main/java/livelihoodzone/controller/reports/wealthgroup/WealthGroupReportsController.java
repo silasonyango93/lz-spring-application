@@ -1,11 +1,13 @@
-package livelihoodzone.controller.reports.zonelevel.wealthgroup;
+package livelihoodzone.controller.reports.wealthgroup;
 
 import io.swagger.annotations.*;
 import livelihoodzone.dto.reports.wealthgroup.WealthGroupReportRequestDto;
 import livelihoodzone.dto.reports.wealthgroup.WealthGroupReportResponseHashMapObject;
+import livelihoodzone.dto.reports.wealthgroup.WgIncomeSourcesReportResponseDto;
 import livelihoodzone.dto.reports.wealthgroup.WgQuestionnaireDetailsResponseObjectDto;
-import livelihoodzone.dto.reports.zonal.ZoneLevelReportRequestDto;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
+import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
+import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/wealthgroup-reports")
@@ -25,6 +28,10 @@ public class WealthGroupReportsController {
 
     @Autowired
     WealthGroupReportService wealthGroupReportService;
+
+
+    @Autowired
+    WgQuestionnaireTypesRepository wgQuestionnaireTypesRepository;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -49,10 +56,25 @@ public class WealthGroupReportsController {
         WealthGroupReportResponseHashMapObject wealthGroupReportResponseHashMapObject = new WealthGroupReportResponseHashMapObject();
 
         if (wealthGroupReportRequestDto.isQuestionnaireDetails()) {
-            WgQuestionnaireDetailsResponseObjectDto wgQuestionnaireDetailsResponseObjectDto = wealthGroupReportService.processQuestionnaireDetails(wealthGroupReportRequestDto.getQuestionnaireTypeId());
+            WgQuestionnaireDetailsResponseObjectDto wgQuestionnaireDetailsResponseObjectDto = wealthGroupReportService.processQuestionnaireDetails(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
             wealthGroupReportResponseHashMapObject.setReportHashMapObject("questionnaireDetails", wgQuestionnaireDetailsResponseObjectDto);
+        }
+        if (wealthGroupReportRequestDto.isSourcesOfIncome()) {
+            WgIncomeSourcesReportResponseDto wgIncomeSourcesReportResponseDto = wealthGroupReportService.processIncomeSourcesIntegratedData(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("incomeAndFoodSources", wgIncomeSourcesReportResponseDto);
         }
 
         return wealthGroupReportResponseHashMapObject;
+    }
+
+
+    @GetMapping(value = "/wealth-group-questionnaire-types")
+    @ApiOperation(value = "${WealthGroupReports.wealth-group-questionnaire-types}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token"),
+            @ApiResponse(code = 422, message = "Data is not available")})
+    public ResponseEntity<List<WgQuestionnaireTypesEntity>> fetchWealthGroupQuestionnaireTypes() {
+        return new ResponseEntity<List<WgQuestionnaireTypesEntity>>(wgQuestionnaireTypesRepository.findAll(), HttpStatus.valueOf(200));
     }
 }

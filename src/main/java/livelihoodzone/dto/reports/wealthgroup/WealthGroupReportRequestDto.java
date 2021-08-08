@@ -1,16 +1,27 @@
 package livelihoodzone.dto.reports.wealthgroup;
 
 public class WealthGroupReportRequestDto {
+    private int countyId;
     private int questionnaireTypeId;
     private boolean questionnaireDetails;
-    private boolean mainSourceOfIncomeAndFood;
+    private boolean sourcesOfIncome;
+    private boolean sourcesOfFood;
     private boolean cropProduction;
     private boolean livestockAndPoultryOwnership;
+    private boolean livestockAndPoultryContributions;
     private boolean labourPatterns;
     private boolean expenditurePatterns;
     private boolean settlementAndMigration;
     private boolean constraintsToEconomicActivities;
     private boolean fgdParticipants;
+
+    public int getCountyId() {
+        return countyId;
+    }
+
+    public void setCountyId(int countyId) {
+        this.countyId = countyId;
+    }
 
     public int getQuestionnaireTypeId() {
         return questionnaireTypeId;
@@ -28,12 +39,20 @@ public class WealthGroupReportRequestDto {
         this.questionnaireDetails = questionnaireDetails;
     }
 
-    public boolean isMainSourceOfIncomeAndFood() {
-        return mainSourceOfIncomeAndFood;
+    public boolean isSourcesOfIncome() {
+        return sourcesOfIncome;
     }
 
-    public void setMainSourceOfIncomeAndFood(boolean mainSourceOfIncomeAndFood) {
-        this.mainSourceOfIncomeAndFood = mainSourceOfIncomeAndFood;
+    public void setSourcesOfIncome(boolean sourcesOfIncome) {
+        this.sourcesOfIncome = sourcesOfIncome;
+    }
+
+    public boolean isSourcesOfFood() {
+        return sourcesOfFood;
+    }
+
+    public void setSourcesOfFood(boolean sourcesOfFood) {
+        this.sourcesOfFood = sourcesOfFood;
     }
 
     public boolean isCropProduction() {
@@ -50,6 +69,14 @@ public class WealthGroupReportRequestDto {
 
     public void setLivestockAndPoultryOwnership(boolean livestockAndPoultryOwnership) {
         this.livestockAndPoultryOwnership = livestockAndPoultryOwnership;
+    }
+
+    public boolean isLivestockAndPoultryContributions() {
+        return livestockAndPoultryContributions;
+    }
+
+    public void setLivestockAndPoultryContributions(boolean livestockAndPoultryContributions) {
+        this.livestockAndPoultryContributions = livestockAndPoultryContributions;
     }
 
     public boolean isLabourPatterns() {
