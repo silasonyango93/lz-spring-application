@@ -22,4 +22,8 @@ public interface WealthGroupReportRetrofitService {
     @FormUrlEncoded
     @POST("fetch_wealth_group_food_sources")
     Call<List<WgFoodSourcesRetrofitModel>> fetchWealthGroupFoodSources(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
+
+    @FormUrlEncoded
+    @POST("fetch_wealth_group_crop_production")
+    Call<List<WgCropContributionRetrofitModel>> fetchWealthGroupCropProduction(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
 }

@@ -36,6 +36,14 @@ public class CountiesEntity {
     @OneToMany(mappedBy = "countyId",fetch = FetchType.EAGER)
     private List<SubCountyEntity> subCounties;
 
+    public CountiesEntity() {
+    }
+
+    public CountiesEntity(String countyName, String countyCode) {
+        this.countyName = countyName;
+        this.countyCode = countyCode;
+    }
+
     public int getCountyId() {
         return countyId;
     }

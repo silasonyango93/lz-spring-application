@@ -1,5 +1,6 @@
 package livelihoodzone.dto.questionnaire;
 
+import livelihoodzone.dto.livelihoodzones.SampledSubLocationsRequestDto;
 import livelihoodzone.dto.questionnaire.county.LzCropProductionResponses;
 import livelihoodzone.dto.questionnaire.county.WaterSourcesResponsesDto;
 import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsResponses;
@@ -10,6 +11,7 @@ import livelihoodzone.dto.questionnaire.county.model.hunger.HungerPatternsRespon
 import livelihoodzone.dto.questionnaire.county.model.markets.MarketTransactionsItem;
 import livelihoodzone.dto.questionnaire.county.model.seasons.LzSeasonsResponses;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
+import livelihoodzone.service.retrofit.livelihoodzones.CountySubLocationsLivelihoodZonesAssignmentRetrofitModel;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class CountyLevelQuestionnaireRequestDto {
     private HungerPatternsResponses hungerPatternsResponses;
     private HazardResponses hazardResponses;
     private LzSeasonsResponses livelihoodZoneSeasonsResponses;
+    List<SampledSubLocationsRequestDto> sampledSubLocations;
 
     public String getUniqueId() {
         return uniqueId;
@@ -157,5 +160,13 @@ public class CountyLevelQuestionnaireRequestDto {
 
     public void setQuestionnaireName(String questionnaireName) {
         this.questionnaireName = questionnaireName;
+    }
+
+    public List<SampledSubLocationsRequestDto> getSampledSubLocations() {
+        return sampledSubLocations;
+    }
+
+    public void setSampledSubLocations(List<SampledSubLocationsRequestDto> sampledSubLocations) {
+        this.sampledSubLocations = sampledSubLocations;
     }
 }
