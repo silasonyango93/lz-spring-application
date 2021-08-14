@@ -66,12 +66,27 @@ public class WealthGroupReportsController {
             wealthGroupReportResponseHashMapObject.setReportHashMapObject("foodSources", wgFoodSourcesDataSetReponseDto);
         }
 
+        if (wealthGroupReportRequestDto.isCropProduction()) {
+            WgCropContributionReportResponseObject wgCropContributionReportResponseObject = wealthGroupReportService.processCropContribution(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("cropProduction", wgCropContributionReportResponseObject);
+        }
+
+        if (wealthGroupReportRequestDto.isLivestockAndPoultryOwnership()) {
+            WgLivestockOwnershipDataSetObject wgLivestockOwnershipDataSetObject = wealthGroupReportService.processLivestockOwnership(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("livestockOwnership", wgLivestockOwnershipDataSetObject);
+        }
+
+        if (wealthGroupReportRequestDto.isLivestockAndPoultryContributions()) {
+            WgAnimalContributionDataSetObject wgAnimalContributionDataSetObject = wealthGroupReportService.processLivestockContributions(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("livestockContribution", wgAnimalContributionDataSetObject);
+        }
+
         return wealthGroupReportResponseHashMapObject;
     }
 
 
     @GetMapping(value = "/wealth-group-questionnaire-types")
-    @ApiOperation(value = "${WealthGroupReports.wealth-group-questionnaire-types}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${WealthGroupReports.wealth-group-questionnaire-types}", response = WgQuestionnaireTypesEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token"),
