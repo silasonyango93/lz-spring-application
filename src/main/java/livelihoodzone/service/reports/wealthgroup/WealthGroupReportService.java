@@ -1,9 +1,7 @@
 package livelihoodzone.service.reports.wealthgroup;
 
-import livelihoodzone.dto.reports.wealthgroup.WgCropContributionReportResponseObject;
-import livelihoodzone.dto.reports.wealthgroup.WgFoodSourcesDataSetReponseDto;
-import livelihoodzone.dto.reports.wealthgroup.WgIncomeSourcesReportResponseDto;
-import livelihoodzone.dto.reports.wealthgroup.WgQuestionnaireDetailsResponseObjectDto;
+import livelihoodzone.dto.reports.wealthgroup.*;
+import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
 import livelihoodzone.service.reports.wealthgroup.crop_contribution.CropContributionReportsService;
 import livelihoodzone.service.reports.wealthgroup.income_food_sources.IncomeFoodSourcesAggregateResponsesService;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
@@ -26,6 +24,9 @@ public class WealthGroupReportService {
 
     @Autowired
     CropContributionReportsService cropContributionReportsService;
+
+    @Autowired
+    AnimalOwnershipService animalOwnershipService;
 
     public List<WgQuestionnaireDetailsRetrofitModel> fetchWealthGroupQuestionnaireDetails(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -53,6 +54,14 @@ public class WealthGroupReportService {
 
     public WgCropContributionReportResponseObject processCropContribution(int countyId, int questionnaireTypeId) {
         return cropContributionReportsService.processCropContribution(cropContributionReportsService.fetchWealthCropContribution(countyId,questionnaireTypeId));
+    }
+
+    public WgLivestockOwnershipDataSetObject processLivestockOwnership(int countyId, int questionnaireTypeId) {
+        return animalOwnershipService.processLivestockOwnership(animalOwnershipService.fetchWealthGroupAnimalOwnership(countyId,questionnaireTypeId));
+    }
+
+    public WgAnimalContributionDataSetObject processLivestockContributions(int countyId, int questionnaireTypeId) {
+        return animalOwnershipService.processLivestockContribution(animalOwnershipService.fetchWealthGroupAnimalContribution(countyId,questionnaireTypeId));
     }
 
 }
