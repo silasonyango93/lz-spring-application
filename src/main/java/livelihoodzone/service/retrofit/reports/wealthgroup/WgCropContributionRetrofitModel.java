@@ -19,7 +19,7 @@ public class WgCropContributionRetrofitModel {
     private double foodConsumptionApproxPercentage;
 
     @SerializedName("WgQuestionnaireSessionId")
-    private double wgQuestionnaireSessionId;
+    private int wgQuestionnaireSessionId;
 
     public String getCropName() {
         return cropName;
@@ -61,11 +61,11 @@ public class WgCropContributionRetrofitModel {
         this.foodConsumptionApproxPercentage = foodConsumptionApproxPercentage;
     }
 
-    public double getWgQuestionnaireSessionId() {
+    public int getWgQuestionnaireSessionId() {
         return wgQuestionnaireSessionId;
     }
 
-    public void setWgQuestionnaireSessionId(double wgQuestionnaireSessionId) {
+    public void setWgQuestionnaireSessionId(int wgQuestionnaireSessionId) {
         this.wgQuestionnaireSessionId = wgQuestionnaireSessionId;
     }
 }

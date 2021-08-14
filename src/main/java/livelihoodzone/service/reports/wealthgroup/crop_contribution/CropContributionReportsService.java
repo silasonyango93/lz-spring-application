@@ -29,12 +29,15 @@ public class CropContributionReportsService {
         }
     }
 
-    public WgCropContributionReportResponseObject processCropContribution() {
-        List<String> cropNameList = new ArrayList<>();
-        List<String> cashIncomeRankList = new ArrayList<>();
-        List<String> cashIncomeApproxPercentageList = new ArrayList<>();
-        List<String> foodConsumptionRankList = new ArrayList<>();
-        List<String> foodConsumptionApproxPercentageList = new ArrayList<>();
+    public WgCropContributionReportResponseObject processCropContribution(List<WgCropContributionRetrofitModel> items) {
+        List<String> cropNameList = processCropNamesColumn(items);
+        List<String> cashIncomeRankList = processCashIncomeRankColumn(items);
+        List<String> cashIncomeApproxPercentageList = processCashIncomeApproxPercentage(items);
+        List<String> foodConsumptionRankList = processFoodConsumptionRank(items);
+        List<String> foodConsumptionApproxPercentageList = processFoodConsumptionApproxPercentage(items);
+
+
+
 
         return new WgCropContributionReportResponseObject(
                 cropNameList,
@@ -43,5 +46,139 @@ public class CropContributionReportsService {
                 foodConsumptionRankList,
                 foodConsumptionApproxPercentageList
         );
+    }
+
+    private List<String> processCropNamesColumn(List<WgCropContributionRetrofitModel> items) {
+        List<String> cropNameList = new ArrayList<>();
+        int currentQuestionnaireSessionId = -1;
+        if (!items.isEmpty()) {
+            currentQuestionnaireSessionId = items.get(0).getWgQuestionnaireSessionId();
+        }
+
+        String currentReportString = "";
+        int counter = 1;
+
+        for (WgCropContributionRetrofitModel currentItem : items) {
+            if (currentItem.getWgQuestionnaireSessionId() == currentQuestionnaireSessionId) {
+                currentReportString = currentReportString + counter + ") " + currentItem.getCropName() + ", ";
+                counter++;
+            } else {
+                cropNameList.add(currentReportString);
+                counter = 1;
+                currentReportString = counter + ") " + currentItem.getCropName() + ", ";
+                counter++;
+                currentQuestionnaireSessionId = currentItem.getWgQuestionnaireSessionId();
+            }
+        }
+        cropNameList.add(currentReportString);
+        return cropNameList;
+    }
+
+
+    private List<String> processCashIncomeRankColumn(List<WgCropContributionRetrofitModel> items) {
+        List<String> cashIncomeRankList = new ArrayList<>();
+        int currentQuestionnaireSessionId = -1;
+        if (!items.isEmpty()) {
+            currentQuestionnaireSessionId = items.get(0).getWgQuestionnaireSessionId();
+        }
+
+        String currentReportString = "";
+        int counter = 1;
+
+        for (WgCropContributionRetrofitModel currentItem : items) {
+            if (currentItem.getWgQuestionnaireSessionId() == currentQuestionnaireSessionId) {
+                currentReportString = currentReportString + counter + ") " + currentItem.getCropName() + " -> " +currentItem.getCashIncomeRank() + ", ";
+                counter++;
+            } else {
+                cashIncomeRankList.add(currentReportString);
+                counter = 1;
+                currentReportString = counter + ") " + currentItem.getCropName() + " -> " +currentItem.getCashIncomeRank() + ", ";
+                counter++;
+                currentQuestionnaireSessionId = currentItem.getWgQuestionnaireSessionId();
+            }
+        }
+        cashIncomeRankList.add(currentReportString);
+        return cashIncomeRankList;
+    }
+
+
+    private List<String> processCashIncomeApproxPercentage(List<WgCropContributionRetrofitModel> items) {
+        List<String> cashIncomeApproxPercentageList = new ArrayList<>();
+        int currentQuestionnaireSessionId = -1;
+        if (!items.isEmpty()) {
+            currentQuestionnaireSessionId = items.get(0).getWgQuestionnaireSessionId();
+        }
+
+        String currentReportString = "";
+        int counter = 1;
+
+        for (WgCropContributionRetrofitModel currentItem : items) {
+            if (currentItem.getWgQuestionnaireSessionId() == currentQuestionnaireSessionId) {
+                currentReportString = currentReportString + counter + ") " + currentItem.getCropName() + " -> " +currentItem.getCashIncomeApproxPercentage() + ", ";
+                counter++;
+            } else {
+                cashIncomeApproxPercentageList.add(currentReportString);
+                counter = 1;
+                currentReportString = counter + ") " + currentItem.getCropName() + " -> " +currentItem.getCashIncomeApproxPercentage() + ", ";
+                counter++;
+                currentQuestionnaireSessionId = currentItem.getWgQuestionnaireSessionId();
+            }
+        }
+        cashIncomeApproxPercentageList.add(currentReportString);
+        return cashIncomeApproxPercentageList;
+    }
+
+
+    private List<String> processFoodConsumptionRank(List<WgCropContributionRetrofitModel> items) {
+        List<String> foodConsumptionRankList = new ArrayList<>();
+        int currentQuestionnaireSessionId = -1;
+        if (!items.isEmpty()) {
+            currentQuestionnaireSessionId = items.get(0).getWgQuestionnaireSessionId();
+        }
+
+        String currentReportString = "";
+        int counter = 1;
+
+        for (WgCropContributionRetrofitModel currentItem : items) {
+            if (currentItem.getWgQuestionnaireSessionId() == currentQuestionnaireSessionId) {
+                currentReportString = currentReportString + counter + ") " + currentItem.getCropName() + " -> " +currentItem.getFoodConsumptionRank() + ", ";
+                counter++;
+            } else {
+                foodConsumptionRankList.add(currentReportString);
+                counter = 1;
+                currentReportString = counter + ") " + currentItem.getCropName() + " -> " +currentItem.getFoodConsumptionRank() + ", ";
+                counter++;
+                currentQuestionnaireSessionId = currentItem.getWgQuestionnaireSessionId();
+            }
+        }
+        foodConsumptionRankList.add(currentReportString);
+        return foodConsumptionRankList;
+    }
+
+
+    private List<String> processFoodConsumptionApproxPercentage(List<WgCropContributionRetrofitModel> items) {
+        List<String> foodConsumptionApproxPercentageList = new ArrayList<>();
+        int currentQuestionnaireSessionId = -1;
+        if (!items.isEmpty()) {
+            currentQuestionnaireSessionId = items.get(0).getWgQuestionnaireSessionId();
+        }
+
+        String currentReportString = "";
+        int counter = 1;
+
+        for (WgCropContributionRetrofitModel currentItem : items) {
+            if (currentItem.getWgQuestionnaireSessionId() == currentQuestionnaireSessionId) {
+                currentReportString = currentReportString + counter + ") " + currentItem.getCropName() + " -> " +currentItem.getFoodConsumptionApproxPercentage() + ", ";
+                counter++;
+            } else {
+                foodConsumptionApproxPercentageList.add(currentReportString);
+                counter = 1;
+                currentReportString = counter + ") " + currentItem.getCropName() + " -> " +currentItem.getFoodConsumptionApproxPercentage() + ", ";
+                counter++;
+                currentQuestionnaireSessionId = currentItem.getWgQuestionnaireSessionId();
+            }
+        }
+        foodConsumptionApproxPercentageList.add(currentReportString);
+        return foodConsumptionApproxPercentageList;
     }
 }

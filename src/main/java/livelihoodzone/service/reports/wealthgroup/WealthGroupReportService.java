@@ -1,8 +1,10 @@
 package livelihoodzone.service.reports.wealthgroup;
 
+import livelihoodzone.dto.reports.wealthgroup.WgCropContributionReportResponseObject;
 import livelihoodzone.dto.reports.wealthgroup.WgFoodSourcesDataSetReponseDto;
 import livelihoodzone.dto.reports.wealthgroup.WgIncomeSourcesReportResponseDto;
 import livelihoodzone.dto.reports.wealthgroup.WgQuestionnaireDetailsResponseObjectDto;
+import livelihoodzone.service.reports.wealthgroup.crop_contribution.CropContributionReportsService;
 import livelihoodzone.service.reports.wealthgroup.income_food_sources.IncomeFoodSourcesAggregateResponsesService;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WealthGroupReportRetrofitService;
@@ -21,6 +23,9 @@ public class WealthGroupReportService {
 
     @Autowired
     IncomeFoodSourcesAggregateResponsesService incomeFoodSourcesAggregateResponsesService;
+
+    @Autowired
+    CropContributionReportsService cropContributionReportsService;
 
     public List<WgQuestionnaireDetailsRetrofitModel> fetchWealthGroupQuestionnaireDetails(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -44,6 +49,10 @@ public class WealthGroupReportService {
 
     public WgFoodSourcesDataSetReponseDto processFoodSourcesAggregatedResponses(int countyId, int questionnaireTypeId) {
         return incomeFoodSourcesAggregateResponsesService.processFoodSourcesDataSet(incomeFoodSourcesAggregateResponsesService.fetchWealthGroupFoodSources(countyId,questionnaireTypeId));
+    }
+
+    public WgCropContributionReportResponseObject processCropContribution(int countyId, int questionnaireTypeId) {
+        return cropContributionReportsService.processCropContribution(cropContributionReportsService.fetchWealthCropContribution(countyId,questionnaireTypeId));
     }
 
 }

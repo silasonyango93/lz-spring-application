@@ -1,6 +1,5 @@
 package livelihoodzone.util.excel;
 
-import livelihoodzone.common.CustomRunTimeStore;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -16,7 +15,7 @@ import java.util.List;
 
 public class ExcelHelper {
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    static String[] HEADERs = { "COUNTRY", "PROVINCE", "COUNTY", "DIVISION", "SUB-COUNTY", "WARD", "SUBLOCATION", "ADMIN6ID", "NEW LZ TYPE" };
+    static String[] HEADERs = { "OBJECTID", "COUNTY", "OLD DIVISION", "OLD LOCATION", "OLD SUB LOCATION", "CURRENT CONSTITUENCY", "CURRENT WARD" };
     static String SHEET = "Sheet1";
 
     public static boolean hasExcelFormat(MultipartFile file) {
@@ -58,45 +57,33 @@ public class ExcelHelper {
 
                     switch (cellIdx) {
                         case 0:
-                            tutorial.setCountry(currentCell.getStringCellValue());
+                            tutorial.setCode((double) currentCell.getNumericCellValue());
                             break;
 
                         case 1:
-                            tutorial.setProvince(currentCell.getStringCellValue());
-                            break;
-
-                        case 2:
                             tutorial.setCounty(currentCell.getStringCellValue());
                             break;
 
+                        case 2:
+                            tutorial.setOldDivision(currentCell.getStringCellValue());
+                            break;
+
                         case 3:
-                            tutorial.setDivision(currentCell.getStringCellValue());
+                            tutorial.setOldLocation(currentCell.getStringCellValue());
                             break;
 
                         case 4:
-                            tutorial.setSubCounty(currentCell.getStringCellValue());
+                            tutorial.setOldSubLocation(currentCell.getStringCellValue());
                             break;
 
 
                         case 5:
-                            tutorial.setLocation(currentCell.getStringCellValue());
+                            tutorial.setCurrentConstituency(currentCell.getStringCellValue());
                             break;
 
 
                         case 6:
-                            tutorial.setWard(currentCell.getStringCellValue());
-                            break;
-
-                        case 7:
-                            tutorial.setSubLocation(currentCell.getStringCellValue());
-                            break;
-
-                        case 8:
-                            tutorial.setAdministrativeId(currentCell.getStringCellValue());
-                            break;
-
-                        case 9:
-                            tutorial.setLivelihoodZone(currentCell.getStringCellValue());
+                            tutorial.setCurrentWard(currentCell.getStringCellValue());
                             break;
 
                         default:
@@ -107,7 +94,6 @@ public class ExcelHelper {
                 }
 
                 tutorials.add(tutorial);
-                CustomRunTimeStore.getInstance().addARow(tutorial);
             }
 
             workbook.close();
