@@ -4,6 +4,7 @@ import livelihoodzone.dto.reports.wealthgroup.*;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
 import livelihoodzone.service.reports.wealthgroup.crop_contribution.CropContributionReportsService;
 import livelihoodzone.service.reports.wealthgroup.income_food_sources.IncomeFoodSourcesAggregateResponsesService;
+import livelihoodzone.service.reports.wealthgroup.labour_patterns.LabourPatternsDataSetService;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WealthGroupReportRetrofitService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
@@ -27,6 +28,9 @@ public class WealthGroupReportService {
 
     @Autowired
     AnimalOwnershipService animalOwnershipService;
+
+    @Autowired
+    LabourPatternsDataSetService labourPatternsDataSetService;
 
     public List<WgQuestionnaireDetailsRetrofitModel> fetchWealthGroupQuestionnaireDetails(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -64,4 +68,7 @@ public class WealthGroupReportService {
         return animalOwnershipService.processLivestockContribution(animalOwnershipService.fetchWealthGroupAnimalContribution(countyId,questionnaireTypeId));
     }
 
+    public WgLabourPatternsDataSetObject processLabourPatterns(int countyId, int questionnaireTypeId) {
+        return labourPatternsDataSetService.processLabourPatterns(labourPatternsDataSetService.fetchWealthGroupLabourPatterns(countyId,questionnaireTypeId));
+    }
 }

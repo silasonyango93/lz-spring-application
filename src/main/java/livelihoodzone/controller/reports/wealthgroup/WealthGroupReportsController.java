@@ -81,6 +81,11 @@ public class WealthGroupReportsController {
             wealthGroupReportResponseHashMapObject.setReportHashMapObject("livestockContribution", wgAnimalContributionDataSetObject);
         }
 
+        if (wealthGroupReportRequestDto.isLabourPatterns()) {
+            WgLabourPatternsDataSetObject wgLabourPatternsDataSetObject = wealthGroupReportService.processLabourPatterns(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("labourPatterns", wgLabourPatternsDataSetObject);
+        }
+
         return wealthGroupReportResponseHashMapObject;
     }
 
