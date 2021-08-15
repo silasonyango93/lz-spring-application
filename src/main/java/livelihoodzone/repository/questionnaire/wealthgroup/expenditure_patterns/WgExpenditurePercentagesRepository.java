@@ -1,0 +1,8 @@
+package livelihoodzone.repository.questionnaire.wealthgroup.expenditure_patterns;
+
+import livelihoodzone.entity.questionnaire.wealthgroup.expenditure_patterns.WgExpenditureItemsEntity;
+import livelihoodzone.entity.questionnaire.wealthgroup.expenditure_patterns.WgExpenditurePercentagesEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface WgExpenditurePercentagesRepository extends JpaRepository<WgExpenditurePercentagesEntity, Long> {
+}

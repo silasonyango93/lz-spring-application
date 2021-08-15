@@ -105,4 +105,31 @@ public class Constants {
     public static final int COMMERCIAL_SEX_WORK = 12;
     public static final int LEISURE_SOCIALIZING_ENTERTAINMENT = 13;
     public static final int OTHER_LIVELIHOOD_ACTIVITIES = 14;
+
+
+    //Expenditure items
+    public static final int EXP_MAIZE_AND_MAIZE_FLOUR = 1;
+    public static final int EXP_OTHER_CEREALS = 2;
+    public static final int EXP_PULSES = 3;
+    public static final int EXP_ROOTS_AND_ROOT_TUBERS = 4;
+    public static final int EXP_VEGETABLES_AND_FRUITS = 5;
+    public static final int EXP_FISH_AND_SEA_FOOD = 6;
+    public static final int EXP_MEAT = 7;
+    public static final int EXP_MILK = 8;
+    public static final int EXP_EGGS = 9;
+    public static final int EXP_OILS_AND_FATS = 10;
+    public static final int EXP_SCHOOL_FEES = 11;
+    public static final int EXP_DRUGS_AND_MEDICAL_CARE = 12;
+    public static final int EXP_CLOTHING_BEAUTY_PRODUCTS = 13;
+    public static final int EXP_HOUSE_RENT = 14;
+    public static final int EXP_COMMUNICATION_EXPENSES = 15;
+    public static final int EXP_FARM_INPUTS = 16;
+    public static final int EXP_TRAVEL_EXPENSES = 17;
+    public static final int EXP_LEISURE_AND_ENTERTAINMENT = 18;
+    public static final int EXP_ELECTRICITY_BILLS = 19;
+    public static final int EXP_SOCIAL_OBLIGATION = 20;
+    public static final int EXP_MILLING_COSTS = 21;
+    public static final int EXP_COOKING_FUEL = 22;
+    public static final int EXP_SAVING_AND_INVESTMENTS = 23;
+    public static final int EXP_LOAN_REPAYMENTS = 24;
 }
