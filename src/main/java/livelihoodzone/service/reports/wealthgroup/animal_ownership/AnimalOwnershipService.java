@@ -140,10 +140,10 @@ public class AnimalOwnershipService {
 
         for (WgLivestockContributionRetrofitModel currentItem : processedList) {
             if (currentItem.getWgQuestionnaireSessionId() == currentQuestionnaireSessionId) {
-                currentReportString = currentReportString + "Income rank -> " + currentItem.getIncomeContributionRank() + " Income approx percentage -> " + currentItem.getIncomeContributionApproxPercentage() + " Consumption rank -> " + currentItem.getConsumptionContributionRank() + " Consumption approx percentage -> " + currentItem.getConsumptionContributionApproxPercentage() + " ";
+                currentReportString = currentReportString + "Income rank -> " + currentItem.getIncomeContributionRank() + "  Income approx percentage -> " + currentItem.getIncomeContributionApproxPercentage() + "  Consumption rank -> " + currentItem.getConsumptionContributionRank() + "  Consumption approx percentage -> " + currentItem.getConsumptionContributionApproxPercentage() + " ";
             } else {
                 reportString.add(currentReportString);
-                currentReportString = "Income rank -> " + currentItem.getIncomeContributionRank() + " Income approx percentage -> " + currentItem.getIncomeContributionApproxPercentage() + " Consumption rank -> " + currentItem.getConsumptionContributionRank() + " Consumption approx percentage -> " + currentItem.getConsumptionContributionApproxPercentage() + " ";
+                currentReportString = "Income rank -> " + currentItem.getIncomeContributionRank() + "  Income approx percentage -> " + currentItem.getIncomeContributionApproxPercentage() + "  Consumption rank -> " + currentItem.getConsumptionContributionRank() + "  Consumption approx percentage -> " + currentItem.getConsumptionContributionApproxPercentage() + " ";
                 currentQuestionnaireSessionId = currentItem.getWgQuestionnaireSessionId();
             }
         }
