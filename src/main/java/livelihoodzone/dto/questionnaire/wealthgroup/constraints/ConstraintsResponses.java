@@ -6,7 +6,7 @@ public class ConstraintsResponses {
     private LivestockProductionIncomeConstraintsResponses livestockProductionIncomeConstraintsResponses;
     private FishingIncomeConstraintsResponses fishingIncomeConstraintsResponses;
     private NaturalResourceIncomeConstraintsResponses naturalResourceIncomeConstraintsResponses;
-    private SmallEnterpriseIncomeConstraintsResponses constraintsResponses;
+    private SmallEnterpriseIncomeConstraintsResponses smallEnterpriseIncomeConstraintsResponses;
 
     public WagedLabourIncomeConstraintsResponses getWagedLabourIncomeConstraintsResponses() {
         return wagedLabourIncomeConstraintsResponses;
@@ -48,11 +48,11 @@ public class ConstraintsResponses {
         this.naturalResourceIncomeConstraintsResponses = naturalResourceIncomeConstraintsResponses;
     }
 
-    public SmallEnterpriseIncomeConstraintsResponses getConstraintsResponses() {
-        return constraintsResponses;
+    public SmallEnterpriseIncomeConstraintsResponses getSmallEnterpriseIncomeConstraintsResponses() {
+        return smallEnterpriseIncomeConstraintsResponses;
     }
 
-    public void setConstraintsResponses(SmallEnterpriseIncomeConstraintsResponses constraintsResponses) {
-        this.constraintsResponses = constraintsResponses;
+    public void setSmallEnterpriseIncomeConstraintsResponses(SmallEnterpriseIncomeConstraintsResponses smallEnterpriseIncomeConstraintsResponses) {
+        this.smallEnterpriseIncomeConstraintsResponses = smallEnterpriseIncomeConstraintsResponses;
     }
 }

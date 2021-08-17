@@ -10,6 +10,7 @@ import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
 import livelihoodzone.service.questionnaire.wealthgroup.animal_contribution.AnimalContributionService;
+import livelihoodzone.service.questionnaire.wealthgroup.constraints.IncomeConstraintsService;
 import livelihoodzone.service.questionnaire.wealthgroup.cropcontribution.CropContributionService;
 import livelihoodzone.service.questionnaire.wealthgroup.expenditure_patterns.ExpenditurePatternsService;
 import livelihoodzone.service.questionnaire.wealthgroup.income_food_sources.IncomeFoodSourcesService;
@@ -50,6 +51,9 @@ public class WealthGroupService {
 
     @Autowired
     MigrationPatternsService migrationPatternsService;
+
+    @Autowired
+    IncomeConstraintsService incomeConstraintsService;
 
     public QuestionnaireResponseDto processQuestionnaire(WealthGroupQuestionnaireRequestDto wealthGroupQuestionnaireRequestDto, User dataCollector) {
 
@@ -98,6 +102,7 @@ public class WealthGroupService {
         labourPatternsService.saveLabourPatterns(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         expenditurePatternsService.saveExpenditureService(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         migrationPatternsService.saveMigrationPatterns(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
+        incomeConstraintsService.saveIncomeConstraints(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
 
         /* ***********************************************************************************************************************************************/
 

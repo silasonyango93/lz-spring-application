@@ -143,4 +143,56 @@ public class Constants {
     public static final int MGR_FULLY_SETTLED = 6;
     public static final int MGR_INTERNALLY_DISPLACED = 7;
 
+    //Constraints income sources
+    public static final int CONIN_WAGED_LABOUR = 1;
+    public static final int CONIN_CROP_PRODUCTION = 2;
+    public static final int CONIN_LIVESTOCK_PRODUCTION = 3;
+    public static final int CONIN_FISHING = 4;
+    public static final int CONIN_NATURAL_RESOURCES = 5;
+    public static final int CONIN_SMALL_ENTERPRISE = 6;
+
+
+    //Income constraints
+    public static final int INCO_WL_LOW_EDUCATION = 1;
+    public static final int INCO_WL_POOR_HEALTH = 2;
+    public static final int INCO_WL_TOO_FEW_JOBS = 3;
+    public static final int INCO_WL_TOO_MUCH_FARM_TIME = 4;
+    public static final int INCO_WL_LOW_AVERAGE_WAGE_RATES = 5;
+
+
+    public static final int INCO_CP_SMALL_LAND_HOLDINGS = 6;
+    public static final int INCO_CP_LACK_OF_CREDIT = 7;
+    public static final int INCO_CP_HIGH_INPUT_COSTS = 8;
+    public static final int INCO_CP_LOW_LAND_FERTILITY = 9;
+    public static final int INCO_CP_LACK_OF_RELIABLE_WATER = 10;
+    public static final int INCO_CP_LOW_TECHNICAL_SKILLS = 11;
+    public static final int INCO_CP_LOW_QUALITY_SEED_STOCK = 12;
+    public static final int INCO_CP_LACK_MARKET_ACCESS = 13;
+    public static final int INCO_CP_ENDEMIC_CROP_PESTS_DISEASES = 14;
+
+    public static final int INCO_LP_LACK_OF_PASTURE = 15;
+    public static final int INCO_LP_LACK_OF_ANIMAL_DRINKING_WATER = 16;
+    public static final int INCO_LP_LOW_YIELDING_ANIMALS = 17;
+    public static final int INCO_LP_HIGH_COST_VETERINARY_DRUGS = 18;
+    public static final int INCO_LP_ENDEMIC_LIVESTOCK_PESTS_DISEASES = 19;
+    public static final int INCO_LP_LACK_OF_MARKET = 20;
+    public static final int INCO_LP_INSECURITY = 21;
+
+    public static final int INCO_FI_LOW_FISH_STOCKS = 22;
+    public static final int INCO_FI_LOW_FISH_PRICE = 23;
+    public static final int INCO_FI_LACK_OF_EQUIPMENT = 24;
+    public static final int INCO_FI_TOO_MUCH_COMPETITION = 25;
+    public static final int INCO_FI_LACK_OF_EXPERTISE = 26;
+    public static final int INCO_FI_RESTRICTIONS_ON_FISHING_RIGHTS = 27;
+
+    public static final int INCO_NR_DECLINING_NATURAL_RESOURCES = 28;
+    public static final int INCO_NR_TOO_MUCH_POPULATION_PRESSURE = 29;
+    public static final int INCO_NR_RESTRICTIONS_RIGHTS_TO_EXPLOIT_NR = 30;
+    public static final int INCO_NR_LOW_VALUE_NR_BASED_PRODUCTS = 31;
+
+    public static final int INCO_SE_LACK_OF_CAPITAL = 32;
+    public static final int INCO_SE_TOO_MUCH_RED_TAPE = 33;
+    public static final int INCO_SE_TOO_MANY_TAXES = 34;
+    public static final int INCO_SE_LACK_OF_ACCESS_TO_MARKETS = 35;
+    public static final int INCO_SE_LACK_OF_EXPERTISE = 36;
 }
