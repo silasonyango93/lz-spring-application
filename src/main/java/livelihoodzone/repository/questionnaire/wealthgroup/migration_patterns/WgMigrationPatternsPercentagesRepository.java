@@ -1,0 +1,8 @@
+package livelihoodzone.repository.questionnaire.wealthgroup.migration_patterns;
+
+import livelihoodzone.entity.questionnaire.wealthgroup.migration_patterns.MigrationPatternsEntity;
+import livelihoodzone.entity.questionnaire.wealthgroup.migration_patterns.WgMigrationPatternPercentagesEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface WgMigrationPatternsPercentagesRepository extends JpaRepository<WgMigrationPatternPercentagesEntity, Long> {
+}

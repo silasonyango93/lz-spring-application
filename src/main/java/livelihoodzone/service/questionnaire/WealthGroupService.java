@@ -14,6 +14,7 @@ import livelihoodzone.service.questionnaire.wealthgroup.cropcontribution.CropCon
 import livelihoodzone.service.questionnaire.wealthgroup.expenditure_patterns.ExpenditurePatternsService;
 import livelihoodzone.service.questionnaire.wealthgroup.income_food_sources.IncomeFoodSourcesService;
 import livelihoodzone.service.questionnaire.wealthgroup.labour_patterns.LabourPatternsService;
+import livelihoodzone.service.questionnaire.wealthgroup.migration_patterns.MigrationPatternsService;
 import livelihoodzone.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,9 @@ public class WealthGroupService {
 
     @Autowired
     ExpenditurePatternsService expenditurePatternsService;
+
+    @Autowired
+    MigrationPatternsService migrationPatternsService;
 
     public QuestionnaireResponseDto processQuestionnaire(WealthGroupQuestionnaireRequestDto wealthGroupQuestionnaireRequestDto, User dataCollector) {
 
@@ -93,6 +97,7 @@ public class WealthGroupService {
         animalContributionService.saveAnimalContributions(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         labourPatternsService.saveLabourPatterns(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         expenditurePatternsService.saveExpenditureService(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
+        migrationPatternsService.saveMigrationPatterns(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
 
         /* ***********************************************************************************************************************************************/
 

@@ -132,4 +132,15 @@ public class Constants {
     public static final int EXP_COOKING_FUEL = 22;
     public static final int EXP_SAVING_AND_INVESTMENTS = 23;
     public static final int EXP_LOAN_REPAYMENTS = 24;
+
+
+    //Migration patterns codes
+    public static final int MGR_FULLY_NOMADIC = 1;
+    public static final int MGR_SEMI_NOMADIC = 2;
+    public static final int MGR_OCCASIONAL_NOMADIC = 3;
+    public static final int MGR_OUT_MIGRANT_LABOUR = 4;
+    public static final int MGR_IN_MIGRANT_LABOUR = 5;
+    public static final int MGR_FULLY_SETTLED = 6;
+    public static final int MGR_INTERNALLY_DISPLACED = 7;
+
 }

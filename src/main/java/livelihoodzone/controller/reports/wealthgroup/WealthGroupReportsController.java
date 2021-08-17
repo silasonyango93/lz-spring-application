@@ -3,16 +3,21 @@ package livelihoodzone.controller.reports.wealthgroup;
 import io.swagger.annotations.*;
 import livelihoodzone.dto.reports.wealthgroup.*;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
+import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
+import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
+import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -29,6 +34,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     WgQuestionnaireTypesRepository wgQuestionnaireTypesRepository;
+
+    @Autowired
+    CountiesRepository countiesRepository;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -48,9 +56,29 @@ public class WealthGroupReportsController {
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token"),
-            @ApiResponse(code = 422, message = "Data is not available")})
-    public WealthGroupReportResponseHashMapObject getWealthGroupAggregateResponses(@ApiParam("Questionnaire sections to report on") @RequestBody WealthGroupReportRequestDto wealthGroupReportRequestDto, HttpServletRequest httpServletRequest) {
+            @ApiResponse(code = 422, message = "Invalid parameter data provided")})
+    public ResponseEntity<WealthGroupReportResponseHashMapObject> getWealthGroupAggregateResponses(@ApiParam("Questionnaire sections to report on") @RequestBody WealthGroupReportRequestDto wealthGroupReportRequestDto, HttpServletRequest httpServletRequest) {
         WealthGroupReportResponseHashMapObject wealthGroupReportResponseHashMapObject = new WealthGroupReportResponseHashMapObject();
+
+
+        WgQuestionnaireTypesEntity questionnaireType = wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeId(wealthGroupReportRequestDto.getQuestionnaireTypeId());
+        if (questionnaireType == null) {
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage","Invalid questionnaire type id");
+            return new ResponseEntity<WealthGroupReportResponseHashMapObject>(wealthGroupReportResponseHashMapObject, HttpStatus.valueOf(422));
+        }
+
+        CountiesEntity countiesEntity = countiesRepository.findByCountyId(wealthGroupReportRequestDto.getCountyId());
+        if (countiesEntity == null) {
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage","Invalid county id");
+            return new ResponseEntity<WealthGroupReportResponseHashMapObject>(wealthGroupReportResponseHashMapObject, HttpStatus.valueOf(422));
+        }
+
+        List<WgQuestionnaireDetailsRetrofitModel> questionnairesList = wealthGroupReportService.fetchWealthGroupQuestionnaireDetails(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
+        if (questionnairesList.isEmpty()) {
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage","There is no wealth group " + extractWealthGroupQuestionnaireType(wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeId(wealthGroupReportRequestDto.getQuestionnaireTypeId()).getWgQuestionnaireTypeCode()) + " that has been filled for " + countiesRepository.findByCountyId(wealthGroupReportRequestDto.getCountyId()).getCountyName() + " county");
+            return new ResponseEntity<WealthGroupReportResponseHashMapObject>(wealthGroupReportResponseHashMapObject, HttpStatus.valueOf(422));
+        }
+
 
         if (wealthGroupReportRequestDto.isQuestionnaireDetails()) {
             WgQuestionnaireDetailsResponseObjectDto wgQuestionnaireDetailsResponseObjectDto = wealthGroupReportService.processQuestionnaireDetails(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
@@ -86,7 +114,13 @@ public class WealthGroupReportsController {
             wealthGroupReportResponseHashMapObject.setReportHashMapObject("labourPatterns", wgLabourPatternsDataSetObject);
         }
 
-        return wealthGroupReportResponseHashMapObject;
+        if (wealthGroupReportResponseHashMapObject.getReportHashMapObject().isEmpty()) {
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage","Response returned an empty result");
+            return new ResponseEntity<WealthGroupReportResponseHashMapObject>(wealthGroupReportResponseHashMapObject, HttpStatus.valueOf(422));
+        }
+
+
+        return new ResponseEntity<WealthGroupReportResponseHashMapObject>(wealthGroupReportResponseHashMapObject, HttpStatus.valueOf(200));
     }
 
 
@@ -98,5 +132,9 @@ public class WealthGroupReportsController {
             @ApiResponse(code = 422, message = "Data is not available")})
     public ResponseEntity<List<WgQuestionnaireTypesEntity>> fetchWealthGroupQuestionnaireTypes() {
         return new ResponseEntity<List<WgQuestionnaireTypesEntity>>(wgQuestionnaireTypesRepository.findAll(), HttpStatus.valueOf(200));
+    }
+
+    public String extractWealthGroupQuestionnaireType(int questionnaireTypeCode) {
+        return questionnaireTypeCode == 1 ? "summarized questionnaire" : "raw data questionnaire";
     }
 }
