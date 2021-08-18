@@ -197,4 +197,31 @@ public class Constants {
     public static final int INCO_SE_TOO_MANY_TAXES = 34;
     public static final int INCO_SE_LACK_OF_ACCESS_TO_MARKETS = 35;
     public static final int INCO_SE_LACK_OF_EXPERTISE = 36;
+
+
+    //Livelihood zone hazards codes
+    public static final int HZ_ANIMAL_RUSTLING = 1;
+    public static final int HZ_BANDITRY = 2;
+    public static final int HZ_TERRORISM = 3;
+    public static final int HZ_ETHNIC_CONFLICT = 4;
+    public static final int HZ_POLITICAL_CONFLICT = 5;
+    public static final int HZ_DROUGHT = 6;
+    public static final int HZ_LIVESTOCK_PESTS_DISEASES = 7;
+    public static final int HZ_HAILSTORMS_OR_FROST = 8;
+    public static final int HZ_FLOODING = 9;
+    public static final int HZ_LANDSLIDES = 10;
+    public static final int HZ_HIGH_WINDS = 11;
+    public static final int HZ_BUSH_FIRES = 12;
+    public static final int HZ_CROP_PESTS = 13;
+    public static final int HZ_LOCUST_INVASION = 14;
+    public static final int HZ_CROP_DISEASES = 15;
+    public static final int HZ_TERMINAL_ILLNESS = 16;
+    public static final int HZ_MALARIA_OUTBREAK = 17;
+    public static final int HZ_WATER_BORNE_DISEASE = 18;
+    public static final int HZ_HUMAN_WILDLIFE_CONFLICT = 19;
+    public static final int HZ_HIGH_FOOD_PRICES = 20;
+    public static final int HZ_SHORTAGE_OF_FOOD_ON_MARKET = 21;
+    public static final int HZ_DRINKING_WATER_SHORTAGES = 22;
+    public static final int HZ_INVASIVE_PLANT_SPECIES = 23;
+    public static final int HZ_OTHERS = 24;
 }

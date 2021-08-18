@@ -14,6 +14,7 @@ import livelihoodzone.entity.questionnaire.county.*;
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.questionnaire.county.*;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
+import livelihoodzone.service.questionnaire.zonelevel.LzHazardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,9 @@ public class CountyLevelService {
     @Autowired
     LzHungerPatternsResponsesRepository lzHungerPatternsResponsesRepository;
 
+    @Autowired
+    LzHazardsService lzHazardsService;
+
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
         Gson gson = new Gson();
@@ -88,6 +92,7 @@ public class CountyLevelService {
         saveCropProduction(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveWaterSourceResponses(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveHungerPatterns(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        lzHazardsService.saveHazards(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
 
         /***********************************************************************************************************/
 
