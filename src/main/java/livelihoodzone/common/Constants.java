@@ -224,4 +224,9 @@ public class Constants {
     public static final int HZ_DRINKING_WATER_SHORTAGES = 22;
     public static final int HZ_INVASIVE_PLANT_SPECIES = 23;
     public static final int HZ_OTHERS = 24;
+
+    //Seasonal calendar seasons
+    public static final int SC_DRY_SEASON = 1;
+    public static final int SC_LONG_RAINS = 2;
+    public static final int SC_SHORT_RAINS = 3;
 }
