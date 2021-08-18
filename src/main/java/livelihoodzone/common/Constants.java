@@ -11,6 +11,8 @@ public class Constants {
     //Rainy Season Codes
     public static final int LONG_RAINS_SEASON = 1;
     public static final int SHORT_RAINS_SEASON = 2;
+    public static final int BETWEEN_END_LONG_AND_BEGIN_SHORT = 3;
+    public static final int BETWEEN_END_SHORT_AND_BEGIN_LONG = 4;
 
     //Crop Water-Access Codes
     public static final int RAINFED_CROPS = 1;

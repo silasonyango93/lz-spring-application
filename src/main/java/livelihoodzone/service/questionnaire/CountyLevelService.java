@@ -8,6 +8,7 @@ import livelihoodzone.dto.questionnaire.county.WaterSourcesResponsesDto;
 import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsResponses;
 import livelihoodzone.dto.questionnaire.county.WealthGroupPercentageResponse;
 import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProductionResponseItem;
+import livelihoodzone.dto.questionnaire.county.model.hunger.HungerPatternsResponses;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
 import livelihoodzone.entity.questionnaire.county.*;
 import livelihoodzone.entity.user_management.User;
@@ -49,6 +50,9 @@ public class CountyLevelService {
     @Autowired
     WaterSourceRepository waterSourceRepository;
 
+    @Autowired
+    LzHungerPatternsResponsesRepository lzHungerPatternsResponsesRepository;
+
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
         Gson gson = new Gson();
@@ -83,6 +87,7 @@ public class CountyLevelService {
         saveWealthGroupPopulationPercentages(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveCropProduction(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveWaterSourceResponses(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        saveHungerPatterns(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
 
         /***********************************************************************************************************/
 
@@ -358,5 +363,38 @@ public class CountyLevelService {
                 waterSourceResponses.getOthers().getExtraDescription()
         ));
 
+    }
+
+    private void saveHungerPatterns(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+
+        HungerPatternsResponses hungerPatternsResponses = countyLevelQuestionnaireRequestDto.getHungerPatternsResponses();
+
+        //Long rains
+        lzHungerPatternsResponsesRepository.save(new LzHungerPatternsResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                rainySeasonsRepository.findByRainySeasonCode(Constants.LONG_RAINS_SEASON).getRainySeasonId(),
+                hungerPatternsResponses.getLongRainsPeriod()
+        ));
+
+        //Short rains
+        lzHungerPatternsResponsesRepository.save(new LzHungerPatternsResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                rainySeasonsRepository.findByRainySeasonCode(Constants.SHORT_RAINS_SEASON).getRainySeasonId(),
+                hungerPatternsResponses.getShortRainsPeriod()
+        ));
+
+        //Between end long and begin short
+        lzHungerPatternsResponsesRepository.save(new LzHungerPatternsResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                rainySeasonsRepository.findByRainySeasonCode(Constants.BETWEEN_END_LONG_AND_BEGIN_SHORT).getRainySeasonId(),
+                hungerPatternsResponses.getEndLongBeginShort()
+        ));
+
+        //Between end short and begin long
+        lzHungerPatternsResponsesRepository.save(new LzHungerPatternsResponsesEntity(
+                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                rainySeasonsRepository.findByRainySeasonCode(Constants.BETWEEN_END_SHORT_AND_BEGIN_LONG).getRainySeasonId(),
+                hungerPatternsResponses.getEndShortBeginLong()
+        ));
     }
 }
