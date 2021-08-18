@@ -229,4 +229,8 @@ public class Constants {
     public static final int SC_DRY_SEASON = 1;
     public static final int SC_LONG_RAINS = 2;
     public static final int SC_SHORT_RAINS = 3;
+
+    //Livestock migration
+    public static final int LM_IN_MIGRATION = 1;
+    public static final int LM_OUT_MIGRATION = 2;
 }

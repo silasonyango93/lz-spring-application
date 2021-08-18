@@ -98,6 +98,7 @@ public class CountyLevelService {
         saveHungerPatterns(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         lzHazardsService.saveHazards(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.saveSeasonMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveLivestockMigration(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
 
         /***********************************************************************************************************/
 

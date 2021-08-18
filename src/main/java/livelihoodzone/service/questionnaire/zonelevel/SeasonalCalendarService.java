@@ -67,4 +67,36 @@ public class SeasonalCalendarService {
 
         lzSeasonMonthsRepository.saveAll(shortRainsResponses);
     }
+
+
+    public void saveLivestockMigration(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //In migration
+        List<LzSeasonMonthsEntity> inMigrationResponses = new ArrayList<>();
+
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLivestockInMigration()) {
+            inMigrationResponses.add(new LzSeasonMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    lzSeasonsRepository.findByLzSeasonCode(Constants.LM_IN_MIGRATION).getLzSeasonId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+
+        lzSeasonMonthsRepository.saveAll(inMigrationResponses);
+
+
+        //Out migration
+        List<LzSeasonMonthsEntity> outMigrationResponses = new ArrayList<>();
+
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLivestockOutMigration()) {
+            outMigrationResponses.add(new LzSeasonMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    lzSeasonsRepository.findByLzSeasonCode(Constants.LM_OUT_MIGRATION).getLzSeasonId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+
+        lzSeasonMonthsRepository.saveAll(outMigrationResponses);
+    }
 }
