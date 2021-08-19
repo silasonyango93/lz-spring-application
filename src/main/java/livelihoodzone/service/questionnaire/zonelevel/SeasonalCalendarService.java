@@ -5,9 +5,10 @@ import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.county.model.seasons.LzSeasonsResponses;
 import livelihoodzone.entity.questionnaire.calendar.MonthsEntity;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
+import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LivestockMigrationMonthsEntity;
+import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LzMilkProductionEntity;
 import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LzSeasonMonthsEntity;
-import livelihoodzone.repository.questionnaire.county.seasonal_calendar.LzSeasonMonthsRepository;
-import livelihoodzone.repository.questionnaire.county.seasonal_calendar.LzSeasonsRepository;
+import livelihoodzone.repository.questionnaire.county.seasonal_calendar.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,18 @@ public class SeasonalCalendarService {
 
     @Autowired
     LzSeasonMonthsRepository lzSeasonMonthsRepository;
+
+    @Autowired
+    LzMilkProductionRepository lzMilkProductionRepository;
+
+    @Autowired
+    HighLowMediumScaleRepository highLowMediumScaleRepository;
+
+    @Autowired
+    LivestockMigrationTypesRepository livestockMigrationTypesRepository;
+
+    @Autowired
+    LivestockMigrationMonthsRepository livestockMigrationMonthsRepository;
 
     public void saveSeasonMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
         LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
@@ -73,30 +86,62 @@ public class SeasonalCalendarService {
         LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
 
         //In migration
-        List<LzSeasonMonthsEntity> inMigrationResponses = new ArrayList<>();
+        List<LivestockMigrationMonthsEntity> inMigrationResponses = new ArrayList<>();
 
         for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLivestockInMigration()) {
-            inMigrationResponses.add(new LzSeasonMonthsEntity(
+            inMigrationResponses.add(new LivestockMigrationMonthsEntity(
                     savedQuestionnaireSession.getLzQuestionnaireSessionId(),
-                    lzSeasonsRepository.findByLzSeasonCode(Constants.LM_IN_MIGRATION).getLzSeasonId(),
+                    livestockMigrationTypesRepository.findByLivestockMigrationTypeCode(Constants.LM_IN_MIGRATION).getLivestockMigrationTypeId(),
                     currentMonth.getMonthId()
             ));
         }
 
-        lzSeasonMonthsRepository.saveAll(inMigrationResponses);
+        livestockMigrationMonthsRepository.saveAll(inMigrationResponses);
 
 
         //Out migration
-        List<LzSeasonMonthsEntity> outMigrationResponses = new ArrayList<>();
+        List<LivestockMigrationMonthsEntity> outMigrationResponses = new ArrayList<>();
 
-        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLivestockOutMigration()) {
-            outMigrationResponses.add(new LzSeasonMonthsEntity(
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLivestockInMigration()) {
+            inMigrationResponses.add(new LivestockMigrationMonthsEntity(
                     savedQuestionnaireSession.getLzQuestionnaireSessionId(),
-                    lzSeasonsRepository.findByLzSeasonCode(Constants.LM_OUT_MIGRATION).getLzSeasonId(),
+                    livestockMigrationTypesRepository.findByLivestockMigrationTypeCode(Constants.LM_OUT_MIGRATION).getLivestockMigrationTypeId(),
                     currentMonth.getMonthId()
             ));
         }
 
-        lzSeasonMonthsRepository.saveAll(outMigrationResponses);
+        livestockMigrationMonthsRepository.saveAll(outMigrationResponses);
+    }
+
+
+    public void saveMilkProduction(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High milk production
+        List<LzMilkProductionEntity> highMilkProductionResponses = new ArrayList<>();
+
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighMilkProduction()) {
+            highMilkProductionResponses.add(new LzMilkProductionEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+
+        lzMilkProductionRepository.saveAll(highMilkProductionResponses);
+
+        //Low milk production
+        List<LzMilkProductionEntity> lowMilkProductionResponses = new ArrayList<>();
+
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighMilkProduction()) {
+            lowMilkProductionResponses.add(new LzMilkProductionEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+
+        lzMilkProductionRepository.saveAll(lowMilkProductionResponses);
     }
 }
