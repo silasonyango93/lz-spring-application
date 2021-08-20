@@ -18,4 +18,10 @@ public interface ZoneLevelReportRetrofitService {
 
     @GET("fetch_zone_level_crop_production")
     Call<List<LzCropProductionReportRetrofitModel>> fetchZoneLevelCropProduction();
+
+    @GET("fetch_zone_level_water_sources")
+    Call<List<LzWaterSourceDataSetRetrofitModel>> fetchZoneLevelWaterSources();
+
+    @GET("fetch_zone_level_hunger_patterns")
+    Call<List<LzHungerPatternsDataSetRetrofitModel>> fetchZoneLevelHungerPatterns();
 }

@@ -2,6 +2,8 @@ package livelihoodzone.controller.reports.zonelevel;
 
 import io.swagger.annotations.*;
 import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
+import livelihoodzone.dto.questionnaire.county.LzWaterSourceDataSetResponseObject;
+import livelihoodzone.dto.reports.zonal.LzHungerPatternsDataSetObject;
 import livelihoodzone.dto.reports.zonal.QuestionnaireDetailsReportObjectDto;
 import livelihoodzone.dto.reports.zonal.ZoneLevelReportRequestDto;
 import livelihoodzone.dto.reports.zonal.ZoneLevelReportResponseDto;
@@ -49,6 +51,16 @@ public class ZoneLevelReportsController {
         if (zoneLevelReportRequestDto.isCropProduction()) {
             LzCropProductionReportObjectDto lzCropProductionReportObjectDto = zoneLevelReportService.fetchZoneLevelCropProductionReport();
             zoneLevelReportResponseDto.setReportHashMapObject("cropProduction",lzCropProductionReportObjectDto);
+        }
+
+        if (zoneLevelReportRequestDto.isMainSourcesOfWater()) {
+            LzWaterSourceDataSetResponseObject lzWaterSourceDataSetResponseObject = zoneLevelReportService.processWaterSourcesDataSet();
+            zoneLevelReportResponseDto.setReportHashMapObject("mainWaterSources",lzWaterSourceDataSetResponseObject);
+        }
+
+        if (zoneLevelReportRequestDto.isPatternsOfHunger()) {
+            LzHungerPatternsDataSetObject lzHungerPatternsDataSetObject = zoneLevelReportService.processHungerPatterns();
+            zoneLevelReportResponseDto.setReportHashMapObject("patternsOfHunger",lzHungerPatternsDataSetObject);
         }
 
 
