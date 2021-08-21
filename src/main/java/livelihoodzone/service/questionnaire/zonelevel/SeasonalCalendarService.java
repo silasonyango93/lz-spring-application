@@ -40,6 +40,9 @@ public class SeasonalCalendarService {
     @Autowired
     LzKiddingRepository lzKiddingRepository;
 
+    @Autowired
+    LzFoodPricesRepository lzFoodPricesRepository;
+
     public void saveSeasonMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
         LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
 
@@ -203,5 +206,42 @@ public class SeasonalCalendarService {
             ));
         }
         lzKiddingRepository.saveAll(lowKiddingResponses);
+    }
+
+    public void saveFoodPricesMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High food prices
+        List<LzFoodPricesEntity> highFoodPriceResponses = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighFoodPrices()) {
+            highFoodPriceResponses.add(new LzFoodPricesEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzFoodPricesRepository.saveAll(highFoodPriceResponses);
+
+        //Medium food prices
+        List<LzFoodPricesEntity> mediumFoodPriceResponses = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getMediumFoodPrices()) {
+            mediumFoodPriceResponses.add(new LzFoodPricesEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.MEDIUM).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzFoodPricesRepository.saveAll(mediumFoodPriceResponses);
+
+        //Low food prices
+        List<LzFoodPricesEntity> lowFoodPriceResponses = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLowFoodPrices()) {
+            lowFoodPriceResponses.add(new LzFoodPricesEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzFoodPricesRepository.saveAll(lowFoodPriceResponses);
     }
 }
