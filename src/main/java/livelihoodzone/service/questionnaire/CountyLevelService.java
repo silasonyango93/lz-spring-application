@@ -106,6 +106,7 @@ public class CountyLevelService {
         seasonalCalendarService.saveLivestockMigration(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.saveMilkProduction(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.saveCalvingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveKiddingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
 
         /***********************************************************************************************************/
 

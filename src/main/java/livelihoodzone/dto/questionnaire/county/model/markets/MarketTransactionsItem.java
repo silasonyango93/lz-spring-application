@@ -1,5 +1,7 @@
 package livelihoodzone.dto.questionnaire.county.model.markets;
 
+import livelihoodzone.entity.administrative_boundaries.subcounties.SubCountyEntity;
+
 public class MarketTransactionsItem {
     private String marketUniqueId;
     private String marketName;

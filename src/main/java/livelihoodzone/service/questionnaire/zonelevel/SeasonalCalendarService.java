@@ -5,10 +5,7 @@ import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.county.model.seasons.LzSeasonsResponses;
 import livelihoodzone.entity.questionnaire.calendar.MonthsEntity;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
-import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LivestockMigrationMonthsEntity;
-import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LzCalvingEntity;
-import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LzMilkProductionEntity;
-import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LzSeasonMonthsEntity;
+import livelihoodzone.entity.questionnaire.county.seasonal_calendar.*;
 import livelihoodzone.repository.questionnaire.county.seasonal_calendar.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +36,9 @@ public class SeasonalCalendarService {
 
     @Autowired
     LzCalvingRepository lzCalvingRepository;
+
+    @Autowired
+    LzKiddingRepository lzKiddingRepository;
 
     public void saveSeasonMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
         LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
@@ -176,5 +176,32 @@ public class SeasonalCalendarService {
             ));
         }
         lzCalvingRepository.saveAll(lowCalvingResponses);
+    }
+
+
+    public void saveKiddingMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High kidding
+        List<LzKiddingEntity> highKiddingResponses = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighKidding()) {
+            highKiddingResponses.add(new LzKiddingEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzKiddingRepository.saveAll(highKiddingResponses);
+
+        //Low kidding
+        List<LzKiddingEntity> lowKiddingResponses = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLowKidding()) {
+            lowKiddingResponses.add(new LzKiddingEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzKiddingRepository.saveAll(lowKiddingResponses);
     }
 }
