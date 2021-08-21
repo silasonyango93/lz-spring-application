@@ -2,6 +2,8 @@ package livelihoodzone.service.questionnaire.zonelevel;
 
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
+import livelihoodzone.dto.questionnaire.county.LzCropProductionResponses;
+import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProductionResponseItem;
 import livelihoodzone.dto.questionnaire.county.model.seasons.LzSeasonsResponses;
 import livelihoodzone.entity.questionnaire.calendar.MonthsEntity;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
@@ -45,6 +47,9 @@ public class SeasonalCalendarService {
 
     @Autowired
     LzLivestockPricesRepository lzLivestockPricesRepository;
+
+    @Autowired
+    LzPlantingMonthsRepository lzPlantingMonthsRepository;
 
     public void saveSeasonMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
         LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
@@ -284,5 +289,24 @@ public class SeasonalCalendarService {
             ));
         }
         lzLivestockPricesRepository.saveAll(lowLivestockPriceResponses);
+    }
+
+
+    public void savePlantingMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzCropProductionResponses lzCropProductionResponses = countyLevelQuestionnaireRequestDto.getLzCropProductionResponses();
+        List<WgCropProductionResponseItem> cropProductionResponses = lzCropProductionResponses.getCropProductionResponses();
+
+        for (WgCropProductionResponseItem currentResponseItem : cropProductionResponses) {
+            List<MonthsEntity> plantingPeriod = currentResponseItem.getPlantingPeriod();
+            List<LzPlantingMonthsEntity> lzPlantingMonthsEntityList = new ArrayList<>();
+            for (MonthsEntity currentMonth : plantingPeriod) {
+                lzPlantingMonthsEntityList.add(new LzPlantingMonthsEntity(
+                        savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                        currentResponseItem.getCrop().getCropId(),
+                        currentMonth.getMonthId()
+                ));
+            }
+            lzPlantingMonthsRepository.saveAll(lzPlantingMonthsEntityList);
+        }
     }
 }

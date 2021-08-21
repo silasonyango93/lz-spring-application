@@ -109,6 +109,7 @@ public class CountyLevelService {
         seasonalCalendarService.saveKiddingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.saveFoodPricesMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.saveLivestockPricesMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.savePlantingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
 
         /***********************************************************************************************************/
 
