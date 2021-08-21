@@ -3,10 +3,7 @@ package livelihoodzone.controller.reports.zonelevel;
 import io.swagger.annotations.*;
 import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.county.LzWaterSourceDataSetResponseObject;
-import livelihoodzone.dto.reports.zonal.LzHungerPatternsDataSetObject;
-import livelihoodzone.dto.reports.zonal.QuestionnaireDetailsReportObjectDto;
-import livelihoodzone.dto.reports.zonal.ZoneLevelReportRequestDto;
-import livelihoodzone.dto.reports.zonal.ZoneLevelReportResponseDto;
+import livelihoodzone.dto.reports.zonal.*;
 import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObjectDto;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsReportStringObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
@@ -61,6 +58,11 @@ public class ZoneLevelReportsController {
         if (zoneLevelReportRequestDto.isPatternsOfHunger()) {
             LzHungerPatternsDataSetObject lzHungerPatternsDataSetObject = zoneLevelReportService.processHungerPatterns();
             zoneLevelReportResponseDto.setReportHashMapObject("patternsOfHunger",lzHungerPatternsDataSetObject);
+        }
+
+        if (zoneLevelReportRequestDto.isHazards()) {
+            LzHazardsDataSetObject lzHazardsDataSetObject = zoneLevelReportService.processHazards();
+            zoneLevelReportResponseDto.setReportHashMapObject("hazards",lzHazardsDataSetObject);
         }
 
 

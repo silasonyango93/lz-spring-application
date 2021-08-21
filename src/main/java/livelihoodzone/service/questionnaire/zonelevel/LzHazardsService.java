@@ -206,14 +206,6 @@ public class LzHazardsService {
                 hazardResponses.getInvasivePlants().getNoExperiencedYears()
         ));
 
-        //Invasive plants
-        lzHazardResponsesRepository.save(new LzHazardResponsesEntity(
-                savedQuestionnaireSession.getLzQuestionnaireSessionId(),
-                lzHazardsRepository.findByLzHazardCode(Constants.HZ_INVASIVE_PLANT_SPECIES).getLzHazardId(),
-                hazardResponses.getInvasivePlants().getImportanceRank(),
-                hazardResponses.getInvasivePlants().getNoExperiencedYears()
-        ));
-
         //Others specify
         lzHazardResponsesRepository.save(new LzHazardResponsesEntity(
                 savedQuestionnaireSession.getLzQuestionnaireSessionId(),

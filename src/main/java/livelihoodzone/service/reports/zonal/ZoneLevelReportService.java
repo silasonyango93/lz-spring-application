@@ -2,6 +2,7 @@ package livelihoodzone.service.reports.zonal;
 
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.questionnaire.county.LzWaterSourceDataSetResponseObject;
+import livelihoodzone.dto.reports.zonal.LzHazardsDataSetObject;
 import livelihoodzone.dto.reports.zonal.LzHungerPatternsDataSetObject;
 import livelihoodzone.dto.reports.zonal.QuestionnaireDetailsReportObjectDto;
 import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObjectDto;
@@ -9,6 +10,7 @@ import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsRe
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
 import livelihoodzone.repository.questionnaire.county.LzHungerPatternsResponsesRepository;
 import livelihoodzone.service.reports.zonal.cropproduction.LzCropProductionReportService;
+import livelihoodzone.service.reports.zonal.hazards.LzHazardsDataSetService;
 import livelihoodzone.service.reports.zonal.hunger_patterns.LzHungerPatternsDataSetService;
 import livelihoodzone.service.reports.zonal.water_sources.WaterSourcesDataSetService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
@@ -36,6 +38,9 @@ public class ZoneLevelReportService {
 
     @Autowired
     LzHungerPatternsDataSetService lzHungerPatternsDataSetService;
+
+    @Autowired
+    LzHazardsDataSetService lzHazardsDataSetService;
 
     public WealthGroupCharectaristicsReportStringObject comprehensivelyFetchWealthGroupCharacteristicsReport() {
         List<String> veryPoorCharacteristics = new ArrayList<>();
@@ -166,5 +171,9 @@ public class ZoneLevelReportService {
 
     public LzHungerPatternsDataSetObject processHungerPatterns() {
         return lzHungerPatternsDataSetService.processHungerPatterns(lzHungerPatternsDataSetService.fetchHungerPatternsDataSet());
+    }
+
+    public LzHazardsDataSetObject processHazards() {
+        return lzHazardsDataSetService.processHazards(lzHazardsDataSetService.fetchHazardsDataSet());
     }
 }

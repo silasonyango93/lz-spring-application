@@ -24,4 +24,7 @@ public interface ZoneLevelReportRetrofitService {
 
     @GET("fetch_zone_level_hunger_patterns")
     Call<List<LzHungerPatternsDataSetRetrofitModel>> fetchZoneLevelHungerPatterns();
+
+    @GET("fetch_zone_level_hazards")
+    Call<List<LzHazardsDataSetRetrofitModel>> fetchZoneLevelHazards();
 }
