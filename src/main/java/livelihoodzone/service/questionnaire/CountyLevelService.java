@@ -14,6 +14,7 @@ import livelihoodzone.entity.questionnaire.county.*;
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.questionnaire.county.*;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
+import livelihoodzone.service.questionnaire.zonelevel.LzEthnicGroupsService;
 import livelihoodzone.service.questionnaire.zonelevel.LzHazardsService;
 import livelihoodzone.service.questionnaire.zonelevel.SeasonalCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,9 @@ public class CountyLevelService {
     @Autowired
     SeasonalCalendarService seasonalCalendarService;
 
+    @Autowired
+    LzEthnicGroupsService lzEthnicGroupsService;
+
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
         Gson gson = new Gson();
@@ -96,6 +100,7 @@ public class CountyLevelService {
         saveCropProduction(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveWaterSourceResponses(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveHungerPatterns(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        lzEthnicGroupsService.saveEthnicGroups(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         lzHazardsService.saveHazards(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.saveSeasonMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.saveLivestockMigration(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
