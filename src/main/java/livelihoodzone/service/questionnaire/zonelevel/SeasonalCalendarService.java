@@ -43,6 +43,9 @@ public class SeasonalCalendarService {
     @Autowired
     LzFoodPricesRepository lzFoodPricesRepository;
 
+    @Autowired
+    LzLivestockPricesRepository lzLivestockPricesRepository;
+
     public void saveSeasonMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
         LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
 
@@ -243,5 +246,43 @@ public class SeasonalCalendarService {
             ));
         }
         lzFoodPricesRepository.saveAll(lowFoodPriceResponses);
+    }
+
+
+    public void saveLivestockPricesMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High livestock prices
+        List<LzLivestockPricesEntity> highLivestockPriceResponses = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighLivestockPrices()) {
+            highLivestockPriceResponses.add(new LzLivestockPricesEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzLivestockPricesRepository.saveAll(highLivestockPriceResponses);
+
+        //Medium livestock prices
+        List<LzLivestockPricesEntity> mediumLivestockPriceResponses = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getMediumLivestockPrices()) {
+            mediumLivestockPriceResponses.add(new LzLivestockPricesEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.MEDIUM).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzLivestockPricesRepository.saveAll(mediumLivestockPriceResponses);
+
+        //Low livestock prices
+        List<LzLivestockPricesEntity> lowLivestockPriceResponses = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLowLivestockPrices()) {
+            lowLivestockPriceResponses.add(new LzLivestockPricesEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzLivestockPricesRepository.saveAll(lowLivestockPriceResponses);
     }
 }
