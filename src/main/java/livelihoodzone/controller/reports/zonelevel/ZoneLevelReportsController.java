@@ -65,6 +65,11 @@ public class ZoneLevelReportsController {
             zoneLevelReportResponseDto.setReportHashMapObject("hazards",lzHazardsDataSetObject);
         }
 
+        if (zoneLevelReportRequestDto.isEthnicGroups()) {
+            LzEthnicGroupsDataSetObject lzEthnicGroupsDataSetObject = zoneLevelReportService.processEthnicGroups();
+            zoneLevelReportResponseDto.setReportHashMapObject("ethnicGroups",lzEthnicGroupsDataSetObject);
+        }
+
 
         return zoneLevelReportResponseDto;
     }

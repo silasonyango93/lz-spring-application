@@ -2,6 +2,7 @@ package livelihoodzone.service.reports.zonal;
 
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.questionnaire.county.LzWaterSourceDataSetResponseObject;
+import livelihoodzone.dto.reports.zonal.LzEthnicGroupsDataSetObject;
 import livelihoodzone.dto.reports.zonal.LzHazardsDataSetObject;
 import livelihoodzone.dto.reports.zonal.LzHungerPatternsDataSetObject;
 import livelihoodzone.dto.reports.zonal.QuestionnaireDetailsReportObjectDto;
@@ -10,6 +11,7 @@ import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsRe
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
 import livelihoodzone.repository.questionnaire.county.LzHungerPatternsResponsesRepository;
 import livelihoodzone.service.reports.zonal.cropproduction.LzCropProductionReportService;
+import livelihoodzone.service.reports.zonal.ethnic_groups.EthnicGroupsDataSetService;
 import livelihoodzone.service.reports.zonal.hazards.LzHazardsDataSetService;
 import livelihoodzone.service.reports.zonal.hunger_patterns.LzHungerPatternsDataSetService;
 import livelihoodzone.service.reports.zonal.water_sources.WaterSourcesDataSetService;
@@ -41,6 +43,9 @@ public class ZoneLevelReportService {
 
     @Autowired
     LzHazardsDataSetService lzHazardsDataSetService;
+
+    @Autowired
+    EthnicGroupsDataSetService ethnicGroupsDataSetService;
 
     public WealthGroupCharectaristicsReportStringObject comprehensivelyFetchWealthGroupCharacteristicsReport() {
         List<String> veryPoorCharacteristics = new ArrayList<>();
@@ -175,5 +180,9 @@ public class ZoneLevelReportService {
 
     public LzHazardsDataSetObject processHazards() {
         return lzHazardsDataSetService.processHazards(lzHazardsDataSetService.fetchHazardsDataSet());
+    }
+
+    public LzEthnicGroupsDataSetObject processEthnicGroups() {
+        return ethnicGroupsDataSetService.processEthnicGroups(ethnicGroupsDataSetService.fetchEthnicGroupsDataSet());
     }
 }

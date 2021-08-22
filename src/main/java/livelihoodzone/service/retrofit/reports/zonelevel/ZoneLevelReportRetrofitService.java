@@ -27,4 +27,7 @@ public interface ZoneLevelReportRetrofitService {
 
     @GET("fetch_zone_level_hazards")
     Call<List<LzHazardsDataSetRetrofitModel>> fetchZoneLevelHazards();
+
+    @GET("fetch_zone_level_ethnic_groups")
+    Call<List<LzEthnicGroupsDataSetRetrofitModel>> fetchZoneLevelEthnicGroups();
 }
