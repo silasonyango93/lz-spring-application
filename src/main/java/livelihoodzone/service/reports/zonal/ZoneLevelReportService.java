@@ -2,10 +2,7 @@ package livelihoodzone.service.reports.zonal;
 
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.questionnaire.county.LzWaterSourceDataSetResponseObject;
-import livelihoodzone.dto.reports.zonal.LzEthnicGroupsDataSetObject;
-import livelihoodzone.dto.reports.zonal.LzHazardsDataSetObject;
-import livelihoodzone.dto.reports.zonal.LzHungerPatternsDataSetObject;
-import livelihoodzone.dto.reports.zonal.QuestionnaireDetailsReportObjectDto;
+import livelihoodzone.dto.reports.zonal.*;
 import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObjectDto;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsReportStringObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
@@ -14,6 +11,7 @@ import livelihoodzone.service.reports.zonal.cropproduction.LzCropProductionRepor
 import livelihoodzone.service.reports.zonal.ethnic_groups.EthnicGroupsDataSetService;
 import livelihoodzone.service.reports.zonal.hazards.LzHazardsDataSetService;
 import livelihoodzone.service.reports.zonal.hunger_patterns.LzHungerPatternsDataSetService;
+import livelihoodzone.service.reports.zonal.seasonal_calendar.LzSeasonalCalendarDataSetService;
 import livelihoodzone.service.reports.zonal.water_sources.WaterSourcesDataSetService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import livelihoodzone.service.retrofit.reports.zonelevel.WealthGroupCharacteristicsRetrofitModel;
@@ -46,6 +44,9 @@ public class ZoneLevelReportService {
 
     @Autowired
     EthnicGroupsDataSetService ethnicGroupsDataSetService;
+
+    @Autowired
+    LzSeasonalCalendarDataSetService lzSeasonalCalendarDataSetService;
 
     public WealthGroupCharectaristicsReportStringObject comprehensivelyFetchWealthGroupCharacteristicsReport() {
         List<String> veryPoorCharacteristics = new ArrayList<>();
@@ -184,5 +185,9 @@ public class ZoneLevelReportService {
 
     public LzEthnicGroupsDataSetObject processEthnicGroups() {
         return ethnicGroupsDataSetService.processEthnicGroups(ethnicGroupsDataSetService.fetchEthnicGroupsDataSet());
+    }
+
+    public LzSeasonalCalendarDataSetObject processSeasonalCalendar() {
+        return lzSeasonalCalendarDataSetService.processSeasonalCalendar(lzSeasonalCalendarDataSetService.fetchSeasonMonths());
     }
 }

@@ -1,5 +1,6 @@
 package livelihoodzone.service.retrofit.reports.zonelevel;
 
+import livelihoodzone.service.retrofit.reports.zonelevel.seasonal_calendar.LzSeasonMonthsDataSetRetrofitModel;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -30,4 +31,10 @@ public interface ZoneLevelReportRetrofitService {
 
     @GET("fetch_zone_level_ethnic_groups")
     Call<List<LzEthnicGroupsDataSetRetrofitModel>> fetchZoneLevelEthnicGroups();
+
+
+    //Seasonal calendar
+
+    @GET("fetch_zone_level_season_months")
+    Call<List<LzSeasonMonthsDataSetRetrofitModel>> fetchZoneLevelSeasonMonths();
 }

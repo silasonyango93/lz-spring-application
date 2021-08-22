@@ -70,6 +70,11 @@ public class ZoneLevelReportsController {
             zoneLevelReportResponseDto.setReportHashMapObject("ethnicGroups",lzEthnicGroupsDataSetObject);
         }
 
+        if (zoneLevelReportRequestDto.isSeasonalCalendar()) {
+            LzSeasonalCalendarDataSetObject lzSeasonalCalendarDataSetObject = zoneLevelReportService.processSeasonalCalendar();
+            zoneLevelReportResponseDto.setReportHashMapObject("seasonalCalendar",lzSeasonalCalendarDataSetObject);
+        }
+
 
         return zoneLevelReportResponseDto;
     }
