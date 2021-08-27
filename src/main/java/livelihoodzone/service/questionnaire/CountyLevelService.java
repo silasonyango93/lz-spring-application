@@ -16,6 +16,7 @@ import livelihoodzone.repository.questionnaire.county.*;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.service.questionnaire.zonelevel.LzEthnicGroupsService;
 import livelihoodzone.service.questionnaire.zonelevel.LzHazardsService;
+import livelihoodzone.service.questionnaire.zonelevel.LzMarketTransactionsService;
 import livelihoodzone.service.questionnaire.zonelevel.SeasonalCalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,9 @@ public class CountyLevelService {
     @Autowired
     LzEthnicGroupsService lzEthnicGroupsService;
 
+    @Autowired
+    LzMarketTransactionsService lzMarketTransactionsService;
+
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
         Gson gson = new Gson();
@@ -110,6 +114,7 @@ public class CountyLevelService {
         seasonalCalendarService.saveFoodPricesMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.saveLivestockPricesMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.savePlantingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        lzMarketTransactionsService.saveMarketTransactions(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
 
         /***********************************************************************************************************/
 

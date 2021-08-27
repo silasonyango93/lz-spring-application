@@ -1,6 +1,7 @@
 package livelihoodzone.dto.user_management;
 
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
+import livelihoodzone.entity.administrative_boundaries.countries.CountriesEntity;
 import livelihoodzone.entity.administrative_boundaries.subcounties.SubCountyEntity;
 import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
@@ -22,6 +23,8 @@ public class GeographyObjectDto {
     private List<SubCountyEntity> subCounties;
     private List<CountySubLocationsLivelihoodZonesAssignmentRetrofitModel> sublocationsLivelihoodZoneAssignments;
     private List<LivelihoodZonesEntity> currentUserAssignedCountyLivelihoodZones;
+    private List<CountiesEntity> counties;
+    private List<CountriesEntity> countries;
 
     public List<LivelihoodZonesEntity> getLivelihoodZones() {
         return livelihoodZones;
@@ -93,5 +96,21 @@ public class GeographyObjectDto {
 
     public void setCurrentUserAssignedCountyLivelihoodZones(List<LivelihoodZonesEntity> currentUserAssignedCountyLivelihoodZones) {
         this.currentUserAssignedCountyLivelihoodZones = currentUserAssignedCountyLivelihoodZones;
+    }
+
+    public List<CountriesEntity> getCountries() {
+        return countries;
+    }
+
+    public void setCountries(List<CountriesEntity> countries) {
+        this.countries = countries;
+    }
+
+    public List<CountiesEntity> getCounties() {
+        return counties;
+    }
+
+    public void setCounties(List<CountiesEntity> counties) {
+        this.counties = counties;
     }
 }

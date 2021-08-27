@@ -11,6 +11,8 @@ import java.util.List;
 public interface CountiesRepository extends JpaRepository<CountiesEntity, Long> {
     public CountiesEntity findByCountyId(@Param("CountyId") int countyId);
 
+    public CountiesEntity findByCountyCode(@Param("CountyCode") String countyCode);
+
     @Query(nativeQuery = true)
     public List<CountiesEntity> fetchCountyComprehensively(int countyId);
 }

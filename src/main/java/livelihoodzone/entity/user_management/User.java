@@ -34,6 +34,9 @@ public class User implements java.io.Serializable{
   @Column(name = "OrganizationName")
   private String organizationName;
 
+  @Column(name = "UserPhoneNumber")
+  private String userPhoneNumber = null;
+
   @Column(name = "EncryptedPassword")
   private String encryptedPassword;
 
@@ -112,5 +115,13 @@ public class User implements java.io.Serializable{
 
   public void setSurname(String surname) {
     this.surname = surname;
+  }
+
+  public String getUserPhoneNumber() {
+    return userPhoneNumber;
+  }
+
+  public void setUserPhoneNumber(String userPhoneNumber) {
+    this.userPhoneNumber = userPhoneNumber;
   }
 }

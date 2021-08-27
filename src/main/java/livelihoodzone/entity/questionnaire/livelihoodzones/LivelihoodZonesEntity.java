@@ -26,6 +26,11 @@ public class LivelihoodZonesEntity implements java.io.Serializable{
         this.livelihoodZoneCode = livelihoodZoneCode;
     }
 
+    public LivelihoodZonesEntity(String livelihoodZoneName, int livelihoodZoneCode) {
+        this.livelihoodZoneName = livelihoodZoneName;
+        this.livelihoodZoneCode = livelihoodZoneCode;
+    }
+
     public int getLivelihoodZoneId() {
         return livelihoodZoneId;
     }

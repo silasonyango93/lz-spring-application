@@ -1,10 +1,16 @@
 package livelihoodzone.dto.questionnaire.county.model.markets;
 
+import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
+import livelihoodzone.entity.administrative_boundaries.countries.CountriesEntity;
 import livelihoodzone.entity.administrative_boundaries.subcounties.SubCountyEntity;
 
 public class MarketTransactionsItem {
     private String marketUniqueId;
     private String marketName;
+    private String nearestVillageOrTownName;
+    private SubCountyEntity subCounty;
+    private CountiesEntity county;
+    private CountriesEntity country;
     private boolean livestockTrade;
     private boolean poultryTrade;
     private boolean farmProduceTrade;
@@ -65,5 +71,37 @@ public class MarketTransactionsItem {
 
     public void setLabourExchange(boolean labourExchange) {
         this.labourExchange = labourExchange;
+    }
+
+    public String getNearestVillageOrTownName() {
+        return nearestVillageOrTownName;
+    }
+
+    public void setNearestVillageOrTownName(String nearestVillageOrTownName) {
+        this.nearestVillageOrTownName = nearestVillageOrTownName;
+    }
+
+    public SubCountyEntity getSubCounty() {
+        return subCounty;
+    }
+
+    public void setSubCounty(SubCountyEntity subCounty) {
+        this.subCounty = subCounty;
+    }
+
+    public CountiesEntity getCounty() {
+        return county;
+    }
+
+    public void setCounty(CountiesEntity county) {
+        this.county = county;
+    }
+
+    public CountriesEntity getCountry() {
+        return country;
+    }
+
+    public void setCountry(CountriesEntity country) {
+        this.country = country;
     }
 }

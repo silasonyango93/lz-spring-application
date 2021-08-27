@@ -1,20 +1,40 @@
 package livelihoodzone.util.excel;
 
 public class IngestedFileModel {
-    private double code;
+    private int objectId;
+    private String country;
+    private String province;
     private String county;
-    private String oldDivision;
-    private String oldLocation;
-    private String oldSubLocation;
-    private String currentConstituency;
-    private String currentWard;
+    private String division;
+    private String subCounty;
+    private String location;
+    private String ward;
+    private String subLocation;
+    private String adminId;
+    private String livelihoodZone;
 
-    public double getCode() {
-        return code;
+    public int getObjectId() {
+        return objectId;
     }
 
-    public void setCode(double code) {
-        this.code = code;
+    public void setObjectId(int objectId) {
+        this.objectId = objectId;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public String getCounty() {
@@ -25,43 +45,59 @@ public class IngestedFileModel {
         this.county = county;
     }
 
-    public String getOldDivision() {
-        return oldDivision;
+    public String getDivision() {
+        return division;
     }
 
-    public void setOldDivision(String oldDivision) {
-        this.oldDivision = oldDivision;
+    public void setDivision(String division) {
+        this.division = division;
     }
 
-    public String getOldLocation() {
-        return oldLocation;
+    public String getSubCounty() {
+        return subCounty;
     }
 
-    public void setOldLocation(String oldLocation) {
-        this.oldLocation = oldLocation;
+    public void setSubCounty(String subCounty) {
+        this.subCounty = subCounty;
     }
 
-    public String getOldSubLocation() {
-        return oldSubLocation;
+    public String getLocation() {
+        return location;
     }
 
-    public void setOldSubLocation(String oldSubLocation) {
-        this.oldSubLocation = oldSubLocation;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public String getCurrentConstituency() {
-        return currentConstituency;
+    public String getWard() {
+        return ward;
     }
 
-    public void setCurrentConstituency(String currentConstituency) {
-        this.currentConstituency = currentConstituency;
+    public void setWard(String ward) {
+        this.ward = ward;
     }
 
-    public String getCurrentWard() {
-        return currentWard;
+    public String getSubLocation() {
+        return subLocation;
     }
 
-    public void setCurrentWard(String currentWard) {
-        this.currentWard = currentWard;
+    public void setSubLocation(String subLocation) {
+        this.subLocation = subLocation;
+    }
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
+
+    public String getLivelihoodZone() {
+        return livelihoodZone;
+    }
+
+    public void setLivelihoodZone(String livelihoodZone) {
+        this.livelihoodZone = livelihoodZone;
     }
 }

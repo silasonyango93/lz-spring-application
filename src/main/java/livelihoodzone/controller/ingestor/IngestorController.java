@@ -3,9 +3,11 @@ package livelihoodzone.controller.ingestor;
 import livelihoodzone.service.ingestor.ExcelService;
 import livelihoodzone.service.ingestor.crops.CropsExcellService;
 import livelihoodzone.service.ingestor.tribe.TribeExcelService;
+import livelihoodzone.service.ingestor.users.UsersExcelService;
 import livelihoodzone.util.excel.ExcelHelper;
 import livelihoodzone.util.excel.crops.CropExcelHelper;
 import livelihoodzone.util.excel.tribe.TribeExcelHelper;
+import livelihoodzone.util.excel.users.UsersExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,9 @@ public class IngestorController {
     @Autowired
     TribeExcelService tribeExcelService;
 
+    @Autowired
+    UsersExcelService usersExcelService;
+
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
@@ -40,6 +45,7 @@ public class IngestorController {
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             } catch (Exception e) {
+                e.printStackTrace();
                 message = "Could not upload the file: " + file.getOriginalFilename() + "!";
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
             }
@@ -82,6 +88,28 @@ public class IngestorController {
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             } catch (Exception e) {
+                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
+            }
+        }
+
+        message = "Please upload an excel file!";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
+
+    @PostMapping("/users")
+    public ResponseEntity<ResponseMessage> uploadUsers(@RequestParam("file") MultipartFile file) {
+        String message = "";
+
+        if (UsersExcelHelper.hasExcelFormat(file)) {
+            try {
+                usersExcelService.signUpIngestedUsers(file);
+
+                message = "Uploaded the file successfully: " + file.getOriginalFilename();
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            } catch (Exception e) {
+                e.printStackTrace();
                 message = "Could not upload the file: " + file.getOriginalFilename() + "!";
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
             }

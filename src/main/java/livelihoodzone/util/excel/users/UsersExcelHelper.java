@@ -1,5 +1,6 @@
-package livelihoodzone.util.excel;
+package livelihoodzone.util.excel.users;
 
+import livelihoodzone.util.excel.IngestedFileModel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -13,10 +14,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ExcelHelper {
+public class UsersExcelHelper {
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    static String[] HEADERs = { "OBJECT ID", "COUNTRY", "PROVINCE", "COUNTY", "DIVISION", "SUBCOUNTY", "LOCATION", "WARD", "SUBLOCATION", "ADMIN6ID", "NEW LZ TYPE" };
-    static String SHEET = "Worksheet";
+    static String[] HEADERs = { "County", "Name", "Mobile phone number", "Sector/Department", "Email" };
+    static String SHEET = "ASALs";
 
     public static boolean hasExcelFormat(MultipartFile file) {
 
@@ -27,7 +28,7 @@ public class ExcelHelper {
         return true;
     }
 
-    public static List<IngestedFileModel> excelToTutorials(InputStream is) {
+    public static List<UsersExcelModel> excelToTutorials(InputStream is) {
         try {
             System.out.println();
             Workbook workbook = new XSSFWorkbook(is);
@@ -35,7 +36,7 @@ public class ExcelHelper {
             Sheet sheet = workbook.getSheet(SHEET);
             Iterator<Row> rows = sheet.iterator();
 
-            List<IngestedFileModel> tutorials = new ArrayList<IngestedFileModel>();
+            List<UsersExcelModel> tutorials = new ArrayList<UsersExcelModel>();
 
             int rowNumber = 0;
             while (rows.hasNext()) {
@@ -49,7 +50,7 @@ public class ExcelHelper {
 
                 Iterator<Cell> cellsInRow = currentRow.iterator();
 
-                IngestedFileModel tutorial = new IngestedFileModel();
+                UsersExcelModel tutorial = new UsersExcelModel();
 
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
@@ -57,51 +58,23 @@ public class ExcelHelper {
 
                     switch (cellIdx) {
                         case 0:
-
-                            //tutorial.setObjectId((int) currentCell.getNumericCellValue());
+                            tutorial.setCountyName(currentCell.getStringCellValue());
                             break;
 
                         case 1:
-                            tutorial.setCountry(currentCell.getStringCellValue());
+                            tutorial.setStaffName(currentCell.getStringCellValue());
                             break;
 
                         case 2:
-                            tutorial.setProvince(currentCell.getStringCellValue());
+                            //tutorial.setTelephoneNo((int)currentCell.getNumericCellValue());
                             break;
 
                         case 3:
-                            tutorial.setCounty(currentCell.getStringCellValue());
+                            tutorial.setOrganizationName(currentCell.getStringCellValue());
                             break;
 
                         case 4:
-                            tutorial.setDivision(currentCell.getStringCellValue());
-                            break;
-
-
-                        case 5:
-                            tutorial.setSubCounty(currentCell.getStringCellValue());
-                            break;
-
-
-                        case 6:
-                            tutorial.setLocation(currentCell.getStringCellValue());
-                            break;
-
-                        case 7:
-                            tutorial.setWard(currentCell.getStringCellValue());
-                            break;
-
-
-                        case 8:
-                            tutorial.setSubLocation(currentCell.getStringCellValue());
-                            break;
-
-                        case 9:
-                            tutorial.setAdminId(currentCell.getStringCellValue());
-                            break;
-
-                        case 10:
-                            tutorial.setLivelihoodZone(currentCell.getStringCellValue());
+                            tutorial.setEmail(currentCell.getStringCellValue());
                             break;
 
                         default:

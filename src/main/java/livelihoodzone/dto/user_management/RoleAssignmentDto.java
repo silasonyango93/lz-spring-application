@@ -4,6 +4,14 @@ public class RoleAssignmentDto {
     private int roleId;
     private boolean toBeAssignedThisRole;
 
+    public RoleAssignmentDto() {
+    }
+
+    public RoleAssignmentDto(int roleId, boolean toBeAssignedThisRole) {
+        this.roleId = roleId;
+        this.toBeAssignedThisRole = toBeAssignedThisRole;
+    }
+
     public int getRoleId() {
         return roleId;
     }

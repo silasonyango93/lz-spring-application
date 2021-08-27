@@ -12,4 +12,6 @@ public interface SubCountiesRepository extends JpaRepository<SubCountyEntity, Lo
     public List<SubCountyEntity> findByCountyId(@Param("CountyId") int countyId);
 
     public SubCountyEntity findBySubCountyId(@Param("SubCountyId") int subCountyId);
+
+    public SubCountyEntity findBySubCountyCode(@Param("SubCountyCode") int subCountyCode);
 }

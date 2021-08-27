@@ -25,6 +25,11 @@ public class CountiesDao implements CountiesRepository {
         return null;
     }
 
+    @Override
+    public CountiesEntity findByCountyCode(String countyCode) {
+        return null;
+    }
+
     @Transactional
     @Override
     public List<CountiesEntity> fetchCountyComprehensively(int countyId) {

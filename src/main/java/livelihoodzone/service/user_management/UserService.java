@@ -8,6 +8,7 @@ import livelihoodzone.entity.user_management.AuthenticationStatus;
 import livelihoodzone.entity.user_management.Roles;
 import livelihoodzone.entity.user_management.UserRoles;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
+import livelihoodzone.repository.administrative_boundaries.countries.CountriesRepository;
 import livelihoodzone.repository.administrative_boundaries.subcounties.SubCountiesRepository;
 import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
 import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
@@ -92,6 +93,9 @@ public class UserService {
 
     @Autowired
     LivelihoodZonesService livelihoodZonesService;
+
+    @Autowired
+    CountriesRepository countriesRepository;
 
     public AuthenticationObject signin(String email, String attemtedPassword) {
 
@@ -239,6 +243,8 @@ public class UserService {
         geographyObjectDto.setSubCounties(subCountiesRepository.findAll());
         geographyObjectDto.setSublocationsLivelihoodZoneAssignments(fetchACountySubLocationsLivelihoodZoneAssignment(countyId));
         geographyObjectDto.setCurrentUserAssignedCountyLivelihoodZones(livelihoodZonesService.fetchACountyLiveliHoodZones(countyId).getLivelihoodZones());
+        geographyObjectDto.setCounties(countiesRepository.findAll());
+        geographyObjectDto.setCountries(countriesRepository.findAll());
 
         return geographyObjectDto;
     }
