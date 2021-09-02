@@ -51,6 +51,48 @@ public class SeasonalCalendarService {
     @Autowired
     LzPlantingMonthsRepository lzPlantingMonthsRepository;
 
+    @Autowired
+    LzAgricultureCasualLabourAvailabilityRepository lzAgricultureCasualLabourAvailabilityRepository;
+
+    @Autowired
+    LzLandPreparationMonthsRepository lzLandPreparationMonthsRepository;
+
+    @Autowired
+    LzHarvestingMonthsRepository lzHarvestingMonthsRepository;
+
+    @Autowired
+    LzNonAgricCasualLabourAvailabilityRepository lzNonAgricCasualLabourAvailabilityRepository;
+
+    @Autowired
+    LzCasualLabourWagesRepository lzCasualLabourWagesRepository;
+
+    @Autowired
+    LzRemittancesRepository lzRemittancesRepository;
+
+    @Autowired
+    LzFishingMonthsRepository lzFishingMonthsRepository;
+
+    @Autowired
+    LzMarketAccessMonthsRepository lzMarketAccessMonthsRepository;
+
+    @Autowired
+    LzDiseaseOutBreakMonthsRepository lzDiseaseOutBreakMonthsRepository;
+
+    @Autowired
+    LzWaterStressMonthsRepository lzWaterStressMonthsRepository;
+
+    @Autowired
+    LzConflictRisksMonthsRepository lzConflictRisksMonthsRepository;
+
+    @Autowired
+    LzCeremonyMonthsRepository lzCeremonyMonthsRepository;
+
+    @Autowired
+    LzLeanSeasonMonthsRepository lzLeanSeasonMonthsRepository;
+
+    @Autowired
+    LzFoodSecurityAssessmentsRepository lzFoodSecurityAssessmentsRepository;
+
     public void saveSeasonMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
         LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
 
@@ -308,5 +350,309 @@ public class SeasonalCalendarService {
             }
             lzPlantingMonthsRepository.saveAll(lzPlantingMonthsEntityList);
         }
+    }
+
+
+    public void saveLandPreparationMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzCropProductionResponses lzCropProductionResponses = countyLevelQuestionnaireRequestDto.getLzCropProductionResponses();
+        List<WgCropProductionResponseItem> cropProductionResponses = lzCropProductionResponses.getCropProductionResponses();
+
+        for (WgCropProductionResponseItem currentResponseItem : cropProductionResponses) {
+            List<MonthsEntity> landPreparationPeriod = currentResponseItem.getLandPreparationPeriod();
+            List<LzLandPreparationMonthsEntity> lzLandPreparationMonthsEntityList = new ArrayList<>();
+            for (MonthsEntity currentMonth : landPreparationPeriod) {
+                lzLandPreparationMonthsEntityList.add(new LzLandPreparationMonthsEntity(
+                        savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                        currentResponseItem.getCrop().getCropId(),
+                        currentMonth.getMonthId()
+                ));
+            }
+            lzLandPreparationMonthsRepository.saveAll(lzLandPreparationMonthsEntityList);
+        }
+    }
+
+
+    public void saveHarvestingMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzCropProductionResponses lzCropProductionResponses = countyLevelQuestionnaireRequestDto.getLzCropProductionResponses();
+        List<WgCropProductionResponseItem> cropProductionResponses = lzCropProductionResponses.getCropProductionResponses();
+
+        for (WgCropProductionResponseItem currentResponseItem : cropProductionResponses) {
+            List<MonthsEntity> harvestingPeriod = currentResponseItem.getHarvestingPeriod();
+            List<LzHarvestingMonthsEntity> lzHarvestingMonthsEntityList = new ArrayList<>();
+            for (MonthsEntity currentMonth : harvestingPeriod) {
+                lzHarvestingMonthsEntityList.add(new LzHarvestingMonthsEntity(
+                        savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                        currentResponseItem.getCrop().getCropId(),
+                        currentMonth.getMonthId()
+                ));
+            }
+            lzHarvestingMonthsRepository.saveAll(lzHarvestingMonthsEntityList);
+        }
+    }
+
+
+    public void saveAgricultureCasualLabour(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High
+        List<LzAgricultureCasualLabourAvailabilityEntity> highAgricultureWagedLabour = new ArrayList<>();
+
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighCasualLabourAvailability()) {
+            highAgricultureWagedLabour.add(new LzAgricultureCasualLabourAvailabilityEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+
+        lzAgricultureCasualLabourAvailabilityRepository.saveAll(highAgricultureWagedLabour);
+
+
+        //Low
+        List<LzAgricultureCasualLabourAvailabilityEntity> lowAgricultureWagedLabour = new ArrayList<>();
+
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLowCasualLabourAvailability()) {
+            lowAgricultureWagedLabour.add(new LzAgricultureCasualLabourAvailabilityEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+
+        lzAgricultureCasualLabourAvailabilityRepository.saveAll(lowAgricultureWagedLabour);
+    }
+
+
+    public void saveNonAgricultureCasualLabourAvailability(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High
+        List<LzNonAgricCasualLabourAvailabilityEntity> highNonAgricultureCasualLabour = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getNonAgricHighCasualLabourAvailability()) {
+            highNonAgricultureCasualLabour.add(new LzNonAgricCasualLabourAvailabilityEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzNonAgricCasualLabourAvailabilityRepository.saveAll(highNonAgricultureCasualLabour);
+
+        //Low
+        List<LzNonAgricCasualLabourAvailabilityEntity> lowNonAgricultureCasualLabour = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getNonAgricLowCasualLabourAvailability()) {
+            lowNonAgricultureCasualLabour.add(new LzNonAgricCasualLabourAvailabilityEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzNonAgricCasualLabourAvailabilityRepository.saveAll(lowNonAgricultureCasualLabour);
+    }
+
+
+    public void saveCasualLabourWages(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High
+        List<LzCasualLabourWagesEntity> highCasualLabourWages = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighCasualLabourWages()) {
+            highCasualLabourWages.add(new LzCasualLabourWagesEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzCasualLabourWagesRepository.saveAll(highCasualLabourWages);
+
+        //Low
+        List<LzCasualLabourWagesEntity> lowCasualLabourWages = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLowCasualLabourWages()) {
+            lowCasualLabourWages.add(new LzCasualLabourWagesEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzCasualLabourWagesRepository.saveAll(lowCasualLabourWages);
+    }
+
+
+    public void saveRemittances(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High
+        List<LzRemittancesEntity> highRemittance = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighRemittances()) {
+            highRemittance.add(new LzRemittancesEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzRemittancesRepository.saveAll(highRemittance);
+
+
+        //Low
+        List<LzRemittancesEntity> lowRemittance = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLowRemittances()) {
+            lowRemittance.add(new LzRemittancesEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzRemittancesRepository.saveAll(lowRemittance);
+
+    }
+
+
+    public void saveFishingMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High
+        List<LzFishingMonthsEntity> highRemittance = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighFish()) {
+            highRemittance.add(new LzFishingMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzFishingMonthsRepository.saveAll(highRemittance);
+
+        //Low
+        List<LzFishingMonthsEntity> lowRemittance = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLowFish()) {
+            lowRemittance.add(new LzFishingMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzFishingMonthsRepository.saveAll(lowRemittance);
+    }
+
+
+    public void saveMarketAccessMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High
+        List<LzMarketAccessMonthsEntity> highMarketAccess = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighMarketAccess()) {
+            highMarketAccess.add(new LzMarketAccessMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzMarketAccessMonthsRepository.saveAll(highMarketAccess);
+
+        //High
+        List<LzMarketAccessMonthsEntity> lowMarketAccess = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLowMarketAccess()) {
+            lowMarketAccess.add(new LzMarketAccessMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzMarketAccessMonthsRepository.saveAll(lowMarketAccess);
+    }
+
+
+    public void saveDiseaseOutBreakMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        //High
+        List<LzDiseaseOutBreakMonthsEntity> highDiseaseOutBreak = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getHighDiseaseOutbreak()) {
+            highDiseaseOutBreak.add(new LzDiseaseOutBreakMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.HIGH).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzDiseaseOutBreakMonthsRepository.saveAll(highDiseaseOutBreak);
+
+
+        //Low
+        List<LzDiseaseOutBreakMonthsEntity> lowDiseaseOutBreak = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLowDiseaseOutbreak()) {
+            lowDiseaseOutBreak.add(new LzDiseaseOutBreakMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    highLowMediumScaleRepository.findByScaleMetricCode(Constants.LOW).getScaleMetricId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzDiseaseOutBreakMonthsRepository.saveAll(lowDiseaseOutBreak);
+    }
+
+
+    public void saveWaterStressMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        List<LzWaterStressMonthsEntity> waterStressMonths = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getWaterStress()) {
+            waterStressMonths.add(new LzWaterStressMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzWaterStressMonthsRepository.saveAll(waterStressMonths);
+    }
+
+
+    public void saveConflictRisksMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        List<LzConflictRisksMonthsEntity> waterStressMonths = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getConflictRisks()) {
+            waterStressMonths.add(new LzConflictRisksMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzConflictRisksMonthsRepository.saveAll(waterStressMonths);
+    }
+
+    public void saveCeremonyMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        List<LzCeremonyMonthsEntity> ceremoniesMonths = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getCeremonies()) {
+            ceremoniesMonths.add(new LzCeremonyMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzCeremonyMonthsRepository.saveAll(ceremoniesMonths);
+    }
+
+
+    public void saveLeanSeasonMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        List<LzLeanSeasonMonthsEntity> leanSeasonMonths = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getLeanSeasons()) {
+            leanSeasonMonths.add(new LzLeanSeasonMonthsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzLeanSeasonMonthsRepository.saveAll(leanSeasonMonths);
+    }
+
+
+    public void saveFoodSecurityAssessmentMonths(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        LzSeasonsResponses livelihoodZoneSeasonsResponses = countyLevelQuestionnaireRequestDto.getLivelihoodZoneSeasonsResponses();
+
+        List<LzFoodSecurityAssessmentsEntity> foodSecurityAssessmentsEntityList = new ArrayList<>();
+        for (MonthsEntity currentMonth : livelihoodZoneSeasonsResponses.getFoodSecurityAssessments()) {
+            foodSecurityAssessmentsEntityList.add(new LzFoodSecurityAssessmentsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    currentMonth.getMonthId()
+            ));
+        }
+        lzFoodSecurityAssessmentsRepository.saveAll(foodSecurityAssessmentsEntityList);
     }
 }

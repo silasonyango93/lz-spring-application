@@ -115,7 +115,21 @@ public class CountyLevelService {
         seasonalCalendarService.saveFoodPricesMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.saveLivestockPricesMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         seasonalCalendarService.savePlantingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveLandPreparationMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveHarvestingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveAgricultureCasualLabour(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveNonAgricultureCasualLabourAvailability(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         lzMarketTransactionsService.saveMarketTransactions(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveCasualLabourWages(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveRemittances(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveFishingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveMarketAccessMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveDiseaseOutBreakMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveWaterStressMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveConflictRisksMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveCeremonyMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveLeanSeasonMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+        seasonalCalendarService.saveFoodSecurityAssessmentMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
 
         /***********************************************************************************************************/
 

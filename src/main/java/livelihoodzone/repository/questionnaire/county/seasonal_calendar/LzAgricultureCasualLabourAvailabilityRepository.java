@@ -1,0 +1,8 @@
+package livelihoodzone.repository.questionnaire.county.seasonal_calendar;
+
+import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LzAgricultureCasualLabourAvailabilityEntity;
+import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LzCalvingEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface LzAgricultureCasualLabourAvailabilityRepository extends JpaRepository<LzAgricultureCasualLabourAvailabilityEntity, Long> {
+}

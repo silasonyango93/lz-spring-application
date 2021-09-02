@@ -207,7 +207,7 @@ public class UserController {
 
 
 
-    @PutMapping("/update-user-details")
+    @PostMapping("/update-user-details")
     @ApiOperation(value = "${UserController.update-user-details}", response = GenericResponse.class)
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad request"), //
