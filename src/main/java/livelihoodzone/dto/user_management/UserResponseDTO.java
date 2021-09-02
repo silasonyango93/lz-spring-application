@@ -21,6 +21,12 @@ public class UserResponseDTO {
   private String email;
   @ApiModelProperty(position = 6)
   private String organizationName;
+  @ApiModelProperty(position = 7)
+  private int countyId;
+  @ApiModelProperty(position = 8)
+  private String phoneNumber;
+  @ApiModelProperty(position = 9)
+  private List<SimplifiedUserRolesDto> userRoles;
 
   public UserResponseDTO() {
   }
@@ -89,5 +95,29 @@ public class UserResponseDTO {
 
   public void setOrganizationName(String organizationName) {
     this.organizationName = organizationName;
+  }
+
+  public int getCountyId() {
+    return countyId;
+  }
+
+  public void setCountyId(int countyId) {
+    this.countyId = countyId;
+  }
+
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  public List<SimplifiedUserRolesDto> getUserRoles() {
+    return userRoles;
+  }
+
+  public void setUserRoles(List<SimplifiedUserRolesDto> userRoles) {
+    this.userRoles = userRoles;
   }
 }

@@ -2,6 +2,15 @@ package livelihoodzone.common;
 
 public class Constants {
 
+
+    //Role codes
+    public static final int ADMIN = 1;
+    public static final int WEALTH_GROUP_RAW_DATA_COLLECTOR = 2;
+    public static final int DATA_ANALYST = 3;
+    public static final int WEALTH_GROUP_SUMMARISED_DATA_COLLECTOR = 4;
+    public static final int ZONE_LEVEL_DATA_COLLECTOR = 5;
+    public static final int COUNTY_SUPERVISOR = 6;
+
     //Wealth Group Codes
     public static final int VERY_POOR_CODE = 1;
     public static final int POOR_CODE = 2;
@@ -171,6 +180,7 @@ public class Constants {
     public static final int INCO_CP_LOW_QUALITY_SEED_STOCK = 12;
     public static final int INCO_CP_LACK_MARKET_ACCESS = 13;
     public static final int INCO_CP_ENDEMIC_CROP_PESTS_DISEASES = 14;
+    public static final int INCO_CP_LACK_OF_AGRICULTURAL_EXTENSION_SERVICES = 37;
 
     public static final int INCO_LP_LACK_OF_PASTURE = 15;
     public static final int INCO_LP_LACK_OF_ANIMAL_DRINKING_WATER = 16;
@@ -179,6 +189,9 @@ public class Constants {
     public static final int INCO_LP_ENDEMIC_LIVESTOCK_PESTS_DISEASES = 19;
     public static final int INCO_LP_LACK_OF_MARKET = 20;
     public static final int INCO_LP_INSECURITY = 21;
+    public static final int INCO_LP_LOW_TECHNICAL_SKILLS_KNOWLEDGE = 38;
+    public static final int INCO_LP_UNFAVOURABLE_CLIMATE = 39;
+    public static final int INCO_LP_LACK_OF_LIVESTOCK_EXTENSION_SERVICES = 40;
 
     public static final int INCO_FI_LOW_FISH_STOCKS = 22;
     public static final int INCO_FI_LOW_FISH_PRICE = 23;
@@ -186,6 +199,7 @@ public class Constants {
     public static final int INCO_FI_TOO_MUCH_COMPETITION = 25;
     public static final int INCO_FI_LACK_OF_EXPERTISE = 26;
     public static final int INCO_FI_RESTRICTIONS_ON_FISHING_RIGHTS = 27;
+    public static final int INCO_FI_INADEQUATE_COLD_STORAGE_FACILITIES = 41;
 
     public static final int INCO_NR_DECLINING_NATURAL_RESOURCES = 28;
     public static final int INCO_NR_TOO_MUCH_POPULATION_PRESSURE = 29;

@@ -10,6 +10,7 @@ public class CropProductionIncomeConstraintsResponses {
     private int lowQualitySeed;
     private int lackOfMarketAccess;
     private int endemicCropPests;
+    private int lackOfAgricExtensions;
 
     public int getSmallLandHoldings() {
         return smallLandHoldings;
@@ -81,5 +82,13 @@ public class CropProductionIncomeConstraintsResponses {
 
     public void setEndemicCropPests(int endemicCropPests) {
         this.endemicCropPests = endemicCropPests;
+    }
+
+    public int getLackOfAgricExtensions() {
+        return lackOfAgricExtensions;
+    }
+
+    public void setLackOfAgricExtensions(int lackOfAgricExtensions) {
+        this.lackOfAgricExtensions = lackOfAgricExtensions;
     }
 }

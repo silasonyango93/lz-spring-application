@@ -62,6 +62,9 @@ UserController:
   me: Returns current user's data
   all-users: Returns all registered users
   all-roles: Returns all roles in the system
+  new-roles: assigns new roles
+  user-request-by-email: Fetch a user details by email
+  update-user-details: Updates a user details
 
 
 CountiesController:

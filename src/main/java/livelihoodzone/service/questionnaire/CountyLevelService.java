@@ -18,6 +18,7 @@ import livelihoodzone.service.questionnaire.zonelevel.LzEthnicGroupsService;
 import livelihoodzone.service.questionnaire.zonelevel.LzHazardsService;
 import livelihoodzone.service.questionnaire.zonelevel.LzMarketTransactionsService;
 import livelihoodzone.service.questionnaire.zonelevel.SeasonalCalendarService;
+import livelihoodzone.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +73,7 @@ public class CountyLevelService {
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
         Gson gson = new Gson();
-        String questionnaireJsonString = gson.toJson(countyLevelQuestionnaireRequestDto);
+        String questionnaireJsonString = gson.toJson(new CountyLevelQuestionnaireRequestDto());
         List<LzQuestionnaireSessionEntity> existingQuestionnaires = lzQuestionnaireSessionRepository.findByLzQuestionnaireUniqueId(countyLevelQuestionnaireRequestDto.getUniqueId());
 
         if (existingQuestionnaires.size() > 0) {
@@ -91,8 +92,8 @@ public class CountyLevelService {
                 countyLevelQuestionnaireRequestDto.getQuestionnaireName(),
                 countyLevelQuestionnaireRequestDto.getLatitude(),
                 countyLevelQuestionnaireRequestDto.getLongitude(),
-                countyLevelQuestionnaireRequestDto.getQuestionnaireStartDate(),
-                countyLevelQuestionnaireRequestDto.getQuestionnaireEndDate(),
+                countyLevelQuestionnaireRequestDto.getQuestionnaireStartDate() != null ? countyLevelQuestionnaireRequestDto.getQuestionnaireStartDate() : Util.getNow(),
+                countyLevelQuestionnaireRequestDto.getQuestionnaireEndDate() != null ? countyLevelQuestionnaireRequestDto.getQuestionnaireEndDate() : Util.getNow(),
                 countyLevelQuestionnaireRequestDto.getUniqueId(),
                 questionnaireJsonString
         ));

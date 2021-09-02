@@ -87,4 +87,5 @@ public class LivelihoodZonesController {
             return new ResponseEntity<GenericResponse>(new GenericResponse(false, "Duplicate assignment"), HttpStatus.valueOf(422));
         }
     }
+
 }

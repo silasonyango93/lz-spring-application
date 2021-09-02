@@ -137,6 +137,13 @@ public class IncomeConstraintsService {
                 constraintsResponses.getCropProductionIncomeConstraintsResponses().getEndemicCropPests()
         ));
 
+        wgIncomeConstraintRankRepository.save(new WgIncomeConstraintRankEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                conIncomeSourcesRepository.findByConIncomeSourceCode(Constants.CONIN_CROP_PRODUCTION).getConIncomeSourceId(),
+                incomeConstraintsRepository.findByIncomeConstraintCode(Constants.INCO_CP_LACK_OF_AGRICULTURAL_EXTENSION_SERVICES).getIncomeConstraintId(),
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().getLackOfAgricExtensions()
+        ));
+
         /******************************************************************************************************************/
 
 
@@ -195,6 +202,27 @@ public class IncomeConstraintsService {
                 constraintsResponses.getLivestockProductionIncomeConstraintsResponses().getInsecurity()
         ));
 
+        wgIncomeConstraintRankRepository.save(new WgIncomeConstraintRankEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                conIncomeSourcesRepository.findByConIncomeSourceCode(Constants.CONIN_LIVESTOCK_PRODUCTION).getConIncomeSourceId(),
+                incomeConstraintsRepository.findByIncomeConstraintCode(Constants.INCO_LP_LOW_TECHNICAL_SKILLS_KNOWLEDGE).getIncomeConstraintId(),
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().getLowTechnicalSkillsKnowledge()
+        ));
+
+        wgIncomeConstraintRankRepository.save(new WgIncomeConstraintRankEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                conIncomeSourcesRepository.findByConIncomeSourceCode(Constants.CONIN_LIVESTOCK_PRODUCTION).getConIncomeSourceId(),
+                incomeConstraintsRepository.findByIncomeConstraintCode(Constants.INCO_LP_UNFAVOURABLE_CLIMATE).getIncomeConstraintId(),
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().getUnfavourableClimate()
+        ));
+
+        wgIncomeConstraintRankRepository.save(new WgIncomeConstraintRankEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                conIncomeSourcesRepository.findByConIncomeSourceCode(Constants.CONIN_LIVESTOCK_PRODUCTION).getConIncomeSourceId(),
+                incomeConstraintsRepository.findByIncomeConstraintCode(Constants.INCO_LP_LACK_OF_LIVESTOCK_EXTENSION_SERVICES).getIncomeConstraintId(),
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().getLackOfLivestockExtensionServices()
+        ));
+
         /******************************************************************************************************************/
 
 
@@ -243,6 +271,13 @@ public class IncomeConstraintsService {
                 conIncomeSourcesRepository.findByConIncomeSourceCode(Constants.CONIN_FISHING).getConIncomeSourceId(),
                 incomeConstraintsRepository.findByIncomeConstraintCode(Constants.INCO_FI_RESTRICTIONS_ON_FISHING_RIGHTS).getIncomeConstraintId(),
                 constraintsResponses.getFishingIncomeConstraintsResponses().getFishingRightsRestrictions()
+        ));
+
+        wgIncomeConstraintRankRepository.save(new WgIncomeConstraintRankEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                conIncomeSourcesRepository.findByConIncomeSourceCode(Constants.CONIN_FISHING).getConIncomeSourceId(),
+                incomeConstraintsRepository.findByIncomeConstraintCode(Constants.INCO_FI_INADEQUATE_COLD_STORAGE_FACILITIES).getIncomeConstraintId(),
+                constraintsResponses.getFishingIncomeConstraintsResponses().getInadequateColdStorageFacilities()
         ));
 
 

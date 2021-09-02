@@ -2,7 +2,9 @@ package livelihoodzone.service.user_management;
 
 import javax.servlet.http.HttpServletRequest;
 
+import livelihoodzone.common.Constants;
 import livelihoodzone.dao.administrative_boundaries.CountiesDao;
+import livelihoodzone.dto.GenericResponse;
 import livelihoodzone.dto.user_management.*;
 import livelihoodzone.entity.user_management.AuthenticationStatus;
 import livelihoodzone.entity.user_management.Roles;
@@ -193,7 +195,7 @@ public class UserService {
             List<SimplifiedUserRolesDto> simplifiedUserRolesDtoList = new ArrayList<>();
 
             for (UserRolesRetrofitModel userRolesRetrofitModel : response.body()) {
-                simplifiedUserRolesDtoList.add(new SimplifiedUserRolesDto(userRolesRetrofitModel.getRoleDescription(), userRolesRetrofitModel.getConfirmationStatus() == 1));
+                simplifiedUserRolesDtoList.add(new SimplifiedUserRolesDto(userRolesRetrofitModel.getRoleDescription(), userRolesRetrofitModel.getConfirmationStatus() == 1,userRolesRetrofitModel.getRoleCode()));
             }
 
             return simplifiedUserRolesDtoList;
@@ -247,6 +249,124 @@ public class UserService {
         geographyObjectDto.setCountries(countriesRepository.findAll());
 
         return geographyObjectDto;
+    }
+
+
+    public GenericResponse addNewUserRoles() {
+        List<UserRoles> userRoles = new ArrayList<>();
+        List<User> allUsers = userRepository.findAll();
+
+        for (User currentUser : allUsers) {
+
+            userRoles.add(new UserRoles(
+                    currentUser.getUserId(),
+                    rolesRepository.findByRoleCode(Constants.WEALTH_GROUP_SUMMARISED_DATA_COLLECTOR).getRoleId(),
+                    0
+            ));
+
+            userRoles.add(new UserRoles(
+                    currentUser.getUserId(),
+                    rolesRepository.findByRoleCode(Constants.ZONE_LEVEL_DATA_COLLECTOR).getRoleId(),
+                    0
+            ));
+
+            userRoles.add(new UserRoles(
+                    currentUser.getUserId(),
+                    rolesRepository.findByRoleCode(Constants.COUNTY_SUPERVISOR).getRoleId(),
+                    0
+            ));
+
+        }
+
+        List<UserRoles> savedUserRoles = userRolesRepository.saveAll(userRoles);
+
+        if (savedUserRoles != null && !savedUserRoles.isEmpty()) {
+            return new GenericResponse(
+                    true,
+                    "Roles added succesfully"
+            );
+        }
+        return new GenericResponse(
+                false,
+                "Role assignment failed"
+        );
+
+    }
+
+
+    public UserResponseDTO fetchAUserDetailsByEmail(String userEmail) {
+        User savedUser = userRepository.findByUserEmail(userEmail);
+        if (savedUser == null) {
+            return null;
+        }
+
+        UserResponseDTO userResponseDTO = new UserResponseDTO(
+                savedUser.getUserId(),
+                countiesRepository.findByCountyId(savedUser.getCountyId()).getCountyName(),
+                savedUser.getFirstName(),
+                savedUser.getMiddleName(),
+                savedUser.getSurname(),
+                savedUser.getUserEmail(),
+                savedUser.getOrganizationName()
+        );
+        userResponseDTO.setCountyId(savedUser.getCountyId());
+        userResponseDTO.setPhoneNumber(savedUser.getUserPhoneNumber());
+        List<SimplifiedUserRolesDto> simplifiedUserRolesDtoList = new ArrayList<>();
+        List<UserRoles> userRolesList = userRolesRepository.findByUserId(savedUser.getUserId());
+
+        for (UserRoles currentRole : userRolesList) {
+            SimplifiedUserRolesDto simplifiedUserRolesDto = new SimplifiedUserRolesDto(
+                    rolesRepository.findByRoleId(currentRole.getRoleId()).getRoleDescription(),
+                    currentRole.getConfirmationStatus() == 1,
+                    rolesRepository.findByRoleId(currentRole.getRoleId()).getRoleCode()
+            );
+            simplifiedUserRolesDto.setUserRoleId(currentRole.getUserRoleId());
+            simplifiedUserRolesDto.setRoleId(currentRole.getRoleId());
+            simplifiedUserRolesDtoList.add(simplifiedUserRolesDto);
+        }
+        userResponseDTO.setUserRoles(simplifiedUserRolesDtoList);
+        return userResponseDTO;
+    }
+
+
+    public GenericResponse updateAUserDetails(UserUpdateRequestDto userUpdateRequestDto) {
+
+        if (userUpdateRequestDto == null) {
+            return new GenericResponse(
+                  false,
+                  "No data to be processed"
+            );
+        }
+
+        User userToBeUpdated = new User(
+                userUpdateRequestDto.getNewlyAssignedCountyId(),
+                userUpdateRequestDto.getUserFirstName(),
+                userUpdateRequestDto.getUserMiddleName(),
+                userUpdateRequestDto.getUserSurname(),
+                userRepository.findByUserId(userUpdateRequestDto.getUserId()).getUserEmail(),
+                userUpdateRequestDto.getOrganization(),
+                userRepository.findByUserId(userUpdateRequestDto.getUserId()).getEncryptedPassword()
+        );
+        userToBeUpdated.setUserId(userUpdateRequestDto.getUserId());
+        userToBeUpdated.setUserPhoneNumber(userUpdateRequestDto.getPhoneNumber());
+        userRepository.save(userToBeUpdated);
+
+        List<UserRoles> userRolesList = userRolesRepository.findByUserId(userUpdateRequestDto.getUserId());
+
+        for (RoleAssignmentDto currentRoleAssignment : userUpdateRequestDto.getRolesToBeAssigned()) {
+            for (UserRoles currentUserRole : userRolesList) {
+                if (currentRoleAssignment.getRoleId() == currentUserRole.getRoleId()) {
+                    currentUserRole.setConfirmationStatus(currentRoleAssignment.isToBeAssignedThisRole() ? 1 : 0);
+                }
+            }
+        }
+
+        userRolesRepository.saveAll(userRolesList);
+
+        return new GenericResponse(
+                true,
+                "User details updated succesfully"
+        );
     }
 
 }

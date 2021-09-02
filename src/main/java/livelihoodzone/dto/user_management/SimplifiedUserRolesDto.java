@@ -3,10 +3,14 @@ package livelihoodzone.dto.user_management;
 public class SimplifiedUserRolesDto {
     private String roleDescription;
     private boolean hasThisRole;
+    private int roleId;
+    private int roleCode;
+    private int userRoleId;
 
-    public SimplifiedUserRolesDto(String roleDescription, boolean hasThisRole) {
+    public SimplifiedUserRolesDto(String roleDescription, boolean hasThisRole, int roleCode) {
         this.roleDescription = roleDescription;
         this.hasThisRole = hasThisRole;
+        this.roleCode = roleCode;
     }
 
     public String getRoleDescription() {
@@ -23,5 +27,29 @@ public class SimplifiedUserRolesDto {
 
     public void setHasThisRole(boolean hasThisRole) {
         this.hasThisRole = hasThisRole;
+    }
+
+    public int getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(int roleCode) {
+        this.roleCode = roleCode;
+    }
+
+    public int getUserRoleId() {
+        return userRoleId;
+    }
+
+    public void setUserRoleId(int userRoleId) {
+        this.userRoleId = userRoleId;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 }

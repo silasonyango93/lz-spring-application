@@ -7,6 +7,7 @@ public class FishingIncomeConstraintsResponses {
     private int extremeCompetition;
     private int lackOfExpertise;
     private int fishingRightsRestrictions;
+    private int inadequateColdStorageFacilities;
 
     public int getLowFishStocks() {
         return lowFishStocks;
@@ -54,5 +55,13 @@ public class FishingIncomeConstraintsResponses {
 
     public void setFishingRightsRestrictions(int fishingRightsRestrictions) {
         this.fishingRightsRestrictions = fishingRightsRestrictions;
+    }
+
+    public int getInadequateColdStorageFacilities() {
+        return inadequateColdStorageFacilities;
+    }
+
+    public void setInadequateColdStorageFacilities(int inadequateColdStorageFacilities) {
+        this.inadequateColdStorageFacilities = inadequateColdStorageFacilities;
     }
 }

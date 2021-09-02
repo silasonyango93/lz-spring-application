@@ -8,6 +8,9 @@ public class LivestockProductionIncomeConstraintsResponses {
     private int livestockPestsAndDiseases;
     private int lackofMarket;
     private int insecurity;
+    private int lowTechnicalSkillsKnowledge;
+    private int unfavourableClimate;
+    private int lackOfLivestockExtensionServices;
 
     public int getLackOfPasture() {
         return lackOfPasture;
@@ -63,5 +66,29 @@ public class LivestockProductionIncomeConstraintsResponses {
 
     public void setInsecurity(int insecurity) {
         this.insecurity = insecurity;
+    }
+
+    public int getLowTechnicalSkillsKnowledge() {
+        return lowTechnicalSkillsKnowledge;
+    }
+
+    public void setLowTechnicalSkillsKnowledge(int lowTechnicalSkillsKnowledge) {
+        this.lowTechnicalSkillsKnowledge = lowTechnicalSkillsKnowledge;
+    }
+
+    public int getUnfavourableClimate() {
+        return unfavourableClimate;
+    }
+
+    public void setUnfavourableClimate(int unfavourableClimate) {
+        this.unfavourableClimate = unfavourableClimate;
+    }
+
+    public int getLackOfLivestockExtensionServices() {
+        return lackOfLivestockExtensionServices;
+    }
+
+    public void setLackOfLivestockExtensionServices(int lackOfLivestockExtensionServices) {
+        this.lackOfLivestockExtensionServices = lackOfLivestockExtensionServices;
     }
 }

@@ -13,6 +13,7 @@ import livelihoodzone.service.questionnaire.wealthgroup.animal_contribution.Anim
 import livelihoodzone.service.questionnaire.wealthgroup.constraints.IncomeConstraintsService;
 import livelihoodzone.service.questionnaire.wealthgroup.cropcontribution.CropContributionService;
 import livelihoodzone.service.questionnaire.wealthgroup.expenditure_patterns.ExpenditurePatternsService;
+import livelihoodzone.service.questionnaire.wealthgroup.fgd_participants.FgdParticipantsService;
 import livelihoodzone.service.questionnaire.wealthgroup.income_food_sources.IncomeFoodSourcesService;
 import livelihoodzone.service.questionnaire.wealthgroup.labour_patterns.LabourPatternsService;
 import livelihoodzone.service.questionnaire.wealthgroup.migration_patterns.MigrationPatternsService;
@@ -55,10 +56,13 @@ public class WealthGroupService {
     @Autowired
     IncomeConstraintsService incomeConstraintsService;
 
+    @Autowired
+    FgdParticipantsService fgdParticipantsService;
+
     public QuestionnaireResponseDto processQuestionnaire(WealthGroupQuestionnaireRequestDto wealthGroupQuestionnaireRequestDto, User dataCollector) {
 
         Gson gson = new Gson();
-        String questionnaireJsonString = gson.toJson(wealthGroupQuestionnaireRequestDto);
+        String questionnaireJsonString = gson.toJson(new WealthGroupQuestionnaireRequestDto());
 
         List<WgQuestionnaireSessionEntity> existingQuestionnaires = wgQuestionnaireSessionRepository.findByQuestionnaireUniqueId(wealthGroupQuestionnaireRequestDto.getUniqueId());
 
@@ -82,8 +86,8 @@ public class WealthGroupService {
         questionnaireSession.setQuestionnaireSessionDescription(wealthGroupQuestionnaireRequestDto.getQuestionnaireName());
         questionnaireSession.setLatitude(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getLatitude());
         questionnaireSession.setLongitude(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getLongitude());
-        questionnaireSession.setSessionStartDate(wealthGroupQuestionnaireRequestDto.getQuestionnaireStartDate());
-        questionnaireSession.setSessionEndDate(wealthGroupQuestionnaireRequestDto.getQuestionnaireEndDate());
+        questionnaireSession.setSessionStartDate(wealthGroupQuestionnaireRequestDto.getQuestionnaireStartDate() != null ? wealthGroupQuestionnaireRequestDto.getQuestionnaireStartDate() : Util.getNow());
+        questionnaireSession.setSessionEndDate(wealthGroupQuestionnaireRequestDto.getQuestionnaireEndDate() != null? wealthGroupQuestionnaireRequestDto.getQuestionnaireEndDate() : Util.getNow());
         questionnaireSession.setHasBeenSubmitted(1);
         questionnaireSession.setQuestionnaireUniqueId(wealthGroupQuestionnaireRequestDto.getUniqueId());
         questionnaireSession.setWgQuestionnaireTypeId(wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeCode(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWgQuestionnaireType().getWgQuestionnaireTypeCode()).getWgQuestionnaireTypeId());
@@ -103,6 +107,7 @@ public class WealthGroupService {
         expenditurePatternsService.saveExpenditureService(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         migrationPatternsService.saveMigrationPatterns(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
         incomeConstraintsService.saveIncomeConstraints(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
+        fgdParticipantsService.saveFgdParticipants(wealthGroupQuestionnaireRequestDto,savedQuestionnaireSessionEntity);
 
         /* ***********************************************************************************************************************************************/
 

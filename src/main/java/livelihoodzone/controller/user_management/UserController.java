@@ -2,7 +2,9 @@ package livelihoodzone.controller.user_management;
 
 import javax.servlet.http.HttpServletRequest;
 
+import livelihoodzone.dto.GenericResponse;
 import livelihoodzone.dto.user_management.*;
+import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
 import livelihoodzone.entity.user_management.AuthenticationStatus;
 import livelihoodzone.entity.user_management.Roles;
 import livelihoodzone.repository.user_management.RolesRepository;
@@ -13,13 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -175,6 +171,54 @@ public class UserController {
     //@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
     public String refresh(HttpServletRequest req) {
         return userService.refresh(req.getRemoteUser());
+    }
+
+
+
+
+    @PostMapping("/new-roles")
+    @ApiOperation(value = "${UserController.new-roles}", response = GenericResponse.class)
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Internal issue")})
+    public ResponseEntity<GenericResponse> newRoles() {
+        GenericResponse genericResponse = userService.addNewUserRoles();
+
+        if (genericResponse.isSuccess()) {
+            return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.valueOf(200));
+        }
+        return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.valueOf(500));
+    }
+
+
+    @GetMapping(value = "/user-request-by-email/{userEmail}")
+    @ApiOperation(value = "${UserController.user-request-by-email}", response = UserResponseDTO.class ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token")})
+    public ResponseEntity<UserResponseDTO> fetchUserByEmail(@ApiParam("userEmail") @PathVariable String userEmail) {
+
+        UserResponseDTO userResponseDTO = userService.fetchAUserDetailsByEmail(userEmail);
+        if (userResponseDTO == null) {
+            return new ResponseEntity<UserResponseDTO>(userResponseDTO, HttpStatus.valueOf(422));
+        }
+        return new ResponseEntity<UserResponseDTO>(userResponseDTO, HttpStatus.valueOf(200));
+    }
+
+
+
+    @PutMapping("/update-user-details")
+    @ApiOperation(value = "${UserController.update-user-details}", response = GenericResponse.class)
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Internal issue")})
+    public ResponseEntity<GenericResponse> updateAUserDetails(@ApiParam("User updated details") @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        GenericResponse genericResponse = userService.updateAUserDetails(userUpdateRequestDto);
+
+        if (genericResponse.isSuccess()) {
+            return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.valueOf(200));
+        }
+        return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.valueOf(422));
     }
 
 }

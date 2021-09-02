@@ -4,6 +4,7 @@ import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.administrative_boundaries.subcounties.SubCountyEntity;
 import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
 import livelihoodzone.entity.administrative_boundaries.ward.WardEntity;
+import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentEntity;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
 import livelihoodzone.entity.questionnaire.livelihoodzones.SubLocationsLivelihoodZoneAssignmentEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
@@ -11,6 +12,7 @@ import livelihoodzone.repository.administrative_boundaries.countries.CountriesRe
 import livelihoodzone.repository.administrative_boundaries.subcounties.SubCountiesRepository;
 import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
 import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
+import livelihoodzone.repository.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.SubLocationsLivelihoodZoneAssignmentRepository;
 import livelihoodzone.util.excel.ExcelHelper;
@@ -45,6 +47,9 @@ public class ExcelService {
     @Autowired
     SubLocationsLivelihoodZoneAssignmentRepository subLocationsLivelihoodZoneAssignmentRepository;
 
+    @Autowired
+    CountyLivelihoodZonesAssignmentRepository countyLivelihoodZonesAssignmentRepository;
+
     public void save(MultipartFile file) {
         try {
             System.out.println();
@@ -59,7 +64,7 @@ public class ExcelService {
 //            countiesRepository.saveAll(counties);
 
 
-            assignSubLocationsLivelihoodZones(ingestedRows);
+            assignCountiesLivelihoodZones(ingestedRows);
 
             System.out.println();
 
@@ -68,6 +73,30 @@ public class ExcelService {
             e.printStackTrace();
             throw new RuntimeException("fail to store excel data: " + e.getMessage());
         }
+    }
+
+
+    public void assignCountiesLivelihoodZones(List<IngestedFileModel> rows) {
+        List<CountyLivelihoodZonesAssignmentEntity> countyLivelihoodZonesAssignmentEntityList = new ArrayList<>();
+        for (IngestedFileModel currentRow : rows) {
+            if (currentRow.getLivelihoodZone() == null || currentRow.getLivelihoodZone() == "") {
+                currentRow.setLivelihoodZone("Protected Areas");
+            }
+        }
+
+        List<IngestedFileModel> specificZoneRows = extractRowsUnderSpecificLivelihoodZone("Mixed Farming: Dairy", rows);
+        List<CountiesEntity> zoneCounties = extractActualCountiesFromZoneRows(specificZoneRows);
+
+        for (CountiesEntity currentCounty : zoneCounties) {
+            countyLivelihoodZonesAssignmentEntityList.add(new CountyLivelihoodZonesAssignmentEntity(
+                    currentCounty.getCountyId(),
+                    29,
+                    1
+            ));
+        }
+
+        //System.out.println();
+        countyLivelihoodZonesAssignmentRepository.saveAll(countyLivelihoodZonesAssignmentEntityList);
     }
 
 
@@ -111,10 +140,38 @@ public class ExcelService {
         return zoneSubLocations;
     }
 
+
+
+    public List<CountiesEntity> extractActualCountiesFromZoneRows(List<IngestedFileModel> zoneRows) {
+        List<CountiesEntity> allCounties = countiesRepository.findAll();
+        List<CountiesEntity> zoneCounties = new ArrayList<>();
+
+        for (IngestedFileModel currentRow : zoneRows) {
+            for (CountiesEntity currentCounty : allCounties) {
+                if (currentRow.getCounty().equals(currentCounty.getCountyName())) {
+                    if (!hasCountyBeenAddedToZoneList(zoneCounties, currentCounty)) {
+                        zoneCounties.add(currentCounty);
+                    }
+                }
+            }
+        }
+        return zoneCounties;
+    }
+
+
     public boolean hasSubLocationBeenAddedToZoneList(List<SubLocationEntity> zoneSubLocations, SubLocationEntity currentSubLocation) {
         List<SubLocationEntity> filteredRows = zoneSubLocations
                 .stream()
                 .filter(c -> c.getSubLocationId() == currentSubLocation.getSubLocationId())
+                .collect(Collectors.toList());
+        return filteredRows.size() > 0;
+    }
+
+
+    public boolean hasCountyBeenAddedToZoneList(List<CountiesEntity> zoneCounties, CountiesEntity currentCounty) {
+        List<CountiesEntity> filteredRows = zoneCounties
+                .stream()
+                .filter(c -> c.getCountyId() == currentCounty.getCountyId())
                 .collect(Collectors.toList());
         return filteredRows.size() > 0;
     }
