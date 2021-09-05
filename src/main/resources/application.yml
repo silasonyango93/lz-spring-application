@@ -65,6 +65,7 @@ UserController:
   new-roles: assigns new roles
   user-request-by-email: Fetch a user details by email
   update-user-details: Updates a user details
+  change-user-password: Changes a user password
 
 
 CountiesController:

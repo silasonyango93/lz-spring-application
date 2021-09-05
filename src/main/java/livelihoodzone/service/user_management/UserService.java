@@ -134,6 +134,21 @@ public class UserService {
         }
     }
 
+
+    public GenericResponse updateAUserPassword(String userEmail, String newPassword) {
+        User user = userRepository.findByUserEmail(userEmail);
+
+        if (user == null) {
+            return null;
+        }
+        user.setEncryptedPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return new GenericResponse(
+                true,
+                "Password change succesful"
+        );
+    }
+
     public void assignAUserRoles(int userId) {
         List<Roles> roles = rolesRepository.findAll();
         for (Roles role : roles) {

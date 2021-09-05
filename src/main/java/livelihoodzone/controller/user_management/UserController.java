@@ -221,4 +221,19 @@ public class UserController {
         return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.valueOf(422));
     }
 
+
+    @PostMapping("/change-user-password")
+    @ApiOperation(value = "${UserController.change-user-password}", response = GenericResponse.class)
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Internal issue")})
+    public ResponseEntity<GenericResponse> updateUserPassword(@ApiParam("Update user password") @RequestBody PasswordChangeRequestDto passwordChangeRequestDto) {
+        GenericResponse genericResponse = userService.updateAUserPassword(passwordChangeRequestDto.getUserEmail(),passwordChangeRequestDto.getNewPassword());
+
+        if (genericResponse == null) {
+            return new ResponseEntity<GenericResponse>(new GenericResponse(false,"No user exists by this email"), HttpStatus.valueOf(422));
+        }
+        return new ResponseEntity<GenericResponse>(genericResponse, HttpStatus.valueOf(200));
+    }
+
 }
