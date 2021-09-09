@@ -114,6 +114,11 @@ public class WealthGroupReportsController {
             wealthGroupReportResponseHashMapObject.setReportHashMapObject("labourPatterns", wgLabourPatternsDataSetObject);
         }
 
+        if (wealthGroupReportRequestDto.isExpenditurePatterns()) {
+            WgExpenditurePatternsDataSetObject wgExpenditurePatternsDataSetObject = wealthGroupReportService.processExpenditurePatterns(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("expenditurePatterns", wgExpenditurePatternsDataSetObject);
+        }
+
         if (wealthGroupReportResponseHashMapObject.getReportHashMapObject().isEmpty()) {
             wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage","Response returned an empty result");
             return new ResponseEntity<WealthGroupReportResponseHashMapObject>(wealthGroupReportResponseHashMapObject, HttpStatus.valueOf(422));

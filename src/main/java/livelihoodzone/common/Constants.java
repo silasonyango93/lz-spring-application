@@ -129,12 +129,17 @@ public class Constants {
     public static final int EXP_MILK = 8;
     public static final int EXP_EGGS = 9;
     public static final int EXP_OILS_AND_FATS = 10;
+    public static final int EXP_OTHER_FOODS = 25;
     public static final int EXP_SCHOOL_FEES = 11;
     public static final int EXP_DRUGS_AND_MEDICAL_CARE = 12;
     public static final int EXP_CLOTHING_BEAUTY_PRODUCTS = 13;
     public static final int EXP_HOUSE_RENT = 14;
     public static final int EXP_COMMUNICATION_EXPENSES = 15;
     public static final int EXP_FARM_INPUTS = 16;
+    public static final int EXP_LIVESTOCK_DRUGS = 26;
+    public static final int EXP_PURCHASE_OF_WATER = 27;
+    public static final int EXP_SOAPS_AND_OTHER_DETERGENTS = 28;
+    public static final int EXP_HIRINNG_FARM_LABOUR = 29;
     public static final int EXP_TRAVEL_EXPENSES = 17;
     public static final int EXP_LEISURE_AND_ENTERTAINMENT = 18;
     public static final int EXP_ELECTRICITY_BILLS = 19;

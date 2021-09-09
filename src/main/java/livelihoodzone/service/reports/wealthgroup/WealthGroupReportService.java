@@ -4,6 +4,7 @@ import livelihoodzone.dto.questionnaire.county.LzWaterSourceDataSetResponseObjec
 import livelihoodzone.dto.reports.wealthgroup.*;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
 import livelihoodzone.service.reports.wealthgroup.crop_contribution.CropContributionReportsService;
+import livelihoodzone.service.reports.wealthgroup.expenditure_patterns.ExpenditurePatternsDataSetService;
 import livelihoodzone.service.reports.wealthgroup.income_food_sources.IncomeFoodSourcesAggregateResponsesService;
 import livelihoodzone.service.reports.wealthgroup.labour_patterns.LabourPatternsDataSetService;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
@@ -32,6 +33,9 @@ public class WealthGroupReportService {
 
     @Autowired
     LabourPatternsDataSetService labourPatternsDataSetService;
+
+    @Autowired
+    ExpenditurePatternsDataSetService expenditurePatternsDataSetService;
 
     public List<WgQuestionnaireDetailsRetrofitModel> fetchWealthGroupQuestionnaireDetails(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -71,5 +75,9 @@ public class WealthGroupReportService {
 
     public WgLabourPatternsDataSetObject processLabourPatterns(int countyId, int questionnaireTypeId) {
         return labourPatternsDataSetService.processLabourPatterns(labourPatternsDataSetService.fetchWealthGroupLabourPatterns(countyId,questionnaireTypeId));
+    }
+
+    public WgExpenditurePatternsDataSetObject processExpenditurePatterns(int countyId, int questionnaireTypeId) {
+        return expenditurePatternsDataSetService.processExpenditurePatterns(expenditurePatternsDataSetService.fetchWealthGroupExpenditurePatterns(countyId,questionnaireTypeId));
     }
 }

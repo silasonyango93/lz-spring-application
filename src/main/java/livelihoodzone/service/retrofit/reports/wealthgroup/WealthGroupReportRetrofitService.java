@@ -42,4 +42,9 @@ public interface WealthGroupReportRetrofitService {
     @FormUrlEncoded
     @POST("fetch_wealth_group_expenditure_patterns")
     Call<List<WgExpenditurePatternsDataSetRetrofitModel>> fetchWealthGroupExpenditurePatterns(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
+
+
+    @FormUrlEncoded
+    @POST("fetch_wealth_group_migration_patterns")
+    Call<List<WgMigrationPatternsDataSetRetrofitModel>> fetchWealthGroupMigrationPatterns(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
 }

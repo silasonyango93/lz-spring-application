@@ -64,7 +64,9 @@ public class ExcelService {
 //            countiesRepository.saveAll(counties);
 
 
-            assignCountiesLivelihoodZones(ingestedRows);
+            //ingestWardsForParticularSubCounty(ingestedRows);
+
+            ingestSubLocationsForWardsInSpecifiSubCounty(ingestedRows);
 
             System.out.println();
 
@@ -288,8 +290,54 @@ public class ExcelService {
     }
 
 
+    public void ingestWardsForParticularSubCounty(List<IngestedFileModel> ingestedRows) {
+        List<IngestedFileModel> specificSubCountyRows = filterOutASubCountyWards("KIENI WEST", ingestedRows);
+        List<WardEntity> wards = new ArrayList<>();
+        List<String> alreadyRecordedWards = new ArrayList<>();
+
+        for (IngestedFileModel currentRow : specificSubCountyRows) {
+            if (!isRecordAlredyCaptured(alreadyRecordedWards, currentRow.getWard())) {
+                wards.add(new WardEntity(
+                        410,
+                        currentRow.getWard(),
+                        0
+                ));
+                alreadyRecordedWards.add(currentRow.getWard());
+            }
+        }
+
+        wardsRepository.saveAll(wards);
+    }
+
+
     public void ingestSubLocations(List<IngestedFileModel> ingestedRows) {
         List<WardEntity> wards = wardsRepository.findAll();
+
+        for (WardEntity currentWard : wards) {
+
+            List<IngestedFileModel> specificWardRows = filterOutAWardSubLocations(currentWard.getWardName(), ingestedRows);
+            List<SubLocationEntity> subLocations = new ArrayList<>();
+            List<String> alreadyRecordedSubLocations = new ArrayList<>();
+
+            for (IngestedFileModel currentRow : specificWardRows) {
+                if (!isRecordAlredyCaptured(alreadyRecordedSubLocations, currentRow.getSubLocation())) {
+                    subLocations.add(new SubLocationEntity(
+                            currentWard.getWardId(),
+                            currentRow.getSubLocation(),
+                            0
+                    ));
+                    alreadyRecordedSubLocations.add(currentRow.getSubLocation());
+                }
+            }
+
+            subLocationRepository.saveAll(subLocations);
+
+        }
+    }
+
+
+    public void ingestSubLocationsForWardsInSpecifiSubCounty(List<IngestedFileModel> ingestedRows) {
+        List<WardEntity> wards = wardsRepository.findBySubCountyId(410);
 
         for (WardEntity currentWard : wards) {
 
