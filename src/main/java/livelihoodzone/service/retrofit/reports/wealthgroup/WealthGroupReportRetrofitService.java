@@ -52,4 +52,9 @@ public interface WealthGroupReportRetrofitService {
     @FormUrlEncoded
     @POST("fetch_wealth_group_income_constraints")
     Call<List<WgConstraintsDataSetRetrofitModel>> fetchWealthGroupIncomeConstraints(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
+
+
+    @FormUrlEncoded
+    @POST("fetch_wealth_group_fgd_participants")
+    Call<List<WgFgdParticipantsDataSetRetrofitModel>> fetchWealthGroupFgdParticipants(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
 }

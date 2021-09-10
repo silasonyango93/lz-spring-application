@@ -5,6 +5,7 @@ import livelihoodzone.dto.reports.wealthgroup.*;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
 import livelihoodzone.service.reports.wealthgroup.crop_contribution.CropContributionReportsService;
 import livelihoodzone.service.reports.wealthgroup.expenditure_patterns.ExpenditurePatternsDataSetService;
+import livelihoodzone.service.reports.wealthgroup.fgd_participants.FgdParticipantsDataSetService;
 import livelihoodzone.service.reports.wealthgroup.income_constraints.WgIncomeConstraintsDataSetService;
 import livelihoodzone.service.reports.wealthgroup.income_food_sources.IncomeFoodSourcesAggregateResponsesService;
 import livelihoodzone.service.reports.wealthgroup.labour_patterns.LabourPatternsDataSetService;
@@ -44,6 +45,9 @@ public class WealthGroupReportService {
 
     @Autowired
     WgIncomeConstraintsDataSetService wgIncomeConstraintsDataSetService;
+
+    @Autowired
+    FgdParticipantsDataSetService fgdParticipantsDataSetService;
 
     public List<WgQuestionnaireDetailsRetrofitModel> fetchWealthGroupQuestionnaireDetails(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -95,5 +99,9 @@ public class WealthGroupReportService {
 
     public WgIncomeConstraintsDataSetObject processIncomeConstraints(int countyId, int questionnaireTypeId) {
         return wgIncomeConstraintsDataSetService.processIncomeConstraints(wgIncomeConstraintsDataSetService.fetchWealthGroupIncomeConstraints(countyId,questionnaireTypeId));
+    }
+
+    public WgFgdParticipantsDataSetObject processFgdParticipants(int countyId, int questionnaireTypeId) {
+        return fgdParticipantsDataSetService.processFgdParticipants(fgdParticipantsDataSetService.fetchWealthGroupFgdParticipants(countyId,questionnaireTypeId));
     }
 }
