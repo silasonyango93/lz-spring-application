@@ -39,6 +39,14 @@ public class IncomeFoodSourcesService {
                 incomeAndFoodSourceResponses.getLivestockProduction()
         ));
 
+
+        //Pasture/Fodder
+        wgIncomeSourcesRepository.save(new WgIncomeSourcesEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                cashIncomeSourcesRepository.findByCashIncomeSourceCode(Constants.PASTURE_FODDER_PRODUCTION).getCashIncomeSourceId(),
+                incomeAndFoodSourceResponses.getPastureFodderProduction()
+        ));
+
         //Poultry Production
         wgIncomeSourcesRepository.save(new WgIncomeSourcesEntity(
                 questionnaireSession.getWgQuestionnaireSessionId(),

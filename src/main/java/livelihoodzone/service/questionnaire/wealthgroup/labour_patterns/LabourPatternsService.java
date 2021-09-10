@@ -39,6 +39,16 @@ public class LabourPatternsService {
                 labourPatternResponses.getLivestockHusbandry().getWomen()
         ));
 
+
+        //Transport services
+        wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.TRANSPORT_SERVICES).getLivelihoodActivityId(),
+                labourPatternResponses.getTransportServices().getMen(),
+                labourPatternResponses.getTransportServices().getWomen()
+        ));
+
+
         //Waged labour on other farms
         wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                 questionnaireSession.getWgQuestionnaireSessionId(),

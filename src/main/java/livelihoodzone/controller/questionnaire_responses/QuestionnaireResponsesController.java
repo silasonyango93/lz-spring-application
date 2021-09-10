@@ -88,7 +88,14 @@ public class QuestionnaireResponsesController {
         String accessToken = jwtTokenProvider.resolveToken(httpServletRequest);
         String email = jwtTokenProvider.getUsername(accessToken);
         User dataCollector = userRepository.findByUserEmail(email);
-        QuestionnaireResponseDto questionnaireResponseDto = wealthGroupService.processQuestionnaire(wealthGroupQuestionnaireRequestDto, dataCollector);
+        QuestionnaireResponseDto questionnaireResponseDto = null;
+        try {
+            questionnaireResponseDto = wealthGroupService.processQuestionnaire(wealthGroupQuestionnaireRequestDto, dataCollector);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
         if (questionnaireResponseDto.getQuestionnaireResponseStatus() == QuestionnaireResponseStatus.DUPLICATE) {
             return new ResponseEntity<QuestionnaireResponseDto>(questionnaireResponseDto, HttpStatus.valueOf(422));

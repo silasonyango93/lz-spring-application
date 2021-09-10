@@ -92,6 +92,13 @@ public class ExpenditurePatternsService {
                 expenditurePatternsResponses.getOilsAndFats()
         ));
 
+        //Other foods
+        wgExpenditurePercentagesRepository.save(new WgExpenditurePercentagesEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                wgExpenditureItemsRepository.findByExpenditureItemCode(Constants.EXP_OTHER_FOODS).getExpenditureItemId(),
+                expenditurePatternsResponses.getOtherFoods()
+        ));
+
         //School fees
         wgExpenditurePercentagesRepository.save(new WgExpenditurePercentagesEntity(
                 questionnaireSession.getWgQuestionnaireSessionId(),
@@ -133,6 +140,37 @@ public class ExpenditurePatternsService {
                 wgExpenditureItemsRepository.findByExpenditureItemCode(Constants.EXP_FARM_INPUTS).getExpenditureItemId(),
                 expenditurePatternsResponses.getFarmInputs()
         ));
+
+        //Livestock drugs
+        wgExpenditurePercentagesRepository.save(new WgExpenditurePercentagesEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                wgExpenditureItemsRepository.findByExpenditureItemCode(Constants.EXP_LIVESTOCK_DRUGS).getExpenditureItemId(),
+                expenditurePatternsResponses.getLivestockDrugs()
+        ));
+
+
+        //Purchase of water
+        wgExpenditurePercentagesRepository.save(new WgExpenditurePercentagesEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                wgExpenditureItemsRepository.findByExpenditureItemCode(Constants.EXP_PURCHASE_OF_WATER).getExpenditureItemId(),
+                expenditurePatternsResponses.getWaterPurchase()
+        ));
+
+        //Soaps and other detergents
+        wgExpenditurePercentagesRepository.save(new WgExpenditurePercentagesEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                wgExpenditureItemsRepository.findByExpenditureItemCode(Constants.EXP_SOAPS_AND_OTHER_DETERGENTS).getExpenditureItemId(),
+                expenditurePatternsResponses.getSoaps()
+        ));
+
+
+        //Hiring farm labour
+        wgExpenditurePercentagesRepository.save(new WgExpenditurePercentagesEntity(
+                questionnaireSession.getWgQuestionnaireSessionId(),
+                wgExpenditureItemsRepository.findByExpenditureItemCode(Constants.EXP_HIRINNG_FARM_LABOUR).getExpenditureItemId(),
+                expenditurePatternsResponses.getFarmLabour()
+        ));
+
 
         //Travel expenses
         wgExpenditurePercentagesRepository.save(new WgExpenditurePercentagesEntity(

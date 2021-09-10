@@ -59,9 +59,9 @@ public class FgdParticipantsDataSetService {
                 stringReportList.add(currentReportString);
                 counter = 1;
                 currentReportString = counter + ") " + currentItem.getParticipantName() + "  "
-                        +  determineGender(currentItem.getGender()) + "  " + determineAgeBand(currentItem.getAgeBracket())
+                        +  determineGender(currentItem.getGender()) + "  " + determineAgeBand(currentItem.getAgeBracket()) + "  "
                         +  determineLevelOfEducation(currentItem.getLevelOfEducation()) + "  "
-                        +  determineConsentToParticipate(currentItem.getConsentToParticipate());
+                        +  determineConsentToParticipate(currentItem.getConsentToParticipate()) + "  ";
                 counter++;
                 currentQuestionnaireSessionId = currentItem.getWgQuestionnaireSessionId();
             }

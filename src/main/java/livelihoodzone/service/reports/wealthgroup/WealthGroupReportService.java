@@ -12,13 +12,17 @@ import livelihoodzone.service.reports.wealthgroup.labour_patterns.LabourPatterns
 import livelihoodzone.service.reports.wealthgroup.migration_patterns.MigrationPatternsDataSetService;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WealthGroupReportRetrofitService;
+import livelihoodzone.service.retrofit.reports.wealthgroup.WgFoodSourcesRetrofitModel;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
@@ -61,8 +65,17 @@ public class WealthGroupReportService {
         }
     }
 
+
+
+
+    public List<WgQuestionnaireDetailsRetrofitModel> clusterSameQuestionnaireItemsTogether(List<WgQuestionnaireDetailsRetrofitModel> list) {
+        return list.stream()
+                .sorted(Comparator.comparingInt(WgQuestionnaireDetailsRetrofitModel::getWgQuestionnaireSessionId))
+                .collect(Collectors.toList());
+    }
+
     public WgQuestionnaireDetailsResponseObjectDto processQuestionnaireDetails(int countyId, int questionnaireTypeId) {
-        return new WgQuestionnaireDetailsResponseObjectDto(fetchWealthGroupQuestionnaireDetails(countyId,questionnaireTypeId));
+        return new WgQuestionnaireDetailsResponseObjectDto(clusterSameQuestionnaireItemsTogether(fetchWealthGroupQuestionnaireDetails(countyId,questionnaireTypeId)));
     }
 
     public WgIncomeSourcesReportResponseDto processIncomeSourcesIntegratedData(int countyId, int questionnaireTypeId) {

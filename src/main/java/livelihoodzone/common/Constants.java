@@ -45,6 +45,7 @@ public class Constants {
     //Income Sources Codes
     public static final int LIVESTOCK_PRODUCTION = 1;
     public static final int POULTRY_PRODUCTION = 2;
+    public static final int PASTURE_FODDER_PRODUCTION = 17;
     public static final int CASH_CROP_PRODUCTION = 3;
     public static final int FOOD_CROP_PRODUCTION = 4;
     public static final int CASUAL_WAGED_LABOUR_INCOME = 5;
@@ -104,6 +105,7 @@ public class Constants {
     //Livelihood zone activities
     public static final int LABOUR_OWN_FARM = 1;
     public static final int LIVESTOCK_HUSBANDRY = 2;
+    public static final int TRANSPORT_SERVICES = 15;
     public static final int WAGED_LABOUR = 3;
     public static final int LOW_SKILLED_NON_FARM_LABOUR = 4;
     public static final int SKILLED_LABOUR = 5;
