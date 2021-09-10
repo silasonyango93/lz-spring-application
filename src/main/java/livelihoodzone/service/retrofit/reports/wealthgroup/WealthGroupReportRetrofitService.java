@@ -47,4 +47,9 @@ public interface WealthGroupReportRetrofitService {
     @FormUrlEncoded
     @POST("fetch_wealth_group_migration_patterns")
     Call<List<WgMigrationPatternsDataSetRetrofitModel>> fetchWealthGroupMigrationPatterns(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
+
+
+    @FormUrlEncoded
+    @POST("fetch_wealth_group_income_constraints")
+    Call<List<WgConstraintsDataSetRetrofitModel>> fetchWealthGroupIncomeConstraints(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
 }
