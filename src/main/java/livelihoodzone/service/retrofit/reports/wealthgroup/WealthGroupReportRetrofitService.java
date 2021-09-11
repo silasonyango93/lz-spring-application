@@ -1,5 +1,6 @@
 package livelihoodzone.service.retrofit.reports.wealthgroup;
 
+import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireSessionEntity;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzCropProductionReportRetrofitModel;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -57,4 +58,9 @@ public interface WealthGroupReportRetrofitService {
     @FormUrlEncoded
     @POST("fetch_wealth_group_fgd_participants")
     Call<List<WgFgdParticipantsDataSetRetrofitModel>> fetchWealthGroupFgdParticipants(@Field("countyId") int countyId, @Field("questionnaireTypeId") int questionnaireTypeId);
+
+
+    @FormUrlEncoded
+    @POST("fetch_a_wealth_group_summary_associated_raw_data")
+    Call<List<WgWealthGroupSummaryAssociatedRawDataRetrofitModel>> fetchAWealthGroupSumaryAssociatedRawData(@Field("countyId") int countyId, @Field("livelihoodZoneId") int livelihoodZoneId, @Field("wgQuestionnaireTypeId") int wgQuestionnaireTypeId, @Field("wealthGroupId") int wealthGroupId);
 }

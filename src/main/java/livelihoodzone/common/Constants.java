@@ -3,6 +3,17 @@ package livelihoodzone.common;
 public class Constants {
 
 
+    //Wealth group questionnaire types
+    public static final int WEALTH_GROUP_SUMMARISED_QUESTIONNAIRE_TYPE_CODE = 1;
+    public static final int WEALTH_GROUP_RAW_DATA_QUESTIONNAIRE_TYPE_CODE = 2;
+
+    //General boundaries
+    public static final int GENERAL_COUNTY_ID = 54;
+    public static final int GENERAL_SUBCOUNTY_ID = 407;
+    public static final int GENERAL_WARD_ID = 1516;
+    public static final int GENERAL_SUBLOCATION_ID = 7597;
+
+
     //Role codes
     public static final int ADMIN = 1;
     public static final int WEALTH_GROUP_RAW_DATA_COLLECTOR = 2;
