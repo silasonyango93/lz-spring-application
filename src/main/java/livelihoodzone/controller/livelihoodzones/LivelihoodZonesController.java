@@ -2,19 +2,19 @@ package livelihoodzone.controller.livelihoodzones;
 
 import io.swagger.annotations.*;
 import livelihoodzone.dto.GenericResponse;
-import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesAssignmentDto;
-import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesUpdateDetailsDto;
-import livelihoodzone.dto.livelihoodzones.SubLocationLivelihoodZoneAssignmentDto;
+import livelihoodzone.dto.livelihoodzones.*;
 import livelihoodzone.dto.user_management.AuthenticationObject;
 import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentStatus;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.service.livelihoodzones.LivelihoodZonesService;
+import livelihoodzone.service.retrofit.livelihoodzones.SubLocationSearchRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -86,6 +86,40 @@ public class LivelihoodZonesController {
         } else {
             return new ResponseEntity<GenericResponse>(new GenericResponse(false, "Duplicate assignment"), HttpStatus.valueOf(422));
         }
+    }
+
+
+
+    @PostMapping("/search_sublocation_by_name_and_county_id")
+    @ApiOperation(value = "${LivelihoodZonesController.search-sublocation-by-name-and-county-id}", response = SubLocationSearchRetrofitModel.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 422, message = "Bad Request"),
+            @ApiResponse(code = 400, message = "Bad request")})
+    public ResponseEntity<List<SubLocationSearchRetrofitModel>> searchSubLocationByNameFromSpecificCounty(@ApiParam("Sublocation search") @RequestBody SubLocationSearchRequestDto subLocationSearchRequestDto) {
+        List<SubLocationSearchRetrofitModel> subLocationSearchRetrofitModelList = livelihoodZonesService.searchSubLocationByNameFromSpecificCounty(subLocationSearchRequestDto.getSubLocationName(), subLocationSearchRequestDto.getCountyId());
+
+        if (subLocationSearchRetrofitModelList == null) {
+            return new ResponseEntity<List<SubLocationSearchRetrofitModel>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+        return new ResponseEntity<List<SubLocationSearchRetrofitModel>>(subLocationSearchRetrofitModelList, HttpStatus.valueOf(200));
+    }
+
+
+    @PostMapping("/update_a_sublocation_livelihood_zone")
+    @ApiOperation(value = "${LivelihoodZonesController.update-a-sublocation-livelihood-zone}", response = GenericResponse.class)
+    @ApiResponses(value = {//
+            @ApiResponse(code = 500, message = "Internal server error"),
+            @ApiResponse(code = 400, message = "Bad request")})
+    public ResponseEntity<GenericResponse> updateASubLocationLivelihoodZone(@ApiParam("Update a sub-location livelihood zone") @RequestBody SubLocationLivelihoodZoneUpdateRequestDto subLocationLivelihoodZoneUpdateRequestDto) {
+
+        try {
+            livelihoodZonesService.updateASubLocationLivelihoodZone(subLocationLivelihoodZoneUpdateRequestDto.getSubLocationId(), subLocationLivelihoodZoneUpdateRequestDto.getLivelihoodZoneId(), subLocationLivelihoodZoneUpdateRequestDto.getCountyId());
+            return new ResponseEntity<GenericResponse>(new GenericResponse(true,"Update was successful"), HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<GenericResponse>(new GenericResponse(false,"Update failed - internal server error"), HttpStatus.valueOf(500));
+        }
+
     }
 
 }

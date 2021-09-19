@@ -13,10 +13,7 @@ import livelihoodzone.repository.questionnaire.livelihoodzones.CountyLivelihoodZ
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.SubLocationsLivelihoodZoneAssignmentRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
-import livelihoodzone.service.retrofit.livelihoodzones.CountyLivelihoodZonesRetrofitModel;
-import livelihoodzone.service.retrofit.livelihoodzones.CountySubLocationsLivelihoodZonesAssignmentRetrofitModel;
-import livelihoodzone.service.retrofit.livelihoodzones.LivelihoodZonesRetrofitService;
-import livelihoodzone.service.retrofit.livelihoodzones.SubLocationLivelihoodZonePairRetrofitModel;
+import livelihoodzone.service.retrofit.livelihoodzones.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
@@ -183,6 +180,41 @@ public class LivelihoodZonesService {
 
         } catch (Exception ex) {
             return null;
+        }
+    }
+
+
+    public List<SubLocationSearchRetrofitModel> searchSubLocationByNameFromSpecificCounty(String subLocationName, int countyId) {
+        LivelihoodZonesRetrofitService livelihoodZonesRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(LivelihoodZonesRetrofitService.class);
+        Call<List<SubLocationSearchRetrofitModel>> callSync = livelihoodZonesRetrofitService.searchSubLocationByNameFromSpecificCounty(subLocationName,countyId);
+        try {
+            Response<List<SubLocationSearchRetrofitModel>> response = callSync.execute();
+            return response.body();
+
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+
+    public void updateASubLocationLivelihoodZone(int subLocationId, int livelihoodZoneId, int countyId) {
+        SubLocationsLivelihoodZoneAssignmentEntity subLocationsLivelihoodZoneAssignmentEntity = subLocationsLivelihoodZoneAssignmentRepository.findBySubLocationId(subLocationId);
+        subLocationsLivelihoodZoneAssignmentEntity.setLivelihoodZoneId(livelihoodZoneId);
+        subLocationsLivelihoodZoneAssignmentRepository.save(subLocationsLivelihoodZoneAssignmentEntity);
+
+        List<CountyLivelihoodZonesAssignmentEntity> currentlyExistingAssignments = countyLivelihoodZonesAssignmentRepository.findByCountyId(countyId);
+
+        List<CountyLivelihoodZonesAssignmentEntity> assignmentsUnderSameLivelihoodZone = currentlyExistingAssignments
+                .stream()
+                .filter(c -> c.getLivelihoodZoneId() == livelihoodZoneId)
+                .collect(Collectors.toList());
+
+        if (assignmentsUnderSameLivelihoodZone.isEmpty()) {
+            countyLivelihoodZonesAssignmentRepository.save(new CountyLivelihoodZonesAssignmentEntity(
+                    countyId,
+                    livelihoodZoneId,
+                    1
+            ));
         }
     }
 }

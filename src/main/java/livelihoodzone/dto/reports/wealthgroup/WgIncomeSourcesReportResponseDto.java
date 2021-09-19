@@ -21,11 +21,12 @@ public class WgIncomeSourcesReportResponseDto {
     private List<NumberDescriptionPairDto> beeKeeping;
     private List<NumberDescriptionPairDto> sandHarvesting;
     private List<NumberDescriptionPairDto> otherIncomeSources;
+    private List<NumberDescriptionPairDto> pastureFodder;
 
     public WgIncomeSourcesReportResponseDto() {
     }
 
-    public WgIncomeSourcesReportResponseDto(List<NumberDescriptionPairDto> livestockProduction, List<NumberDescriptionPairDto> poultryProduction, List<NumberDescriptionPairDto> cashCropProduction, List<NumberDescriptionPairDto> foodCropProduction, List<NumberDescriptionPairDto> casualWagedLabour, List<NumberDescriptionPairDto> formalWagedLabour, List<NumberDescriptionPairDto> fishingIncome, List<NumberDescriptionPairDto> huntingAndGatheringIncome, List<NumberDescriptionPairDto> smallBusinesses, List<NumberDescriptionPairDto> firewoodOrCharcoal, List<NumberDescriptionPairDto> pettyTrading, List<NumberDescriptionPairDto> remittanceAndGifts, List<NumberDescriptionPairDto> bodabodaTransport, List<NumberDescriptionPairDto> beeKeeping, List<NumberDescriptionPairDto> sandHarvesting, List<NumberDescriptionPairDto> otherIncomeSources) {
+    public WgIncomeSourcesReportResponseDto(List<NumberDescriptionPairDto> livestockProduction, List<NumberDescriptionPairDto> poultryProduction, List<NumberDescriptionPairDto> cashCropProduction, List<NumberDescriptionPairDto> foodCropProduction, List<NumberDescriptionPairDto> casualWagedLabour, List<NumberDescriptionPairDto> formalWagedLabour, List<NumberDescriptionPairDto> fishingIncome, List<NumberDescriptionPairDto> huntingAndGatheringIncome, List<NumberDescriptionPairDto> smallBusinesses, List<NumberDescriptionPairDto> firewoodOrCharcoal, List<NumberDescriptionPairDto> pettyTrading, List<NumberDescriptionPairDto> remittanceAndGifts, List<NumberDescriptionPairDto> bodabodaTransport, List<NumberDescriptionPairDto> beeKeeping, List<NumberDescriptionPairDto> sandHarvesting, List<NumberDescriptionPairDto> otherIncomeSources, List<NumberDescriptionPairDto> pastureFodder) {
         this.livestockProduction = livestockProduction;
         this.poultryProduction = poultryProduction;
         this.cashCropProduction = cashCropProduction;
@@ -42,6 +43,7 @@ public class WgIncomeSourcesReportResponseDto {
         this.beeKeeping = beeKeeping;
         this.sandHarvesting = sandHarvesting;
         this.otherIncomeSources = otherIncomeSources;
+        this.pastureFodder = pastureFodder;
     }
 
     public List<NumberDescriptionPairDto> getLivestockProduction() {
@@ -170,5 +172,13 @@ public class WgIncomeSourcesReportResponseDto {
 
     public void setOtherIncomeSources(List<NumberDescriptionPairDto> otherIncomeSources) {
         this.otherIncomeSources = otherIncomeSources;
+    }
+
+    public List<NumberDescriptionPairDto> getPastureFodder() {
+        return pastureFodder;
+    }
+
+    public void setPastureFodder(List<NumberDescriptionPairDto> pastureFodder) {
+        this.pastureFodder = pastureFodder;
     }
 }

@@ -2,6 +2,7 @@ package livelihoodzone.service.questionnaire;
 
 import com.google.gson.Gson;
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.livelihoodzones.SampledSubLocationsRequestDto;
 import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
 import livelihoodzone.dto.questionnaire.county.WaterSourcesResponsesDto;
@@ -11,8 +12,11 @@ import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProduc
 import livelihoodzone.dto.questionnaire.county.model.hunger.HungerPatternsResponses;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
 import livelihoodzone.entity.questionnaire.county.*;
+import livelihoodzone.entity.questionnaire.county.seasonal_calendar.ZoneLevelSampledSubLocationsEntity;
+import livelihoodzone.entity.questionnaire.livelihoodzones.SubLocationsLivelihoodZoneAssignmentEntity;
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.questionnaire.county.*;
+import livelihoodzone.repository.questionnaire.livelihoodzones.SubLocationsLivelihoodZoneAssignmentRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.service.questionnaire.zonelevel.LzEthnicGroupsService;
 import livelihoodzone.service.questionnaire.zonelevel.LzHazardsService;
@@ -70,10 +74,17 @@ public class CountyLevelService {
     @Autowired
     LzMarketTransactionsService lzMarketTransactionsService;
 
+    @Autowired
+    ZoneLevelSampledSubLocationsRepository zoneLevelSampledSubLocationsRepository;
+
+    @Autowired
+    SubLocationsLivelihoodZoneAssignmentRepository subLocationsLivelihoodZoneAssignmentRepository;
+
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
         Gson gson = new Gson();
         String questionnaireJsonString = gson.toJson(new CountyLevelQuestionnaireRequestDto());
+        System.out.println(gson.toJson(countyLevelQuestionnaireRequestDto));
         List<LzQuestionnaireSessionEntity> existingQuestionnaires = lzQuestionnaireSessionRepository.findByLzQuestionnaireUniqueId(countyLevelQuestionnaireRequestDto.getUniqueId());
 
         if (existingQuestionnaires.size() > 0) {
@@ -100,6 +111,7 @@ public class CountyLevelService {
 
         /* QUESTIONNAIRE PROCESSING SECTION ************************************************************************/
 
+        saveSampledSubLocations(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveLzWealthGroupcharacteristics(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveWealthGroupPopulationPercentages(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
         saveCropProduction(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
@@ -140,6 +152,24 @@ public class CountyLevelService {
                 1
         );
     }
+
+
+    public void saveSampledSubLocations(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
+        List<SampledSubLocationsRequestDto> sampledSubLocations = countyLevelQuestionnaireRequestDto.getSampledSubLocations();
+        List<ZoneLevelSampledSubLocationsEntity> zoneLevelSampledSubLocationsEntityList = new ArrayList<>();
+
+        for (SampledSubLocationsRequestDto currentSampledSubLocation : sampledSubLocations) {
+
+            SubLocationsLivelihoodZoneAssignmentEntity subLocationsLivelihoodZoneAssignmentEntity = subLocationsLivelihoodZoneAssignmentRepository.findByLzSublocationLivelihoodZoneId(currentSampledSubLocation.getAssignmentId());
+            zoneLevelSampledSubLocationsEntityList.add(new ZoneLevelSampledSubLocationsEntity(
+                    savedQuestionnaireSession.getLzQuestionnaireSessionId(),
+                    subLocationsLivelihoodZoneAssignmentEntity.getSubLocationId()
+            ));
+        }
+        zoneLevelSampledSubLocationsRepository.saveAll(zoneLevelSampledSubLocationsEntityList);
+    }
+
+
 
     public void saveLzWealthGroupcharacteristics(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
 

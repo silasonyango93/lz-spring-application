@@ -57,11 +57,19 @@ public class IncomeFoodSourcesAggregateResponsesService {
         List<NumberDescriptionPairDto> beeKeeping = new ArrayList<>();
         List<NumberDescriptionPairDto> sandHarvesting = new ArrayList<>();
         List<NumberDescriptionPairDto> otherIncomeSources = new ArrayList<>();
+        List<NumberDescriptionPairDto> pastureFodder = new ArrayList<>();
 
         for (WgIncomeSourcesRetrofitModel currentItem : wgIncomeSourcesRetrofitModelList) {
             if (currentItem.getCashIncomeSourceId() == cashIncomeSourcesRepository.findByCashIncomeSourceCode(Constants.LIVESTOCK_PRODUCTION).getCashIncomeSourceId()) {
                 livestockProduction.add(new NumberDescriptionPairDto(currentItem.getIncomeSourcePercentage()));
             }
+
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceCode(Constants.PASTURE_FODDER_PRODUCTION) != null) {
+                if (currentItem.getCashIncomeSourceId() == cashIncomeSourcesRepository.findByCashIncomeSourceCode(Constants.PASTURE_FODDER_PRODUCTION).getCashIncomeSourceId()) {
+                    livestockProduction.add(new NumberDescriptionPairDto(currentItem.getIncomeSourcePercentage()));
+                }
+            }
+
             if (currentItem.getCashIncomeSourceId() == cashIncomeSourcesRepository.findByCashIncomeSourceCode(Constants.POULTRY_PRODUCTION).getCashIncomeSourceId()) {
                 poultryProduction.add(new NumberDescriptionPairDto(currentItem.getIncomeSourcePercentage()));
             }
@@ -125,7 +133,8 @@ public class IncomeFoodSourcesAggregateResponsesService {
                 bodabodaTransport,
                 beeKeeping,
                 sandHarvesting,
-                otherIncomeSources
+                otherIncomeSources,
+                pastureFodder
         );
     }
 

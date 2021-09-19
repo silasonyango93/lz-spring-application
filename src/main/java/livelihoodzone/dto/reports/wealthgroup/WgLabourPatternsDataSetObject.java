@@ -17,11 +17,12 @@ public class WgLabourPatternsDataSetObject {
     private List<String> commercialSexWork;
     private List<String> leisureSocializingEntertainment;
     private List<String> others;
+    private List<String> transportServices;
 
     public WgLabourPatternsDataSetObject() {
     }
 
-    public WgLabourPatternsDataSetObject(List<String> labourOnOwnFarms, List<String> livestockhusbandry, List<String> wagedLabourOnOtherFarms, List<String> lowSkilledNonFarmLabour, List<String> skilledLabour, List<String> formalEmployment, List<String> huntingAndGathering, List<String> fishing, List<String> trading, List<String> domesticUnpaidWork, List<String> begging, List<String> commercialSexWork, List<String> leisureSocializingEntertainment, List<String> others) {
+    public WgLabourPatternsDataSetObject(List<String> labourOnOwnFarms, List<String> livestockhusbandry, List<String> wagedLabourOnOtherFarms, List<String> lowSkilledNonFarmLabour, List<String> skilledLabour, List<String> formalEmployment, List<String> huntingAndGathering, List<String> fishing, List<String> trading, List<String> domesticUnpaidWork, List<String> begging, List<String> commercialSexWork, List<String> leisureSocializingEntertainment, List<String> others, List<String> transportServices) {
         this.labourOnOwnFarms = labourOnOwnFarms;
         this.livestockhusbandry = livestockhusbandry;
         this.wagedLabourOnOtherFarms = wagedLabourOnOtherFarms;
@@ -36,6 +37,7 @@ public class WgLabourPatternsDataSetObject {
         this.commercialSexWork = commercialSexWork;
         this.leisureSocializingEntertainment = leisureSocializingEntertainment;
         this.others = others;
+        this.transportServices = transportServices;
     }
 
     public List<String> getLabourOnOwnFarms() {
@@ -148,5 +150,13 @@ public class WgLabourPatternsDataSetObject {
 
     public void setOthers(List<String> others) {
         this.others = others;
+    }
+
+    public List<String> getTransportServices() {
+        return transportServices;
+    }
+
+    public void setTransportServices(List<String> transportServices) {
+        this.transportServices = transportServices;
     }
 }

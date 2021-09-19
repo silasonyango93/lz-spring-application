@@ -3,6 +3,9 @@ package livelihoodzone.service.retrofit.reports.zonelevel;
 import com.google.gson.annotations.SerializedName;
 
 public class QuestionnaireDetailsRetrofitModel {
+    @SerializedName("LzQuestionnaireSessionId")
+    private int lzQuestionnaireSessionId;
+
     @SerializedName("QuestionnaireSessionDescription")
     private String questionnaireSessionDescription;
 
@@ -38,6 +41,14 @@ public class QuestionnaireDetailsRetrofitModel {
 
     @SerializedName("LivelihoodZoneName")
     private String livelihoodZoneName;
+
+    public int getLzQuestionnaireSessionId() {
+        return lzQuestionnaireSessionId;
+    }
+
+    public void setLzQuestionnaireSessionId(int lzQuestionnaireSessionId) {
+        this.lzQuestionnaireSessionId = lzQuestionnaireSessionId;
+    }
 
     public String getQuestionnaireSessionDescription() {
         return questionnaireSessionDescription;

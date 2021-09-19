@@ -48,6 +48,7 @@ public class LabourPatternsDataSetService {
         List<String> commercialSexWork = processAnActivityReport(Constants.COMMERCIAL_SEX_WORK, list);
         List<String> leisureSocializingEntertainment = processAnActivityReport(Constants.LEISURE_SOCIALIZING_ENTERTAINMENT, list);
         List<String> others = processAnActivityReport(Constants.OTHER_LIVELIHOOD_ACTIVITIES, list);
+        List<String> transportServices = processAnActivityReport(Constants.TRANSPORT_SERVICES, list);
 
         return new WgLabourPatternsDataSetObject(
                 labourOnOwnFarms,
@@ -63,7 +64,8 @@ public class LabourPatternsDataSetService {
                 begging,
                 commercialSexWork,
                 leisureSocializingEntertainment,
-                others
+                others,
+                transportServices
         );
     }
 
@@ -71,7 +73,10 @@ public class LabourPatternsDataSetService {
     public List<String> processAnActivityReport(int activityCode, List<WgLabourPatternsRetrofitModel> list) {
         List<WgLabourPatternsRetrofitModel> processedList = returnListForSpecificActivity(activityCode, list);
         List<String> stringReportList = new ArrayList<>();
-        int currentQuestionnaireSessionId = processedList.get(0).getWgQuestionnaireSessionId();
+        int currentQuestionnaireSessionId = -1;
+        if (processedList.size() > 0) {
+            currentQuestionnaireSessionId = processedList.get(0).getWgQuestionnaireSessionId();
+        }
         String currentReportString = "";
 
         for (WgLabourPatternsRetrofitModel currentItem : processedList) {

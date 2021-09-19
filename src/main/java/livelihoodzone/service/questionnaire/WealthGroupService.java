@@ -102,13 +102,14 @@ public class WealthGroupService {
             );
         }
 
+        boolean isASummaryQuestionnaire = wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWgQuestionnaireType().getWgQuestionnaireTypeCode() == Constants.WEALTH_GROUP_SUMMARISED_QUESTIONNAIRE_TYPE_CODE;
         WgQuestionnaireSessionEntity questionnaireSession = new WgQuestionnaireSessionEntity();
         questionnaireSession.setUserId(dataCollector.getUserId());
         questionnaireSession.setWealthGroupId(wealthGroupRepository.findByWealthGroupCode(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWealthGroup().getWealthGroupCode()).getWealthGroupId());
         questionnaireSession.setCountyId(dataCollector.getCountyId());
-        questionnaireSession.setSubCountyId(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedSubCounty() != null ? wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedSubCounty().getSubCountyId() : Constants.GENERAL_SUBCOUNTY_ID);
-        questionnaireSession.setWardId(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWard() != null ?  wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWard().getWardId() : Constants.GENERAL_WARD_ID);
-        questionnaireSession.setSubLocationId(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedSubLocation() != null ? wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedSubLocation().getSubLocationId() : Constants.GENERAL_SUBLOCATION_ID);
+        questionnaireSession.setSubCountyId(!isASummaryQuestionnaire ? wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedSubCounty().getSubCountyId() : Constants.GENERAL_SUBCOUNTY_ID);
+        questionnaireSession.setWardId(!isASummaryQuestionnaire ?  wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWard().getWardId() : Constants.GENERAL_WARD_ID);
+        questionnaireSession.setSubLocationId(!isASummaryQuestionnaire ? wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedSubLocation().getSubLocationId() : Constants.GENERAL_SUBLOCATION_ID);
         questionnaireSession.setLivelihoodZoneId(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedLivelihoodZone().getLivelihoodZoneId());
         questionnaireSession.setQuestionnaireSessionDescription(wealthGroupQuestionnaireRequestDto.getQuestionnaireName());
         questionnaireSession.setLatitude(wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getLatitude());
@@ -122,7 +123,7 @@ public class WealthGroupService {
 
         WgQuestionnaireSessionEntity savedQuestionnaireSessionEntity = wgQuestionnaireSessionRepository.save(questionnaireSession);
 
-        if (wealthGroupQuestionnaireRequestDto.getQuestionnaireGeography().getSelectedWgQuestionnaireType().getWgQuestionnaireTypeCode() == Constants.WEALTH_GROUP_SUMMARISED_QUESTIONNAIRE_TYPE_CODE) {
+        if (isASummaryQuestionnaire) {
             processSummaryBoundaries(savedQuestionnaireSessionEntity);
         }
 

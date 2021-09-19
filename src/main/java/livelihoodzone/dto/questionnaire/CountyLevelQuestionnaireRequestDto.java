@@ -32,7 +32,7 @@ public class CountyLevelQuestionnaireRequestDto {
     private HungerPatternsResponses hungerPatternsResponses;
     private HazardResponses hazardResponses;
     private LzSeasonsResponses livelihoodZoneSeasonsResponses;
-    List<SampledSubLocationsRequestDto> sampledSubLocations;
+    private List<SampledSubLocationsRequestDto> sampledSubLocations;
 
     public String getUniqueId() {
         return uniqueId;
