@@ -7,6 +7,17 @@ public class Constants {
     public static final int WEALTH_GROUP_SUMMARISED_QUESTIONNAIRE_TYPE_CODE = 1;
     public static final int WEALTH_GROUP_RAW_DATA_QUESTIONNAIRE_TYPE_CODE = 2;
 
+    //Wealth Group Questionnaire Section Codes
+    public static final int MAIN_SOURCE_OF_INCOME_AND_FOOD = 1;
+    public static final int PERCENTAGE_FOOD_CONSUMPTION = 2;
+    public static final int CROP_PRODUCTION = 3;
+    public static final int LIVESTOCK_AND_POULTRY_OWNERSHIP = 4;
+    public static final int LABOUR_PATTERNS = 5;
+    public static final int EXPENDITURE_PATTERNS = 6;
+    public static final int MIGRATION_PATTERNS = 7;
+    public static final int ECONOMIC_ACTIVITY_CONSTRAINTS = 8;
+    public static final int FGD_PARTICIPANTS = 9;
+
     //General boundaries
     public static final int GENERAL_COUNTY_ID = 54;
     public static final int GENERAL_SUBCOUNTY_ID = 407;

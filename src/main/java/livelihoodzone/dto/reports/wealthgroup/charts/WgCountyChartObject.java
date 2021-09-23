@@ -1,13 +1,18 @@
 package livelihoodzone.dto.reports.wealthgroup.charts;
 
+import livelihoodzone.dto.questionnaire.wealthgroup.incomefoodsources.IncomeAndFoodSourcesResponses;
+
+import javax.validation.constraints.Max;
+import java.util.List;
+
 public class WgCountyChartObject {
     private int countyId;
     private String countyName;
-    private int livelihoodZoneId;
-    private String livelihoodZoneName;
     private int wealthGroupId;
     private String wealthGroupName;
     private int questionnaireSectionId;
+    private String questionnaireSectionName;
+    private List<WgLivelihoodZoneDataObject> livelihoodZoneDataObjectList;
 
     public int getCountyId() {
         return countyId;
@@ -23,22 +28,6 @@ public class WgCountyChartObject {
 
     public void setCountyName(String countyName) {
         this.countyName = countyName;
-    }
-
-    public int getLivelihoodZoneId() {
-        return livelihoodZoneId;
-    }
-
-    public void setLivelihoodZoneId(int livelihoodZoneId) {
-        this.livelihoodZoneId = livelihoodZoneId;
-    }
-
-    public String getLivelihoodZoneName() {
-        return livelihoodZoneName;
-    }
-
-    public void setLivelihoodZoneName(String livelihoodZoneName) {
-        this.livelihoodZoneName = livelihoodZoneName;
     }
 
     public int getWealthGroupId() {
@@ -63,5 +52,21 @@ public class WgCountyChartObject {
 
     public void setQuestionnaireSectionId(int questionnaireSectionId) {
         this.questionnaireSectionId = questionnaireSectionId;
+    }
+
+    public List<WgLivelihoodZoneDataObject> getLivelihoodZoneDataObjectList() {
+        return livelihoodZoneDataObjectList;
+    }
+
+    public void setLivelihoodZoneDataObjectList(List<WgLivelihoodZoneDataObject> livelihoodZoneDataObjectList) {
+        this.livelihoodZoneDataObjectList = livelihoodZoneDataObjectList;
+    }
+
+    public String getQuestionnaireSectionName() {
+        return questionnaireSectionName;
+    }
+
+    public void setQuestionnaireSectionName(String questionnaireSectionName) {
+        this.questionnaireSectionName = questionnaireSectionName;
     }
 }

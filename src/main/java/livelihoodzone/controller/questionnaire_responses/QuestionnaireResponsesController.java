@@ -2,9 +2,11 @@ package livelihoodzone.controller.questionnaire_responses;
 
 import com.google.gson.Gson;
 import io.swagger.annotations.*;
+import livelihoodzone.dto.questionnaire.CountyDataCollectionProgressReport;
 import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
 import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
+import livelihoodzone.dto.questionnaire.county.CountyRequestDto;
 import livelihoodzone.dto.questionnaire.county.ZoneLevelQuestionnaireSessionResponseDto;
 import livelihoodzone.dto.questionnaire.wealthgroup.WealthGroupQuestionnaireSessionResponseDto;
 import livelihoodzone.dto.user_management.UserResponseDTO;
@@ -253,6 +255,24 @@ public class QuestionnaireResponsesController {
         }
 
         return new ResponseEntity<List<WealthGroupQuestionnaireSessionResponseDto>>(questionnairesResponseList, HttpStatus.valueOf(200));
+    }
+
+
+    @PostMapping("/data-collection-progress-report")
+    @ApiOperation(value = "${QuestionnaireResponsesController.zone-level}", response = CountyDataCollectionProgressReport.class)
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "County does not exist")})
+    public ResponseEntity<CountyDataCollectionProgressReport> countyDataCollectionProgressReport(@ApiParam("County Data Collection Progress Report") @RequestBody CountyRequestDto countyRequestDto) {
+
+        try {
+            CountyDataCollectionProgressReport countyDataCollectionProgressReport = countyLevelService.countyDataCollectionProgressReport(countyRequestDto.getCountyId());
+            return new ResponseEntity<CountyDataCollectionProgressReport>(countyDataCollectionProgressReport, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<CountyDataCollectionProgressReport>(new CountyDataCollectionProgressReport(), HttpStatus.valueOf(500));
+        }
+
     }
 
 }

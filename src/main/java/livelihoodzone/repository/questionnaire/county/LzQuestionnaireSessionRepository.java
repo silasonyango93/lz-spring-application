@@ -11,6 +11,8 @@ import java.util.List;
 public interface LzQuestionnaireSessionRepository extends JpaRepository<LzQuestionnaireSessionEntity, Long> {
     public List<LzQuestionnaireSessionEntity> findByLzQuestionnaireUniqueId(@Param("LzQuestionnaireUniqueId") String lzQuestionnaireUniqueId);
 
+    public List<LzQuestionnaireSessionEntity> findByCountyId(@Param("CountyId") int countyId);
+
     @Query(nativeQuery = true)
     public List<LzQuestionnaireSessionEntity> fetchQuestionnaireSessionByCountyAndLivelihoodZone(int countyId, int livelihoodzoneId);
 }

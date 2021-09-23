@@ -1,8 +1,24 @@
 package livelihoodzone.entity.questionnaire.wealthgroup;
 
+import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
+
 import javax.persistence.*;
 @javax.persistence.Entity
 @Table(name = "wg_questionnaire_sessions")
+
+@javax.persistence.SqlResultSetMapping(
+        name = "wg_questionnaire_sessions", entities =
+@javax.persistence.EntityResult(entityClass = WgQuestionnaireSessionEntity.class)
+)
+
+
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name="WgQuestionnaireSessionEntity.fetchQuestionnaireSessionsByCountyAndWealthGroup",
+                query="SELECT * FROM wg_questionnaire_sessions WHERE wg_questionnaire_sessions.CountyId = ? AND wg_questionnaire_sessions.WealthGroupId = ?",
+                resultSetMapping = "wg_questionnaire_sessions")
+})
+
 public class WgQuestionnaireSessionEntity implements java.io.Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

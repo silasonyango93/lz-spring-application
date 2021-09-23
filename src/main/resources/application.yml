@@ -86,6 +86,7 @@ QuestionnaireResponsesController:
   retrieve-zone-level: Retrieves all user responses for a particular zone-level questionnaire when provided the questionnaire unique id
   all-zone-level-questionnaire-sessions: Retrieves all zone-level questionnaire sessions and the questionnaire unique ids
   all-wealth-group-questionnaire-sessions: Retrieves all wealth group questionnaire sessions and the questionnaire unique ids
+  data-collection-progress-report: Data collection progress report
 
 
 WealthGroupReports:

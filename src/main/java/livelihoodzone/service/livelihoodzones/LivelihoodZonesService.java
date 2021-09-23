@@ -199,8 +199,16 @@ public class LivelihoodZonesService {
 
     public void updateASubLocationLivelihoodZone(int subLocationId, int livelihoodZoneId, int countyId) {
         SubLocationsLivelihoodZoneAssignmentEntity subLocationsLivelihoodZoneAssignmentEntity = subLocationsLivelihoodZoneAssignmentRepository.findBySubLocationId(subLocationId);
-        subLocationsLivelihoodZoneAssignmentEntity.setLivelihoodZoneId(livelihoodZoneId);
-        subLocationsLivelihoodZoneAssignmentRepository.save(subLocationsLivelihoodZoneAssignmentEntity);
+
+        if (subLocationsLivelihoodZoneAssignmentEntity == null) {
+            subLocationsLivelihoodZoneAssignmentRepository.save(new SubLocationsLivelihoodZoneAssignmentEntity(
+                    subLocationId,
+                    livelihoodZoneId
+            ));
+        } else {
+            subLocationsLivelihoodZoneAssignmentEntity.setLivelihoodZoneId(livelihoodZoneId);
+            subLocationsLivelihoodZoneAssignmentRepository.save(subLocationsLivelihoodZoneAssignmentEntity);
+        }
 
         List<CountyLivelihoodZonesAssignmentEntity> currentlyExistingAssignments = countyLivelihoodZonesAssignmentRepository.findByCountyId(countyId);
 

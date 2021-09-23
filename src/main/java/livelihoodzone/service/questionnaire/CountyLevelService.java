@@ -3,6 +3,7 @@ package livelihoodzone.service.questionnaire;
 import com.google.gson.Gson;
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.livelihoodzones.SampledSubLocationsRequestDto;
+import livelihoodzone.dto.questionnaire.CountyDataCollectionProgressReport;
 import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.QuestionnaireResponseDto;
 import livelihoodzone.dto.questionnaire.county.WaterSourcesResponsesDto;
@@ -13,11 +14,16 @@ import livelihoodzone.dto.questionnaire.county.model.hunger.HungerPatternsRespon
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
 import livelihoodzone.entity.questionnaire.county.*;
 import livelihoodzone.entity.questionnaire.county.seasonal_calendar.ZoneLevelSampledSubLocationsEntity;
+import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentEntity;
 import livelihoodzone.entity.questionnaire.livelihoodzones.SubLocationsLivelihoodZoneAssignmentEntity;
+import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireSessionEntity;
 import livelihoodzone.entity.user_management.User;
 import livelihoodzone.repository.questionnaire.county.*;
+import livelihoodzone.repository.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentRepository;
+import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.SubLocationsLivelihoodZoneAssignmentRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
 import livelihoodzone.service.questionnaire.zonelevel.LzEthnicGroupsService;
 import livelihoodzone.service.questionnaire.zonelevel.LzHazardsService;
 import livelihoodzone.service.questionnaire.zonelevel.LzMarketTransactionsService;
@@ -28,6 +34,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CountyLevelService {
@@ -79,6 +86,15 @@ public class CountyLevelService {
 
     @Autowired
     SubLocationsLivelihoodZoneAssignmentRepository subLocationsLivelihoodZoneAssignmentRepository;
+
+    @Autowired
+    CountyLivelihoodZonesAssignmentRepository countyLivelihoodZonesAssignmentRepository;
+
+    @Autowired
+    LivelihoodZonesRepository livelihoodZonesRepository;
+
+    @Autowired
+    WgQuestionnaireSessionRepository wgQuestionnaireSessionRepository;
 
     public QuestionnaireResponseDto submitCountyLevelQuestionnaire(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, User dataCollector) {
 
@@ -468,5 +484,107 @@ public class CountyLevelService {
                 rainySeasonsRepository.findByRainySeasonCode(Constants.BETWEEN_END_SHORT_AND_BEGIN_LONG).getRainySeasonId(),
                 hungerPatternsResponses.getEndShortBeginLong()
         ));
+    }
+
+
+    public CountyDataCollectionProgressReport countyDataCollectionProgressReport(int countyId) {
+        CountyDataCollectionProgressReport countyDataCollectionProgressReport = new CountyDataCollectionProgressReport();
+        List<CountyLivelihoodZonesAssignmentEntity> alreadyFilledOutZoneLevelLivelihoodZones = new ArrayList<>();
+        List<CountyLivelihoodZonesAssignmentEntity> unfilledZoneLevelLivelihoodZones = new ArrayList<>();
+        List<CountyLivelihoodZonesAssignmentEntity> alreadyFilledOutWealthGroupLivelihoodZones = new ArrayList<>();
+        List<CountyLivelihoodZonesAssignmentEntity> unfilledWealthGroupLivelihoodZones = new ArrayList<>();
+        List<CountyLivelihoodZonesAssignmentEntity> countyLivelihoodZonesAssignmentEntityList = countyLivelihoodZonesAssignmentRepository.findByCountyId(countyId);
+        unfilledZoneLevelLivelihoodZones.addAll(countyLivelihoodZonesAssignmentEntityList);
+        unfilledWealthGroupLivelihoodZones.addAll(countyLivelihoodZonesAssignmentEntityList);
+
+        List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
+        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionRepository.findByCountyId(countyId);
+
+
+        //Prepare Zone-level report
+        for (CountyLivelihoodZonesAssignmentEntity currentLivelihoodZone : countyLivelihoodZonesAssignmentEntityList) {
+            for (LzQuestionnaireSessionEntity currentQuestionnaire : lzQuestionnaireSessionEntityList) {
+                if (currentQuestionnaire.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId()) {
+                    alreadyFilledOutZoneLevelLivelihoodZones.add(currentLivelihoodZone);
+                }
+            }
+        }
+        unfilledZoneLevelLivelihoodZones.removeAll(alreadyFilledOutZoneLevelLivelihoodZones);
+        countyDataCollectionProgressReport.setZoneLevelDataCollectionCompleted(unfilledZoneLevelLivelihoodZones.isEmpty());
+        countyDataCollectionProgressReport.setCompletedZoneLevelQuestionnaires(returnStringList(alreadyFilledOutZoneLevelLivelihoodZones));
+        countyDataCollectionProgressReport.setPendingZoneLevelQuestionnaires(returnStringList(unfilledZoneLevelLivelihoodZones));
+
+
+
+        //Prepare Wealth Group Report
+        List<String> pendingWealthGroupQuestionnaires = new ArrayList<>();
+        List<String> completedWealthGroupQuestionnaires = new ArrayList<>();
+        for (CountyLivelihoodZonesAssignmentEntity currentLivelihoodZone : countyLivelihoodZonesAssignmentEntityList) {
+
+            List<WgQuestionnaireSessionEntity> veryPoor = wgQuestionnaireSessionEntityList
+                    .stream()
+                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() &&  c.getWealthGroupId() == 1)
+                    .collect(Collectors.toList());
+
+            List<WgQuestionnaireSessionEntity> poor = wgQuestionnaireSessionEntityList
+                    .stream()
+                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() &&  c.getWealthGroupId() == 2)
+                    .collect(Collectors.toList());
+
+            List<WgQuestionnaireSessionEntity> medium = wgQuestionnaireSessionEntityList
+                    .stream()
+                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() &&  c.getWealthGroupId() == 3)
+                    .collect(Collectors.toList());
+
+
+            List<WgQuestionnaireSessionEntity> betterOff = wgQuestionnaireSessionEntityList
+                    .stream()
+                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() &&  c.getWealthGroupId() == 4)
+                    .collect(Collectors.toList());
+
+            if (!veryPoor.isEmpty() && !poor.isEmpty() && !medium.isEmpty() && !betterOff.isEmpty()) {
+                alreadyFilledOutWealthGroupLivelihoodZones.add(currentLivelihoodZone);
+            }
+
+            if (veryPoor.isEmpty()) {
+                pendingWealthGroupQuestionnaires.add(livelihoodZonesRepository.findByLivelihoodZoneId(currentLivelihoodZone.getLivelihoodZoneId()).getLivelihoodZoneName() + " Very poor Questionnaire");
+            } else {
+                completedWealthGroupQuestionnaires.add(livelihoodZonesRepository.findByLivelihoodZoneId(currentLivelihoodZone.getLivelihoodZoneId()).getLivelihoodZoneName() + " Very poor Questionnaire");
+            }
+            if (poor.isEmpty()) {
+                pendingWealthGroupQuestionnaires.add(livelihoodZonesRepository.findByLivelihoodZoneId(currentLivelihoodZone.getLivelihoodZoneId()).getLivelihoodZoneName() + " Poor Questionnaire");
+            } else {
+                completedWealthGroupQuestionnaires.add(livelihoodZonesRepository.findByLivelihoodZoneId(currentLivelihoodZone.getLivelihoodZoneId()).getLivelihoodZoneName() + " Poor Questionnaire");
+            }
+            if (medium.isEmpty()) {
+                pendingWealthGroupQuestionnaires.add(livelihoodZonesRepository.findByLivelihoodZoneId(currentLivelihoodZone.getLivelihoodZoneId()).getLivelihoodZoneName() + " Medium Questionnaire");
+            } else {
+                completedWealthGroupQuestionnaires.add(livelihoodZonesRepository.findByLivelihoodZoneId(currentLivelihoodZone.getLivelihoodZoneId()).getLivelihoodZoneName() + " Medium Questionnaire");
+            }
+            if (betterOff.isEmpty()) {
+                pendingWealthGroupQuestionnaires.add(livelihoodZonesRepository.findByLivelihoodZoneId(currentLivelihoodZone.getLivelihoodZoneId()).getLivelihoodZoneName() + " Better Off Questionnaire");
+            } else {
+                completedWealthGroupQuestionnaires.add(livelihoodZonesRepository.findByLivelihoodZoneId(currentLivelihoodZone.getLivelihoodZoneId()).getLivelihoodZoneName() + " Better Off Questionnaire");
+            }
+        }
+
+        unfilledWealthGroupLivelihoodZones.removeAll(alreadyFilledOutWealthGroupLivelihoodZones);
+        countyDataCollectionProgressReport.setWealthGroupDataCollectionCompleted(unfilledWealthGroupLivelihoodZones.isEmpty());
+        countyDataCollectionProgressReport.setCompletedWealthGroupQuestionnaires(completedWealthGroupQuestionnaires);
+        countyDataCollectionProgressReport.setPendingWealthGroupQuestionnaires(pendingWealthGroupQuestionnaires);
+        return countyDataCollectionProgressReport;
+    }
+
+    public List<String> returnStringList(List<CountyLivelihoodZonesAssignmentEntity> list) {
+        List<String> stringList = new ArrayList<>();
+        for (CountyLivelihoodZonesAssignmentEntity currentAssignment : list) {
+            stringList.add(livelihoodZonesRepository.findByLivelihoodZoneId(currentAssignment.getLivelihoodZoneId()).getLivelihoodZoneName());
+        }
+        return stringList;
+    }
+
+
+    public void updateCountyLivelihoodZoneAssignments() {
+        
     }
 }
