@@ -1,12 +1,17 @@
 package livelihoodzone.controller.reports.wealthgroup;
 
 import io.swagger.annotations.*;
+import livelihoodzone.dto.questionnaire.CountyDataCollectionProgressReport;
+import livelihoodzone.dto.questionnaire.county.CountyRequestDto;
 import livelihoodzone.dto.reports.wealthgroup.*;
+import livelihoodzone.dto.reports.wealthgroup.charts.WealthGroupChartsRequestDto;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
+import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
@@ -17,6 +22,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,6 +43,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     CountiesRepository countiesRepository;
+
+    @Autowired
+    WealthGroupChartsService wealthGroupChartsService;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -156,5 +165,23 @@ public class WealthGroupReportsController {
 
     public String extractWealthGroupQuestionnaireType(int questionnaireTypeCode) {
         return questionnaireTypeCode == 1 ? "summarized questionnaire" : "raw data questionnaire";
+    }
+
+
+    @PostMapping("/charts")
+    @ApiOperation(value = "${WealthGroupReports.charts}", response = WgLivelihoodZoneDataObject.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<WgLivelihoodZoneDataObject>> getWealthGroupChartsData(@ApiParam("Wealth group charts") @RequestBody WealthGroupChartsRequestDto wealthGroupChartsRequestDto) {
+
+        try {
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.prepareWealthGroupChart(wealthGroupChartsRequestDto.getCountyId(),wealthGroupChartsRequestDto.getWealthGroupId(),wealthGroupChartsRequestDto.getQuestionnaireSectionCode());
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
     }
 }

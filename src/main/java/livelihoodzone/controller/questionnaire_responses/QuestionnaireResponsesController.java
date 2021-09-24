@@ -11,6 +11,7 @@ import livelihoodzone.dto.questionnaire.county.ZoneLevelQuestionnaireSessionResp
 import livelihoodzone.dto.questionnaire.wealthgroup.WealthGroupQuestionnaireSessionResponseDto;
 import livelihoodzone.dto.user_management.UserResponseDTO;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
+import livelihoodzone.entity.questionnaire.WgQuestionnaireSectionsEntity;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireSessionEntity;
 import livelihoodzone.entity.user_management.User;
@@ -18,6 +19,7 @@ import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepo
 import livelihoodzone.repository.administrative_boundaries.subcounties.SubCountiesRepository;
 import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
 import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
+import livelihoodzone.repository.questionnaire.WgQuestionnaireSectionsRepository;
 import livelihoodzone.repository.questionnaire.county.LzQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
@@ -79,6 +81,9 @@ public class QuestionnaireResponsesController {
 
     @Autowired
     WealthGroupRepository wealthGroupRepository;
+
+    @Autowired
+    WgQuestionnaireSectionsRepository wgQuestionnaireSectionsRepository;
 
 
     @PostMapping("/wealthgroup")
@@ -273,6 +278,19 @@ public class QuestionnaireResponsesController {
             return new ResponseEntity<CountyDataCollectionProgressReport>(new CountyDataCollectionProgressReport(), HttpStatus.valueOf(500));
         }
 
+    }
+
+
+    @GetMapping(value = "/wealth-group-questionnaire-sections")
+    @ApiOperation(value = "${QuestionnaireResponsesController.wealth-group-questionnaire-sections}", response = WgQuestionnaireSectionsEntity.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable")})
+    public ResponseEntity<List<WgQuestionnaireSectionsEntity>> fetchWealthGroupQuestionnaireSections() {
+
+        List<WgQuestionnaireSectionsEntity> wgQuestionnaireSectionsEntityList = wgQuestionnaireSectionsRepository.findAll();
+
+        return new ResponseEntity<List<WgQuestionnaireSectionsEntity>>(wgQuestionnaireSectionsEntityList, HttpStatus.valueOf(200));
     }
 
 }

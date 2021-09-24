@@ -6,4 +6,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface CashIncomeSourcesRepository extends JpaRepository<CashIncomeSourcesEntity, Long> {
     public CashIncomeSourcesEntity findByCashIncomeSourceCode(@Param("CashIncomeSourceCode") int cashIncomeSourceCode);
+
+    public CashIncomeSourcesEntity findByCashIncomeSourceId(@Param("CashIncomeSourceId") int cashIncomeSourceId);
 }

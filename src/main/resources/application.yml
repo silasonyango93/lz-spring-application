@@ -87,12 +87,14 @@ QuestionnaireResponsesController:
   all-zone-level-questionnaire-sessions: Retrieves all zone-level questionnaire sessions and the questionnaire unique ids
   all-wealth-group-questionnaire-sessions: Retrieves all wealth group questionnaire sessions and the questionnaire unique ids
   data-collection-progress-report: Data collection progress report
+  wealth-group-questionnaire-sections: Wealth Group Questionnaire sections
 
 
 WealthGroupReports:
   wealthgroup-distribution: Returns data on how the wealth groups are distributed in a particular county and zone
   wealthgroup-aggregate-responses: Returns wealth group aggregate responses for all questionnaires within a county
   wealth-group-questionnaire-types: Returns the types of wealth group questionnaires
+  charts: Wealth  Group Charts
 
 ZoneLevelReports:
   zone-level-report: A report on zone level questionnaire responses

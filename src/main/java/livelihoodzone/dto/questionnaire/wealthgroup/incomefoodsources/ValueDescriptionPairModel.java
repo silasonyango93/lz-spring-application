@@ -4,6 +4,14 @@ public class ValueDescriptionPairModel {
     private double value;
     private String description;
 
+    public ValueDescriptionPairModel() {
+    }
+
+    public ValueDescriptionPairModel(double value, String description) {
+        this.value = value;
+        this.description = description;
+    }
+
     public double getValue() {
         return value;
     }

@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NamedNativeQueries({
         @NamedNativeQuery(
                 name="WgQuestionnaireSessionEntity.fetchQuestionnaireSessionsByCountyAndWealthGroup",
-                query="SELECT * FROM wg_questionnaire_sessions WHERE wg_questionnaire_sessions.CountyId = ? AND wg_questionnaire_sessions.WealthGroupId = ?",
+                query="SELECT * FROM wg_questionnaire_sessions WHERE wg_questionnaire_sessions.CountyId = ? AND wg_questionnaire_sessions.WealthGroupId = ? AND wg_questionnaire_sessions.WgQuestionnaireTypeId = 1",
                 resultSetMapping = "wg_questionnaire_sessions")
 })
 
