@@ -17,6 +17,7 @@ public class Constants {
     public static final int MIGRATION_PATTERNS = 7;
     public static final int ECONOMIC_ACTIVITY_CONSTRAINTS = 8;
     public static final int FGD_PARTICIPANTS = 9;
+    public static final int LIVESTOCK_AND_POULTRY_CONTRIBUTION = 10;
 
     //General boundaries
     public static final int GENERAL_COUNTY_ID = 54;

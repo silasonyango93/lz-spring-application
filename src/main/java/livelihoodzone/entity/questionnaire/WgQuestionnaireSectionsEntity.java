@@ -13,7 +13,7 @@ public class WgQuestionnaireSectionsEntity implements java.io.Serializable {
     private String wgQuestionnaireSectionName;
 
     @Column(name = "WgQuestionnaireSectionCode")
-    private String wgQuestionnaireSectionCode;
+    private int wgQuestionnaireSectionCode;
 
     public int getWgQuestionnaireSectionId() {
         return wgQuestionnaireSectionId;
@@ -31,11 +31,11 @@ public class WgQuestionnaireSectionsEntity implements java.io.Serializable {
         this.wgQuestionnaireSectionName = wgQuestionnaireSectionName;
     }
 
-    public String getWgQuestionnaireSectionCode() {
+    public int getWgQuestionnaireSectionCode() {
         return wgQuestionnaireSectionCode;
     }
 
-    public void setWgQuestionnaireSectionCode(String wgQuestionnaireSectionCode) {
+    public void setWgQuestionnaireSectionCode(int wgQuestionnaireSectionCode) {
         this.wgQuestionnaireSectionCode = wgQuestionnaireSectionCode;
     }
 }
