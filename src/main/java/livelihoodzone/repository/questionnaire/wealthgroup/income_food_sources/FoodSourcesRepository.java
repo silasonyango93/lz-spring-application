@@ -6,4 +6,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface FoodSourcesRepository extends JpaRepository<FoodSourcesEntity, Long> {
     public FoodSourcesEntity findByFoodSourceCode(@Param("FoodSourceCode") int foodSourceCode);
+
+    public FoodSourcesEntity findByFoodSourceId(@Param("FoodSourceId") int foodSourceId);
 }

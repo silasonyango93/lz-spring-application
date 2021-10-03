@@ -3,6 +3,7 @@ package livelihoodzone.service.livelihoodzones;
 import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesAssignmentDto;
 import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesUpdateDetailsDto;
 import livelihoodzone.dto.livelihoodzones.LivelihoodZonesUpdateRequestModel;
+import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentEntity;
 import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentStatus;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
@@ -223,6 +224,48 @@ public class LivelihoodZonesService {
                     livelihoodZoneId,
                     1
             ));
+        }
+
+        removeUnAssignedCountyLivelihoodZones(countyId);
+    }
+
+
+    public void removeUnAssignedCountyLivelihoodZones(int countyId) {
+        List<CountyLivelihoodZonesAssignmentEntity> currentlyExistingCountyAssignments = countyLivelihoodZonesAssignmentRepository.findByCountyId(countyId);
+        List<CountySubLocationLivelihoodZoneAssignmentRetrofitModel> countySubLocationLivelihoodZoneAssignmentRetrofitModelList = getAllCountySubLocationLivelihoodZoneAssignments(countyId);
+
+        for (CountyLivelihoodZonesAssignmentEntity countyLivelihoodZonesAssignmentEntity : currentlyExistingCountyAssignments) {
+            List<CountySubLocationLivelihoodZoneAssignmentRetrofitModel> countySubLocationAssignments = countySubLocationLivelihoodZoneAssignmentRetrofitModelList
+                    .stream()
+                    .filter(c -> c.getLivelihoodZoneId() == countyLivelihoodZonesAssignmentEntity.getLivelihoodZoneId())
+                    .collect(Collectors.toList());
+
+            if (countySubLocationAssignments.isEmpty()) {
+                countyLivelihoodZonesAssignmentRepository.delete(countyLivelihoodZonesAssignmentEntity);
+            }
+        }
+
+    }
+
+
+    public List<CountySubLocationLivelihoodZoneAssignmentRetrofitModel> getAllCountySubLocationLivelihoodZoneAssignments(int countyId) {
+        LivelihoodZonesRetrofitService livelihoodZonesRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(LivelihoodZonesRetrofitService.class);
+        Call<List<CountySubLocationLivelihoodZoneAssignmentRetrofitModel>> callSync = livelihoodZonesRetrofitService.getAllCountySubLocationLivelihoodZoneAssignments(countyId);
+        try {
+            Response<List<CountySubLocationLivelihoodZoneAssignmentRetrofitModel>> response = callSync.execute();
+            return response.body();
+
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+
+    public void adjustCountyLivelihoodZoneAssignments() {
+        List<CountiesEntity> countiesEntityList = countiesRepository.findAll();
+
+        for (CountiesEntity countiesEntity : countiesEntityList) {
+            removeUnAssignedCountyLivelihoodZones(countiesEntity.getCountyId());
         }
     }
 }

@@ -6,4 +6,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface FoodTypesRepository extends JpaRepository<FoodTypesEntity, Long> {
     public FoodTypesEntity findByFoodTypeCode(@Param("FoodTypeCode") int foodTypeCode);
+
+    public FoodTypesEntity findByFoodTypeId(@Param("FoodTypeId") int foodTypeId);
 }

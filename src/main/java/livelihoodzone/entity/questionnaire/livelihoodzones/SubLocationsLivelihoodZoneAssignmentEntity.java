@@ -3,7 +3,7 @@ package livelihoodzone.entity.questionnaire.livelihoodzones;
 import javax.persistence.*;
 @javax.persistence.Entity
 @Table(name = "sublocations_livelihoodzone_assignment")
-public class SubLocationsLivelihoodZoneAssignmentEntity implements java.io.Serializable{
+public class SubLocationsLivelihoodZoneAssignmentEntity implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LzSublocationLivelihoodZoneId")

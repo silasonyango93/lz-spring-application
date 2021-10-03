@@ -1,10 +1,13 @@
 package livelihoodzone.service.reports.wealthgroup.crop_contribution;
 
 import livelihoodzone.dto.reports.wealthgroup.WgCropContributionReportResponseObject;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.repository.questionnaire.wealthgroup.cropcontribution.WgCropContributionsRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WealthGroupReportRetrofitService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgCropContributionRetrofitModel;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -16,6 +19,9 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
 public class CropContributionReportsService {
+
+    @Autowired
+    WgCropContributionsRepository wgCropContributionsRepository;
 
     public List<WgCropContributionRetrofitModel> fetchWealthCropContribution(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -181,4 +187,9 @@ public class CropContributionReportsService {
         foodConsumptionApproxPercentageList.add(currentReportString);
         return foodConsumptionApproxPercentageList;
     }
+
+
+//    public WgLivelihoodZoneDataObject processCropContributionChart(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
+//
+//    }
 }

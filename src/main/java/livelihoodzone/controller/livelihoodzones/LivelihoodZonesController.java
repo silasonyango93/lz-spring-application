@@ -122,4 +122,22 @@ public class LivelihoodZonesController {
 
     }
 
+
+    @PutMapping("/update_county_livelihood_zone_assignments")
+    @ApiOperation(value = "${LivelihoodZonesController.update-county-livelihood-zone-assignments}", response = GenericResponse.class)
+    @ApiResponses(value = {//
+            @ApiResponse(code = 500, message = "Internal server error"),
+            @ApiResponse(code = 400, message = "Bad request")})
+    public ResponseEntity<GenericResponse> updateCountyLivelihoodZones() {
+
+        try {
+            livelihoodZonesService.adjustCountyLivelihoodZoneAssignments();
+            return new ResponseEntity<GenericResponse>(new GenericResponse(true,"Update was successful"), HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<GenericResponse>(new GenericResponse(false,"Update failed - internal server error"), HttpStatus.valueOf(500));
+        }
+
+    }
+
 }

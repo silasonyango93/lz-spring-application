@@ -30,52 +30,57 @@ public class ZoneLevelReportsController {
     public ZoneLevelReportResponseDto getZoneLevelReport(@ApiParam("Questionnaire sections to report on") @RequestBody ZoneLevelReportRequestDto zoneLevelReportRequestDto, HttpServletRequest httpServletRequest) {
         ZoneLevelReportResponseDto zoneLevelReportResponseDto = new ZoneLevelReportResponseDto();
 
-        if (zoneLevelReportRequestDto.isQuestionnaireDetails()) {
-            QuestionnaireDetailsReportObjectDto questionnaireDetailsReportObjectDto = zoneLevelReportService.fetchQuestionnaireDetails();
-            zoneLevelReportResponseDto.setReportHashMapObject("questionnaireDetails",questionnaireDetailsReportObjectDto);
+        try {
+            if (zoneLevelReportRequestDto.isQuestionnaireDetails()) {
+                QuestionnaireDetailsReportObjectDto questionnaireDetailsReportObjectDto = zoneLevelReportService.fetchQuestionnaireDetails();
+                zoneLevelReportResponseDto.setReportHashMapObject("questionnaireDetails",questionnaireDetailsReportObjectDto);
+            }
+
+            if (zoneLevelReportRequestDto.isWealthGroupCharacteristics()) {
+                WealthGroupCharectaristicsReportStringObject wealthGroupCharacteristicsData = zoneLevelReportService.comprehensivelyFetchWealthGroupCharacteristicsReport();
+                zoneLevelReportResponseDto.setReportHashMapObject("wealthGroupCharacteristics",wealthGroupCharacteristicsData);
+            }
+
+            if (zoneLevelReportRequestDto.isWealthGroupPopulationDistribution()) {
+                WealthGroupPopulationPercentageReportResponseObject wealthGroupPopulationPercentageReportResponseObject = zoneLevelReportService.fetchWealthGroupsPopulationPercentages();
+                zoneLevelReportResponseDto.setReportHashMapObject("wealthGroupsPopulationPercentages",wealthGroupPopulationPercentageReportResponseObject);
+            }
+
+            if (zoneLevelReportRequestDto.isCropProduction()) {
+                LzCropProductionReportObjectDto lzCropProductionReportObjectDto = zoneLevelReportService.fetchZoneLevelCropProductionReport();
+                zoneLevelReportResponseDto.setReportHashMapObject("cropProduction",lzCropProductionReportObjectDto);
+            }
+
+            if (zoneLevelReportRequestDto.isMainSourcesOfWater()) {
+                LzWaterSourceDataSetResponseObject lzWaterSourceDataSetResponseObject = zoneLevelReportService.processWaterSourcesDataSet();
+                zoneLevelReportResponseDto.setReportHashMapObject("mainWaterSources",lzWaterSourceDataSetResponseObject);
+            }
+
+            if (zoneLevelReportRequestDto.isPatternsOfHunger()) {
+                LzHungerPatternsDataSetObject lzHungerPatternsDataSetObject = zoneLevelReportService.processHungerPatterns();
+                zoneLevelReportResponseDto.setReportHashMapObject("patternsOfHunger",lzHungerPatternsDataSetObject);
+            }
+
+            if (zoneLevelReportRequestDto.isHazards()) {
+                LzHazardsDataSetObject lzHazardsDataSetObject = zoneLevelReportService.processHazards();
+                zoneLevelReportResponseDto.setReportHashMapObject("hazards",lzHazardsDataSetObject);
+            }
+
+            if (zoneLevelReportRequestDto.isEthnicGroups()) {
+                LzEthnicGroupsDataSetObject lzEthnicGroupsDataSetObject = zoneLevelReportService.processEthnicGroups();
+                zoneLevelReportResponseDto.setReportHashMapObject("ethnicGroups",lzEthnicGroupsDataSetObject);
+            }
+
+            if (zoneLevelReportRequestDto.isSeasonalCalendar()) {
+                LzSeasonalCalendarDataSetObject lzSeasonalCalendarDataSetObject = zoneLevelReportService.processSeasonalCalendar();
+                zoneLevelReportResponseDto.setReportHashMapObject("seasonalCalendar",lzSeasonalCalendarDataSetObject);
+            }
+
+
+            return zoneLevelReportResponseDto;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-
-        if (zoneLevelReportRequestDto.isWealthGroupCharacteristics()) {
-            WealthGroupCharectaristicsReportStringObject wealthGroupCharacteristicsData = zoneLevelReportService.comprehensivelyFetchWealthGroupCharacteristicsReport();
-            zoneLevelReportResponseDto.setReportHashMapObject("wealthGroupCharacteristics",wealthGroupCharacteristicsData);
-        }
-
-        if (zoneLevelReportRequestDto.isWealthGroupPopulationDistribution()) {
-            WealthGroupPopulationPercentageReportResponseObject wealthGroupPopulationPercentageReportResponseObject = zoneLevelReportService.fetchWealthGroupsPopulationPercentages();
-            zoneLevelReportResponseDto.setReportHashMapObject("wealthGroupsPopulationPercentages",wealthGroupPopulationPercentageReportResponseObject);
-        }
-
-        if (zoneLevelReportRequestDto.isCropProduction()) {
-            LzCropProductionReportObjectDto lzCropProductionReportObjectDto = zoneLevelReportService.fetchZoneLevelCropProductionReport();
-            zoneLevelReportResponseDto.setReportHashMapObject("cropProduction",lzCropProductionReportObjectDto);
-        }
-
-        if (zoneLevelReportRequestDto.isMainSourcesOfWater()) {
-            LzWaterSourceDataSetResponseObject lzWaterSourceDataSetResponseObject = zoneLevelReportService.processWaterSourcesDataSet();
-            zoneLevelReportResponseDto.setReportHashMapObject("mainWaterSources",lzWaterSourceDataSetResponseObject);
-        }
-
-        if (zoneLevelReportRequestDto.isPatternsOfHunger()) {
-            LzHungerPatternsDataSetObject lzHungerPatternsDataSetObject = zoneLevelReportService.processHungerPatterns();
-            zoneLevelReportResponseDto.setReportHashMapObject("patternsOfHunger",lzHungerPatternsDataSetObject);
-        }
-
-        if (zoneLevelReportRequestDto.isHazards()) {
-            LzHazardsDataSetObject lzHazardsDataSetObject = zoneLevelReportService.processHazards();
-            zoneLevelReportResponseDto.setReportHashMapObject("hazards",lzHazardsDataSetObject);
-        }
-
-        if (zoneLevelReportRequestDto.isEthnicGroups()) {
-            LzEthnicGroupsDataSetObject lzEthnicGroupsDataSetObject = zoneLevelReportService.processEthnicGroups();
-            zoneLevelReportResponseDto.setReportHashMapObject("ethnicGroups",lzEthnicGroupsDataSetObject);
-        }
-
-        if (zoneLevelReportRequestDto.isSeasonalCalendar()) {
-            LzSeasonalCalendarDataSetObject lzSeasonalCalendarDataSetObject = zoneLevelReportService.processSeasonalCalendar();
-            zoneLevelReportResponseDto.setReportHashMapObject("seasonalCalendar",lzSeasonalCalendarDataSetObject);
-        }
-
-
-        return zoneLevelReportResponseDto;
     }
 }

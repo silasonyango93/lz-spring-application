@@ -6,6 +6,16 @@ public class FoodConsumptionResponseItem {
     private double gifts;
     private double huntingGatheringFishing;
 
+    public FoodConsumptionResponseItem() {
+    }
+
+    public FoodConsumptionResponseItem(double ownFarm, double marketFoodPurchase, double gifts, double huntingGatheringFishing) {
+        this.ownFarm = ownFarm;
+        this.marketFoodPurchase = marketFoodPurchase;
+        this.gifts = gifts;
+        this.huntingGatheringFishing = huntingGatheringFishing;
+    }
+
     public double getOwnFarm() {
         return ownFarm;
     }

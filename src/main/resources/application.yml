@@ -78,6 +78,7 @@ LivelihoodZonesController:
   assign-a-sublocation-a-livelihoodzone: Assign a sub-location to a livelihood zone
   search-sublocation-by-name-and-county-id: Search sub-location by name and county id
   update-a-sublocation-livelihood-zone: Update a sub-location livelihood zone
+  update-county-livelihood-zone-assignments: Update county livelihood zone assignments
 
 QuestionnaireResponsesController:
   wealthgroup: Accepts the responses of a wealth group questionnaire

@@ -71,7 +71,11 @@ public class WaterSourcesDataSetService {
     public List<String> processAWaterSourceReportList(int waterSourceCode, List<LzWaterSourceDataSetRetrofitModel> list) {
         List<LzWaterSourceDataSetRetrofitModel> processedList = returnListForSpecificWaterSource(waterSourceCode, list);
         List<String> stringReportList = new ArrayList<>();
-        int currentQuestionnaireSessionId = processedList.get(0).getLzQuestionnaireSessionId();
+        int currentQuestionnaireSessionId = 0;
+        if (!processedList.isEmpty()) {
+            currentQuestionnaireSessionId = processedList.get(0).getLzQuestionnaireSessionId();
+        }
+
         String currentReportString = "";
 
         for (LzWaterSourceDataSetRetrofitModel currentItem : processedList) {
@@ -106,12 +110,16 @@ public class WaterSourcesDataSetService {
     public List<LzWaterSourceDataSetRetrofitModel> returnListForSpecificWaterSource(int waterSourceCode, List<LzWaterSourceDataSetRetrofitModel> allItems) {
         List<LzWaterSourceDataSetRetrofitModel> processedList = new ArrayList<>();
 
-        for (LzWaterSourceDataSetRetrofitModel currentItem : allItems) {
-            if (currentItem.getWaterSourceCode() == waterSourceCode) {
-                processedList.add(currentItem);
+        if (allItems != null) {
+            for (LzWaterSourceDataSetRetrofitModel currentItem : allItems) {
+                if (currentItem.getWaterSourceCode() == waterSourceCode) {
+                    processedList.add(currentItem);
+                }
             }
+            return clusterSameQuestionnaireItemsTogether(processedList);
         }
-        return clusterSameQuestionnaireItemsTogether(processedList);
+        System.out.println(waterSourceCode);
+        return new ArrayList<>();
     }
 
 }
