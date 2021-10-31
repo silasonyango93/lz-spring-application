@@ -79,6 +79,7 @@ LivelihoodZonesController:
   search-sublocation-by-name-and-county-id: Search sub-location by name and county id
   update-a-sublocation-livelihood-zone: Update a sub-location livelihood zone
   update-county-livelihood-zone-assignments: Update county livelihood zone assignments
+  a-county-livelihoodzone-information: Livelihood zone information about a county
 
 QuestionnaireResponsesController:
   wealthgroup: Accepts the responses of a wealth group questionnaire
@@ -96,6 +97,7 @@ WealthGroupReports:
   wealthgroup-aggregate-responses: Returns wealth group aggregate responses for all questionnaires within a county
   wealth-group-questionnaire-types: Returns the types of wealth group questionnaires
   charts: Wealth  Group Charts
+  wealth-group-categories: All wealth group categories
 
 ZoneLevelReports:
   zone-level-report: A report on zone level questionnaire responses

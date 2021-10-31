@@ -1,5 +1,6 @@
 package livelihoodzone.service.livelihoodzones;
 
+import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZoneInfoDto;
 import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesAssignmentDto;
 import livelihoodzone.dto.livelihoodzones.CountyLivelihoodZonesUpdateDetailsDto;
 import livelihoodzone.dto.livelihoodzones.LivelihoodZonesUpdateRequestModel;
@@ -266,6 +267,40 @@ public class LivelihoodZonesService {
 
         for (CountiesEntity countiesEntity : countiesEntityList) {
             removeUnAssignedCountyLivelihoodZones(countiesEntity.getCountyId());
+        }
+    }
+
+
+    public List<CountyLivelihoodZoneInfoDto> retrieveACountyLivelihoodZoneInformation(int countyId) {
+        List<CountyLivelihoodZonesAssignmentEntity> countyLivelihoodZonesAssignmentEntityList = countyLivelihoodZonesAssignmentRepository.findByCountyId(countyId);
+
+        List<CountyLivelihoodZoneInfoDto> countyLivelihoodZoneInfoDtoList = new ArrayList<>();
+
+        for (CountyLivelihoodZonesAssignmentEntity currentCountyLivelihoodZoneAssignment : countyLivelihoodZonesAssignmentEntityList) {
+
+            LivelihoodZonesEntity livelihoodZonesEntity = livelihoodZonesRepository.findByLivelihoodZoneId(currentCountyLivelihoodZoneAssignment.getLivelihoodZoneId());
+
+            List<SubLocationRetrofitModel> aLivelihoodZoneSubLocations = fetchCountyLivelihoodZoneSubLocations(countyId, currentCountyLivelihoodZoneAssignment.getLivelihoodZoneId());
+
+            countyLivelihoodZoneInfoDtoList.add(new CountyLivelihoodZoneInfoDto(
+                    livelihoodZonesEntity.getLivelihoodZoneId(),
+                    livelihoodZonesEntity.getLivelihoodZoneName(),
+                    aLivelihoodZoneSubLocations
+            ));
+        }
+        return countyLivelihoodZoneInfoDtoList;
+    }
+
+
+    public List<SubLocationRetrofitModel> fetchCountyLivelihoodZoneSubLocations(int countyId, int livelihoodzoneId) {
+        LivelihoodZonesRetrofitService livelihoodZonesRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(LivelihoodZonesRetrofitService.class);
+        Call<List<SubLocationRetrofitModel>> callSync = livelihoodZonesRetrofitService.fetchCountyLivelihoodZoneSubLocations(countyId,livelihoodzoneId);
+        try {
+            Response<List<SubLocationRetrofitModel>> response = callSync.execute();
+            return response.body();
+
+        } catch (Exception ex) {
+            return null;
         }
     }
 }

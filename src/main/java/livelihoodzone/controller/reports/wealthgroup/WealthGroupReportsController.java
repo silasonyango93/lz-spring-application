@@ -8,8 +8,10 @@ import livelihoodzone.dto.reports.wealthgroup.charts.WealthGroupChartsRequestDto
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
+import livelihoodzone.entity.questionnaire.wealthgroup.WealthGroupEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
@@ -46,6 +48,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     WealthGroupChartsService wealthGroupChartsService;
+
+    @Autowired
+    WealthGroupRepository wealthGroupRepository;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -183,5 +188,15 @@ public class WealthGroupReportsController {
             return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
         }
 
+    }
+
+
+    @GetMapping(value = "/wealth-group-categories")
+    @ApiOperation(value = "${WealthGroupReports.wealth-group-categories}", response = WealthGroupEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token")})
+    public ResponseEntity<List<WealthGroupEntity>> getAllWealthGroups() {
+        return new ResponseEntity<List<WealthGroupEntity>>(wealthGroupRepository.findAll(), HttpStatus.valueOf(200));
     }
 }

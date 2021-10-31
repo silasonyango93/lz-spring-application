@@ -3,6 +3,7 @@ package livelihoodzone.controller.livelihoodzones;
 import io.swagger.annotations.*;
 import livelihoodzone.dto.GenericResponse;
 import livelihoodzone.dto.livelihoodzones.*;
+import livelihoodzone.dto.questionnaire.county.CountyRequestDto;
 import livelihoodzone.dto.user_management.AuthenticationObject;
 import livelihoodzone.entity.questionnaire.livelihoodzones.CountyLivelihoodZonesAssignmentStatus;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
@@ -136,6 +137,24 @@ public class LivelihoodZonesController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<GenericResponse>(new GenericResponse(false,"Update failed - internal server error"), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+    @PostMapping("/a-county-livelihoodzone-information")
+    @ApiOperation(value = "${LivelihoodZonesController.a-county-livelihoodzone-information}", response = CountyLivelihoodZoneInfoDto.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 500, message = "Internal server error"),
+            @ApiResponse(code = 400, message = "Bad request")})
+    public ResponseEntity<List<CountyLivelihoodZoneInfoDto>> getACountyLivelihoodZoneInformation(@ApiParam("Request a county livelihood zone information") @RequestBody CountyRequestDto countyRequestDto) {
+
+        try {
+            List<CountyLivelihoodZoneInfoDto> countyLivelihoodZoneInfoDtoList = livelihoodZonesService.retrieveACountyLivelihoodZoneInformation(countyRequestDto.getCountyId());
+            return new ResponseEntity<List<CountyLivelihoodZoneInfoDto>>(countyLivelihoodZoneInfoDtoList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<CountyLivelihoodZoneInfoDto>>(new ArrayList<>(), HttpStatus.valueOf(500));
         }
 
     }
