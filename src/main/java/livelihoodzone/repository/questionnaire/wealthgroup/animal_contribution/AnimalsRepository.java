@@ -7,4 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface AnimalsRepository extends JpaRepository<AnimalsEntity, Long> {
     public AnimalsEntity findByAnimalCode(@Param("AnimalCode") int animalCode);
+
+    public AnimalsEntity findByAnimalId(@Param("AnimalId") int animalId);
 }

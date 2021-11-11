@@ -1,11 +1,17 @@
 package livelihoodzone.service.reports.wealthgroup.animal_ownership;
 
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.questionnaire.wealthgroup.livestockownership.LivestockPoultryOwnershipResponses;
 import livelihoodzone.dto.reports.wealthgroup.WgAnimalContributionDataSetObject;
 import livelihoodzone.dto.reports.wealthgroup.WgLivestockOwnershipDataSetObject;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.wealthgroup.animal_contribution.WgAveAnimalNoPerHouseholdEntity;
+import livelihoodzone.repository.questionnaire.wealthgroup.animal_contribution.AnimalsRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.animal_contribution.WgAveAnimalNoPerHouseholdRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.*;
 import org.apache.tomcat.util.bcel.classfile.Constant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -19,6 +25,12 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
 public class AnimalOwnershipService {
+
+    @Autowired
+    WgAveAnimalNoPerHouseholdRepository wgAveAnimalNoPerHouseholdRepository;
+
+    @Autowired
+    AnimalsRepository animalsRepository;
 
     public List<WgAnimalOwnershipRetrofitModel> fetchWealthGroupAnimalOwnership(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -149,5 +161,59 @@ public class AnimalOwnershipService {
         }
         reportString.add(currentReportString);
         return reportString;
+    }
+
+
+    public WgLivelihoodZoneDataObject processLivestockOwnershipChart(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
+        LivestockPoultryOwnershipResponses livestockPoultryOwnershipResponses = new LivestockPoultryOwnershipResponses();
+        List<WgAveAnimalNoPerHouseholdEntity> wgAveAnimalNoPerHouseholdEntityList = wgAveAnimalNoPerHouseholdRepository.findByWgQuestionnaireSessionId(questionnaireSessionId);
+
+        for (WgAveAnimalNoPerHouseholdEntity wgAveAnimalNoPerHouseholdEntity : wgAveAnimalNoPerHouseholdEntityList) {
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.LOCAL_CATTLE) {
+                livestockPoultryOwnershipResponses.setCattle(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.GOATS) {
+                livestockPoultryOwnershipResponses.setGoats(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.SHEEP) {
+                livestockPoultryOwnershipResponses.setSheep(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.DONKEYS) {
+                livestockPoultryOwnershipResponses.setDonkeys(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.CAMELS) {
+                livestockPoultryOwnershipResponses.setCamels(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.PIGS) {
+                livestockPoultryOwnershipResponses.setPigs(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.LOCAL_CHICKEN) {
+                livestockPoultryOwnershipResponses.setChicken(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.DUCKS) {
+                livestockPoultryOwnershipResponses.setDucks(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.BEE_HIVES) {
+                livestockPoultryOwnershipResponses.setBeeHives(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.FISH_PONDS) {
+                livestockPoultryOwnershipResponses.setFishPonds(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.IMPROVED_CATTLE) {
+                livestockPoultryOwnershipResponses.setImprovedCattle(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.IMPROVED_CHICKEN) {
+                livestockPoultryOwnershipResponses.setImprovedChicken(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.FISH_CAGES) {
+                livestockPoultryOwnershipResponses.setFishCages(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+            if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.DAIRY_CATTLE) {
+                livestockPoultryOwnershipResponses.setDairyCattle(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
+            }
+        }
+
+        wgLivelihoodZoneDataObject.setLivestockAndPoultryOwnership(livestockPoultryOwnershipResponses);
+        return wgLivelihoodZoneDataObject;
     }
 }
