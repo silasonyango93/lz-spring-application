@@ -2,11 +2,14 @@ package livelihoodzone.service.reports.wealthgroup.animal_ownership;
 
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.questionnaire.wealthgroup.livestockownership.LivestockPoultryOwnershipResponses;
+import livelihoodzone.dto.questionnaire.wealthgroup.livestockpoultrycontributions.LivestockContributionResponses;
 import livelihoodzone.dto.reports.wealthgroup.WgAnimalContributionDataSetObject;
 import livelihoodzone.dto.reports.wealthgroup.WgLivestockOwnershipDataSetObject;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.wealthgroup.animal_contribution.WgAnimalContributionsEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.animal_contribution.WgAveAnimalNoPerHouseholdEntity;
 import livelihoodzone.repository.questionnaire.wealthgroup.animal_contribution.AnimalsRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.animal_contribution.WgAnimalContributionsRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.animal_contribution.WgAveAnimalNoPerHouseholdRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.*;
@@ -31,6 +34,9 @@ public class AnimalOwnershipService {
 
     @Autowired
     AnimalsRepository animalsRepository;
+
+    @Autowired
+    WgAnimalContributionsRepository wgAnimalContributionsRepository;
 
     public List<WgAnimalOwnershipRetrofitModel> fetchWealthGroupAnimalOwnership(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -214,6 +220,100 @@ public class AnimalOwnershipService {
         }
 
         wgLivelihoodZoneDataObject.setLivestockAndPoultryOwnership(livestockPoultryOwnershipResponses);
+        return wgLivelihoodZoneDataObject;
+    }
+
+    public WgLivelihoodZoneDataObject processLivestockContributionChart(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
+        LivestockContributionResponses livestockContributionResponses = new LivestockContributionResponses(true);
+        List<WgAnimalContributionsEntity> wgAnimalContributionsEntityList = wgAnimalContributionsRepository.findByWgQuestionnaireSessionId(questionnaireSessionId);
+
+        for (WgAnimalContributionsEntity wgAnimalContributionsEntity : wgAnimalContributionsEntityList) {
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.LOCAL_CATTLE) {
+                livestockContributionResponses.getCattle().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getCattle().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getCattle().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getCattle().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.GOATS) {
+                livestockContributionResponses.getGoats().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getGoats().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getGoats().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getGoats().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.SHEEP) {
+                livestockContributionResponses.getSheep().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getSheep().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getSheep().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getSheep().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.DONKEYS) {
+                livestockContributionResponses.getDonkeys().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getDonkeys().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getDonkeys().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getDonkeys().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.CAMELS) {
+                livestockContributionResponses.getCamels().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getCamels().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getCamels().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getCamels().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.PIGS) {
+                livestockContributionResponses.getPigs().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getPigs().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getPigs().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getPigs().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.LOCAL_CHICKEN) {
+                livestockContributionResponses.getChicken().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getChicken().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getChicken().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getChicken().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.DUCKS) {
+                livestockContributionResponses.getDucks().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getDucks().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getDucks().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getDucks().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.BEE_HIVES) {
+                livestockContributionResponses.getBeeHives().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getBeeHives().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getBeeHives().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getBeeHives().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.FISH_PONDS) {
+                livestockContributionResponses.getFishPonds().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getFishPonds().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getFishPonds().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getFishPonds().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.IMPROVED_CATTLE) {
+                livestockContributionResponses.getImprovedCattle().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getImprovedCattle().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getImprovedCattle().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getImprovedCattle().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.IMPROVED_CHICKEN) {
+                livestockContributionResponses.getImprovedChicken().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getImprovedChicken().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getImprovedChicken().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getImprovedChicken().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.FISH_CAGES) {
+                livestockContributionResponses.getFishCages().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getFishCages().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getFishCages().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getFishCages().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+            if (animalsRepository.findByAnimalId(wgAnimalContributionsEntity.getAnimalId()).getAnimalCode() == Constants.DAIRY_CATTLE) {
+                livestockContributionResponses.getDairyCattle().getIncomeRank().setActualValue(wgAnimalContributionsEntity.getIncomeContributionRank());
+                livestockContributionResponses.getDairyCattle().getIncomePercentage().setActualValue(wgAnimalContributionsEntity.getIncomeContributionApproxPercentage());
+                livestockContributionResponses.getDairyCattle().getConsumptionRank().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionRank());
+                livestockContributionResponses.getDairyCattle().getConsumptionPercentage().setActualValue(wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage());
+            }
+        }
+        wgLivelihoodZoneDataObject.setLivestockContributions(livestockContributionResponses);
         return wgLivelihoodZoneDataObject;
     }
 }

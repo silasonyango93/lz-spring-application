@@ -16,6 +16,28 @@ public class LivestockContributionResponses {
     private WgLivestockContributionResponseItem improvedCattle;
     private WgLivestockContributionResponseItem fishCages;
 
+    public LivestockContributionResponses() {
+    }
+
+    public LivestockContributionResponses(boolean instantiate) {
+        if (instantiate) {
+            WgLivestockContributionResponseItem cattle = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem dairyCattle = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem goats = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem sheep = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem donkeys = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem camels = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem pigs = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem chicken = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem improvedChicken = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem ducks = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem beeHives = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem fishPonds = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem improvedCattle = new WgLivestockContributionResponseItem(true);
+            WgLivestockContributionResponseItem fishCages = new WgLivestockContributionResponseItem(true);
+        }
+    }
+
     public WgLivestockContributionResponseItem getCattle() {
         return cattle;
     }

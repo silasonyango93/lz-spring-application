@@ -61,9 +61,11 @@ public class WealthGroupChartsService {
             if (questionnaireSectionCode == Constants.PERCENTAGE_FOOD_CONSUMPTION) {
                 wgLivelihoodZoneDataObject = processFoodConsumptionPercentages(wgLivelihoodZoneDataObject, currentQuestionnaire.getWgQuestionnaireSessionId());
             }
-
             if (questionnaireSectionCode == Constants.LIVESTOCK_AND_POULTRY_OWNERSHIP) {
                 wgLivelihoodZoneDataObject = animalOwnershipService.processLivestockOwnershipChart(wgLivelihoodZoneDataObject, currentQuestionnaire.getWgQuestionnaireSessionId());
+            }
+            if (questionnaireSectionCode == Constants.LIVESTOCK_AND_POULTRY_CONTRIBUTION) {
+                wgLivelihoodZoneDataObject = animalOwnershipService.processLivestockContributionChart(wgLivelihoodZoneDataObject, currentQuestionnaire.getWgQuestionnaireSessionId());
             }
 
             livelihoodZoneDataObjectList.add(wgLivelihoodZoneDataObject);

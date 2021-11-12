@@ -6,6 +6,18 @@ public class WgLivestockContributionResponseItem {
     private LivestockContributionResponseValue consumptionRank;
     private LivestockContributionResponseValue consumptionPercentage;
 
+    public WgLivestockContributionResponseItem() {
+    }
+
+    public WgLivestockContributionResponseItem(boolean instantiate) {
+        if (instantiate) {
+            LivestockContributionResponseValue incomeRank = new LivestockContributionResponseValue();
+            LivestockContributionResponseValue incomePercentage = new LivestockContributionResponseValue();
+            LivestockContributionResponseValue consumptionRank = new LivestockContributionResponseValue();
+            LivestockContributionResponseValue consumptionPercentage = new LivestockContributionResponseValue();
+        }
+    }
+
     public LivestockContributionResponseValue getIncomeRank() {
         return incomeRank;
     }
