@@ -7,4 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface LivelihoodActivitiesRepository extends JpaRepository<LivelihoodActivitiesEntity, Long> {
     public LivelihoodActivitiesEntity findByLivelihoodActivityCode(@Param("LivelihoodActivityCode") int livelihoodActivityCode);
+
+    public LivelihoodActivitiesEntity findByLivelihoodActivityId(@Param("LivelihoodActivityId") int livelihoodActivityId);
 }

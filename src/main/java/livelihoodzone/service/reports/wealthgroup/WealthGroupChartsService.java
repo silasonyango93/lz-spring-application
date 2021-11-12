@@ -14,6 +14,7 @@ import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRe
 import livelihoodzone.repository.questionnaire.wealthgroup.income_food_sources.*;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
 import livelihoodzone.service.reports.wealthgroup.expenditure_patterns.ExpenditurePatternsDataSetService;
+import livelihoodzone.service.reports.wealthgroup.labour_patterns.LabourPatternsDataSetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +51,9 @@ public class WealthGroupChartsService {
     @Autowired
     ExpenditurePatternsDataSetService expenditurePatternsDataSetService;
 
+    @Autowired
+    LabourPatternsDataSetService labourPatternsDataSetService;
+
     public List<WgLivelihoodZoneDataObject> prepareWealthGroupChart(int countyId, int wealthGroupId, int questionnaireSectionCode) {
         List<WgLivelihoodZoneDataObject> livelihoodZoneDataObjectList = new ArrayList<>();
         List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionDao.fetchQuestionnaireSessionsByCountyAndWealthGroup(countyId,wealthGroupId);
@@ -73,6 +77,9 @@ public class WealthGroupChartsService {
             }
             if (questionnaireSectionCode == Constants.EXPENDITURE_PATTERNS) {
                 wgLivelihoodZoneDataObject = expenditurePatternsDataSetService.processExpenditurePatternsChart(wgLivelihoodZoneDataObject, currentQuestionnaire.getWgQuestionnaireSessionId());
+            }
+            if (questionnaireSectionCode == Constants.LABOUR_PATTERNS) {
+                wgLivelihoodZoneDataObject = labourPatternsDataSetService.processLabourPatternsChart(wgLivelihoodZoneDataObject, currentQuestionnaire.getWgQuestionnaireSessionId());
             }
 
             livelihoodZoneDataObjectList.add(wgLivelihoodZoneDataObject);

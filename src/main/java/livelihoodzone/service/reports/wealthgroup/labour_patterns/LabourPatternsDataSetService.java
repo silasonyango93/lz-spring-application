@@ -1,12 +1,18 @@
 package livelihoodzone.service.reports.wealthgroup.labour_patterns;
 
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.questionnaire.wealthgroup.labourpatterns.LabourPatternResponses;
 import livelihoodzone.dto.reports.wealthgroup.WgLabourPatternsDataSetObject;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.wealthgroup.labour_patterns.WgGenderLivelihoodActivitiesEntity;
+import livelihoodzone.repository.questionnaire.wealthgroup.labour_patterns.LivelihoodActivitiesRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.labour_patterns.WgGenderLivelihoodActivitiesRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WealthGroupReportRetrofitService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgAnimalOwnershipRetrofitModel;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgLabourPatternsRetrofitModel;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgLivestockContributionRetrofitModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -20,6 +26,12 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
 public class LabourPatternsDataSetService {
+
+    @Autowired
+    WgGenderLivelihoodActivitiesRepository wgGenderLivelihoodActivitiesRepository;
+
+    @Autowired
+    LivelihoodActivitiesRepository livelihoodActivitiesRepository;
 
     public List<WgLabourPatternsRetrofitModel> fetchWealthGroupLabourPatterns(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -116,5 +128,76 @@ public class LabourPatternsDataSetService {
             }
         }
         return clusterSameQuestionnaireItemsTogether(processedList);
+    }
+
+    public WgLivelihoodZoneDataObject processLabourPatternsChart(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
+        LabourPatternResponses labourPatternResponses = new LabourPatternResponses(true);
+        List<WgGenderLivelihoodActivitiesEntity> wgGenderLivelihoodActivitiesEntityList = wgGenderLivelihoodActivitiesRepository.findByWgQuestionnaireSessionId(questionnaireSessionId);
+
+        for (WgGenderLivelihoodActivitiesEntity wgGenderLivelihoodActivitiesEntity : wgGenderLivelihoodActivitiesEntityList) {
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.LABOUR_OWN_FARM) {
+                labourPatternResponses.getOwnFarmCropProduction().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getOwnFarmCropProduction().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.LIVESTOCK_HUSBANDRY) {
+                labourPatternResponses.getLivestockHusbandry().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getLivestockHusbandry().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.WAGED_LABOUR) {
+                labourPatternResponses.getWagedLabourOnFarms().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getWagedLabourOnFarms().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.LOW_SKILLED_NON_FARM_LABOUR) {
+                labourPatternResponses.getLowSkilledNonFarmLabour().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getLowSkilledNonFarmLabour().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.SKILLED_LABOUR) {
+                labourPatternResponses.getSkilledLabour().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getSkilledLabour().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.FORMAL_EMPLOYMENT) {
+                labourPatternResponses.getFormalEmployment().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getFormalEmployment().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.HUNTING_AND_GATHERING_LZ_ACTIVITY) {
+                labourPatternResponses.getHuntingAndGathering().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getHuntingAndGathering().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.FISHING_LZ_ACTIVITY) {
+                labourPatternResponses.getFishing().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getFishing().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.TRADING_LZ_ACTIVITY) {
+                labourPatternResponses.getTrading().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getTrading().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.DOMESTIC_UNPAID_WORK) {
+                labourPatternResponses.getDomesticUnpaidWork().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getDomesticUnpaidWork().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.BEGGING_LZ_ACTIVITY) {
+                labourPatternResponses.getBegging().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getBegging().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.COMMERCIAL_SEX_WORK) {
+                labourPatternResponses.getCommercialSexWork().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getCommercialSexWork().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.LEISURE_SOCIALIZING_ENTERTAINMENT) {
+                labourPatternResponses.getLeisure().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getLeisure().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.OTHER_LIVELIHOOD_ACTIVITIES) {
+                labourPatternResponses.getOthers().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getOthers().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+                labourPatternResponses.getOthers().setExtraDescription(wgGenderLivelihoodActivitiesEntity.getExtraDescription());
+            }
+            if (livelihoodActivitiesRepository.findByLivelihoodActivityId(wgGenderLivelihoodActivitiesEntity.getLivelihoodActivityId()).getLivelihoodActivityCode() == Constants.TRANSPORT_SERVICES) {
+                labourPatternResponses.getTransportServices().setMen(wgGenderLivelihoodActivitiesEntity.getMenPercentage());
+                labourPatternResponses.getTransportServices().setWomen(wgGenderLivelihoodActivitiesEntity.getWomenPercentage());
+            }
+        }
+        wgLivelihoodZoneDataObject.setLabourPatterns(labourPatternResponses);
+        return wgLivelihoodZoneDataObject;
     }
 }

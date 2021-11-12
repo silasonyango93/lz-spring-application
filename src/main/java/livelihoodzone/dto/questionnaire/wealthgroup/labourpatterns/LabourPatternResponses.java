@@ -18,6 +18,30 @@ public class LabourPatternResponses {
     private LabourPatternResponseItem inactivity;
     private LabourPatternResponseItem others;
 
+    public LabourPatternResponses() {
+    }
+
+    public LabourPatternResponses(boolean instantiate) {
+        if (instantiate) {
+            ownFarmCropProduction = new LabourPatternResponseItem();
+            livestockHusbandry = new LabourPatternResponseItem();
+            transportServices = new LabourPatternResponseItem();
+            wagedLabourOnFarms = new LabourPatternResponseItem();
+            lowSkilledNonFarmLabour = new LabourPatternResponseItem();
+            skilledLabour = new LabourPatternResponseItem();
+            formalEmployment = new LabourPatternResponseItem();
+            huntingAndGathering = new LabourPatternResponseItem();
+            fishing = new LabourPatternResponseItem();
+            trading = new LabourPatternResponseItem();
+            domesticUnpaidWork = new LabourPatternResponseItem();
+            leisure = new LabourPatternResponseItem();
+            commercialSexWork = new LabourPatternResponseItem();
+            begging = new LabourPatternResponseItem();
+            inactivity = new LabourPatternResponseItem();
+            others = new LabourPatternResponseItem();
+        }
+    }
+
     public LabourPatternResponseItem getOwnFarmCropProduction() {
         return ownFarmCropProduction;
     }
