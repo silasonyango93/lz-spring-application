@@ -7,4 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface WgExpenditureItemsRepository extends JpaRepository<WgExpenditureItemsEntity, Long> {
     public WgExpenditureItemsEntity findByExpenditureItemCode(@Param("ExpenditureItemCode") int expenditureItemCode);
+
+    public WgExpenditureItemsEntity findByExpenditureItemId(@Param("ExpenditureItemId") int expenditureItemId);
 }

@@ -1,11 +1,17 @@
 package livelihoodzone.service.reports.wealthgroup.expenditure_patterns;
 
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.questionnaire.wealthgroup.expenditurepatterns.ExpenditurePatternsResponses;
 import livelihoodzone.dto.reports.wealthgroup.WgExpenditurePatternsDataSetObject;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.wealthgroup.expenditure_patterns.WgExpenditurePercentagesEntity;
+import livelihoodzone.repository.questionnaire.wealthgroup.expenditure_patterns.WgExpenditureItemsRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.expenditure_patterns.WgExpenditurePercentagesRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WealthGroupReportRetrofitService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgExpenditurePatternsDataSetRetrofitModel;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgLabourPatternsRetrofitModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -19,6 +25,12 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
 public class ExpenditurePatternsDataSetService {
+
+    @Autowired
+    WgExpenditurePercentagesRepository wgExpenditurePercentagesRepository;
+
+    @Autowired
+    WgExpenditureItemsRepository wgExpenditureItemsRepository;
 
 
 
@@ -124,6 +136,103 @@ public class ExpenditurePatternsDataSetService {
             }
         }
         return clusterSameQuestionnaireItemsTogether(processedList);
+    }
+
+    public WgLivelihoodZoneDataObject processExpenditurePatternsChart(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
+        ExpenditurePatternsResponses expenditurePatternsResponses = new ExpenditurePatternsResponses();
+        List<WgExpenditurePercentagesEntity> wgExpenditurePercentagesEntityList = wgExpenditurePercentagesRepository.findByWgQuestionnaireSessionId(questionnaireSessionId);
+
+        for (WgExpenditurePercentagesEntity wgExpenditurePercentagesEntity : wgExpenditurePercentagesEntityList) {
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_MAIZE_AND_MAIZE_FLOUR) {
+                expenditurePatternsResponses.setMaizeAndMaizeFlour(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_OTHER_CEREALS) {
+                expenditurePatternsResponses.setOtherCereals(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_PULSES) {
+                expenditurePatternsResponses.setPulses(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_ROOTS_AND_ROOT_TUBERS) {
+                expenditurePatternsResponses.setRootsAndTubers(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_VEGETABLES_AND_FRUITS) {
+                expenditurePatternsResponses.setVegetablesAndFruits(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_FISH_AND_SEA_FOOD) {
+                expenditurePatternsResponses.setFishandSeaFood(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_MEAT) {
+                expenditurePatternsResponses.setMeat(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_MILK) {
+                expenditurePatternsResponses.setMilk(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_EGGS) {
+                expenditurePatternsResponses.setEggs(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_OILS_AND_FATS) {
+                expenditurePatternsResponses.setOilsAndFats(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_OTHER_FOODS) {
+                expenditurePatternsResponses.setOtherFoods(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_SCHOOL_FEES) {
+                expenditurePatternsResponses.setSchoolFees(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_DRUGS_AND_MEDICAL_CARE) {
+                expenditurePatternsResponses.setDrugsAndMedicalCare(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_CLOTHING_BEAUTY_PRODUCTS) {
+                expenditurePatternsResponses.setClothingAndBeautyProducts(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_HOUSE_RENT) {
+                expenditurePatternsResponses.setHouseRent(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_COMMUNICATION_EXPENSES) {
+                expenditurePatternsResponses.setCommunicationExpenses(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_FARM_INPUTS) {
+                expenditurePatternsResponses.setFarmInputs(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_LIVESTOCK_DRUGS) {
+                expenditurePatternsResponses.setLivestockDrugs(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_PURCHASE_OF_WATER) {
+                expenditurePatternsResponses.setWaterPurchase(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_SOAPS_AND_OTHER_DETERGENTS) {
+                expenditurePatternsResponses.setSoaps(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_HIRINNG_FARM_LABOUR) {
+                expenditurePatternsResponses.setFarmLabour(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_TRAVEL_EXPENSES) {
+                expenditurePatternsResponses.setTravelRelatedExpenses(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_LEISURE_AND_ENTERTAINMENT) {
+                expenditurePatternsResponses.setLeisureAndEntertainment(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_ELECTRICITY_BILLS) {
+                expenditurePatternsResponses.setElectricityBills(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_SOCIAL_OBLIGATION) {
+                expenditurePatternsResponses.setSocialObligation(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_MILLING_COSTS) {
+                expenditurePatternsResponses.setMillingCosts(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_COOKING_FUEL) {
+                expenditurePatternsResponses.setCookingFuel(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_SAVING_AND_INVESTMENTS) {
+                expenditurePatternsResponses.setSavingsAndInvestments(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+            if (wgExpenditureItemsRepository.findByExpenditureItemId(wgExpenditurePercentagesEntity.getExpenditureItemId()).getExpenditureItemCode() == Constants.EXP_LOAN_REPAYMENTS) {
+                expenditurePatternsResponses.setLoanRepayments(wgExpenditurePercentagesEntity.getExpenditurePercentage());
+            }
+        }
+        wgLivelihoodZoneDataObject.setExpenditurePatterns(expenditurePatternsResponses);
+        return wgLivelihoodZoneDataObject;
     }
 
 }
