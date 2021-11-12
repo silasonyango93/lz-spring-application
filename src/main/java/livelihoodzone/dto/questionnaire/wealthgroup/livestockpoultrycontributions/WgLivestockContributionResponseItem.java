@@ -11,10 +11,10 @@ public class WgLivestockContributionResponseItem {
 
     public WgLivestockContributionResponseItem(boolean instantiate) {
         if (instantiate) {
-            LivestockContributionResponseValue incomeRank = new LivestockContributionResponseValue();
-            LivestockContributionResponseValue incomePercentage = new LivestockContributionResponseValue();
-            LivestockContributionResponseValue consumptionRank = new LivestockContributionResponseValue();
-            LivestockContributionResponseValue consumptionPercentage = new LivestockContributionResponseValue();
+            incomeRank = new LivestockContributionResponseValue();
+            incomePercentage = new LivestockContributionResponseValue();
+            consumptionRank = new LivestockContributionResponseValue();
+            consumptionPercentage = new LivestockContributionResponseValue();
         }
     }
 

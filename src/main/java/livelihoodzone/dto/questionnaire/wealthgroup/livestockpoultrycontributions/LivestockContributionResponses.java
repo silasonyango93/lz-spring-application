@@ -21,20 +21,20 @@ public class LivestockContributionResponses {
 
     public LivestockContributionResponses(boolean instantiate) {
         if (instantiate) {
-            WgLivestockContributionResponseItem cattle = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem dairyCattle = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem goats = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem sheep = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem donkeys = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem camels = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem pigs = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem chicken = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem improvedChicken = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem ducks = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem beeHives = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem fishPonds = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem improvedCattle = new WgLivestockContributionResponseItem(true);
-            WgLivestockContributionResponseItem fishCages = new WgLivestockContributionResponseItem(true);
+            cattle = new WgLivestockContributionResponseItem(true);
+            dairyCattle = new WgLivestockContributionResponseItem(true);
+            goats = new WgLivestockContributionResponseItem(true);
+            sheep = new WgLivestockContributionResponseItem(true);
+            donkeys = new WgLivestockContributionResponseItem(true);
+            camels = new WgLivestockContributionResponseItem(true);
+            pigs = new WgLivestockContributionResponseItem(true);
+            chicken = new WgLivestockContributionResponseItem(true);
+            improvedChicken = new WgLivestockContributionResponseItem(true);
+            ducks = new WgLivestockContributionResponseItem(true);
+            beeHives = new WgLivestockContributionResponseItem(true);
+            fishPonds = new WgLivestockContributionResponseItem(true);
+            improvedCattle = new WgLivestockContributionResponseItem(true);
+            fishCages = new WgLivestockContributionResponseItem(true);
         }
     }
 
