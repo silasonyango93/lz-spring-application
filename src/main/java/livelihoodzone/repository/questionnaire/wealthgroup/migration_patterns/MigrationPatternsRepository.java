@@ -7,4 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface MigrationPatternsRepository extends JpaRepository<MigrationPatternsEntity, Long> {
     public MigrationPatternsEntity findByMigrationPatternCode(@Param("MigrationPatternCode") int migrationPatternCode);
+
+    public MigrationPatternsEntity findByMigrationPatternId(@Param("MigrationPatternId") int migrationPatternId);
 }

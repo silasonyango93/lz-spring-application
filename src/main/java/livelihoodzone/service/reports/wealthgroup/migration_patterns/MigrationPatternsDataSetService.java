@@ -1,11 +1,17 @@
 package livelihoodzone.service.reports.wealthgroup.migration_patterns;
 
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.questionnaire.wealthgroup.migrationpatterns.MigrationPatternResponses;
 import livelihoodzone.dto.reports.wealthgroup.WgMigrationPatternsDataSetObject;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.wealthgroup.migration_patterns.WgMigrationPatternPercentagesEntity;
+import livelihoodzone.repository.questionnaire.wealthgroup.migration_patterns.MigrationPatternsRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.migration_patterns.WgMigrationPatternsPercentagesRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WealthGroupReportRetrofitService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgExpenditurePatternsDataSetRetrofitModel;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgMigrationPatternsDataSetRetrofitModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -20,6 +26,11 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 @Service
 public class MigrationPatternsDataSetService {
 
+    @Autowired
+    WgMigrationPatternsPercentagesRepository wgMigrationPatternsPercentagesRepository;
+
+    @Autowired
+    MigrationPatternsRepository migrationPatternsRepository;
 
     public List<WgMigrationPatternsDataSetRetrofitModel> fetchWealthGroupMigrationPatterns(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -79,6 +90,34 @@ public class MigrationPatternsDataSetService {
             specificMigrationPatternReportList.add(currentItem.getPercentage());
         }
         return specificMigrationPatternReportList;
+    }
+
+    public WgLivelihoodZoneDataObject processMigrationPatternsChart(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
+        MigrationPatternResponses migrationPatternResponses = new MigrationPatternResponses();
+        List<WgMigrationPatternPercentagesEntity> wgMigrationPatternPercentagesEntityList = wgMigrationPatternsPercentagesRepository.findByWgQuestionnaireSessionId(questionnaireSessionId);
+
+        for (WgMigrationPatternPercentagesEntity wgMigrationPatternPercentagesEntity : wgMigrationPatternPercentagesEntityList) {
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_FULLY_NOMADIC) {
+                migrationPatternResponses.setFullyNomadic(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_SEMI_NOMADIC) {
+                migrationPatternResponses.setSemiNomadic(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_OCCASIONAL_NOMADIC) {
+                migrationPatternResponses.setOccasionalNomadic(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_OUT_MIGRANT_LABOUR) {
+                migrationPatternResponses.setOutMigrantLabour(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_FULLY_SETTLED) {
+                migrationPatternResponses.setFullysettled(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_INTERNALLY_DISPLACED) {
+                migrationPatternResponses.setInternallyDisplaced(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+        }
+        wgLivelihoodZoneDataObject.setSettlementAndmigrationPatterns(migrationPatternResponses);
+        return wgLivelihoodZoneDataObject;
     }
 
 }
