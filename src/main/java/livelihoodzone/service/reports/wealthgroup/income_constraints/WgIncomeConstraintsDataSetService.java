@@ -1,11 +1,17 @@
 package livelihoodzone.service.reports.wealthgroup.income_constraints;
 
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.questionnaire.wealthgroup.constraints.ConstraintsResponses;
 import livelihoodzone.dto.reports.wealthgroup.WgIncomeConstraintsDataSetObject;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.wealthgroup.constraints.WgIncomeConstraintRankEntity;
+import livelihoodzone.repository.questionnaire.wealthgroup.constraints.IncomeConstraintsRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.constraints.WgIncomeConstraintRankRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WealthGroupReportRetrofitService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgConstraintsDataSetRetrofitModel;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgExpenditurePatternsDataSetRetrofitModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -19,6 +25,12 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
 public class WgIncomeConstraintsDataSetService {
+
+    @Autowired
+    WgIncomeConstraintRankRepository wgIncomeConstraintRankRepository;
+
+    @Autowired
+    IncomeConstraintsRepository incomeConstraintsRepository;
 
     public List<WgConstraintsDataSetRetrofitModel> fetchWealthGroupIncomeConstraints(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -148,6 +160,149 @@ public class WgIncomeConstraintsDataSetService {
             }
         }
         return clusterSameQuestionnaireItemsTogether(processedList);
+    }
+
+    public WgLivelihoodZoneDataObject processIncomeConstraintsChart(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
+        ConstraintsResponses constraintsResponses = new ConstraintsResponses(true);
+        List<WgIncomeConstraintRankEntity> wgIncomeConstraintRankEntityList = wgIncomeConstraintRankRepository.findByWgQuestionnaireSessionId(questionnaireSessionId);
+
+        for (WgIncomeConstraintRankEntity wgIncomeConstraintRankEntity : wgIncomeConstraintRankEntityList) {
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_WL_LOW_EDUCATION) {
+                constraintsResponses.getWagedLabourIncomeConstraintsResponses().setLowEducation(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_WL_POOR_HEALTH) {
+                constraintsResponses.getWagedLabourIncomeConstraintsResponses().setPoorHealth(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_WL_TOO_FEW_JOBS) {
+                constraintsResponses.getWagedLabourIncomeConstraintsResponses().setFewJobs(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_WL_TOO_MUCH_FARM_TIME) {
+                constraintsResponses.getWagedLabourIncomeConstraintsResponses().setTooMuchFarmTime(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_WL_LOW_AVERAGE_WAGE_RATES) {
+                constraintsResponses.getWagedLabourIncomeConstraintsResponses().setLowAverageWageRates(wgIncomeConstraintRankEntity.getRank());
+            }
+
+
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_CP_SMALL_LAND_HOLDINGS) {
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().setSmallLandHoldings(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_CP_LACK_OF_CREDIT) {
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().setLackOfCredit(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_CP_HIGH_INPUT_COSTS) {
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().setHighInputCost(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_CP_LOW_LAND_FERTILITY) {
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().setLowLandFertility(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_CP_LACK_OF_RELIABLE_WATER) {
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().setLackOfReliableWater(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_CP_LOW_TECHNICAL_SKILLS) {
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().setLowTechnicalSkills(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_CP_LOW_QUALITY_SEED_STOCK) {
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().setLowQualitySeed(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_CP_LACK_MARKET_ACCESS) {
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().setLackOfMarketAccess(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_CP_ENDEMIC_CROP_PESTS_DISEASES) {
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().setEndemicCropPests(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_CP_LACK_OF_AGRICULTURAL_EXTENSION_SERVICES) {
+                constraintsResponses.getCropProductionIncomeConstraintsResponses().setLackOfAgricExtensions(wgIncomeConstraintRankEntity.getRank());
+            }
+
+
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_LP_LACK_OF_PASTURE) {
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().setLackOfPasture(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_LP_LACK_OF_ANIMAL_DRINKING_WATER) {
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().setLackOfAnimalDrinkingWater(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_LP_LOW_YIELDING_ANIMALS) {
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().setLowYieldingAnimal(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_LP_HIGH_COST_VETERINARY_DRUGS) {
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().setCostlyVeterinaryDrugs(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_LP_ENDEMIC_LIVESTOCK_PESTS_DISEASES) {
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().setLivestockPestsAndDiseases(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_LP_LACK_OF_MARKET) {
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().setLackofMarket(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_LP_INSECURITY) {
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().setInsecurity(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_LP_LOW_TECHNICAL_SKILLS_KNOWLEDGE) {
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().setLowTechnicalSkillsKnowledge(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_LP_UNFAVOURABLE_CLIMATE) {
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().setUnfavourableClimate(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_LP_LACK_OF_LIVESTOCK_EXTENSION_SERVICES) {
+                constraintsResponses.getLivestockProductionIncomeConstraintsResponses().setLackOfLivestockExtensionServices(wgIncomeConstraintRankEntity.getRank());
+            }
+
+
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_FI_LOW_FISH_STOCKS) {
+                constraintsResponses.getFishingIncomeConstraintsResponses().setLowFishStocks(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_FI_LOW_FISH_PRICE) {
+                constraintsResponses.getFishingIncomeConstraintsResponses().setPoorMarket(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_FI_LACK_OF_EQUIPMENT) {
+                constraintsResponses.getFishingIncomeConstraintsResponses().setLackOfEquipment(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_FI_TOO_MUCH_COMPETITION) {
+                constraintsResponses.getFishingIncomeConstraintsResponses().setExtremeCompetition(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_FI_LACK_OF_EXPERTISE) {
+                constraintsResponses.getFishingIncomeConstraintsResponses().setLackOfExpertise(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_FI_RESTRICTIONS_ON_FISHING_RIGHTS) {
+                constraintsResponses.getFishingIncomeConstraintsResponses().setFishingRightsRestrictions(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_FI_INADEQUATE_COLD_STORAGE_FACILITIES) {
+                constraintsResponses.getFishingIncomeConstraintsResponses().setInadequateColdStorageFacilities(wgIncomeConstraintRankEntity.getRank());
+            }
+
+
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_NR_DECLINING_NATURAL_RESOURCES) {
+                constraintsResponses.getNaturalResourceIncomeConstraintsResponses().setDecliningNaturalResources(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_NR_TOO_MUCH_POPULATION_PRESSURE) {
+                constraintsResponses.getNaturalResourceIncomeConstraintsResponses().setPopulationPressure(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_NR_RESTRICTIONS_RIGHTS_TO_EXPLOIT_NR) {
+                constraintsResponses.getNaturalResourceIncomeConstraintsResponses().setNaturalresourceExploitationRights(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_NR_LOW_VALUE_NR_BASED_PRODUCTS) {
+                constraintsResponses.getNaturalResourceIncomeConstraintsResponses().setLowValueNrBasedProducts(wgIncomeConstraintRankEntity.getRank());
+            }
+
+
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_SE_LACK_OF_CAPITAL) {
+                constraintsResponses.getSmallEnterpriseIncomeConstraintsResponses().setLackOfCapital(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_SE_TOO_MUCH_RED_TAPE) {
+                constraintsResponses.getSmallEnterpriseIncomeConstraintsResponses().setTooMuchRedTape(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_SE_TOO_MANY_TAXES) {
+                constraintsResponses.getSmallEnterpriseIncomeConstraintsResponses().setTooManyTaxes(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_SE_LACK_OF_ACCESS_TO_MARKETS) {
+                constraintsResponses.getSmallEnterpriseIncomeConstraintsResponses().setLackOfAccessToMarket(wgIncomeConstraintRankEntity.getRank());
+            }
+            if (incomeConstraintsRepository.findByIncomeConstraintId(wgIncomeConstraintRankEntity.getIncomeConstraintId()).getIncomeConstraintCode() == Constants.INCO_SE_LACK_OF_EXPERTISE) {
+                constraintsResponses.getSmallEnterpriseIncomeConstraintsResponses().setLackOfExpertise(wgIncomeConstraintRankEntity.getRank());
+            }
+        }
+        wgLivelihoodZoneDataObject.setConstraintsToMainEconomicActivities(constraintsResponses);
+        return wgLivelihoodZoneDataObject;
     }
 
 }

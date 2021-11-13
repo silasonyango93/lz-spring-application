@@ -7,4 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface IncomeConstraintsRepository extends JpaRepository<IncomeConstraintsEntity, Long> {
     public IncomeConstraintsEntity findByIncomeConstraintCode(@Param("IncomeConstraintCode") int incomeConstraintCode);
+
+    public IncomeConstraintsEntity findByIncomeConstraintId(@Param("IncomeConstraintId") int incomeConstraintId);
 }

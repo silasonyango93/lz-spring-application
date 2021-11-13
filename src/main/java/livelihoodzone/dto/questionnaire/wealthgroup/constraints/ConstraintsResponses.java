@@ -8,6 +8,20 @@ public class ConstraintsResponses {
     private NaturalResourceIncomeConstraintsResponses naturalResourceIncomeConstraintsResponses;
     private SmallEnterpriseIncomeConstraintsResponses smallEnterpriseIncomeConstraintsResponses;
 
+    public ConstraintsResponses() {
+    }
+
+    public ConstraintsResponses(boolean instantiate) {
+        if (instantiate) {
+            wagedLabourIncomeConstraintsResponses = new WagedLabourIncomeConstraintsResponses();
+            cropProductionIncomeConstraintsResponses = new CropProductionIncomeConstraintsResponses();
+            livestockProductionIncomeConstraintsResponses = new LivestockProductionIncomeConstraintsResponses();
+            fishingIncomeConstraintsResponses = new FishingIncomeConstraintsResponses();
+            naturalResourceIncomeConstraintsResponses = new NaturalResourceIncomeConstraintsResponses();
+            smallEnterpriseIncomeConstraintsResponses = new SmallEnterpriseIncomeConstraintsResponses();
+        }
+    }
+
     public WagedLabourIncomeConstraintsResponses getWagedLabourIncomeConstraintsResponses() {
         return wagedLabourIncomeConstraintsResponses;
     }
