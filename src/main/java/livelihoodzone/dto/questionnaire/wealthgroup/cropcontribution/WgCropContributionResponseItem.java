@@ -9,6 +9,19 @@ public class WgCropContributionResponseItem {
     private CropContributionResponseValue foodConsumptionRank;
     private CropContributionResponseValue foodConsumptionApproxPercentage;
 
+    public WgCropContributionResponseItem() {
+    }
+
+    public WgCropContributionResponseItem(CropsEntity cropModel, boolean instantiate) {
+        if (instantiate) {
+            this.cropModel = cropModel;
+            cashIncomeRank = new CropContributionResponseValue();
+            cashIncomeApproxPercentage = new CropContributionResponseValue();
+            foodConsumptionRank = new CropContributionResponseValue();
+            foodConsumptionApproxPercentage = new CropContributionResponseValue();
+        }
+    }
+
     public CropsEntity getCropModel() {
         return cropModel;
     }

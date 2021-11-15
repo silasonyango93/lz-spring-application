@@ -23,6 +23,12 @@ public class CropsEntity implements java.io.Serializable{
         this.cropCode = cropCode;
     }
 
+    public CropsEntity(int cropId, String cropName, int cropCode) {
+        this.cropId = cropId;
+        this.cropName = cropName;
+        this.cropCode = cropCode;
+    }
+
     public int getCropId() {
         return cropId;
     }

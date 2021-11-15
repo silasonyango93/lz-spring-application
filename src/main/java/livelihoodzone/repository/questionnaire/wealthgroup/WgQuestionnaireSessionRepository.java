@@ -11,7 +11,7 @@ import java.util.List;
 public interface WgQuestionnaireSessionRepository extends JpaRepository<WgQuestionnaireSessionEntity, Long> {
     public List<WgQuestionnaireSessionEntity> findByQuestionnaireUniqueId(@Param("QuestionnaireUniqueId") String questionnaireUniqueId);
 
-    public List<WgQuestionnaireSessionEntity> findByCountyId(@Param("CountyId") int countyId);
+    public List<WgQuestionnaireSessionEntity> findByCountyIdAndWgQuestionnaireTypeId(@Param("CountyId") int countyId, @Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId);
 
     @Query(nativeQuery = true)
     public List<WgQuestionnaireSessionEntity> fetchQuestionnaireSessionsByCountyAndWealthGroup(int countyId, int wealthGroupId);

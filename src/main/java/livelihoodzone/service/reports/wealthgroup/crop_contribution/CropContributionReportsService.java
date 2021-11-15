@@ -1,7 +1,12 @@
 package livelihoodzone.service.reports.wealthgroup.crop_contribution;
 
+import livelihoodzone.dto.questionnaire.wealthgroup.cropcontribution.WgCropContributionResponseItem;
 import livelihoodzone.dto.reports.wealthgroup.WgCropContributionReportResponseObject;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgCropContributionChartObject;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.crops.CropsEntity;
+import livelihoodzone.entity.questionnaire.wealthgroup.cropcontribution.WgCropContributionsEntity;
+import livelihoodzone.repository.questionnaire.crops.CropsRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.cropcontribution.WgCropContributionsRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WealthGroupReportRetrofitService;
@@ -22,6 +27,9 @@ public class CropContributionReportsService {
 
     @Autowired
     WgCropContributionsRepository wgCropContributionsRepository;
+
+    @Autowired
+    CropsRepository cropsRepository;
 
     public List<WgCropContributionRetrofitModel> fetchWealthCropContribution(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -189,7 +197,22 @@ public class CropContributionReportsService {
     }
 
 
-//    public WgLivelihoodZoneDataObject processCropContributionChart(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
-//
-//    }
+    public WgLivelihoodZoneDataObject processCropContributionChart(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
+        WgCropContributionChartObject wgCropContributionChartObject = new WgCropContributionChartObject(true);
+        List<WgCropContributionsEntity> wgCropContributionsEntityList = wgCropContributionsRepository.findByWgQuestionnaireSessionId(questionnaireSessionId);
+
+        for (WgCropContributionsEntity wgCropContributionsEntity : wgCropContributionsEntityList) {
+            WgCropContributionResponseItem wgCropContributionResponseItem = new WgCropContributionResponseItem(
+                    cropsRepository.findByCropId(wgCropContributionsEntity.getCropId()),
+                    true
+            );
+            wgCropContributionResponseItem.getCashIncomeRank().setActualValue(wgCropContributionsEntity.getCashIncomeRank());
+            wgCropContributionResponseItem.getCashIncomeApproxPercentage().setActualValue(wgCropContributionsEntity.getCashIncomeApproxPercentage());
+            wgCropContributionResponseItem.getFoodConsumptionRank().setActualValue(wgCropContributionsEntity.getFoodConsumptionRank());
+            wgCropContributionResponseItem.getFoodConsumptionApproxPercentage().setActualValue(wgCropContributionsEntity.getFoodConsumptionApproxPercentage());
+            wgCropContributionChartObject.getCropContributionResponseItems().add(wgCropContributionResponseItem);
+        }
+        wgLivelihoodZoneDataObject.setCropProduction(wgCropContributionChartObject);
+        return wgLivelihoodZoneDataObject;
+    }
 }

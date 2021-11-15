@@ -28,7 +28,7 @@ public class WgQuestionnaireSessionDao implements WgQuestionnaireSessionReposito
     }
 
     @Override
-    public List<WgQuestionnaireSessionEntity> findByCountyId(int countyId) {
+    public List<WgQuestionnaireSessionEntity> findByCountyIdAndWgQuestionnaireTypeId(int countyId, int wgQuestionnaireTypeId) {
         return null;
     }
 

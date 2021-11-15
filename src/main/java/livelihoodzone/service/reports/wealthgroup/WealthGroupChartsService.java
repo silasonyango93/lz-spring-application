@@ -13,6 +13,7 @@ import livelihoodzone.entity.questionnaire.wealthgroup.income_food_sources.WgInc
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.income_food_sources.*;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
+import livelihoodzone.service.reports.wealthgroup.crop_contribution.CropContributionReportsService;
 import livelihoodzone.service.reports.wealthgroup.expenditure_patterns.ExpenditurePatternsDataSetService;
 import livelihoodzone.service.reports.wealthgroup.income_constraints.WgIncomeConstraintsDataSetService;
 import livelihoodzone.service.reports.wealthgroup.labour_patterns.LabourPatternsDataSetService;
@@ -62,6 +63,9 @@ public class WealthGroupChartsService {
     @Autowired
     WgIncomeConstraintsDataSetService wgIncomeConstraintsDataSetService;
 
+    @Autowired
+    CropContributionReportsService cropContributionReportsService;
+
     public List<WgLivelihoodZoneDataObject> prepareWealthGroupChart(int countyId, int wealthGroupId, int questionnaireSectionCode) {
         List<WgLivelihoodZoneDataObject> livelihoodZoneDataObjectList = new ArrayList<>();
         List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionDao.fetchQuestionnaireSessionsByCountyAndWealthGroup(countyId,wealthGroupId);
@@ -94,6 +98,9 @@ public class WealthGroupChartsService {
             }
             if (questionnaireSectionCode == Constants.ECONOMIC_ACTIVITY_CONSTRAINTS) {
                 wgLivelihoodZoneDataObject = wgIncomeConstraintsDataSetService.processIncomeConstraintsChart(wgLivelihoodZoneDataObject, currentQuestionnaire.getWgQuestionnaireSessionId());
+            }
+            if (questionnaireSectionCode == Constants.CROP_PRODUCTION) {
+                wgLivelihoodZoneDataObject = cropContributionReportsService.processCropContributionChart(wgLivelihoodZoneDataObject, currentQuestionnaire.getWgQuestionnaireSessionId());
             }
 
             livelihoodZoneDataObjectList.add(wgLivelihoodZoneDataObject);

@@ -498,7 +498,7 @@ public class CountyLevelService {
         unfilledWealthGroupLivelihoodZones.addAll(countyLivelihoodZonesAssignmentEntityList);
 
         List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
-        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionRepository.findByCountyId(countyId);
+        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionRepository.findByCountyIdAndWgQuestionnaireTypeId(countyId,1);
 
 
         //Prepare Zone-level report
