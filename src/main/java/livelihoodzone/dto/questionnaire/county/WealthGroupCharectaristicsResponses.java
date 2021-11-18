@@ -9,6 +9,18 @@ public class WealthGroupCharectaristicsResponses {
     private List<String> mediumCharectaristics;
     private List<String> betterOffCharectaristics;
 
+    public WealthGroupCharectaristicsResponses() {
+    }
+
+    public WealthGroupCharectaristicsResponses(boolean instantiate) {
+        if (instantiate) {
+            veryPoorCharectaristics = new ArrayList<>();
+            poorCharectaristics = new ArrayList<>();
+            mediumCharectaristics = new ArrayList<>();
+            betterOffCharectaristics = new ArrayList<>();
+        }
+    }
+
     public List<String> getVeryPoorCharectaristics() {
         return veryPoorCharectaristics;
     }

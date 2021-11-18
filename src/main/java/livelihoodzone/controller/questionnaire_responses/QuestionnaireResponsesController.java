@@ -12,6 +12,7 @@ import livelihoodzone.dto.questionnaire.wealthgroup.WealthGroupQuestionnaireSess
 import livelihoodzone.dto.user_management.UserResponseDTO;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
 import livelihoodzone.entity.questionnaire.WgQuestionnaireSectionsEntity;
+import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSectionsEntity;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireSessionEntity;
 import livelihoodzone.entity.user_management.User;
@@ -20,6 +21,7 @@ import livelihoodzone.repository.administrative_boundaries.subcounties.SubCounti
 import livelihoodzone.repository.administrative_boundaries.sublocation.SubLocationRepository;
 import livelihoodzone.repository.administrative_boundaries.wards.WardsRepository;
 import livelihoodzone.repository.questionnaire.WgQuestionnaireSectionsRepository;
+import livelihoodzone.repository.questionnaire.county.LzQuestionnaireSectionsRepository;
 import livelihoodzone.repository.questionnaire.county.LzQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
@@ -84,6 +86,9 @@ public class QuestionnaireResponsesController {
 
     @Autowired
     WgQuestionnaireSectionsRepository wgQuestionnaireSectionsRepository;
+
+    @Autowired
+    LzQuestionnaireSectionsRepository lzQuestionnaireSectionsRepository;
 
 
     @PostMapping("/wealthgroup")
@@ -291,6 +296,19 @@ public class QuestionnaireResponsesController {
         List<WgQuestionnaireSectionsEntity> wgQuestionnaireSectionsEntityList = wgQuestionnaireSectionsRepository.findAll();
 
         return new ResponseEntity<List<WgQuestionnaireSectionsEntity>>(wgQuestionnaireSectionsEntityList, HttpStatus.valueOf(200));
+    }
+
+
+    @GetMapping(value = "/zone-level-questionnaire-sections")
+    @ApiOperation(value = "${QuestionnaireResponsesController.zone-level-questionnaire-sections}", response = LzQuestionnaireSectionsEntity.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable")})
+    public ResponseEntity<List<LzQuestionnaireSectionsEntity>> fetchZoneLevelQuestionnaireSections() {
+
+        List<LzQuestionnaireSectionsEntity> lzQuestionnaireSectionsEntityList = lzQuestionnaireSectionsRepository.findAll();
+
+        return new ResponseEntity<List<LzQuestionnaireSectionsEntity>>(lzQuestionnaireSectionsEntityList, HttpStatus.valueOf(200));
     }
 
 }

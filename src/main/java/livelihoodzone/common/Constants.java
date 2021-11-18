@@ -19,6 +19,19 @@ public class Constants {
     public static final int FGD_PARTICIPANTS = 9;
     public static final int LIVESTOCK_AND_POULTRY_CONTRIBUTION = 10;
 
+
+    //Zone Level Questionnaire Section Codes
+    public static final int WEALTH_GROUP_CHARACTERISTICS = 1;
+    public static final int WEALTH_GROUP_POPULATION_PERCENTAGE = 2;
+    public static final int LZ_CROP_PRODUCTION = 3;
+    public static final int MAIN_SOURCES_OF_WATER = 4;
+    public static final int MARKETS_SERVING_THE_LIVELIHOOD_ZONE = 5;
+    public static final int SOCIETY_AND_ETHNICITY = 6;
+    public static final int PATTERNS_OF_HUNGER = 7;
+    public static final int HAZARDS = 8;
+    public static final int SEASONAL_CALENDAR = 9;
+
+
     //General boundaries
     public static final int GENERAL_COUNTY_ID = 54;
     public static final int GENERAL_SUBCOUNTY_ID = 407;

@@ -90,6 +90,7 @@ QuestionnaireResponsesController:
   all-wealth-group-questionnaire-sessions: Retrieves all wealth group questionnaire sessions and the questionnaire unique ids
   data-collection-progress-report: Data collection progress report
   wealth-group-questionnaire-sections: Wealth Group Questionnaire sections
+  zone-level-questionnaire-sections: Zone Level Questionnaire sections
 
 
 WealthGroupReports:
@@ -101,6 +102,7 @@ WealthGroupReports:
 
 ZoneLevelReports:
   zone-level-report: A report on zone level questionnaire responses
+  charts: Zone Level Charts
 
 org:
   hibernate:

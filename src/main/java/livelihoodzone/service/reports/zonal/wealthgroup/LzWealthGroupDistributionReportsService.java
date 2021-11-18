@@ -2,10 +2,14 @@ package livelihoodzone.service.reports.zonal.wealthgroup;
 
 import livelihoodzone.common.Constants;
 import livelihoodzone.dao.reports.zonal.wealthgroup.LzQuestionnaireSessionDao;
+import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsResponses;
+import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
+import livelihoodzone.entity.questionnaire.county.LzWealthGroupCharacteristicsEntity;
 import livelihoodzone.entity.questionnaire.county.LzWealthGroupPopulationPercentageEntity;
+import livelihoodzone.repository.questionnaire.county.LzWealthGroupCharacteristicsRepository;
 import livelihoodzone.repository.questionnaire.county.LzWealthGroupPopulationPercentageRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
@@ -33,6 +37,9 @@ public class LzWealthGroupDistributionReportsService {
 
     @Autowired
     WealthGroupRepository wealthGroupRepository;
+
+    @Autowired
+    LzWealthGroupCharacteristicsRepository lzWealthGroupCharacteristicsRepository;
 
     public WealthGroupReportResponseDto retrieveWealthGroupPopulationPercentageReportByCountyAndLivelihoodZone(int countyId, int livelihoodzoneId) {
         List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionDao.fetchQuestionnaireSessionByCountyAndLivelihoodZone(countyId,livelihoodzoneId);
@@ -118,5 +125,28 @@ public class LzWealthGroupDistributionReportsService {
         }
 
         return new WealthGroupPopulationPercentageReportResponseObject(veryPoorPopulationPercentage,poorPopulationPercentage,mediumPopulationPercentage,betterOffPopulationPercentage);
+    }
+
+
+    public LzLivelihoodZoneDataObject processWealthGroupCharacteristicsChart(LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject, int lzQuestionnaireSessionId) {
+        WealthGroupCharectaristicsResponses wealthGroupCharectariticsResponses = new WealthGroupCharectaristicsResponses(true);
+        List<LzWealthGroupCharacteristicsEntity> lzWealthGroupCharacteristicsEntityList = lzWealthGroupCharacteristicsRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+
+        for (LzWealthGroupCharacteristicsEntity lzWealthGroupCharacteristicsEntity : lzWealthGroupCharacteristicsEntityList) {
+            if (wealthGroupRepository.findByWealthGroupId(lzWealthGroupCharacteristicsEntity.getWealthGroupId()).getWealthGroupCode() == Constants.VERY_POOR_CODE) {
+                wealthGroupCharectariticsResponses.getVeryPoorCharectaristics().add(lzWealthGroupCharacteristicsEntity.getCharectaristicDescription());
+            }
+            if (wealthGroupRepository.findByWealthGroupId(lzWealthGroupCharacteristicsEntity.getWealthGroupId()).getWealthGroupCode() == Constants.POOR_CODE) {
+                wealthGroupCharectariticsResponses.getPoorCharectaristics().add(lzWealthGroupCharacteristicsEntity.getCharectaristicDescription());
+            }
+            if (wealthGroupRepository.findByWealthGroupId(lzWealthGroupCharacteristicsEntity.getWealthGroupId()).getWealthGroupCode() == Constants.MEDIUM_CODE) {
+                wealthGroupCharectariticsResponses.getMediumCharectaristics().add(lzWealthGroupCharacteristicsEntity.getCharectaristicDescription());
+            }
+            if (wealthGroupRepository.findByWealthGroupId(lzWealthGroupCharacteristicsEntity.getWealthGroupId()).getWealthGroupCode() == Constants.BETTER_OFF_CODE) {
+                wealthGroupCharectariticsResponses.getBetterOffCharectaristics().add(lzWealthGroupCharacteristicsEntity.getCharectaristicDescription());
+            }
+        }
+        lzLivelihoodZoneDataObject.setWealthGroupCharectariticsResponses(wealthGroupCharectariticsResponses);
+        return lzLivelihoodZoneDataObject;
     }
 }
