@@ -3,6 +3,7 @@ package livelihoodzone.service.reports.zonal.wealthgroup;
 import livelihoodzone.common.Constants;
 import livelihoodzone.dao.reports.zonal.wealthgroup.LzQuestionnaireSessionDao;
 import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsResponses;
+import livelihoodzone.dto.questionnaire.county.WealthGroupPercentageResponse;
 import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
@@ -147,6 +148,30 @@ public class LzWealthGroupDistributionReportsService {
             }
         }
         lzLivelihoodZoneDataObject.setWealthGroupCharectariticsResponses(wealthGroupCharectariticsResponses);
+        return lzLivelihoodZoneDataObject;
+    }
+
+
+    public LzLivelihoodZoneDataObject processWealthGroupPopulationPercentageChart(LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject, int lzQuestionnaireSessionId) {
+        WealthGroupPercentageResponse wealthGroupResponse = new WealthGroupPercentageResponse();
+        List<LzWealthGroupPopulationPercentageEntity> lzWealthGroupPopulationPercentageEntityList = lzWealthGroupPopulationPercentageRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+
+        for (LzWealthGroupPopulationPercentageEntity lzWealthGroupPopulationPercentageEntity : lzWealthGroupPopulationPercentageEntityList) {
+            if (wealthGroupRepository.findByWealthGroupId(lzWealthGroupPopulationPercentageEntity.getWealthGroupId()).getWealthGroupCode() == Constants.VERY_POOR_CODE) {
+                wealthGroupResponse.setVerPoorResponse(lzWealthGroupPopulationPercentageEntity.getPopulationPercentage());
+            }
+            if (wealthGroupRepository.findByWealthGroupId(lzWealthGroupPopulationPercentageEntity.getWealthGroupId()).getWealthGroupCode() == Constants.POOR_CODE) {
+                wealthGroupResponse.setPoorResponse(lzWealthGroupPopulationPercentageEntity.getPopulationPercentage());
+            }
+            if (wealthGroupRepository.findByWealthGroupId(lzWealthGroupPopulationPercentageEntity.getWealthGroupId()).getWealthGroupCode() == Constants.MEDIUM_CODE) {
+                wealthGroupResponse.setMediumResponse(lzWealthGroupPopulationPercentageEntity.getPopulationPercentage());
+            }
+            if (wealthGroupRepository.findByWealthGroupId(lzWealthGroupPopulationPercentageEntity.getWealthGroupId()).getWealthGroupCode() == Constants.BETTER_OFF_CODE) {
+                wealthGroupResponse.setBetterOfResponse(lzWealthGroupPopulationPercentageEntity.getPopulationPercentage());
+            }
+
+        }
+        lzLivelihoodZoneDataObject.setWealthGroupResponse(wealthGroupResponse);
         return lzLivelihoodZoneDataObject;
     }
 }

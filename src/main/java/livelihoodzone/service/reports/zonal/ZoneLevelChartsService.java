@@ -37,6 +37,9 @@ public class ZoneLevelChartsService {
             if (questionnaireSectionCode == Constants.WEALTH_GROUP_CHARACTERISTICS) {
                 lzLivelihoodZoneDataObject = lzWealthGroupDistributionReportsService.processWealthGroupCharacteristicsChart(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId());
             }
+            if (questionnaireSectionCode == Constants.WEALTH_GROUP_POPULATION_PERCENTAGE) {
+                lzLivelihoodZoneDataObject = lzWealthGroupDistributionReportsService.processWealthGroupPopulationPercentageChart(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId());
+            }
 
             lzLivelihoodZoneDataObjectList.add(lzLivelihoodZoneDataObject);
         }
