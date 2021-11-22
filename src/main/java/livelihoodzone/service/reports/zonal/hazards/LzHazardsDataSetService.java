@@ -1,12 +1,18 @@
 package livelihoodzone.service.reports.zonal.hazards;
 
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.questionnaire.county.model.hazards.HazardResponses;
 import livelihoodzone.dto.reports.zonal.LzHazardsDataSetObject;
+import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.county.LzHazardResponsesEntity;
+import livelihoodzone.repository.questionnaire.county.LzHazardResponsesRepository;
+import livelihoodzone.repository.questionnaire.county.LzHazardsRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzHazardsDataSetRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzHungerPatternsDataSetRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzWaterSourceDataSetRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.ZoneLevelReportRetrofitService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -20,6 +26,12 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
 public class LzHazardsDataSetService {
+
+    @Autowired
+    LzHazardResponsesRepository lzHazardResponsesRepository;
+
+    @Autowired
+    LzHazardsRepository lzHazardsRepository;
 
     public List<LzHazardsDataSetRetrofitModel> fetchHazardsDataSet() {
         ZoneLevelReportRetrofitService zoneLevelReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(ZoneLevelReportRetrofitService.class);
@@ -131,5 +143,111 @@ public class LzHazardsDataSetService {
             }
         }
         return clusterSameQuestionnaireItemsTogether(processedList);
+    }
+
+
+    public LzLivelihoodZoneDataObject processHazardsChart(LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject, int lzQuestionnaireSessionId) {
+        HazardResponses hazardResponses = new HazardResponses(true);
+        List<LzHazardResponsesEntity> lzHazardResponsesEntityList = lzHazardResponsesRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        for (LzHazardResponsesEntity lzHazardResponsesEntity : lzHazardResponsesEntityList) {
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_ANIMAL_RUSTLING) {
+                hazardResponses.getAnimalRustling().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getAnimalRustling().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_BANDITRY) {
+                hazardResponses.getBanditry().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getBanditry().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_TERRORISM) {
+                hazardResponses.getTerrorism().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getTerrorism().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_ETHNIC_CONFLICT) {
+                hazardResponses.getEthnicConflict().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getEthnicConflict().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_POLITICAL_CONFLICT) {
+                hazardResponses.getPoliticalViolence().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getPoliticalViolence().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_DROUGHT) {
+                hazardResponses.getDrought().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getDrought().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_LIVESTOCK_PESTS_DISEASES) {
+                hazardResponses.getLivestockPestsAndDiseases().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getLivestockPestsAndDiseases().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_HAILSTORMS_OR_FROST) {
+                hazardResponses.getHailstormsOrFrost().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getHailstormsOrFrost().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_FLOODING) {
+                hazardResponses.getFlooding().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getFlooding().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_LANDSLIDES) {
+                hazardResponses.getLandslides().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getLandslides().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_HIGH_WINDS) {
+                hazardResponses.getHighWindsOrCyclones().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getHighWindsOrCyclones().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_BUSH_FIRES) {
+                hazardResponses.getBushFires().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getBushFires().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_CROP_PESTS) {
+                hazardResponses.getCropPests().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getCropPests().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_LOCUST_INVASION) {
+                hazardResponses.getLocustInvasion().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getLocustInvasion().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_CROP_DISEASES) {
+                hazardResponses.getCropDiseases().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getCropDiseases().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_TERMINAL_ILLNESS) {
+                hazardResponses.getTerminalIllnesses().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getTerminalIllnesses().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_MALARIA_OUTBREAK) {
+                hazardResponses.getMalariaPowerOutBreak().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getMalariaPowerOutBreak().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_WATER_BORNE_DISEASE) {
+                hazardResponses.getWaterBornDiseases().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getWaterBornDiseases().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_HUMAN_WILDLIFE_CONFLICT) {
+                hazardResponses.getHumanWildlifeConflict().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getHumanWildlifeConflict().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_HIGH_FOOD_PRICES) {
+                hazardResponses.getHighFoodPrices().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getHighFoodPrices().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_SHORTAGE_OF_FOOD_ON_MARKET) {
+                hazardResponses.getMarketFoodShortages().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getMarketFoodShortages().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_DRINKING_WATER_SHORTAGES) {
+                hazardResponses.getDrinkingWaterShortages().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getDrinkingWaterShortages().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_INVASIVE_PLANT_SPECIES) {
+                hazardResponses.getInvasivePlants().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getInvasivePlants().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+            if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_OTHERS) {
+                hazardResponses.getOthers().setImportanceRank(lzHazardResponsesEntity.getRank());
+                hazardResponses.getOthers().setNoExperiencedYears(lzHazardResponsesEntity.getYearsExperienced());
+            }
+        }
+        lzLivelihoodZoneDataObject.setHazardResponses(hazardResponses);
+        return lzLivelihoodZoneDataObject;
     }
 }

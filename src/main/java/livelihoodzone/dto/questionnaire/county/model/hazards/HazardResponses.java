@@ -26,6 +26,38 @@ public class HazardResponses {
     private HazardResponseItem invasivePlants;
     private HazardResponseItem others;
 
+    public HazardResponses() {
+    }
+
+    public HazardResponses(boolean instantiate) {
+        if (instantiate) {
+            animalRustling = new HazardResponseItem();
+            banditry = new HazardResponseItem();
+            terrorism = new HazardResponseItem();
+            ethnicConflict = new HazardResponseItem();
+            politicalViolence = new HazardResponseItem();
+            drought = new HazardResponseItem();
+            livestockPestsAndDiseases = new HazardResponseItem();
+            hailstormsOrFrost = new HazardResponseItem();
+            flooding = new HazardResponseItem();
+            landslides = new HazardResponseItem();
+            highWindsOrCyclones = new HazardResponseItem();
+            bushFires = new HazardResponseItem();
+            cropPests = new HazardResponseItem();
+            locustInvasion = new HazardResponseItem();
+            cropDiseases = new HazardResponseItem();
+            terminalIllnesses = new HazardResponseItem();
+            malariaPowerOutBreak = new HazardResponseItem();
+            waterBornDiseases = new HazardResponseItem();
+            humanWildlifeConflict = new HazardResponseItem();
+            highFoodPrices = new HazardResponseItem();
+            marketFoodShortages = new HazardResponseItem();
+            drinkingWaterShortages = new HazardResponseItem();
+            invasivePlants = new HazardResponseItem();
+            others = new HazardResponseItem();
+        }
+    }
+
     public HazardResponseItem getAnimalRustling() {
         return animalRustling;
     }

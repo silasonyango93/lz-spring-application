@@ -9,4 +9,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface LzHazardsRepository extends JpaRepository<LzHazardsEntity, Long> {
     public LzHazardsEntity findByLzHazardCode(@Param("LzHazardCode") int lzHazardCode);
+    public LzHazardsEntity findByLzHazardId(@Param("LzHazardId") int lzHazardId);
 }
