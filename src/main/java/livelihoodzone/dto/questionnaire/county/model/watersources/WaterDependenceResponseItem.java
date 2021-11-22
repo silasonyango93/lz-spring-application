@@ -5,6 +5,9 @@ public class WaterDependenceResponseItem {
     private double drySeasonPopulationResponse;
     private String extraDescription;
 
+    public WaterDependenceResponseItem() {
+    }
+
     public double getWetSeasonPopulation() {
         return wetSeasonPopulation;
     }

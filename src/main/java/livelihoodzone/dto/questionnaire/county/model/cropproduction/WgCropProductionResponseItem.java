@@ -4,6 +4,7 @@ import livelihoodzone.dto.questionnaire.county.model.cropproduction.CropSeasonRe
 import livelihoodzone.entity.questionnaire.calendar.MonthsEntity;
 import livelihoodzone.entity.questionnaire.crops.CropsEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WgCropProductionResponseItem {
@@ -13,6 +14,20 @@ public class WgCropProductionResponseItem {
     private List<MonthsEntity> landPreparationPeriod;
     private List<MonthsEntity> plantingPeriod;
     private List<MonthsEntity> harvestingPeriod;
+
+    public WgCropProductionResponseItem() {
+    }
+
+    public WgCropProductionResponseItem(boolean instantiate, CropsEntity crop) {
+        if (instantiate) {
+            this.crop = crop;
+            longRainsSeason = new CropSeasonResponseItem(true);
+            shortRainsSeason = new CropSeasonResponseItem(true);
+            landPreparationPeriod = new ArrayList<>();
+            plantingPeriod = new ArrayList<>();
+            harvestingPeriod = new ArrayList<>();
+        }
+    }
 
     public CropsEntity getCrop() {
         return crop;

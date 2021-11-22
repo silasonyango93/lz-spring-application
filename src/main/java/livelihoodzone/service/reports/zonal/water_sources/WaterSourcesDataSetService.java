@@ -2,11 +2,17 @@ package livelihoodzone.service.reports.zonal.water_sources;
 
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.questionnaire.county.LzWaterSourceDataSetResponseObject;
+import livelihoodzone.dto.questionnaire.county.WaterSourcesResponsesDto;
+import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.county.LzWaterSourceResponsesEntity;
+import livelihoodzone.repository.questionnaire.county.LzWaterSourceResponsesRepository;
+import livelihoodzone.repository.questionnaire.county.WaterSourceRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgLabourPatternsRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzWaterSourceDataSetRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.QuestionnaireDetailsRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.ZoneLevelReportRetrofitService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -20,6 +26,12 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
 public class WaterSourcesDataSetService {
+
+    @Autowired
+    LzWaterSourceResponsesRepository lzWaterSourceResponsesRepository;
+
+    @Autowired
+    WaterSourceRepository waterSourceRepository;
 
     public List<LzWaterSourceDataSetRetrofitModel> fetchWaterSourceDataSet() {
         ZoneLevelReportRetrofitService zoneLevelReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(ZoneLevelReportRetrofitService.class);
@@ -120,6 +132,70 @@ public class WaterSourcesDataSetService {
         }
         System.out.println(waterSourceCode);
         return new ArrayList<>();
+    }
+
+
+    public LzLivelihoodZoneDataObject processWaterSourcesChart(LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject, int lzQuestionnaireSessionId) {
+        WaterSourcesResponsesDto waterSourceResponses = new WaterSourcesResponsesDto(true);
+        List<LzWaterSourceResponsesEntity> lzWaterSourceResponsesEntityList = lzWaterSourceResponsesRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+
+        for (LzWaterSourceResponsesEntity lzWaterSourceResponsesEntity : lzWaterSourceResponsesEntityList) {
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.RIVERS) {
+                waterSourceResponses.getRivers().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getRivers().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.TRADITIONAL_RIVERS) {
+                waterSourceResponses.getTraditionalRiversWells().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getTraditionalRiversWells().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.NATURAL_PONDS) {
+                waterSourceResponses.getNaturalPonds().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getNaturalPonds().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.PANS_AND_DAMS) {
+                waterSourceResponses.getPansAndDams().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getPansAndDams().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.SHALLOW_WELLS) {
+                waterSourceResponses.getShallowWells().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getShallowWells().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.BOREHOLES) {
+                waterSourceResponses.getBoreholes().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getBoreholes().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.SPRINGS) {
+                waterSourceResponses.getSprings().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getSprings().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.LAKES) {
+                waterSourceResponses.getLakes().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getLakes().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.ROCK_CATCHMENT) {
+                waterSourceResponses.getRockCatchments().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getRockCatchments().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.PIPED_WATER) {
+                waterSourceResponses.getPipedWater().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getPipedWater().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.WATER_TRUCKING) {
+                waterSourceResponses.getWaterTrucking().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getWaterTrucking().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.ROOF_CATCHMENTS) {
+                waterSourceResponses.getRoofCatchments().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getRoofCatchments().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.OTHERS) {
+                waterSourceResponses.getOthers().setDrySeasonPopulationResponse(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                waterSourceResponses.getOthers().setWetSeasonPopulation(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                waterSourceResponses.getOthers().setExtraDescription(lzWaterSourceResponsesEntity.getExtraDescription());
+            }
+        }
+        lzLivelihoodZoneDataObject.setWaterSourceResponses(waterSourceResponses);
+        return lzLivelihoodZoneDataObject;
     }
 
 }

@@ -1,10 +1,17 @@
 package livelihoodzone.service.reports.zonal.cropproduction;
 
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.questionnaire.county.LzCropProductionResponses;
+import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProductionResponseItem;
+import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObjectDto;
+import livelihoodzone.entity.questionnaire.county.LzCropProductionResponsesEntity;
+import livelihoodzone.repository.questionnaire.county.LzCropProductionResponsesRepository;
+import livelihoodzone.repository.questionnaire.crops.CropsRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzCropProductionReportRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.ZoneLevelReportRetrofitService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -16,6 +23,12 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
 public class LzCropProductionReportService {
+
+    @Autowired
+    LzCropProductionResponsesRepository lzCropProductionResponsesRepository;
+
+    @Autowired
+    CropsRepository cropsRepository;
 
     public LzCropProductionReportObjectDto processZoneLevelCropProductionReport(List<LzCropProductionReportRetrofitModel> lzCropProductionReportRetrofitModelList) {
         List<String> selectedCrops = new ArrayList<>();
@@ -327,5 +340,17 @@ public class LzCropProductionReportService {
             }
         }
         return false;
+    }
+
+
+    public LzLivelihoodZoneDataObject processCropProductionChart(LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject, int lzQuestionnaireSessionId) {
+        LzCropProductionResponses lzCropProductionResponses = new LzCropProductionResponses(true);
+        List<LzCropProductionResponsesEntity> lzCropProductionResponsesEntityList = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+
+        for (LzCropProductionResponsesEntity lzCropProductionResponsesEntity : lzCropProductionResponsesEntityList) {
+            WgCropProductionResponseItem wgCropProductionResponseItem = new WgCropProductionResponseItem(true,cropsRepository.findByCropId(lzCropProductionResponsesEntity.getCropId()));
+            //wgCropProductionResponseItem.getLongRainsSeason()
+        }
+        return lzLivelihoodZoneDataObject;
     }
 }

@@ -17,6 +17,27 @@ public class WaterSourcesResponsesDto {
     private WaterDependenceResponseItem roofCatchments;
     private WaterDependenceResponseItem others;
 
+    public WaterSourcesResponsesDto() {
+    }
+
+    public WaterSourcesResponsesDto(boolean instantiate) {
+        if (instantiate) {
+            rivers = new WaterDependenceResponseItem();
+            traditionalRiversWells = new WaterDependenceResponseItem();
+            naturalPonds = new WaterDependenceResponseItem();
+            pansAndDams = new WaterDependenceResponseItem();
+            shallowWells = new WaterDependenceResponseItem();
+            boreholes = new WaterDependenceResponseItem();
+            springs = new WaterDependenceResponseItem();
+            lakes = new WaterDependenceResponseItem();
+            rockCatchments = new WaterDependenceResponseItem();
+            pipedWater = new WaterDependenceResponseItem();
+            waterTrucking = new WaterDependenceResponseItem();
+            roofCatchments = new WaterDependenceResponseItem();
+            others = new WaterDependenceResponseItem();
+        }
+    }
+
     public WaterDependenceResponseItem getRivers() {
         return rivers;
     }

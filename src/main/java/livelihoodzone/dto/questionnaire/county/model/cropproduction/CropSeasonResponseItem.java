@@ -8,6 +8,18 @@ public class CropSeasonResponseItem {
     private CropProductionResponseValueModel irrigatedCultivatedArea;
     private CropProductionResponseValueModel irrigatedAverageYieldPerHa;
 
+    public CropSeasonResponseItem() {
+    }
+
+    public CropSeasonResponseItem(boolean instantiate) {
+        if (instantiate) {
+            rainfedCultivatedAreaPercentage = new CropProductionResponseValueModel();
+            rainfedAverageYieldPerHa = new CropProductionResponseValueModel();
+            irrigatedCultivatedArea = new CropProductionResponseValueModel();
+            irrigatedAverageYieldPerHa = new CropProductionResponseValueModel();
+        }
+    }
+
     public CropProductionResponseValueModel getRainfedCultivatedAreaPercentage() {
         return rainfedCultivatedAreaPercentage;
     }

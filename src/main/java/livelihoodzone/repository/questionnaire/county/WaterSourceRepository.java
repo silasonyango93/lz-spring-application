@@ -6,4 +6,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface WaterSourceRepository extends JpaRepository<WaterSourcesEntity, Long> {
     public WaterSourcesEntity findByWaterSourceCode(@Param("WaterSourceCode") int waterSourceCode);
+    public WaterSourcesEntity findByWaterSourceId(@Param("WaterSourceId") int waterSourceId);
 }
