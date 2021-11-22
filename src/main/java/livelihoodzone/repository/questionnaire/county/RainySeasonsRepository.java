@@ -6,4 +6,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface RainySeasonsRepository extends JpaRepository<RainySeasonsEntity, Long> {
     public RainySeasonsEntity findByRainySeasonCode(@Param("RainySeasonCode") int rainySeasonCode);
+    public RainySeasonsEntity findByRainySeasonId(@Param("RainySeasonId") int rainySeasonId);
 }

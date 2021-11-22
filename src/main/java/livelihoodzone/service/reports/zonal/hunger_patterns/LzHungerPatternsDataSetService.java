@@ -1,11 +1,17 @@
 package livelihoodzone.service.reports.zonal.hunger_patterns;
 
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.questionnaire.county.model.hunger.HungerPatternsResponses;
 import livelihoodzone.dto.reports.zonal.LzHungerPatternsDataSetObject;
+import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.county.LzHungerPatternsResponsesEntity;
+import livelihoodzone.repository.questionnaire.county.LzHungerPatternsResponsesRepository;
+import livelihoodzone.repository.questionnaire.county.RainySeasonsRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzHungerPatternsDataSetRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzWaterSourceDataSetRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.ZoneLevelReportRetrofitService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -19,6 +25,12 @@ import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
 public class LzHungerPatternsDataSetService {
+
+    @Autowired
+    RainySeasonsRepository rainySeasonsRepository;
+
+    @Autowired
+    LzHungerPatternsResponsesRepository lzHungerPatternsResponsesRepository;
 
     public List<LzHungerPatternsDataSetRetrofitModel> fetchHungerPatternsDataSet() {
         ZoneLevelReportRetrofitService zoneLevelReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(ZoneLevelReportRetrofitService.class);
@@ -77,6 +89,28 @@ public class LzHungerPatternsDataSetService {
             }
         }
         return clusterSameQuestionnaireItemsTogether(processedList);
+    }
+
+
+    public LzLivelihoodZoneDataObject processPatternsOfHungerChart(LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject, int lzQuestionnaireSessionId) {
+        HungerPatternsResponses hungerPatternsResponses = new HungerPatternsResponses();
+        List<LzHungerPatternsResponsesEntity> lzHungerPatternsResponsesEntityList = lzHungerPatternsResponsesRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        for (LzHungerPatternsResponsesEntity lzHungerPatternsResponsesEntity : lzHungerPatternsResponsesEntityList) {
+            if (rainySeasonsRepository.findByRainySeasonId(lzHungerPatternsResponsesEntity.getRainySeasonId()).getRainySeasonCode() == Constants.LONG_RAINS_SEASON) {
+                hungerPatternsResponses.setLongRainsPeriod(lzHungerPatternsResponsesEntity.getYearsOfWidespreadHunger());
+            }
+            if (rainySeasonsRepository.findByRainySeasonId(lzHungerPatternsResponsesEntity.getRainySeasonId()).getRainySeasonCode() == Constants.SHORT_RAINS_SEASON) {
+                hungerPatternsResponses.setShortRainsPeriod(lzHungerPatternsResponsesEntity.getYearsOfWidespreadHunger());
+            }
+            if (rainySeasonsRepository.findByRainySeasonId(lzHungerPatternsResponsesEntity.getRainySeasonId()).getRainySeasonCode() == Constants.BETWEEN_END_LONG_AND_BEGIN_SHORT) {
+                hungerPatternsResponses.setEndLongBeginShort(lzHungerPatternsResponsesEntity.getYearsOfWidespreadHunger());
+            }
+            if (rainySeasonsRepository.findByRainySeasonId(lzHungerPatternsResponsesEntity.getRainySeasonId()).getRainySeasonCode() == Constants.BETWEEN_END_SHORT_AND_BEGIN_LONG) {
+                hungerPatternsResponses.setEndShortBeginLong(lzHungerPatternsResponsesEntity.getYearsOfWidespreadHunger());
+            }
+        }
+        lzLivelihoodZoneDataObject.setHungerPatternsResponses(hungerPatternsResponses);
+        return lzLivelihoodZoneDataObject;
     }
 
 
