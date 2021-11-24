@@ -5,6 +5,7 @@ import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 import livelihoodzone.repository.questionnaire.county.LzQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
+import livelihoodzone.service.reports.zonal.ethnic_groups.EthnicGroupsDataSetService;
 import livelihoodzone.service.reports.zonal.hazards.LzHazardsDataSetService;
 import livelihoodzone.service.reports.zonal.hunger_patterns.LzHungerPatternsDataSetService;
 import livelihoodzone.service.reports.zonal.markets.MarketsReportService;
@@ -40,6 +41,9 @@ public class ZoneLevelChartsService {
     @Autowired
     LzHazardsDataSetService lzHazardsDataSetService;
 
+    @Autowired
+    EthnicGroupsDataSetService ethnicGroupsDataSetService;
+
     public List<LzLivelihoodZoneDataObject> prepareZoneLevelChart(int countyId, int questionnaireSectionCode) {
         List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = new ArrayList<>();
         List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
@@ -67,6 +71,9 @@ public class ZoneLevelChartsService {
             }
             if (questionnaireSectionCode == Constants.HAZARDS) {
                 lzLivelihoodZoneDataObject = lzHazardsDataSetService.processHazardsChart(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId());
+            }
+            if (questionnaireSectionCode == Constants.SOCIETY_AND_ETHNICITY) {
+                lzLivelihoodZoneDataObject = ethnicGroupsDataSetService.processEthnicGroupsChart(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId());
             }
 
             lzLivelihoodZoneDataObjectList.add(lzLivelihoodZoneDataObject);

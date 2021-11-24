@@ -6,6 +6,14 @@ public class EthnicityResponseItem {
     private EthnicGroupsEntity ethnicGroupModel;
     private double populationPercentage;
 
+    public EthnicityResponseItem() {
+    }
+
+    public EthnicityResponseItem(EthnicGroupsEntity ethnicGroupModel, double populationPercentage) {
+        this.ethnicGroupModel = ethnicGroupModel;
+        this.populationPercentage = populationPercentage;
+    }
+
     public EthnicGroupsEntity getEthnicGroupModel() {
         return ethnicGroupModel;
     }

@@ -6,15 +6,19 @@ import livelihoodzone.dto.questionnaire.county.CountyRequestDto;
 import livelihoodzone.dto.reports.wealthgroup.*;
 import livelihoodzone.dto.reports.wealthgroup.charts.WealthGroupChartsRequestDto;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgLivestockOwnershipChartRequestDto;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WealthGroupEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
+import livelihoodzone.entity.questionnaire.wealthgroup.animal_contribution.AnimalsEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.animal_contribution.AnimalsRepository;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
+import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +55,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     WealthGroupRepository wealthGroupRepository;
+
+    @Autowired
+    AnimalsRepository animalsRepository;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -198,5 +205,33 @@ public class WealthGroupReportsController {
             @ApiResponse(code = 403, message = "Access denied - invalid token")})
     public ResponseEntity<List<WealthGroupEntity>> getAllWealthGroups() {
         return new ResponseEntity<List<WealthGroupEntity>>(wealthGroupRepository.findAll(), HttpStatus.valueOf(200));
+    }
+
+
+    @PostMapping("/charts/livestock-ownership-by-livestock")
+    @ApiOperation(value = "${WealthGroupReports.livestock-ownership-by-livestock}", response = WgLivelihoodZoneDataObject.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<WgLivelihoodZoneDataObject>> getLivestockOwnershipChartsData(@ApiParam("Livestock Ownership charts") @RequestBody WgLivestockOwnershipChartRequestDto wgLivestockOwnershipChartRequestDto) {
+
+        try {
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.livestockOwnershipChartByLivestock(wgLivestockOwnershipChartRequestDto.getCountyId(),wgLivestockOwnershipChartRequestDto.getWealthGroupId(),wgLivestockOwnershipChartRequestDto.getLivestockCode());
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+    @GetMapping(value = "/all-livestock-types")
+    @ApiOperation(value = "${WealthGroupReports.all-livestock-types}", response = AnimalsEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token")})
+    public ResponseEntity<List<AnimalsEntity>> getAllLivestockTypes() {
+        return new ResponseEntity<List<AnimalsEntity>>(animalsRepository.findAll(), HttpStatus.valueOf(200));
     }
 }

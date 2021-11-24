@@ -9,6 +9,7 @@ import livelihoodzone.dto.questionnaire.wealthgroup.labourpatterns.LabourPattern
 import livelihoodzone.dto.questionnaire.wealthgroup.livestockownership.LivestockPoultryOwnershipResponses;
 import livelihoodzone.dto.questionnaire.wealthgroup.livestockpoultrycontributions.LivestockContributionResponses;
 import livelihoodzone.dto.questionnaire.wealthgroup.migrationpatterns.MigrationPatternResponses;
+import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class WgLivelihoodZoneDataObject {
     private ExpenditurePatternsResponses expenditurePatterns;
     private MigrationPatternResponses settlementAndmigrationPatterns;
     private ConstraintsResponses constraintsToMainEconomicActivities;
+    private List<SubLocationEntity> subLocationsUnderTheLivelihoodZone;
 
     public int getLivelihoodZoneId() {
         return livelihoodZoneId;
@@ -111,5 +113,13 @@ public class WgLivelihoodZoneDataObject {
 
     public void setConstraintsToMainEconomicActivities(ConstraintsResponses constraintsToMainEconomicActivities) {
         this.constraintsToMainEconomicActivities = constraintsToMainEconomicActivities;
+    }
+
+    public List<SubLocationEntity> getSubLocationsUnderTheLivelihoodZone() {
+        return subLocationsUnderTheLivelihoodZone;
+    }
+
+    public void setSubLocationsUnderTheLivelihoodZone(List<SubLocationEntity> subLocationsUnderTheLivelihoodZone) {
+        this.subLocationsUnderTheLivelihoodZone = subLocationsUnderTheLivelihoodZone;
     }
 }

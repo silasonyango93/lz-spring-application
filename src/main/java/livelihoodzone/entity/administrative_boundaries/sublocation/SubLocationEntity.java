@@ -29,6 +29,11 @@ public class SubLocationEntity {
         this.subLocationCode = subLocationCode;
     }
 
+    public SubLocationEntity(int subLocationId, String subLocationName) {
+        this.subLocationId = subLocationId;
+        this.subLocationName = subLocationName;
+    }
+
     public int getSubLocationId() {
         return subLocationId;
     }

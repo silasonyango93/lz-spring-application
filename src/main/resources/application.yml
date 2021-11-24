@@ -98,7 +98,9 @@ WealthGroupReports:
   wealthgroup-aggregate-responses: Returns wealth group aggregate responses for all questionnaires within a county
   wealth-group-questionnaire-types: Returns the types of wealth group questionnaires
   charts: Wealth  Group Charts
+  livestock-ownership-by-livestock: Livestock ownership by livestock
   wealth-group-categories: All wealth group categories
+  all-livestock-types: All livestock types
 
 ZoneLevelReports:
   zone-level-report: A report on zone level questionnaire responses

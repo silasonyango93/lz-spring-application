@@ -7,17 +7,20 @@ import livelihoodzone.dto.questionnaire.wealthgroup.foodconsumption.FoodConsumpt
 import livelihoodzone.dto.questionnaire.wealthgroup.incomefoodsources.IncomeAndFoodSourcesResponses;
 import livelihoodzone.dto.questionnaire.wealthgroup.incomefoodsources.ValueDescriptionPairModel;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireSessionEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.income_food_sources.WgFoodSourcesResponsesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.income_food_sources.WgIncomeSourcesEntity;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.income_food_sources.*;
+import livelihoodzone.service.livelihoodzones.LivelihoodZonesService;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
 import livelihoodzone.service.reports.wealthgroup.crop_contribution.CropContributionReportsService;
 import livelihoodzone.service.reports.wealthgroup.expenditure_patterns.ExpenditurePatternsDataSetService;
 import livelihoodzone.service.reports.wealthgroup.income_constraints.WgIncomeConstraintsDataSetService;
 import livelihoodzone.service.reports.wealthgroup.labour_patterns.LabourPatternsDataSetService;
 import livelihoodzone.service.reports.wealthgroup.migration_patterns.MigrationPatternsDataSetService;
+import livelihoodzone.service.retrofit.livelihoodzones.SubLocationRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,6 +69,9 @@ public class WealthGroupChartsService {
     @Autowired
     CropContributionReportsService cropContributionReportsService;
 
+    @Autowired
+    LivelihoodZonesService livelihoodZonesService;
+
     public List<WgLivelihoodZoneDataObject> prepareWealthGroupChart(int countyId, int wealthGroupId, int questionnaireSectionCode) {
         List<WgLivelihoodZoneDataObject> livelihoodZoneDataObjectList = new ArrayList<>();
         List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionDao.fetchQuestionnaireSessionsByCountyAndWealthGroup(countyId,wealthGroupId);
@@ -108,6 +114,27 @@ public class WealthGroupChartsService {
 
         return livelihoodZoneDataObjectList;
     }
+
+
+    public List<WgLivelihoodZoneDataObject> livestockOwnershipChartByLivestock(int countyId, int wealthGroupId, int livestockCode) {
+        List<WgLivelihoodZoneDataObject> livelihoodZoneDataObjectList = new ArrayList<>();
+        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionDao.fetchQuestionnaireSessionsByCountyAndWealthGroup(countyId,wealthGroupId);
+
+        for (WgQuestionnaireSessionEntity currentQuestionnaire : wgQuestionnaireSessionEntityList) {
+            WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject = new WgLivelihoodZoneDataObject();
+            wgLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
+            wgLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+            wgLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId, currentQuestionnaire.getLivelihoodZoneId()));
+
+            wgLivelihoodZoneDataObject = animalOwnershipService.processLivestockOwnershipByLivestock(wgLivelihoodZoneDataObject,currentQuestionnaire.getWgQuestionnaireSessionId(),livestockCode);
+
+            livelihoodZoneDataObjectList.add(wgLivelihoodZoneDataObject);
+        }
+
+        return livelihoodZoneDataObjectList;
+    }
+
+
 
     public WgLivelihoodZoneDataObject processMainSourceOfIncomeAndFood(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
 
@@ -448,5 +475,20 @@ public class WealthGroupChartsService {
         }
         wgLivelihoodZoneDataObject.setFoodConsumptionPercentages(foodConsumptionPercentages);
         return wgLivelihoodZoneDataObject;
+    }
+
+    public List<SubLocationEntity> fetchSubLocationsInALivelihoodZoneInAParticularCounty(int countyId, int livelihoodZoneId) {
+        List<SubLocationRetrofitModel> subLocationRetrofitModelList = livelihoodZonesService.fetchCountyLivelihoodZoneSubLocations(countyId,livelihoodZoneId);
+        if (subLocationRetrofitModelList != null) {
+            List<SubLocationEntity> subLocationEntityList = new ArrayList<>();
+            for (SubLocationRetrofitModel subLocationRetrofitModel : subLocationRetrofitModelList) {
+                subLocationEntityList.add(new SubLocationEntity(
+                        subLocationRetrofitModel.getSubLocationId(),
+                        subLocationRetrofitModel.getSubLocationName()
+                ));
+            }
+            return subLocationEntityList;
+        }
+        return new ArrayList<>();
     }
 }
