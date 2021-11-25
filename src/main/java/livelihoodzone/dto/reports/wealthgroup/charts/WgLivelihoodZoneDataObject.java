@@ -16,6 +16,7 @@ import java.util.List;
 public class WgLivelihoodZoneDataObject {
     private int livelihoodZoneId;
     private String livelihoodZoneName;
+    private String countyName;
     private IncomeAndFoodSourcesResponses incomeAndFoodSourcesResponses;
     private FoodConsumptionResponsesDto foodConsumptionPercentages;
     private WgCropContributionChartObject cropProduction;
@@ -121,5 +122,13 @@ public class WgLivelihoodZoneDataObject {
 
     public void setSubLocationsUnderTheLivelihoodZone(List<SubLocationEntity> subLocationsUnderTheLivelihoodZone) {
         this.subLocationsUnderTheLivelihoodZone = subLocationsUnderTheLivelihoodZone;
+    }
+
+    public String getCountyName() {
+        return countyName;
+    }
+
+    public void setCountyName(String countyName) {
+        this.countyName = countyName;
     }
 }
