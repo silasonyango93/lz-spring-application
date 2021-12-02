@@ -7,6 +7,7 @@ import livelihoodzone.dto.reports.wealthgroup.*;
 import livelihoodzone.dto.reports.wealthgroup.charts.WealthGroupChartsRequestDto;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivestockOwnershipChartRequestDto;
+import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WealthGroupEntity;
@@ -19,6 +20,8 @@ import livelihoodzone.repository.questionnaire.wealthgroup.animal_contribution.A
 import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
+import livelihoodzone.service.reports.wealthgroup.excel.WealthGroupExcelService;
+import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionExcelExporterService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,6 +66,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     AnimalsRepository animalsRepository;
+
+    @Autowired
+    WealthGroupExcelService wealthGroupExcelService;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -233,5 +244,25 @@ public class WealthGroupReportsController {
             @ApiResponse(code = 403, message = "Access denied - invalid token")})
     public ResponseEntity<List<AnimalsEntity>> getAllLivestockTypes() {
         return new ResponseEntity<List<AnimalsEntity>>(animalsRepository.findAll(), HttpStatus.valueOf(200));
+    }
+
+
+    @GetMapping("/export/excel")
+    public void exportToExcel(HttpServletResponse response, @RequestParam("countyId") int countyId, @RequestParam("wealthGroupId") int wealthGroupId) throws IOException {
+
+        try {
+            response.setContentType("application/octet-stream");
+            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+            String currentDateTime = dateFormatter.format(new Date());
+
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+            response.setHeader(headerKey, headerValue);
+
+            wealthGroupExcelService.export(response,countyId,wealthGroupId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

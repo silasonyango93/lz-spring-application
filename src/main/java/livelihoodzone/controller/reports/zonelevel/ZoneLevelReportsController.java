@@ -11,13 +11,19 @@ import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsRe
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
 import livelihoodzone.service.reports.zonal.ZoneLevelChartsService;
 import livelihoodzone.service.reports.zonal.ZoneLevelReportService;
+import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionExcelExporterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -110,5 +116,28 @@ public class ZoneLevelReportsController {
             return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
         }
 
+    }
+
+
+    @GetMapping("/export/excel")
+    public void exportToExcel(HttpServletResponse response, @RequestParam("countyId") int countyId) throws IOException {
+
+        try {
+            response.setContentType("application/octet-stream");
+            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+            String currentDateTime = dateFormatter.format(new Date());
+
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+            response.setHeader(headerKey, headerValue);
+
+
+            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.prepareZoneLevelChart(28,2);
+            LzWealthGroupDistributionExcelExporterService excelExporter = new LzWealthGroupDistributionExcelExporterService(lzLivelihoodZoneDataObjectList);
+
+            excelExporter.export(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
