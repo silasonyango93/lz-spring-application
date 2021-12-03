@@ -7,6 +7,7 @@ import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -26,6 +27,8 @@ public class MainSourcesOfFoodAndIncomeExcelService {
         XSSFSheet sheet = workbook.getSheet("Main Sources of Income and Food");
         Row titleRow = sheet.createRow(rowNum);
         Row tableHeaderRow = sheet.createRow(rowNum + 3);
+        sheet.setColumnWidth(0,18000);
+        sheet.setColumnWidth(1,10000);
 
         CellStyle titleStyle = workbook.createCellStyle();
         XSSFFont titleFont = workbook.createFont();
@@ -67,10 +70,10 @@ public class MainSourcesOfFoodAndIncomeExcelService {
         XSSFFont font = workbook.createFont();
         font.setFontHeight(14);
         style.setFont(font);
+        style.setAlignment(HorizontalAlignment.LEFT);
 
 
         XSSFSheet sheet = workbook.getSheet("Main Sources of Income and Food");
-        sheet.autoSizeColumn(0);
         Row livestockRow = sheet.createRow(rowCount++);
         createCell(livestockRow, 0, "Livestock Production (including meat, milk, hides, skins, and by products/manure", style);
         createCell(livestockRow, 1, incomeAndFoodSourcesResponses.getLivestockProduction(), style);
