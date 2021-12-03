@@ -2,9 +2,14 @@ package livelihoodzone.service.reports.wealthgroup.income_food_sources;
 
 import livelihoodzone.common.Constants;
 import livelihoodzone.dto.NumberDescriptionPairDto;
+import livelihoodzone.dto.questionnaire.wealthgroup.incomefoodsources.IncomeAndFoodSourcesResponses;
+import livelihoodzone.dto.questionnaire.wealthgroup.incomefoodsources.ValueDescriptionPairModel;
 import livelihoodzone.dto.reports.wealthgroup.WgFoodSourcesDataSetReponseDto;
 import livelihoodzone.dto.reports.wealthgroup.WgIncomeSourcesReportResponseDto;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.wealthgroup.income_food_sources.WgIncomeSourcesEntity;
 import livelihoodzone.repository.questionnaire.wealthgroup.income_food_sources.CashIncomeSourcesRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.income_food_sources.WgIncomeSourcesRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WealthGroupReportRetrofitService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgFoodSourcesRetrofitModel;
@@ -26,6 +31,9 @@ public class IncomeFoodSourcesAggregateResponsesService {
 
     @Autowired
     CashIncomeSourcesRepository cashIncomeSourcesRepository;
+
+    @Autowired
+    WgIncomeSourcesRepository wgIncomeSourcesRepository;
 
     public List<WgIncomeSourcesRetrofitModel> fetchWealthGroupIncomeSources(int countyId, int questionnaireTypeId) {
         WealthGroupReportRetrofitService wealthGroupReportRetrofitService = RetrofitClientInstance.getRetrofitInstance(NODE_SERVICE_BASE_URL).create(WealthGroupReportRetrofitService.class);
@@ -233,6 +241,76 @@ public class IncomeFoodSourcesAggregateResponsesService {
         return list.stream()
                 .sorted(Comparator.comparingInt(WgFoodSourcesRetrofitModel::getWgQuestionnaireSessionId))
                 .collect(Collectors.toList());
+    }
+
+
+
+    public WgLivelihoodZoneDataObject processMainSourceOfIncomeAndFood(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId, int cashIncomeSourceCode) {
+
+        IncomeAndFoodSourcesResponses incomeAndFoodSourcesResponses = new IncomeAndFoodSourcesResponses();
+
+        List<WgIncomeSourcesEntity> wgIncomeSourcesEntities = wgIncomeSourcesRepository.findByWgQuestionnaireSessionId(questionnaireSessionId);
+
+        for (WgIncomeSourcesEntity wgIncomeSourcesEntity : wgIncomeSourcesEntities) {
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.LIVESTOCK_PRODUCTION && cashIncomeSourceCode == Constants.LIVESTOCK_PRODUCTION) {
+                incomeAndFoodSourcesResponses.setLivestockProduction(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.POULTRY_PRODUCTION && cashIncomeSourceCode == Constants.POULTRY_PRODUCTION) {
+                incomeAndFoodSourcesResponses.setPoultryProduction(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.PASTURE_FODDER_PRODUCTION && cashIncomeSourceCode == Constants.PASTURE_FODDER_PRODUCTION) {
+                incomeAndFoodSourcesResponses.setPastureFodderProduction(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.CASH_CROP_PRODUCTION && cashIncomeSourceCode == Constants.CASH_CROP_PRODUCTION) {
+                incomeAndFoodSourcesResponses.setCashCropProduction(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.FOOD_CROP_PRODUCTION && cashIncomeSourceCode == Constants.FOOD_CROP_PRODUCTION) {
+                incomeAndFoodSourcesResponses.setFoodCropProduction(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.CASUAL_WAGED_LABOUR_INCOME && cashIncomeSourceCode == Constants.CASUAL_WAGED_LABOUR_INCOME) {
+                incomeAndFoodSourcesResponses.setCasualOrWagedLabour(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.FORMAL_WAGED_LABOUR && cashIncomeSourceCode == Constants.FORMAL_WAGED_LABOUR) {
+                incomeAndFoodSourcesResponses.setFormalWagedLabour(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.FISHING && cashIncomeSourceCode == Constants.FISHING) {
+                incomeAndFoodSourcesResponses.setFishing(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.HUNTING_AND_GATHERING && cashIncomeSourceCode == Constants.HUNTING_AND_GATHERING) {
+                incomeAndFoodSourcesResponses.setHuntingAndGathering(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.SMALL_BUSINESSES && cashIncomeSourceCode == Constants.SMALL_BUSINESSES) {
+                incomeAndFoodSourcesResponses.setSmallBusiness(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.FIREWOOD_COLLECTION && cashIncomeSourceCode == Constants.FIREWOOD_COLLECTION) {
+                incomeAndFoodSourcesResponses.setFirewoodOrCharcoal(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.PETTY_TRADING && cashIncomeSourceCode == Constants.PETTY_TRADING) {
+                incomeAndFoodSourcesResponses.setPettyTrading(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.REMITTANCE_AND_GIFTS && cashIncomeSourceCode == Constants.REMITTANCE_AND_GIFTS) {
+                incomeAndFoodSourcesResponses.setRemittance(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.BODABODA_TRANSPORT && cashIncomeSourceCode == Constants.BODABODA_TRANSPORT) {
+                incomeAndFoodSourcesResponses.setBodaboda(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.BEE_KEEPING && cashIncomeSourceCode == Constants.BEE_KEEPING) {
+                incomeAndFoodSourcesResponses.setBeeKeeping(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.SAND_HARVESTING && cashIncomeSourceCode == Constants.SAND_HARVESTING) {
+                incomeAndFoodSourcesResponses.setSandHarvesting(wgIncomeSourcesEntity.getIncomeSourcePercentage());
+            }
+            if (cashIncomeSourcesRepository.findByCashIncomeSourceId(wgIncomeSourcesEntity.getCashIncomeSourceId()).getCashIncomeSourceCode() == Constants.OTHERS_INCOME_SOURCES && cashIncomeSourceCode == Constants.OTHERS_INCOME_SOURCES) {
+                incomeAndFoodSourcesResponses.setOther(new ValueDescriptionPairModel(
+                        wgIncomeSourcesEntity.getIncomeSourcePercentage(),
+                        wgIncomeSourcesEntity.getExtraDescription()
+                ));
+            }
+        }
+
+        wgLivelihoodZoneDataObject.setIncomeAndFoodSourcesResponses(incomeAndFoodSourcesResponses);
+
+        return wgLivelihoodZoneDataObject;
     }
 
 }

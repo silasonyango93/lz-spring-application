@@ -5,6 +5,7 @@ import livelihoodzone.dto.questionnaire.CountyDataCollectionProgressReport;
 import livelihoodzone.dto.questionnaire.county.CountyRequestDto;
 import livelihoodzone.dto.reports.wealthgroup.*;
 import livelihoodzone.dto.reports.wealthgroup.charts.WealthGroupChartsRequestDto;
+import livelihoodzone.dto.reports.wealthgroup.charts.WgIncomeSourcesMapRequestDto;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivestockOwnershipChartRequestDto;
 import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
@@ -13,10 +14,12 @@ import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WealthGroupEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.animal_contribution.AnimalsEntity;
+import livelihoodzone.entity.questionnaire.wealthgroup.income_food_sources.CashIncomeSourcesEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.animal_contribution.AnimalsRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.income_food_sources.CashIncomeSourcesRepository;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
@@ -69,6 +72,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     WealthGroupExcelService wealthGroupExcelService;
+
+    @Autowired
+    CashIncomeSourcesRepository cashIncomeSourcesRepository;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -245,6 +251,36 @@ public class WealthGroupReportsController {
     public ResponseEntity<List<AnimalsEntity>> getAllLivestockTypes() {
         return new ResponseEntity<List<AnimalsEntity>>(animalsRepository.findAll(), HttpStatus.valueOf(200));
     }
+
+
+    @PostMapping("/maps/income-sources-map-data")
+    @ApiOperation(value = "${WealthGroupReports.income-sources-map-data}", response = WgLivelihoodZoneDataObject.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<WgLivelihoodZoneDataObject>> getLivestockOwnershipChartsData(@ApiParam("Livestock Ownership charts") @RequestBody WgIncomeSourcesMapRequestDto wgIncomeSourcesMapRequestDto) {
+
+        try {
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.mainSourcesOfIncomeAndFoodMapData(wgIncomeSourcesMapRequestDto.getCountyId(),wgIncomeSourcesMapRequestDto.getWealthGroupId(),wgIncomeSourcesMapRequestDto.getIncomeSourceCode());
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+
+    @GetMapping(value = "/all-cash-income-sources")
+    @ApiOperation(value = "${WealthGroupReports.all-income-sources}", response = AnimalsEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token")})
+    public ResponseEntity<List<CashIncomeSourcesEntity>> getAllIncomeSources() {
+        return new ResponseEntity<List<CashIncomeSourcesEntity>>(cashIncomeSourcesRepository.findAll(), HttpStatus.valueOf(200));
+    }
+
 
 
     @GetMapping("/export/excel")

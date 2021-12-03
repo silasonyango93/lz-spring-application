@@ -101,6 +101,8 @@ WealthGroupReports:
   livestock-ownership-by-livestock: Livestock ownership by livestock
   wealth-group-categories: All wealth group categories
   all-livestock-types: All livestock types
+  income-sources-map-data: Income sources map data
+  all-income-sources: All income sources
 
 ZoneLevelReports:
   zone-level-report: A report on zone level questionnaire responses
