@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.MAIN_INCOME_SOURCES_EXCEL_SHEET_NAME;
+
 @Service
 public class MainSourcesOfFoodAndIncomeExcelService {
 
@@ -24,12 +26,12 @@ public class MainSourcesOfFoodAndIncomeExcelService {
     WealthGroupChartsService wealthGroupChartsService;
 
     private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook) {
-        XSSFSheet sheet = workbook.getSheet("Main Sources of Income and Food");
+        XSSFSheet sheet = workbook.getSheet(MAIN_INCOME_SOURCES_EXCEL_SHEET_NAME);
         Row titleRow = sheet.createRow(rowNum);
         Row tableHeaderRow = sheet.createRow(rowNum + 3);
         sheet.setColumnWidth(0,18000);
         sheet.setColumnWidth(1,10000);
-        sheet.setColumnWidth(1,20000);
+        sheet.setColumnWidth(2,20000);
 
         CellStyle titleStyle = workbook.createCellStyle();
         XSSFFont titleFont = workbook.createFont();
@@ -75,7 +77,7 @@ public class MainSourcesOfFoodAndIncomeExcelService {
         style.setAlignment(HorizontalAlignment.LEFT);
 
 
-        XSSFSheet sheet = workbook.getSheet("Main Sources of Income and Food");
+        XSSFSheet sheet = workbook.getSheet(MAIN_INCOME_SOURCES_EXCEL_SHEET_NAME);
 
         //Livestock Production
         Row livestockRow = sheet.createRow(rowCount++);

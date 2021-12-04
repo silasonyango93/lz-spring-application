@@ -103,6 +103,8 @@ WealthGroupReports:
   all-livestock-types: All livestock types
   income-sources-map-data: Income sources map data
   all-income-sources: All income sources
+  migration-patterns-map-data: migration patterns map data
+  all-migration-patterns: All migration pattern types
 
 ZoneLevelReports:
   zone-level-report: A report on zone level questionnaire responses

@@ -4,10 +4,7 @@ import io.swagger.annotations.*;
 import livelihoodzone.dto.questionnaire.CountyDataCollectionProgressReport;
 import livelihoodzone.dto.questionnaire.county.CountyRequestDto;
 import livelihoodzone.dto.reports.wealthgroup.*;
-import livelihoodzone.dto.reports.wealthgroup.charts.WealthGroupChartsRequestDto;
-import livelihoodzone.dto.reports.wealthgroup.charts.WgIncomeSourcesMapRequestDto;
-import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
-import livelihoodzone.dto.reports.wealthgroup.charts.WgLivestockOwnershipChartRequestDto;
+import livelihoodzone.dto.reports.wealthgroup.charts.*;
 import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
@@ -15,11 +12,13 @@ import livelihoodzone.entity.questionnaire.wealthgroup.WealthGroupEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.animal_contribution.AnimalsEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.income_food_sources.CashIncomeSourcesEntity;
+import livelihoodzone.entity.questionnaire.wealthgroup.migration_patterns.MigrationPatternsEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.animal_contribution.AnimalsRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.income_food_sources.CashIncomeSourcesRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.migration_patterns.MigrationPatternsRepository;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
@@ -75,6 +74,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     CashIncomeSourcesRepository cashIncomeSourcesRepository;
+
+    @Autowired
+    MigrationPatternsRepository migrationPatternsRepository;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -258,7 +260,7 @@ public class WealthGroupReportsController {
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad request"), //
             @ApiResponse(code = 422, message = "Unprocessable data")})
-    public ResponseEntity<List<WgLivelihoodZoneDataObject>> getLivestockOwnershipChartsData(@ApiParam("Livestock Ownership charts") @RequestBody WgIncomeSourcesMapRequestDto wgIncomeSourcesMapRequestDto) {
+    public ResponseEntity<List<WgLivelihoodZoneDataObject>> getIncomeSourcesMapData(@ApiParam("Livestock Ownership charts") @RequestBody WgIncomeSourcesMapRequestDto wgIncomeSourcesMapRequestDto) {
 
         try {
             List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.mainSourcesOfIncomeAndFoodMapData(wgIncomeSourcesMapRequestDto.getCountyId(),wgIncomeSourcesMapRequestDto.getWealthGroupId(),wgIncomeSourcesMapRequestDto.getIncomeSourceCode());
@@ -272,8 +274,27 @@ public class WealthGroupReportsController {
 
 
 
+    @PostMapping("/maps/migration-patterns-map-data")
+    @ApiOperation(value = "${WealthGroupReports.migration-patterns-map-data}", response = WgLivelihoodZoneDataObject.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<WgLivelihoodZoneDataObject>> getMigrationPatternsMapData(@ApiParam("Livestock Ownership charts") @RequestBody WgMigrationPatternsMapDataRequestDto wgMigrationPatternsMapDataRequestDto) {
+
+        try {
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.migrationPatternsMapData(wgMigrationPatternsMapDataRequestDto.getCountyId(),wgMigrationPatternsMapDataRequestDto.getWealthGroupId(),wgMigrationPatternsMapDataRequestDto.getMigrationPatternsCode());
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+
     @GetMapping(value = "/all-cash-income-sources")
-    @ApiOperation(value = "${WealthGroupReports.all-income-sources}", response = AnimalsEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${WealthGroupReports.all-income-sources}", response = CashIncomeSourcesEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token")})
@@ -283,16 +304,31 @@ public class WealthGroupReportsController {
 
 
 
+    @GetMapping(value = "/all-migration-patterns")
+    @ApiOperation(value = "${WealthGroupReports.all-migration-patterns}", response = MigrationPatternsEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token")})
+    public ResponseEntity<List<MigrationPatternsEntity>> getAllMigrationPatterns() {
+        return new ResponseEntity<List<MigrationPatternsEntity>>(migrationPatternsRepository.findAll(), HttpStatus.valueOf(200));
+    }
+
+
+
+
     @GetMapping("/export/excel")
     public void exportToExcel(HttpServletResponse response, @RequestParam("countyId") int countyId, @RequestParam("wealthGroupId") int wealthGroupId) throws IOException {
 
         try {
+            CountiesEntity countiesEntity = countiesRepository.findByCountyId(countyId);
+            WealthGroupEntity wealthGroupEntity = wealthGroupRepository.findByWealthGroupId(wealthGroupId);
+            String fileName = countiesEntity.getCountyName() + " COUNTY " + wealthGroupEntity.getWealthGroupDescription() + " ANALYSIS FILE";
             response.setContentType("application/octet-stream");
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
             String currentDateTime = dateFormatter.format(new Date());
 
             String headerKey = "Content-Disposition";
-            String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+            String headerValue = "attachment; filename=" + fileName + ".xlsx";
             response.setHeader(headerKey, headerValue);
 
             wealthGroupExcelService.export(response,countyId,wealthGroupId);

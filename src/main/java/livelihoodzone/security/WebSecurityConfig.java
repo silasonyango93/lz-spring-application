@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/users/signin").permitAll()//
             .antMatchers("/users/signup").permitAll()//
             .antMatchers("/zone-level-reports/export/excel").permitAll()//
+            .antMatchers("/wealthgroup-reports/export/excel").permitAll()//
             .antMatchers("/h2-console/**/**").permitAll()
             // Disallow everything else..
             .anyRequest().authenticated();

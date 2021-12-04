@@ -166,6 +166,27 @@ public class WealthGroupChartsService {
 
 
 
+    public List<WgLivelihoodZoneDataObject> migrationPatternsMapData(int countyId, int wealthGroupId, int migrationPatternCode) {
+        List<WgLivelihoodZoneDataObject> livelihoodZoneDataObjectList = new ArrayList<>();
+        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionDao.fetchQuestionnaireSessionsByCountyAndWealthGroup(countyId,wealthGroupId);
+
+        for (WgQuestionnaireSessionEntity currentQuestionnaire : wgQuestionnaireSessionEntityList) {
+            WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject = new WgLivelihoodZoneDataObject();
+            wgLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
+            wgLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+            wgLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId, currentQuestionnaire.getLivelihoodZoneId()));
+            wgLivelihoodZoneDataObject.setCountyName(countiesRepository.findByCountyId(countyId).getCountyName());
+
+            wgLivelihoodZoneDataObject = migrationPatternsDataSetService.processMigrationPatternsByPattern(wgLivelihoodZoneDataObject,currentQuestionnaire.getWgQuestionnaireSessionId(),migrationPatternCode);
+
+            livelihoodZoneDataObjectList.add(wgLivelihoodZoneDataObject);
+        }
+
+        return livelihoodZoneDataObjectList;
+    }
+
+
+
     public WgLivelihoodZoneDataObject processMainSourceOfIncomeAndFood(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
 
         IncomeAndFoodSourcesResponses incomeAndFoodSourcesResponses = new IncomeAndFoodSourcesResponses();

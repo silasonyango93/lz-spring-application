@@ -120,4 +120,33 @@ public class MigrationPatternsDataSetService {
         return wgLivelihoodZoneDataObject;
     }
 
+
+    public WgLivelihoodZoneDataObject processMigrationPatternsByPattern(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId, int migrationPatternCode) {
+        MigrationPatternResponses migrationPatternResponses = new MigrationPatternResponses();
+        List<WgMigrationPatternPercentagesEntity> wgMigrationPatternPercentagesEntityList = wgMigrationPatternsPercentagesRepository.findByWgQuestionnaireSessionId(questionnaireSessionId);
+
+        for (WgMigrationPatternPercentagesEntity wgMigrationPatternPercentagesEntity : wgMigrationPatternPercentagesEntityList) {
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_FULLY_NOMADIC && migrationPatternCode == Constants.MGR_FULLY_NOMADIC) {
+                migrationPatternResponses.setFullyNomadic(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_SEMI_NOMADIC && migrationPatternCode == Constants.MGR_SEMI_NOMADIC) {
+                migrationPatternResponses.setSemiNomadic(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_OCCASIONAL_NOMADIC && migrationPatternCode == Constants.MGR_OCCASIONAL_NOMADIC) {
+                migrationPatternResponses.setOccasionalNomadic(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_OUT_MIGRANT_LABOUR && migrationPatternCode == Constants.MGR_OUT_MIGRANT_LABOUR) {
+                migrationPatternResponses.setOutMigrantLabour(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_FULLY_SETTLED && migrationPatternCode == Constants.MGR_FULLY_SETTLED) {
+                migrationPatternResponses.setFullysettled(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_INTERNALLY_DISPLACED && migrationPatternCode == Constants.MGR_INTERNALLY_DISPLACED) {
+                migrationPatternResponses.setInternallyDisplaced(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
+        }
+        wgLivelihoodZoneDataObject.setSettlementAndmigrationPatterns(migrationPatternResponses);
+        return wgLivelihoodZoneDataObject;
+    }
+
 }
