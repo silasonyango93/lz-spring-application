@@ -20,13 +20,19 @@ public class WealthGroupExcelService {
     @Autowired
     FoodConsumptionPercentageExcelService foodConsumptionPercentageExcelService;
 
+    @Autowired
+    WgCropProductionExcelService wgCropProductionExcelService;
+
     private XSSFWorkbook workbook;
 
     public void processData(int countyId, int wealthGroupId) {
         workbook.createSheet(MAIN_INCOME_SOURCES_EXCEL_SHEET_NAME);
         workbook.createSheet(FOOD_CONSUMPTION_PERCENTAGES_EXCEL_SHEET_NAME);
+        workbook.createSheet(CROP_CONTRIBUTION);
+
         workbook = mainSourcesOfFoodAndIncomeExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = foodConsumptionPercentageExcelService.processData(countyId,wealthGroupId,workbook);
+        workbook = wgCropProductionExcelService.processData(countyId,wealthGroupId,workbook);
     }
 
 
