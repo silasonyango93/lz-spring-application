@@ -8,4 +8,5 @@ public class ExcelSheetNamesConstants {
     public static final String LIVESTOCK_CONTRIBUTION = "Livestock Contribution";
     public static final String LABOUR_PATTERNS = "Labour Patterns";
     public static final String EXPENDITURE_PATTERNS = "Expenditure Patterns";
+    public static final String MIGRATION_PATTERNS = "Migration Patterns";
 }
