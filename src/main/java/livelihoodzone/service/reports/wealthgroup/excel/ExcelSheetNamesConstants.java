@@ -9,4 +9,5 @@ public class ExcelSheetNamesConstants {
     public static final String LABOUR_PATTERNS = "Labour Patterns";
     public static final String EXPENDITURE_PATTERNS = "Expenditure Patterns";
     public static final String MIGRATION_PATTERNS = "Migration Patterns";
+    public static final String WG_CONSTRAINTS = "Economic Constraints";
 }

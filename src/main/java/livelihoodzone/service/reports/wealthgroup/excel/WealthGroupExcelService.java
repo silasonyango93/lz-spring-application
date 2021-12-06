@@ -38,6 +38,9 @@ public class WealthGroupExcelService {
     @Autowired
     MigrationPatternsExcelService migrationPatternsExcelService;
 
+    @Autowired
+    WgConstraintsExcelService wgConstraintsExcelService;
+
     private XSSFWorkbook workbook;
 
     public void processData(int countyId, int wealthGroupId) {
@@ -49,6 +52,7 @@ public class WealthGroupExcelService {
         workbook.createSheet(LABOUR_PATTERNS);
         workbook.createSheet(EXPENDITURE_PATTERNS);
         workbook.createSheet(MIGRATION_PATTERNS);
+        workbook.createSheet(WG_CONSTRAINTS);
 
         workbook = mainSourcesOfFoodAndIncomeExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = foodConsumptionPercentageExcelService.processData(countyId,wealthGroupId,workbook);
@@ -58,6 +62,7 @@ public class WealthGroupExcelService {
         workbook = labourPatternsExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = expenditurePatternsExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = migrationPatternsExcelService.processData(countyId,wealthGroupId,workbook);
+        workbook = wgConstraintsExcelService.processData(countyId,wealthGroupId,workbook);
     }
 
 
