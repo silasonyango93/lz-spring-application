@@ -32,6 +32,9 @@ public class WealthGroupExcelService {
     @Autowired
     LabourPatternsExcelService labourPatternsExcelService;
 
+    @Autowired
+    ExpenditurePatternsExcelService expenditurePatternsExcelService;
+
     private XSSFWorkbook workbook;
 
     public void processData(int countyId, int wealthGroupId) {
@@ -41,6 +44,7 @@ public class WealthGroupExcelService {
         workbook.createSheet(LIVESTOCK_OWNERSHIP);
         workbook.createSheet(LIVESTOCK_CONTRIBUTION);
         workbook.createSheet(LABOUR_PATTERNS);
+        workbook.createSheet(EXPENDITURE_PATTERNS);
 
         workbook = mainSourcesOfFoodAndIncomeExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = foodConsumptionPercentageExcelService.processData(countyId,wealthGroupId,workbook);
@@ -48,6 +52,7 @@ public class WealthGroupExcelService {
         workbook = livestockOwnershipExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = livestockContributionExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = labourPatternsExcelService.processData(countyId,wealthGroupId,workbook);
+        workbook = expenditurePatternsExcelService.processData(countyId,wealthGroupId,workbook);
     }
 
 
