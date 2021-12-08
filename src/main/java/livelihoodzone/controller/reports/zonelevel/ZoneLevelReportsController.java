@@ -9,8 +9,11 @@ import livelihoodzone.dto.reports.zonal.charts.ZoneLevelChartsRequestDto;
 import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObjectDto;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsReportStringObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
+import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
+import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
 import livelihoodzone.service.reports.zonal.ZoneLevelChartsService;
 import livelihoodzone.service.reports.zonal.ZoneLevelReportService;
+import livelihoodzone.service.reports.zonal.excel.ZonalExcelService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionExcelExporterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +39,12 @@ public class ZoneLevelReportsController {
 
     @Autowired
     ZoneLevelChartsService zoneLevelChartsService;
+
+    @Autowired
+    ZonalExcelService zonalExcelService;
+
+    @Autowired
+    CountiesRepository countiesRepository;
 
     @PostMapping(value = "/zone-level-report")
     @ApiOperation(value = "${ZoneLevelReports.zone-level-report}", response = ZoneLevelReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -123,19 +132,17 @@ public class ZoneLevelReportsController {
     public void exportToExcel(HttpServletResponse response, @RequestParam("countyId") int countyId) throws IOException {
 
         try {
+            CountiesEntity countiesEntity = countiesRepository.findByCountyId(countyId);
+            String fileName = countiesEntity.getCountyName() + " COUNTY " + " ANALYSIS FILE";
             response.setContentType("application/octet-stream");
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
             String currentDateTime = dateFormatter.format(new Date());
 
             String headerKey = "Content-Disposition";
-            String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+            String headerValue = "attachment; filename=" + fileName + ".xlsx";
             response.setHeader(headerKey, headerValue);
 
-
-            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.prepareZoneLevelChart(28,2);
-            LzWealthGroupDistributionExcelExporterService excelExporter = new LzWealthGroupDistributionExcelExporterService(lzLivelihoodZoneDataObjectList);
-
-            excelExporter.export(response);
+            zonalExcelService.export(response,countyId);
         } catch (Exception e) {
             e.printStackTrace();
         }
