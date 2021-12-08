@@ -1,8 +1,6 @@
 package livelihoodzone.service.reports.wealthgroup.excel;
 
-import livelihoodzone.dto.questionnaire.wealthgroup.constraints.ConstraintsResponses;
-import livelihoodzone.dto.questionnaire.wealthgroup.constraints.CropProductionIncomeConstraintsResponses;
-import livelihoodzone.dto.questionnaire.wealthgroup.constraints.WagedLabourIncomeConstraintsResponses;
+import livelihoodzone.dto.questionnaire.wealthgroup.constraints.*;
 import livelihoodzone.dto.questionnaire.wealthgroup.migrationpatterns.MigrationPatternResponses;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
@@ -75,6 +73,10 @@ public class WgConstraintsExcelService {
 
         WagedLabourIncomeConstraintsResponses wagedLabourIncomeConstraintsResponses = constraintsToMainEconomicActivities.getWagedLabourIncomeConstraintsResponses();
         CropProductionIncomeConstraintsResponses cropProductionIncomeConstraintsResponses = constraintsToMainEconomicActivities.getCropProductionIncomeConstraintsResponses();
+        LivestockProductionIncomeConstraintsResponses livestockProductionIncomeConstraintsResponses = constraintsToMainEconomicActivities.getLivestockProductionIncomeConstraintsResponses();
+        FishingIncomeConstraintsResponses fishingIncomeConstraintsResponses = constraintsToMainEconomicActivities.getFishingIncomeConstraintsResponses();
+        NaturalResourceIncomeConstraintsResponses naturalResourceIncomeConstraintsResponses = constraintsToMainEconomicActivities.getNaturalResourceIncomeConstraintsResponses();
+        SmallEnterpriseIncomeConstraintsResponses smallEnterpriseIncomeConstraintsResponses = constraintsToMainEconomicActivities.getSmallEnterpriseIncomeConstraintsResponses();
 
         CellStyle style = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
@@ -114,7 +116,6 @@ public class WgConstraintsExcelService {
         createCell(wageRatesRow, 0, "", style);
         createCell(wageRatesRow, 1, "Low average wage rates", style);
         createCell(wageRatesRow, 2, wagedLabourIncomeConstraintsResponses.getLowAverageWageRates(), style);
-
 
 
         Row blank1 = sheet.createRow(rowCount++);
@@ -176,6 +177,184 @@ public class WgConstraintsExcelService {
         createCell(cpCropPestsRow, 1, "Endemic crop pests or diseases", style);
         createCell(cpCropPestsRow, 2, cropProductionIncomeConstraintsResponses.getEndemicCropPests(), style);
 
+        //Lack of agricultural extension service
+        Row cpAgricExtensionsRow = sheet.createRow(rowCount++);
+        createCell(cpAgricExtensionsRow, 0, "", style);
+        createCell(cpAgricExtensionsRow, 1, "Lack of agricultural extension service", style);
+        createCell(cpAgricExtensionsRow, 2, cropProductionIncomeConstraintsResponses.getLackOfAgricExtensions(), style);
+
+
+        Row blank3 = sheet.createRow(rowCount++);
+        Row blank4 = sheet.createRow(rowCount++);
+
+
+        //Lack of pasture and browse
+        Row lackPastureRow = sheet.createRow(rowCount++);
+        createCell(lackPastureRow, 0, "Livestock Production", style);
+        createCell(lackPastureRow, 1, "Lack of pasture and browse", style);
+        createCell(lackPastureRow, 2, livestockProductionIncomeConstraintsResponses.getLackOfPasture(), style);
+
+        //Lack of animal drinking water
+        Row llackDrinkingRow = sheet.createRow(rowCount++);
+        createCell(llackDrinkingRow, 0, "", style);
+        createCell(llackDrinkingRow, 1, "Lack of animal drinking water", style);
+        createCell(llackDrinkingRow, 2, livestockProductionIncomeConstraintsResponses.getLackOfAnimalDrinkingWater(), style);
+
+        //Poor/low yielding animal genetic stock
+        Row llowYieldAnimalsRow = sheet.createRow(rowCount++);
+        createCell(llowYieldAnimalsRow, 0, "", style);
+        createCell(llowYieldAnimalsRow, 1, "Poor/low yielding animal genetic stock", style);
+        createCell(llowYieldAnimalsRow, 2, livestockProductionIncomeConstraintsResponses.getLowYieldingAnimal(), style);
+
+        //Poor/low yielding animal genetic stock
+        Row lveterinaryDrugsRow = sheet.createRow(rowCount++);
+        createCell(lveterinaryDrugsRow, 0, "", style);
+        createCell(lveterinaryDrugsRow, 1, "High costs/restricted supplies of veterinary drugs", style);
+        createCell(lveterinaryDrugsRow, 2, livestockProductionIncomeConstraintsResponses.getCostlyVeterinaryDrugs(), style);
+
+        //Endemic livestock pests and diseases
+        Row lpestsAndDiseasesRow = sheet.createRow(rowCount++);
+        createCell(lpestsAndDiseasesRow, 0, "", style);
+        createCell(lpestsAndDiseasesRow, 1, "Endemic livestock pests and diseases", style);
+        createCell(lpestsAndDiseasesRow, 2, livestockProductionIncomeConstraintsResponses.getLivestockPestsAndDiseases(), style);
+
+        //Lack of market, low prices for animals
+        Row llackMarketRow = sheet.createRow(rowCount++);
+        createCell(llackMarketRow, 0, "", style);
+        createCell(llackMarketRow, 1, "Lack of market, low prices for animals", style);
+        createCell(llackMarketRow, 2, livestockProductionIncomeConstraintsResponses.getLackofMarket(), style);
+
+
+        //Insecurity/raid risk of holding animal stock
+        Row linsecurityRow = sheet.createRow(rowCount++);
+        createCell(linsecurityRow, 0, "", style);
+        createCell(linsecurityRow, 1, "Insecurity/raid risk of holding animal stock", style);
+        createCell(linsecurityRow, 2, livestockProductionIncomeConstraintsResponses.getInsecurity(), style);
+
+        //Low technical skills, knowledge
+        Row llowTechSkillsRow = sheet.createRow(rowCount++);
+        createCell(llowTechSkillsRow, 0, "", style);
+        createCell(llowTechSkillsRow, 1, "Low technical skills, knowledge", style);
+        createCell(llowTechSkillsRow, 2, livestockProductionIncomeConstraintsResponses.getLowTechnicalSkillsKnowledge(), style);
+
+        //Unfavourable climate
+        Row lunfavourableClimateRow = sheet.createRow(rowCount++);
+        createCell(lunfavourableClimateRow, 0, "", style);
+        createCell(lunfavourableClimateRow, 1, "Unfavourable climate", style);
+        createCell(lunfavourableClimateRow, 2, livestockProductionIncomeConstraintsResponses.getUnfavourableClimate(), style);
+
+        //Lack of livestock extension service
+        Row lextensionServicesRow = sheet.createRow(rowCount++);
+        createCell(lextensionServicesRow, 0, "", style);
+        createCell(lextensionServicesRow, 1, "Lack of livestock extension service", style);
+        createCell(lextensionServicesRow, 2, livestockProductionIncomeConstraintsResponses.getLackOfLivestockExtensionServices(), style);
+
+
+
+        Row blank5 = sheet.createRow(rowCount++);
+        Row blank6 = sheet.createRow(rowCount++);
+
+
+        //Low fish stocks
+        Row lowFishStockRow = sheet.createRow(rowCount++);
+        createCell(lowFishStockRow, 0, "Fishing (coastal or inland)", style);
+        createCell(lowFishStockRow, 1, "Low fish stocks", style);
+        createCell(lowFishStockRow, 2, fishingIncomeConstraintsResponses.getLowFishStocks(), style);
+
+        //Poor market/low prices for fish
+        Row fishPoorMarketRow = sheet.createRow(rowCount++);
+        createCell(fishPoorMarketRow, 0, "", style);
+        createCell(fishPoorMarketRow, 1, "Poor market/low prices for fish", style);
+        createCell(fishPoorMarketRow, 2, fishingIncomeConstraintsResponses.getPoorMarket(), style);
+
+        //Lack of equipment, high cost of equipment
+        Row fishLackEquipmentRow = sheet.createRow(rowCount++);
+        createCell(fishLackEquipmentRow, 0, "", style);
+        createCell(fishLackEquipmentRow, 1, "Lack of equipment, high cost of equipment", style);
+        createCell(fishLackEquipmentRow, 2, fishingIncomeConstraintsResponses.getLackOfEquipment(), style);
+
+        //Too much competition
+        Row fishTooMuchCompetitionRow = sheet.createRow(rowCount++);
+        createCell(fishTooMuchCompetitionRow, 0, "", style);
+        createCell(fishTooMuchCompetitionRow, 1, "Too much competition", style);
+        createCell(fishTooMuchCompetitionRow, 2, fishingIncomeConstraintsResponses.getExtremeCompetition(), style);
+
+        //Lack of expertise
+        Row fishLackExpertiseRow = sheet.createRow(rowCount++);
+        createCell(fishLackExpertiseRow, 0, "", style);
+        createCell(fishLackExpertiseRow, 1, "Lack of expertise", style);
+        createCell(fishLackExpertiseRow, 2, fishingIncomeConstraintsResponses.getLackOfExpertise(), style);
+
+        //Restrictions on fishing rights
+        Row fishFishingRightsRow = sheet.createRow(rowCount++);
+        createCell(fishFishingRightsRow, 0, "", style);
+        createCell(fishFishingRightsRow, 1, "Restrictions on fishing rights", style);
+        createCell(fishFishingRightsRow, 2, fishingIncomeConstraintsResponses.getFishingRightsRestrictions(), style);
+
+        //Inadequate cold storage facilities
+        Row fishColdStorageFacilitiesRow = sheet.createRow(rowCount++);
+        createCell(fishColdStorageFacilitiesRow, 0, "", style);
+        createCell(fishColdStorageFacilitiesRow, 1, "Inadequate cold storage facilities", style);
+        createCell(fishColdStorageFacilitiesRow, 2, fishingIncomeConstraintsResponses.getInadequateColdStorageFacilities(), style);
+
+        Row blank9 = sheet.createRow(rowCount++);
+        Row blank10 = sheet.createRow(rowCount++);
+
+
+        //Low/declining natural resources
+        Row declineNaturalResourceRow = sheet.createRow(rowCount++);
+        createCell(declineNaturalResourceRow, 0, "Natural resource based)", style);
+        createCell(declineNaturalResourceRow, 1, "Low/declining natural resources", style);
+        createCell(declineNaturalResourceRow, 2, naturalResourceIncomeConstraintsResponses.getDecliningNaturalResources(), style);
+
+        //Too much population pressure on NR
+        Row populationPressureRow = sheet.createRow(rowCount++);
+        createCell(populationPressureRow, 0, "", style);
+        createCell(populationPressureRow, 1, "Too much population pressure on NR", style);
+        createCell(populationPressureRow, 2, naturalResourceIncomeConstraintsResponses.getPopulationPressure(), style);
+
+        //Restrictions on rights to exploit natural resources
+        Row rightNaturalResourcesRow = sheet.createRow(rowCount++);
+        createCell(rightNaturalResourcesRow, 0, "", style);
+        createCell(rightNaturalResourcesRow, 1, "Restrictions on rights to exploit natural resources", style);
+        createCell(rightNaturalResourcesRow, 2, naturalResourceIncomeConstraintsResponses.getNaturalresourceExploitationRights(), style);
+
+        //Low value of NR-based products
+        Row lowValueNRRow = sheet.createRow(rowCount++);
+        createCell(lowValueNRRow, 0, "", style);
+        createCell(lowValueNRRow, 1, "Low value of NR-based products", style);
+        createCell(lowValueNRRow, 2, naturalResourceIncomeConstraintsResponses.getLowValueNrBasedProducts(), style);
+
+
+
+        Row blank7 = sheet.createRow(rowCount++);
+        Row blank8 = sheet.createRow(rowCount++);
+
+
+        //Lack of capital, weak financial services
+        Row lackCapitalRow = sheet.createRow(rowCount++);
+        createCell(lackCapitalRow, 0, "Small enterprises", style);
+        createCell(lackCapitalRow, 1, "Lack of capital, weak financial services", style);
+        createCell(lackCapitalRow, 2, smallEnterpriseIncomeConstraintsResponses.getLackOfCapital(), style);
+
+        //Too much red tape
+        Row redTapeRow = sheet.createRow(rowCount++);
+        createCell(redTapeRow, 0, "", style);
+        createCell(redTapeRow, 1, "Too much red tape", style);
+        createCell(redTapeRow, 2, smallEnterpriseIncomeConstraintsResponses.getTooMuchRedTape(), style);
+
+        //Too many taxes, tax rates too high
+        Row taxesRow = sheet.createRow(rowCount++);
+        createCell(taxesRow, 0, "", style);
+        createCell(taxesRow, 1, "Too many taxes, tax rates too high", style);
+        createCell(taxesRow, 2, smallEnterpriseIncomeConstraintsResponses.getTooManyTaxes(), style);
+
+        //Lack of expertise
+        Row smeExpertiseRow = sheet.createRow(rowCount++);
+        createCell(smeExpertiseRow, 0, "", style);
+        createCell(smeExpertiseRow, 1, "Lack of expertise", style);
+        createCell(smeExpertiseRow, 2, smallEnterpriseIncomeConstraintsResponses.getLackOfExpertise(), style);
+
 
         return workbook;
     }
@@ -189,7 +368,7 @@ public class WgConstraintsExcelService {
             workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook);
             rowNum = rowNum + 4;
             workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook);
-            rowNum = rowNum + 35;
+            rowNum = rowNum + 55;
         }
         return workbook;
     }
