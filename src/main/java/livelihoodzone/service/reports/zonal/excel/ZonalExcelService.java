@@ -26,6 +26,9 @@ public class ZonalExcelService {
     @Autowired
     SocietyAndEthnicityExcelService societyAndEthnicityExcelService;
 
+    @Autowired
+    HungerPatternsExcelService hungerPatternsExcelService;
+
     private XSSFWorkbook workbook;
 
     public void processData(int countyId) {
@@ -33,11 +36,13 @@ public class ZonalExcelService {
         workbook.createSheet(MAIN_WATER_SOURCES);
         workbook.createSheet(MARKETS_EXCEL_SHEET_NAME);
         workbook.createSheet(ETHNIC_GROUPS_EXCEL_SHEET_NAME);
+        workbook.createSheet(HUNGER_PATTERNS);
 
         workbook = lzWealthGroupDistributionExcelExporterService.processData(countyId,workbook);
         workbook = waterSourcesExcelService.processData(countyId,workbook);
         workbook = marketsExcelService.processData(countyId,workbook);
         workbook = societyAndEthnicityExcelService.processData(countyId,workbook);
+        workbook = hungerPatternsExcelService.processData(countyId,workbook);
     }
 
     public void export(HttpServletResponse response, int countyId) throws IOException {

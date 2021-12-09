@@ -19,4 +19,5 @@ public class ExcelSheetNamesConstants {
     public static final String MAIN_WATER_SOURCES = "Main Water Sources";
     public static final String MARKETS_EXCEL_SHEET_NAME = "Markets";
     public static final String ETHNIC_GROUPS_EXCEL_SHEET_NAME = "Ethnic Groups";
+    public static final String HUNGER_PATTERNS = "Hunger Patterns";
 }
