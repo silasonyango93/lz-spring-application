@@ -43,15 +43,16 @@ public class WaterSourcesExcelService {
 
         Row headerRow = sheet.createRow(rowNum + 2);
 
-        CellStyle style = workbook.createCellStyle();
-        XSSFFont font = workbook.createFont();
-        font.setFontHeight(16);
-        style.setFont(font);
+        CellStyle tableHeaderStyle = workbook.createCellStyle();
+        XSSFFont tableHeaderFont = workbook.createFont();
+        tableHeaderFont.setFontHeight(16);
+        tableHeaderFont.setBold(true);
+        tableHeaderStyle.setFont(tableHeaderFont);
 
-        createCell(headerRow, 0, "Water Source", style);
-        createCell(headerRow, 1, "Wet Season", style);
-        createCell(headerRow, 2, "Dry Season", style);
-        createCell(headerRow, 3, "Others Description", style);
+        createCell(headerRow, 0, "Water Source", tableHeaderStyle);
+        createCell(headerRow, 1, "Wet Season", tableHeaderStyle);
+        createCell(headerRow, 2, "Dry Season", tableHeaderStyle);
+        createCell(headerRow, 3, "Others Description", tableHeaderStyle);
 
         return workbook;
     }
