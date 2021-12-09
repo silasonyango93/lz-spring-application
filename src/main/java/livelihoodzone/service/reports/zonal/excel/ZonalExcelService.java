@@ -9,6 +9,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.MAIN_WATER_SOURCES;
 import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.WEALTH_GROUP_POPULATION_DISTRIBUTION;
 
 @Service
@@ -17,12 +18,17 @@ public class ZonalExcelService {
     @Autowired
     LzWealthGroupDistributionExcelExporterService lzWealthGroupDistributionExcelExporterService;
 
+    @Autowired
+    WaterSourcesExcelService waterSourcesExcelService;
+
     private XSSFWorkbook workbook;
 
     public void processData(int countyId) {
         workbook.createSheet(WEALTH_GROUP_POPULATION_DISTRIBUTION);
+        workbook.createSheet(MAIN_WATER_SOURCES);
 
         workbook = lzWealthGroupDistributionExcelExporterService.processData(countyId,workbook);
+        workbook = waterSourcesExcelService.processData(countyId,workbook);
     }
 
     public void export(HttpServletResponse response, int countyId) throws IOException {
