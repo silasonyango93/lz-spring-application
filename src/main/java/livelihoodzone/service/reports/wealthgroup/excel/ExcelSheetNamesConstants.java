@@ -21,4 +21,5 @@ public class ExcelSheetNamesConstants {
     public static final String ETHNIC_GROUPS_EXCEL_SHEET_NAME = "Ethnic Groups";
     public static final String HUNGER_PATTERNS = "Hunger Patterns";
     public static final String LZ_HAZARDS = "Hazards";
+    public static final String SEASONAL_CALENDAR = "Seasonal Calendar";
 }
