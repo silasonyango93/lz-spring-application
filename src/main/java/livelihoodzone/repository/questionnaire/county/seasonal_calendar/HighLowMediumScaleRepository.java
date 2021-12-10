@@ -8,4 +8,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface HighLowMediumScaleRepository extends JpaRepository<HighLowMediumScaleEntity, Long> {
     public HighLowMediumScaleEntity findByScaleMetricCode(@Param("ScaleMetricCode") int scaleMetricCode);
+    public HighLowMediumScaleEntity findByScaleMetricId(@Param("ScaleMetricId") int scaleMetricId);
 }

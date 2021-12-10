@@ -8,4 +8,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface LivestockMigrationTypesRepository extends JpaRepository<LivestockMigrationTypesEntity, Long> {
     public LivestockMigrationTypesEntity findByLivestockMigrationTypeCode(@Param("LivestockMigrationTypeCode") int livestockMigrationTypeCode);
+    public LivestockMigrationTypesEntity findByLivestockMigrationTypeId(@Param("LivestockMigrationTypeId") int livestockMigrationTypeId);
 }

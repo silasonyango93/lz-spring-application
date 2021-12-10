@@ -3,7 +3,7 @@ package livelihoodzone.entity.questionnaire.crops;
 import javax.persistence.*;
 @javax.persistence.Entity
 @Table(name = "crops")
-public class CropsEntity implements java.io.Serializable{
+public class CropsEntity implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CropId")

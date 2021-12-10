@@ -7,4 +7,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface LzSeasonsRepository extends JpaRepository<LzSeasonsEntity, Long> {
     public LzSeasonsEntity findByLzSeasonCode(@Param("LzSeasonCode") int lzSeasonCode);
+    public LzSeasonsEntity findByLzSeasonId(@Param("LzSeasonId") int lzSeasonId);
 }

@@ -1,7 +1,9 @@
 package livelihoodzone.dto.questionnaire.county.model.seasons;
 
 import livelihoodzone.entity.questionnaire.calendar.MonthsEntity;
+import livelihoodzone.entity.questionnaire.county.LzCropProductionResponsesEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LzSeasonsResponses {
@@ -56,6 +58,67 @@ public class LzSeasonsResponses {
     private List<MonthsEntity> ceremonies;
     private List<MonthsEntity> leanSeasons;
     private List<MonthsEntity> foodSecurityAssessments;
+    private List<LzCropProductionResponsesEntity> lzCropProductionResponsesEntityList;
+
+    public LzSeasonsResponses() {
+    }
+
+    public LzSeasonsResponses(boolean instantiate) {
+        if (instantiate) {
+            dry = new ArrayList<>();
+            longRains = new ArrayList<>();
+            shortRains = new ArrayList<>();
+            maizeLandPreparation = new ArrayList<>();
+            cassavaLandPreparation = new ArrayList<>();
+            riceLandPreparation = new ArrayList<>();
+            sorghumLandPreparation = new ArrayList<>();
+            legumesLandPreparation = new ArrayList<>();
+            maizePlanting = new ArrayList<>();
+            cassavaPlanting = new ArrayList<>();
+            ricePlanting = new ArrayList<>();
+            sorghumPlanting = new ArrayList<>();
+            legumesPlanting = new ArrayList<>();
+            maizeHarvesting = new ArrayList<>();
+            cassavaHarvesting = new ArrayList<>();
+            riceHarvesting = new ArrayList<>();
+            sorghumHarvesting = new ArrayList<>();
+            legumesHarvesting = new ArrayList<>();
+            livestockInMigration = new ArrayList<>();
+            livestockOutMigration = new ArrayList<>();
+            highMilkProduction = new ArrayList<>();
+            lowMilkProduction = new ArrayList<>();
+            highCalving = new ArrayList<>();
+            lowCalving = new ArrayList<>();
+            highKidding = new ArrayList<>();
+            lowKidding = new ArrayList<>();
+            highFoodPrices = new ArrayList<>();
+            mediumFoodPrices = new ArrayList<>();
+            lowFoodPrices = new ArrayList<>();
+            highLivestockPrices = new ArrayList<>();
+            mediumLivestockPrices = new ArrayList<>();
+            lowLivestockPrices = new ArrayList<>();
+            highCasualLabourAvailability = new ArrayList<>();
+            lowCasualLabourAvailability = new ArrayList<>();
+            nonAgricHighCasualLabourAvailability = new ArrayList<>();
+            nonAgricLowCasualLabourAvailability = new ArrayList<>();
+            highCasualLabourWages = new ArrayList<>();
+            lowCasualLabourWages = new ArrayList<>();
+            highRemittances = new ArrayList<>();
+            lowRemittances = new ArrayList<>();
+            highFish = new ArrayList<>();
+            lowFish = new ArrayList<>();
+            highMarketAccess = new ArrayList<>();
+            lowMarketAccess = new ArrayList<>();
+            highDiseaseOutbreak = new ArrayList<>();
+            lowDiseaseOutbreak = new ArrayList<>();
+            waterStress = new ArrayList<>();
+            conflictRisks = new ArrayList<>();
+            ceremonies = new ArrayList<>();
+            leanSeasons = new ArrayList<>();
+            foodSecurityAssessments = new ArrayList<>();
+            lzCropProductionResponsesEntityList = new ArrayList<>();
+        }
+    }
 
     public List<MonthsEntity> getDry() {
         return dry;
@@ -463,5 +526,13 @@ public class LzSeasonsResponses {
 
     public void setFoodSecurityAssessments(List<MonthsEntity> foodSecurityAssessments) {
         this.foodSecurityAssessments = foodSecurityAssessments;
+    }
+
+    public List<LzCropProductionResponsesEntity> getLzCropProductionResponsesEntityList() {
+        return lzCropProductionResponsesEntityList;
+    }
+
+    public void setLzCropProductionResponsesEntityList(List<LzCropProductionResponsesEntity> lzCropProductionResponsesEntityList) {
+        this.lzCropProductionResponsesEntityList = lzCropProductionResponsesEntityList;
     }
 }

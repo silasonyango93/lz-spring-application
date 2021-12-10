@@ -9,6 +9,7 @@ import livelihoodzone.service.reports.zonal.ethnic_groups.EthnicGroupsDataSetSer
 import livelihoodzone.service.reports.zonal.hazards.LzHazardsDataSetService;
 import livelihoodzone.service.reports.zonal.hunger_patterns.LzHungerPatternsDataSetService;
 import livelihoodzone.service.reports.zonal.markets.MarketsReportService;
+import livelihoodzone.service.reports.zonal.seasonal_calendar.LzSeasonalCalendarDataSetService;
 import livelihoodzone.service.reports.zonal.water_sources.WaterSourcesDataSetService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,9 @@ public class ZoneLevelChartsService {
     @Autowired
     EthnicGroupsDataSetService ethnicGroupsDataSetService;
 
+    @Autowired
+    LzSeasonalCalendarDataSetService lzSeasonalCalendarDataSetService;
+
     public List<LzLivelihoodZoneDataObject> prepareZoneLevelChart(int countyId, int questionnaireSectionCode) {
         List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = new ArrayList<>();
         List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
@@ -74,6 +78,9 @@ public class ZoneLevelChartsService {
             }
             if (questionnaireSectionCode == Constants.SOCIETY_AND_ETHNICITY) {
                 lzLivelihoodZoneDataObject = ethnicGroupsDataSetService.processEthnicGroupsChart(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId());
+            }
+            if (questionnaireSectionCode == Constants.SEASONAL_CALENDAR) {
+                lzLivelihoodZoneDataObject = lzSeasonalCalendarDataSetService.processSeasonalCalendarChart(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId());
             }
 
             lzLivelihoodZoneDataObjectList.add(lzLivelihoodZoneDataObject);
