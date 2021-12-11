@@ -1,5 +1,6 @@
 package livelihoodzone.dto.questionnaire.county.model.seasons;
 
+import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProductionResponseItem;
 import livelihoodzone.entity.questionnaire.calendar.MonthsEntity;
 import livelihoodzone.entity.questionnaire.county.LzCropProductionResponsesEntity;
 
@@ -58,7 +59,7 @@ public class LzSeasonsResponses {
     private List<MonthsEntity> ceremonies;
     private List<MonthsEntity> leanSeasons;
     private List<MonthsEntity> foodSecurityAssessments;
-    private List<LzCropProductionResponsesEntity> lzCropProductionResponsesEntityList;
+    private List<WgCropProductionResponseItem> wgCropProductionResponseItemList;
 
     public LzSeasonsResponses() {
     }
@@ -116,7 +117,7 @@ public class LzSeasonsResponses {
             ceremonies = new ArrayList<>();
             leanSeasons = new ArrayList<>();
             foodSecurityAssessments = new ArrayList<>();
-            lzCropProductionResponsesEntityList = new ArrayList<>();
+            wgCropProductionResponseItemList = new ArrayList<>();
         }
     }
 
@@ -528,11 +529,11 @@ public class LzSeasonsResponses {
         this.foodSecurityAssessments = foodSecurityAssessments;
     }
 
-    public List<LzCropProductionResponsesEntity> getLzCropProductionResponsesEntityList() {
-        return lzCropProductionResponsesEntityList;
+    public List<WgCropProductionResponseItem> getWgCropProductionResponseItemList() {
+        return wgCropProductionResponseItemList;
     }
 
-    public void setLzCropProductionResponsesEntityList(List<LzCropProductionResponsesEntity> lzCropProductionResponsesEntityList) {
-        this.lzCropProductionResponsesEntityList = lzCropProductionResponsesEntityList;
+    public void setWgCropProductionResponseItemList(List<WgCropProductionResponseItem> wgCropProductionResponseItemList) {
+        this.wgCropProductionResponseItemList = wgCropProductionResponseItemList;
     }
 }

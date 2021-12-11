@@ -1,14 +1,17 @@
 package livelihoodzone.service.reports.zonal.seasonal_calendar;
 
 import livelihoodzone.common.Constants;
+import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProductionResponseItem;
 import livelihoodzone.dto.questionnaire.county.model.seasons.LzSeasonsResponses;
 import livelihoodzone.dto.reports.zonal.LzSeasonalCalendarDataSetObject;
 import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
+import livelihoodzone.entity.questionnaire.calendar.MonthsEntity;
 import livelihoodzone.entity.questionnaire.county.LzCropProductionResponsesEntity;
 import livelihoodzone.entity.questionnaire.county.seasonal_calendar.*;
 import livelihoodzone.repository.questionnaire.calendar.MonthsRepositrory;
 import livelihoodzone.repository.questionnaire.county.LzCropProductionResponsesRepository;
 import livelihoodzone.repository.questionnaire.county.seasonal_calendar.*;
+import livelihoodzone.repository.questionnaire.crops.CropsRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzHazardsDataSetRetrofitModel;
 import livelihoodzone.service.retrofit.reports.zonelevel.LzHungerPatternsDataSetRetrofitModel;
@@ -39,6 +42,9 @@ public class LzSeasonalCalendarDataSetService {
 
     @Autowired
     MonthsRepositrory monthsRepositrory;
+
+    @Autowired
+    CropsRepository cropsRepository;
 
     @Autowired
     LzCropProductionResponsesRepository lzCropProductionResponsesRepository;
@@ -102,6 +108,15 @@ public class LzSeasonalCalendarDataSetService {
 
     @Autowired
     LzFoodSecurityAssessmentsRepository lzFoodSecurityAssessmentsRepository;
+
+    @Autowired
+    LzLandPreparationMonthsRepository lzLandPreparationMonthsRepository;
+
+    @Autowired
+    LzPlantingMonthsRepository lzPlantingMonthsRepository;
+
+    @Autowired
+    LzHarvestingMonthsRepository lzHarvestingMonthsRepository;
 
 
 
@@ -179,6 +194,56 @@ public class LzSeasonalCalendarDataSetService {
     }
 
 
+    public WgCropProductionResponseItem extractFullCropProfile(int cropId, int lzQuestionnaireSessionId) {
+        WgCropProductionResponseItem wgCropProductionResponseItem = new WgCropProductionResponseItem(true, cropsRepository.findByCropId(cropId));
+
+        //Land Preparation
+        List<LzLandPreparationMonthsEntity> landPreparationPeriod = lzLandPreparationMonthsRepository.findByLzQuestionnaireSessionIdAndCropId(lzQuestionnaireSessionId,cropId);
+        List<MonthsEntity> landPreparationMonths = new ArrayList<>();
+        for (LzLandPreparationMonthsEntity lzLandPreparationMonthsEntity : landPreparationPeriod) {
+            landPreparationMonths.add(monthsRepositrory.findByMonthId(lzLandPreparationMonthsEntity.getMonthId()));
+        }
+        wgCropProductionResponseItem.getLandPreparationPeriod().addAll(landPreparationMonths);
+
+
+        //Planting
+        List<LzPlantingMonthsEntity> plantingPeriod = lzPlantingMonthsRepository.findByLzQuestionnaireSessionIdAndCropId(lzQuestionnaireSessionId,cropId);
+        List<MonthsEntity> plantingMonths = new ArrayList<>();
+        for (LzPlantingMonthsEntity lzPlantingMonthsEntity : plantingPeriod) {
+            plantingMonths.add(monthsRepositrory.findByMonthId(lzPlantingMonthsEntity.getMonthId()));
+        }
+        wgCropProductionResponseItem.getPlantingPeriod().addAll(plantingMonths);
+
+
+        //Harvesting period
+        List<LzHarvestingMonthsEntity> harvestingPeriod = lzHarvestingMonthsRepository.findByLzQuestionnaireSessionIdAndCropId(lzQuestionnaireSessionId,cropId);
+        List<MonthsEntity> harvestingMonths = new ArrayList<>();
+        for (LzHarvestingMonthsEntity lzHarvestingMonthsEntity : harvestingPeriod) {
+            harvestingMonths.add(monthsRepositrory.findByMonthId(lzHarvestingMonthsEntity.getMonthId()));
+        }
+        wgCropProductionResponseItem.getHarvestingPeriod().addAll(harvestingMonths);
+        return wgCropProductionResponseItem;
+    }
+
+
+    public List<Number> extractUniqueCropsFromCropResponses(List<LzCropProductionResponsesEntity> lzCropProductionResponsesEntityList) {
+        List<Number> uniqueCropIds = new ArrayList<>();
+        for (LzCropProductionResponsesEntity lzCropProductionResponsesEntity : lzCropProductionResponsesEntityList) {
+            if (!doesIdAlreadyExist(uniqueCropIds, lzCropProductionResponsesEntity.getCropId())) {
+                uniqueCropIds.add(lzCropProductionResponsesEntity.getCropId());
+            }
+        }
+        return uniqueCropIds;
+    }
+
+    public boolean doesIdAlreadyExist(List<Number> uniqueCropIds, int currentId) {
+        for (Number number : uniqueCropIds) {
+            if (number.intValue() == currentId) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public LzLivelihoodZoneDataObject processSeasonalCalendarChart(LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject, int lzQuestionnaireSessionId) {
         LzSeasonsResponses livelihoodZoneSeasonsResponses = new LzSeasonsResponses(true);
@@ -187,9 +252,17 @@ public class LzSeasonalCalendarDataSetService {
 
         List<LzCropProductionResponsesEntity> lzCropProductionResponsesEntityList = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
 
-        List<LivestockMigrationMonthsEntity> livestockMigrationMonthsEntityList = livestockMigrationMonthsRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        List<Number> uniqueCropIds = extractUniqueCropsFromCropResponses(lzCropProductionResponsesEntityList);
 
-        livelihoodZoneSeasonsResponses.getLzCropProductionResponsesEntityList().addAll(lzCropProductionResponsesEntityList);
+        List<WgCropProductionResponseItem> wgCropProductionResponseItemList = new ArrayList<>();
+
+        for (Number currentCropId : uniqueCropIds) {
+            wgCropProductionResponseItemList.add(extractFullCropProfile(currentCropId.intValue(), lzQuestionnaireSessionId));
+        }
+
+        livelihoodZoneSeasonsResponses.getWgCropProductionResponseItemList().addAll(wgCropProductionResponseItemList);
+
+        List<LivestockMigrationMonthsEntity> livestockMigrationMonthsEntityList = livestockMigrationMonthsRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
 
         List<LzMilkProductionEntity> lzMilkProductionEntityList = lzMilkProductionRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
 
