@@ -35,6 +35,9 @@ public class ZonalExcelService {
     @Autowired
     SeasonalCalendarExcelService seasonalCalendarExcelService;
 
+    @Autowired
+    LzCropProductionExcelService lzCropProductionExcelService;
+
     private XSSFWorkbook workbook;
 
     public void processData(int countyId) {
@@ -45,6 +48,7 @@ public class ZonalExcelService {
         workbook.createSheet(HUNGER_PATTERNS);
         workbook.createSheet(LZ_HAZARDS);
         workbook.createSheet(SEASONAL_CALENDAR);
+        workbook.createSheet(LZ_CROP_PRODUCTION);
 
         workbook = lzWealthGroupDistributionExcelExporterService.processData(countyId,workbook);
         workbook = waterSourcesExcelService.processData(countyId,workbook);
@@ -53,6 +57,7 @@ public class ZonalExcelService {
         workbook = hungerPatternsExcelService.processData(countyId,workbook);
         workbook = hazardExcelService.processData(countyId,workbook);
         workbook = seasonalCalendarExcelService.processData(countyId,workbook);
+        workbook = lzCropProductionExcelService.processData(countyId,workbook);
     }
 
     public void export(HttpServletResponse response, int countyId) throws IOException {
