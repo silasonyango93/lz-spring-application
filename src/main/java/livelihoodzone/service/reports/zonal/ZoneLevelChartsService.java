@@ -5,6 +5,7 @@ import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 import livelihoodzone.repository.questionnaire.county.LzQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
+import livelihoodzone.service.reports.zonal.cropproduction.LzCropProductionReportService;
 import livelihoodzone.service.reports.zonal.ethnic_groups.EthnicGroupsDataSetService;
 import livelihoodzone.service.reports.zonal.hazards.LzHazardsDataSetService;
 import livelihoodzone.service.reports.zonal.hunger_patterns.LzHungerPatternsDataSetService;
@@ -48,6 +49,9 @@ public class ZoneLevelChartsService {
     @Autowired
     LzSeasonalCalendarDataSetService lzSeasonalCalendarDataSetService;
 
+    @Autowired
+    LzCropProductionReportService lzCropProductionReportService;
+
     public List<LzLivelihoodZoneDataObject> prepareZoneLevelChart(int countyId, int questionnaireSectionCode) {
         List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = new ArrayList<>();
         List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
@@ -81,6 +85,9 @@ public class ZoneLevelChartsService {
             }
             if (questionnaireSectionCode == Constants.SEASONAL_CALENDAR) {
                 lzLivelihoodZoneDataObject = lzSeasonalCalendarDataSetService.processSeasonalCalendarChart(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId());
+            }
+            if (questionnaireSectionCode == Constants.LZ_CROP_PRODUCTION) {
+                lzLivelihoodZoneDataObject = lzCropProductionReportService.processCropProductionChart(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId());
             }
 
             lzLivelihoodZoneDataObjectList.add(lzLivelihoodZoneDataObject);

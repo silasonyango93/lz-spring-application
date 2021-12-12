@@ -123,7 +123,7 @@ public class FoodConsumptionPercentageExcelService {
 
         //Beans
         Row beansRow = sheet.createRow(rowCount++);
-        createCell(beansRow, 0, "Rice and products", style);
+        createCell(beansRow, 0, "Beans", style);
         createCell(beansRow, 1, foodConsumptionResponsesDto.getBeans().getOwnFarm(), style);
         createCell(beansRow, 2, foodConsumptionResponsesDto.getBeans().getMarketFoodPurchase(), style);
         createCell(beansRow, 3, foodConsumptionResponsesDto.getBeans().getHuntingGatheringFishing(), style);

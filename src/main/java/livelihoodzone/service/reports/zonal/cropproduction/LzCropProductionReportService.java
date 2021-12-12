@@ -5,7 +5,11 @@ import livelihoodzone.dto.questionnaire.county.LzCropProductionResponses;
 import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProductionResponseItem;
 import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObjectDto;
+import livelihoodzone.entity.questionnaire.calendar.MonthsEntity;
 import livelihoodzone.entity.questionnaire.county.LzCropProductionResponsesEntity;
+import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LzHarvestingMonthsEntity;
+import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LzLandPreparationMonthsEntity;
+import livelihoodzone.entity.questionnaire.county.seasonal_calendar.LzPlantingMonthsEntity;
 import livelihoodzone.repository.questionnaire.county.LzCropProductionResponsesRepository;
 import livelihoodzone.repository.questionnaire.crops.CropsRepository;
 import livelihoodzone.service.retrofit.RetrofitClientInstance;
@@ -75,7 +79,6 @@ public class LzCropProductionReportService {
         lzCropProductionReportObjectDto.setSelectedCrops(selectedCrops);
 
 
-
         //Process Long Rains Rainfed Crops Percentage Cultivated Area
 
         int longRainsRainFedPercentageCultivatedAreaCurrentQuestionnaireSessionId = lzCropProductionReportRetrofitModelList.get(0).getLzQuestionnaireSessionId();
@@ -87,13 +90,13 @@ public class LzCropProductionReportService {
                     if (currentItem.getLzQuestionnaireSessionId() == longRainsRainFedPercentageCultivatedAreaCurrentQuestionnaireSessionId) {
 
                         longRainsRainFedPercentageCultivatedAreaStringReport = longRainsRainFedPercentageCultivatedAreaStringReport + longRainsRainFedPercentageCultivatedAreaCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getCultivatedAreaPercentage() +"%, ";
+                                + " -> " + currentItem.getCultivatedAreaPercentage() + "%, ";
                         longRainsRainFedPercentageCultivatedAreaCounter++;
                     } else {
                         longRainsRainFedPercentageCultivatedArea.add(longRainsRainFedPercentageCultivatedAreaStringReport);
                         longRainsRainFedPercentageCultivatedAreaCounter = 1;
                         longRainsRainFedPercentageCultivatedAreaStringReport = longRainsRainFedPercentageCultivatedAreaCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getCultivatedAreaPercentage() +"%, ";
+                                + " -> " + currentItem.getCultivatedAreaPercentage() + "%, ";
                         longRainsRainFedPercentageCultivatedAreaCounter++;
                         longRainsRainFedPercentageCultivatedAreaCurrentQuestionnaireSessionId = currentItem.getLzQuestionnaireSessionId();
                     }
@@ -103,8 +106,6 @@ public class LzCropProductionReportService {
         }
         longRainsRainFedPercentageCultivatedArea.add(longRainsRainFedPercentageCultivatedAreaStringReport);
         lzCropProductionReportObjectDto.setLongRainsRainFedPercentageCultivatedArea(longRainsRainFedPercentageCultivatedArea);
-
-
 
 
         //Process Long Rains Rainfed Crops Average Yield
@@ -118,13 +119,13 @@ public class LzCropProductionReportService {
                     if (currentItem.getLzQuestionnaireSessionId() == longRainsRainFedAverageYieldCurrentQuestionnaireSessionId) {
 
                         longRainsRainFedAverageYieldStringReport = longRainsRainFedAverageYieldStringReport + longRainsRainFedAverageYieldCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getAverageYieldKgPerHectare() +", ";
+                                + " -> " + currentItem.getAverageYieldKgPerHectare() + ", ";
                         longRainsRainFedAverageYieldCounter++;
                     } else {
                         longRainsRainFedAverageYieldKgPerHa.add(longRainsRainFedAverageYieldStringReport);
                         longRainsRainFedAverageYieldCounter = 1;
                         longRainsRainFedAverageYieldStringReport = longRainsRainFedAverageYieldCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getAverageYieldKgPerHectare() +", ";
+                                + " -> " + currentItem.getAverageYieldKgPerHectare() + ", ";
                         longRainsRainFedAverageYieldCounter++;
                         longRainsRainFedAverageYieldCurrentQuestionnaireSessionId = currentItem.getLzQuestionnaireSessionId();
                     }
@@ -134,7 +135,6 @@ public class LzCropProductionReportService {
         }
         longRainsRainFedAverageYieldKgPerHa.add(longRainsRainFedAverageYieldStringReport);
         lzCropProductionReportObjectDto.setLongRainsRainFedAverageYieldKgPerHa(longRainsRainFedAverageYieldKgPerHa);
-
 
 
         //Process Long Rains Irrigated Crops Percentage Cultivated Area
@@ -148,13 +148,13 @@ public class LzCropProductionReportService {
                     if (currentItem.getLzQuestionnaireSessionId() == longRainsIrrigatedPercentageCultivatedAreaCurrentQuestionnaireSessionId) {
 
                         longRainsIrrigatedPercentageCultivatedAreaStringReport = longRainsIrrigatedPercentageCultivatedAreaStringReport + longRainsIrrigatedPercentageCultivatedAreaCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getCultivatedAreaPercentage() +"%, ";
+                                + " -> " + currentItem.getCultivatedAreaPercentage() + "%, ";
                         longRainsIrrigatedPercentageCultivatedAreaCounter++;
                     } else {
                         longRainsIrrigatedPercentageCultivatedArea.add(longRainsIrrigatedPercentageCultivatedAreaStringReport);
                         longRainsIrrigatedPercentageCultivatedAreaCounter = 1;
                         longRainsIrrigatedPercentageCultivatedAreaStringReport = longRainsIrrigatedPercentageCultivatedAreaCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getCultivatedAreaPercentage() +"%, ";
+                                + " -> " + currentItem.getCultivatedAreaPercentage() + "%, ";
                         longRainsIrrigatedPercentageCultivatedAreaCounter++;
                         longRainsIrrigatedPercentageCultivatedAreaCurrentQuestionnaireSessionId = currentItem.getLzQuestionnaireSessionId();
                     }
@@ -164,7 +164,6 @@ public class LzCropProductionReportService {
         }
         longRainsIrrigatedPercentageCultivatedArea.add(longRainsIrrigatedPercentageCultivatedAreaStringReport);
         lzCropProductionReportObjectDto.setLongRainsIrrigatedPercentageCultivatedArea(longRainsIrrigatedPercentageCultivatedArea);
-
 
 
         //Process Long Rains Irrigated Crops Average Yield
@@ -178,13 +177,13 @@ public class LzCropProductionReportService {
                     if (currentItem.getLzQuestionnaireSessionId() == longRainsIrrigatedAverageYieldCurrentQuestionnaireSessionId) {
 
                         longRainsIrrigatedAverageYieldStringReport = longRainsIrrigatedAverageYieldStringReport + longRainsIrrigatedAverageYieldCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getAverageYieldKgPerHectare() +", ";
+                                + " -> " + currentItem.getAverageYieldKgPerHectare() + ", ";
                         longRainsIrrigatedAverageYieldCounter++;
                     } else {
                         longRainsIrrigatedAverageYieldKgPerHa.add(longRainsIrrigatedAverageYieldStringReport);
                         longRainsIrrigatedAverageYieldCounter = 1;
                         longRainsIrrigatedAverageYieldStringReport = longRainsIrrigatedAverageYieldCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getAverageYieldKgPerHectare() +", ";
+                                + " -> " + currentItem.getAverageYieldKgPerHectare() + ", ";
                         longRainsIrrigatedAverageYieldCounter++;
                         longRainsIrrigatedAverageYieldCurrentQuestionnaireSessionId = currentItem.getLzQuestionnaireSessionId();
                     }
@@ -194,7 +193,6 @@ public class LzCropProductionReportService {
         }
         longRainsIrrigatedAverageYieldKgPerHa.add(longRainsIrrigatedAverageYieldStringReport);
         lzCropProductionReportObjectDto.setLongRainsIrrigatedAverageYieldKgPerHa(longRainsIrrigatedAverageYieldKgPerHa);
-
 
 
         //Process Short Rains Rainfed Crops Percentage Cultivated Area
@@ -208,13 +206,13 @@ public class LzCropProductionReportService {
                     if (currentItem.getLzQuestionnaireSessionId() == shortRainsRainFedPercentageCultivatedAreaCurrentQuestionnaireSessionId) {
 
                         shortRainsRainFedPercentageCultivatedAreaStringReport = shortRainsRainFedPercentageCultivatedAreaStringReport + shortRainsRainFedPercentageCultivatedAreaCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getCultivatedAreaPercentage() +"%, ";
+                                + " -> " + currentItem.getCultivatedAreaPercentage() + "%, ";
                         shortRainsRainFedPercentageCultivatedAreaCounter++;
                     } else {
                         shortRainsRainFedPercentageCultivatedArea.add(shortRainsRainFedPercentageCultivatedAreaStringReport);
                         shortRainsRainFedPercentageCultivatedAreaCounter = 1;
                         shortRainsRainFedPercentageCultivatedAreaStringReport = shortRainsRainFedPercentageCultivatedAreaCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getCultivatedAreaPercentage() +"%, ";
+                                + " -> " + currentItem.getCultivatedAreaPercentage() + "%, ";
                         shortRainsRainFedPercentageCultivatedAreaCounter++;
                         shortRainsRainFedPercentageCultivatedAreaCurrentQuestionnaireSessionId = currentItem.getLzQuestionnaireSessionId();
                     }
@@ -224,7 +222,6 @@ public class LzCropProductionReportService {
         }
         shortRainsRainFedPercentageCultivatedArea.add(shortRainsRainFedPercentageCultivatedAreaStringReport);
         lzCropProductionReportObjectDto.setShortRainsRainFedPercentageCultivatedArea(shortRainsRainFedPercentageCultivatedArea);
-
 
 
         //Process Short Rains Rainfed Crops Average Yield
@@ -238,13 +235,13 @@ public class LzCropProductionReportService {
                     if (currentItem.getLzQuestionnaireSessionId() == shortRainsRainFedAverageYieldCurrentQuestionnaireSessionId) {
 
                         shortRainsRainFedAverageYieldStringReport = shortRainsRainFedAverageYieldStringReport + shortRainsRainFedAverageYieldCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getAverageYieldKgPerHectare() +", ";
+                                + " -> " + currentItem.getAverageYieldKgPerHectare() + ", ";
                         shortRainsRainFedAverageYieldCounter++;
                     } else {
                         shortRainsRainFedAverageYieldKgPerHa.add(shortRainsRainFedAverageYieldStringReport);
                         shortRainsRainFedAverageYieldCounter = 1;
                         shortRainsRainFedAverageYieldStringReport = shortRainsRainFedAverageYieldCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getAverageYieldKgPerHectare() +", ";
+                                + " -> " + currentItem.getAverageYieldKgPerHectare() + ", ";
                         shortRainsRainFedAverageYieldCounter++;
                         shortRainsRainFedAverageYieldCurrentQuestionnaireSessionId = currentItem.getLzQuestionnaireSessionId();
                     }
@@ -254,8 +251,6 @@ public class LzCropProductionReportService {
         }
         shortRainsRainFedAverageYieldKgPerHa.add(shortRainsRainFedAverageYieldStringReport);
         lzCropProductionReportObjectDto.setShortRainsRainFedAverageYieldKgPerHa(shortRainsRainFedAverageYieldKgPerHa);
-
-
 
 
         //Process Short Rains Irrigated Crops Percentage Cultivated Area
@@ -269,13 +264,13 @@ public class LzCropProductionReportService {
                     if (currentItem.getLzQuestionnaireSessionId() == shortRainsIrrigatedPercentageCultivatedAreaCurrentQuestionnaireSessionId) {
 
                         shortRainsIrrigatedPercentageCultivatedAreaStringReport = shortRainsIrrigatedPercentageCultivatedAreaStringReport + shortRainsIrrigatedPercentageCultivatedAreaCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getCultivatedAreaPercentage() +"%, ";
+                                + " -> " + currentItem.getCultivatedAreaPercentage() + "%, ";
                         shortRainsIrrigatedPercentageCultivatedAreaCounter++;
                     } else {
                         shortRainsIrrigatedPercentageCultivatedArea.add(shortRainsIrrigatedPercentageCultivatedAreaStringReport);
                         shortRainsIrrigatedPercentageCultivatedAreaCounter = 1;
                         shortRainsIrrigatedPercentageCultivatedAreaStringReport = shortRainsIrrigatedPercentageCultivatedAreaCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getCultivatedAreaPercentage() +"%, ";
+                                + " -> " + currentItem.getCultivatedAreaPercentage() + "%, ";
                         shortRainsIrrigatedPercentageCultivatedAreaCounter++;
                         shortRainsIrrigatedPercentageCultivatedAreaCurrentQuestionnaireSessionId = currentItem.getLzQuestionnaireSessionId();
                     }
@@ -285,8 +280,6 @@ public class LzCropProductionReportService {
         }
         shortRainsIrrigatedPercentageCultivatedArea.add(shortRainsIrrigatedPercentageCultivatedAreaStringReport);
         lzCropProductionReportObjectDto.setShortRainsIrrigatedPercentageCultivatedArea(shortRainsIrrigatedPercentageCultivatedArea);
-
-
 
 
         //Process Short Rains Irrigated Crops Average Yield
@@ -300,13 +293,13 @@ public class LzCropProductionReportService {
                     if (currentItem.getLzQuestionnaireSessionId() == shortRainsIrrigatedAverageYieldCurrentQuestionnaireSessionId) {
 
                         shortRainsIrrigatedAverageYieldStringReport = shortRainsIrrigatedAverageYieldStringReport + shortRainsIrrigatedAverageYieldCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getAverageYieldKgPerHectare() +", ";
+                                + " -> " + currentItem.getAverageYieldKgPerHectare() + ", ";
                         shortRainsIrrigatedAverageYieldCounter++;
                     } else {
                         shortRainsIrrigatedAverageYieldKgPerHa.add(shortRainsIrrigatedAverageYieldStringReport);
                         shortRainsIrrigatedAverageYieldCounter = 1;
                         shortRainsIrrigatedAverageYieldStringReport = shortRainsIrrigatedAverageYieldCounter + ")" + currentItem.getCropName()
-                                + " -> " + currentItem.getAverageYieldKgPerHectare() +", ";
+                                + " -> " + currentItem.getAverageYieldKgPerHectare() + ", ";
                         shortRainsIrrigatedAverageYieldCounter++;
                         shortRainsIrrigatedAverageYieldCurrentQuestionnaireSessionId = currentItem.getLzQuestionnaireSessionId();
                     }
@@ -343,14 +336,125 @@ public class LzCropProductionReportService {
     }
 
 
+    public WgCropProductionResponseItem extractFullCropProfile(int cropId, int lzQuestionnaireSessionId) {
+        WgCropProductionResponseItem wgCropProductionResponseItem = new WgCropProductionResponseItem(true, cropsRepository.findByCropId(cropId));
+
+        //Long rains
+        double longRainsRainfedPercentageCultivatedArea = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionIdAndCropIdAndRainySeasonIdAndCropWaterAccessTypeId(
+                lzQuestionnaireSessionId,
+                cropId,
+                1,
+                1
+        ).getCultivatedAreaPercentage();
+
+        double longRainsRainfedAverageYieldKgPerHa = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionIdAndCropIdAndRainySeasonIdAndCropWaterAccessTypeId(
+                lzQuestionnaireSessionId,
+                cropId,
+                1,
+                1
+        ).getAverageYieldKgPerHectare();
+
+
+        double longRainsIrrigatedPercentageCultivatedArea = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionIdAndCropIdAndRainySeasonIdAndCropWaterAccessTypeId(
+                lzQuestionnaireSessionId,
+                cropId,
+                1,
+                2
+        ).getCultivatedAreaPercentage();
+
+        double longRainsIrrigatedAverageYieldKgPerHa = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionIdAndCropIdAndRainySeasonIdAndCropWaterAccessTypeId(
+                lzQuestionnaireSessionId,
+                cropId,
+                1,
+                2
+        ).getAverageYieldKgPerHectare();
+
+
+
+
+
+        //Short rains
+        double shortRainsRainfedPercentageCultivatedArea = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionIdAndCropIdAndRainySeasonIdAndCropWaterAccessTypeId(
+                lzQuestionnaireSessionId,
+                cropId,
+                2,
+                1
+        ).getCultivatedAreaPercentage();
+
+        double shortRainsRainfedAverageYieldKgPerHa = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionIdAndCropIdAndRainySeasonIdAndCropWaterAccessTypeId(
+                lzQuestionnaireSessionId,
+                cropId,
+                2,
+                1
+        ).getAverageYieldKgPerHectare();
+
+        double shortRainsIrrigatedPercentageCultivatedArea = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionIdAndCropIdAndRainySeasonIdAndCropWaterAccessTypeId(
+                lzQuestionnaireSessionId,
+                cropId,
+                2,
+                2
+        ).getCultivatedAreaPercentage();
+
+        double shortRainsIrrigatedAverageYieldKgPerHa = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionIdAndCropIdAndRainySeasonIdAndCropWaterAccessTypeId(
+                lzQuestionnaireSessionId,
+                cropId,
+                2,
+                2
+        ).getAverageYieldKgPerHectare();
+
+
+        //Long rains
+        wgCropProductionResponseItem.getLongRainsSeason().getRainfedCultivatedAreaPercentage().setValue(longRainsRainfedPercentageCultivatedArea);
+        wgCropProductionResponseItem.getLongRainsSeason().getRainfedAverageYieldPerHa().setValue(longRainsRainfedAverageYieldKgPerHa);
+
+        wgCropProductionResponseItem.getLongRainsSeason().getIrrigatedCultivatedArea().setValue(longRainsIrrigatedPercentageCultivatedArea);
+        wgCropProductionResponseItem.getLongRainsSeason().getIrrigatedAverageYieldPerHa().setValue(longRainsIrrigatedAverageYieldKgPerHa);
+
+
+        //Short rains
+        wgCropProductionResponseItem.getShortRainsSeason().getRainfedCultivatedAreaPercentage().setValue(shortRainsRainfedPercentageCultivatedArea);
+        wgCropProductionResponseItem.getShortRainsSeason().getRainfedAverageYieldPerHa().setValue(shortRainsRainfedAverageYieldKgPerHa);
+
+        wgCropProductionResponseItem.getShortRainsSeason().getIrrigatedCultivatedArea().setValue(shortRainsIrrigatedPercentageCultivatedArea);
+        wgCropProductionResponseItem.getShortRainsSeason().getIrrigatedAverageYieldPerHa().setValue(shortRainsIrrigatedAverageYieldKgPerHa);
+
+        return wgCropProductionResponseItem;
+    }
+
+
     public LzLivelihoodZoneDataObject processCropProductionChart(LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject, int lzQuestionnaireSessionId) {
         LzCropProductionResponses lzCropProductionResponses = new LzCropProductionResponses(true);
         List<LzCropProductionResponsesEntity> lzCropProductionResponsesEntityList = lzCropProductionResponsesRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
 
-        for (LzCropProductionResponsesEntity lzCropProductionResponsesEntity : lzCropProductionResponsesEntityList) {
-            WgCropProductionResponseItem wgCropProductionResponseItem = new WgCropProductionResponseItem(true,cropsRepository.findByCropId(lzCropProductionResponsesEntity.getCropId()));
-            //wgCropProductionResponseItem.getLongRainsSeason()
+        List<Number> uniqueCropIds = extractUniqueCropsFromCropResponses(lzCropProductionResponsesEntityList);
+
+        List<WgCropProductionResponseItem> wgCropProductionResponseItemList = new ArrayList<>();
+
+        for (Number currentCropId : uniqueCropIds) {
+            wgCropProductionResponseItemList.add(extractFullCropProfile(currentCropId.intValue(), lzQuestionnaireSessionId));
         }
+
+        lzCropProductionResponses.getCropProductionResponses().addAll(wgCropProductionResponseItemList);
+        lzLivelihoodZoneDataObject.setLzCropProductionResponses(lzCropProductionResponses);
         return lzLivelihoodZoneDataObject;
+    }
+
+    public List<Number> extractUniqueCropsFromCropResponses(List<LzCropProductionResponsesEntity> lzCropProductionResponsesEntityList) {
+        List<Number> uniqueCropIds = new ArrayList<>();
+        for (LzCropProductionResponsesEntity lzCropProductionResponsesEntity : lzCropProductionResponsesEntityList) {
+            if (!doesIdAlreadyExist(uniqueCropIds, lzCropProductionResponsesEntity.getCropId())) {
+                uniqueCropIds.add(lzCropProductionResponsesEntity.getCropId());
+            }
+        }
+        return uniqueCropIds;
+    }
+
+    public boolean doesIdAlreadyExist(List<Number> uniqueCropIds, int currentId) {
+        for (Number number : uniqueCropIds) {
+            if (number.intValue() == currentId) {
+                return true;
+            }
+        }
+        return false;
     }
 }
