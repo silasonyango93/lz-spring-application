@@ -79,7 +79,7 @@ public class WealthGroupReportsController {
     MigrationPatternsRepository migrationPatternsRepository;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
-    @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class, authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token"),
@@ -92,7 +92,7 @@ public class WealthGroupReportsController {
 
 
     @PostMapping(value = "/wealthgroup-aggregate-responses")
-    @ApiOperation(value = "${WealthGroupReports.wealthgroup-aggregate-responses}", response = WealthGroupReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${WealthGroupReports.wealthgroup-aggregate-responses}", response = WealthGroupReportResponseDto.class, authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token"),
@@ -103,19 +103,19 @@ public class WealthGroupReportsController {
 
         WgQuestionnaireTypesEntity questionnaireType = wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeId(wealthGroupReportRequestDto.getQuestionnaireTypeId());
         if (questionnaireType == null) {
-            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage","Invalid questionnaire type id");
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage", "Invalid questionnaire type id");
             return new ResponseEntity<WealthGroupReportResponseHashMapObject>(wealthGroupReportResponseHashMapObject, HttpStatus.valueOf(422));
         }
 
         CountiesEntity countiesEntity = countiesRepository.findByCountyId(wealthGroupReportRequestDto.getCountyId());
         if (countiesEntity == null) {
-            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage","Invalid county id");
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage", "Invalid county id");
             return new ResponseEntity<WealthGroupReportResponseHashMapObject>(wealthGroupReportResponseHashMapObject, HttpStatus.valueOf(422));
         }
 
         List<WgQuestionnaireDetailsRetrofitModel> questionnairesList = wealthGroupReportService.fetchWealthGroupQuestionnaireDetails(wealthGroupReportRequestDto.getCountyId(), wealthGroupReportRequestDto.getQuestionnaireTypeId());
         if (questionnairesList.isEmpty()) {
-            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage","There is no wealth group " + extractWealthGroupQuestionnaireType(wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeId(wealthGroupReportRequestDto.getQuestionnaireTypeId()).getWgQuestionnaireTypeCode()) + " that has been filled for " + countiesRepository.findByCountyId(wealthGroupReportRequestDto.getCountyId()).getCountyName() + " county");
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage", "There is no wealth group " + extractWealthGroupQuestionnaireType(wgQuestionnaireTypesRepository.findByWgQuestionnaireTypeId(wealthGroupReportRequestDto.getQuestionnaireTypeId()).getWgQuestionnaireTypeCode()) + " that has been filled for " + countiesRepository.findByCountyId(wealthGroupReportRequestDto.getCountyId()).getCountyName() + " county");
             return new ResponseEntity<WealthGroupReportResponseHashMapObject>(wealthGroupReportResponseHashMapObject, HttpStatus.valueOf(422));
         }
 
@@ -175,7 +175,7 @@ public class WealthGroupReportsController {
         }
 
         if (wealthGroupReportResponseHashMapObject.getReportHashMapObject().isEmpty()) {
-            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage","Response returned an empty result");
+            wealthGroupReportResponseHashMapObject.setReportHashMapObject("errorMessage", "Response returned an empty result");
             return new ResponseEntity<WealthGroupReportResponseHashMapObject>(wealthGroupReportResponseHashMapObject, HttpStatus.valueOf(422));
         }
 
@@ -185,7 +185,7 @@ public class WealthGroupReportsController {
 
 
     @GetMapping(value = "/wealth-group-questionnaire-types")
-    @ApiOperation(value = "${WealthGroupReports.wealth-group-questionnaire-types}", response = WgQuestionnaireTypesEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${WealthGroupReports.wealth-group-questionnaire-types}", response = WgQuestionnaireTypesEntity.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token"),
@@ -207,7 +207,25 @@ public class WealthGroupReportsController {
     public ResponseEntity<List<WgLivelihoodZoneDataObject>> getWealthGroupChartsData(@ApiParam("Wealth group charts") @RequestBody WealthGroupChartsRequestDto wealthGroupChartsRequestDto) {
 
         try {
-            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.prepareWealthGroupChart(wealthGroupChartsRequestDto.getCountyId(),wealthGroupChartsRequestDto.getWealthGroupId(),wealthGroupChartsRequestDto.getQuestionnaireSectionCode());
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.prepareWealthGroupChart(wealthGroupChartsRequestDto.getCountyId(), wealthGroupChartsRequestDto.getWealthGroupId(), wealthGroupChartsRequestDto.getQuestionnaireSectionCode());
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+    @PostMapping("/charts/byLivelihoodzone")
+    @ApiOperation(value = "${WealthGroupReports.charts}", response = WgLivelihoodZoneDataObject.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<WgLivelihoodZoneDataObject>> getWealthGroupChartsData(@ApiParam("Wealth group charts by livelihood zone") @RequestBody WealthGroupChartsByLivelihoodZoneRequestDto wealthGroupChartsByLivelihoodZoneRequestDto) {
+
+        try {
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.prepareWealthGroupChartByLivelihoodZone(wealthGroupChartsByLivelihoodZoneRequestDto.getCountyId(), wealthGroupChartsByLivelihoodZoneRequestDto.getLivelihoodZoneId(), wealthGroupChartsByLivelihoodZoneRequestDto.getQuestionnaireSectionCode());
             return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
         } catch (Exception e) {
             e.printStackTrace();
@@ -218,7 +236,7 @@ public class WealthGroupReportsController {
 
 
     @GetMapping(value = "/wealth-group-categories")
-    @ApiOperation(value = "${WealthGroupReports.wealth-group-categories}", response = WealthGroupEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${WealthGroupReports.wealth-group-categories}", response = WealthGroupEntity.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token")})
@@ -235,7 +253,7 @@ public class WealthGroupReportsController {
     public ResponseEntity<List<WgLivelihoodZoneDataObject>> getLivestockOwnershipChartsData(@ApiParam("Livestock Ownership charts") @RequestBody WgLivestockOwnershipChartRequestDto wgLivestockOwnershipChartRequestDto) {
 
         try {
-            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.livestockOwnershipChartByLivestock(wgLivestockOwnershipChartRequestDto.getCountyId(),wgLivestockOwnershipChartRequestDto.getWealthGroupId(),wgLivestockOwnershipChartRequestDto.getLivestockCode());
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.livestockOwnershipChartByLivestock(wgLivestockOwnershipChartRequestDto.getCountyId(), wgLivestockOwnershipChartRequestDto.getWealthGroupId(), wgLivestockOwnershipChartRequestDto.getLivestockCode());
             return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
         } catch (Exception e) {
             e.printStackTrace();
@@ -246,7 +264,7 @@ public class WealthGroupReportsController {
 
 
     @GetMapping(value = "/all-livestock-types")
-    @ApiOperation(value = "${WealthGroupReports.all-livestock-types}", response = AnimalsEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${WealthGroupReports.all-livestock-types}", response = AnimalsEntity.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token")})
@@ -263,7 +281,7 @@ public class WealthGroupReportsController {
     public ResponseEntity<List<WgLivelihoodZoneDataObject>> getIncomeSourcesMapData(@ApiParam("Livestock Ownership charts") @RequestBody WgIncomeSourcesMapRequestDto wgIncomeSourcesMapRequestDto) {
 
         try {
-            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.mainSourcesOfIncomeAndFoodMapData(wgIncomeSourcesMapRequestDto.getCountyId(),wgIncomeSourcesMapRequestDto.getWealthGroupId(),wgIncomeSourcesMapRequestDto.getIncomeSourceCode());
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.mainSourcesOfIncomeAndFoodMapData(wgIncomeSourcesMapRequestDto.getCountyId(), wgIncomeSourcesMapRequestDto.getWealthGroupId(), wgIncomeSourcesMapRequestDto.getIncomeSourceCode());
             return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
         } catch (Exception e) {
             e.printStackTrace();
@@ -271,7 +289,6 @@ public class WealthGroupReportsController {
         }
 
     }
-
 
 
     @PostMapping("/maps/migration-patterns-map-data")
@@ -282,7 +299,7 @@ public class WealthGroupReportsController {
     public ResponseEntity<List<WgLivelihoodZoneDataObject>> getMigrationPatternsMapData(@ApiParam("Livestock Ownership charts") @RequestBody WgMigrationPatternsMapDataRequestDto wgMigrationPatternsMapDataRequestDto) {
 
         try {
-            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.migrationPatternsMapData(wgMigrationPatternsMapDataRequestDto.getCountyId(),wgMigrationPatternsMapDataRequestDto.getWealthGroupId(),wgMigrationPatternsMapDataRequestDto.getMigrationPatternsCode());
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.migrationPatternsMapData(wgMigrationPatternsMapDataRequestDto.getCountyId(), wgMigrationPatternsMapDataRequestDto.getWealthGroupId(), wgMigrationPatternsMapDataRequestDto.getMigrationPatternsCode());
             return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
         } catch (Exception e) {
             e.printStackTrace();
@@ -292,9 +309,8 @@ public class WealthGroupReportsController {
     }
 
 
-
     @GetMapping(value = "/all-cash-income-sources")
-    @ApiOperation(value = "${WealthGroupReports.all-income-sources}", response = CashIncomeSourcesEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${WealthGroupReports.all-income-sources}", response = CashIncomeSourcesEntity.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token")})
@@ -303,17 +319,14 @@ public class WealthGroupReportsController {
     }
 
 
-
     @GetMapping(value = "/all-migration-patterns")
-    @ApiOperation(value = "${WealthGroupReports.all-migration-patterns}", response = MigrationPatternsEntity.class, responseContainer = "List" ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${WealthGroupReports.all-migration-patterns}", response = MigrationPatternsEntity.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token")})
     public ResponseEntity<List<MigrationPatternsEntity>> getAllMigrationPatterns() {
         return new ResponseEntity<List<MigrationPatternsEntity>>(migrationPatternsRepository.findAll(), HttpStatus.valueOf(200));
     }
-
-
 
 
     @GetMapping("/export/excel")
@@ -331,7 +344,7 @@ public class WealthGroupReportsController {
             String headerValue = "attachment; filename=" + fileName + ".xlsx";
             response.setHeader(headerKey, headerValue);
 
-            wealthGroupExcelService.export(response,countyId,wealthGroupId);
+            wealthGroupExcelService.export(response, countyId, wealthGroupId);
 
         } catch (Exception e) {
             e.printStackTrace();

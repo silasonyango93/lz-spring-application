@@ -33,13 +33,15 @@ public class WgQuestionnaireSessionDao implements WgQuestionnaireSessionReposito
     }
 
     @Override
-    public List<WgQuestionnaireSessionEntity> fetchQuestionnaireSessionsByCountyAndWealthGroup(int countyId, int wealthGroupId) {
-        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = manager.createNamedQuery("WgQuestionnaireSessionEntity.fetchQuestionnaireSessionsByCountyAndWealthGroup", WgQuestionnaireSessionEntity.class)
-                .setParameter(1, countyId)
-                .setParameter(2, wealthGroupId)
-                .getResultList();
-        return wgQuestionnaireSessionEntityList;
+    public List<WgQuestionnaireSessionEntity> findByCountyIdAndLivelihoodZoneIdAndWgQuestionnaireTypeId(int countyId, int livelihoodZoneId, int wgQuestionnaireTypeId) {
+        return null;
     }
+
+    @Override
+    public List<WgQuestionnaireSessionEntity> findByCountyIdAndWealthGroupIdAndWgQuestionnaireTypeId(int countyId, int wealthGroupId, int wgQuestionnaireTypeId) {
+        return null;
+    }
+
 
     @Override
     public List<WgQuestionnaireSessionEntity> findAll() {

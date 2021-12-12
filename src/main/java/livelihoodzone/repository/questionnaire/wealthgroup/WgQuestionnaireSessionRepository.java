@@ -13,6 +13,7 @@ public interface WgQuestionnaireSessionRepository extends JpaRepository<WgQuesti
 
     public List<WgQuestionnaireSessionEntity> findByCountyIdAndWgQuestionnaireTypeId(@Param("CountyId") int countyId, @Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId);
 
-    @Query(nativeQuery = true)
-    public List<WgQuestionnaireSessionEntity> fetchQuestionnaireSessionsByCountyAndWealthGroup(int countyId, int wealthGroupId);
+    public List<WgQuestionnaireSessionEntity> findByCountyIdAndLivelihoodZoneIdAndWgQuestionnaireTypeId(@Param("CountyId") int countyId, @Param("LivelihoodZoneId") int livelihoodZoneId, @Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId);
+
+    public List<WgQuestionnaireSessionEntity> findByCountyIdAndWealthGroupIdAndWgQuestionnaireTypeId(@Param("CountyId") int countyId, @Param("WealthGroupId") int wealthGroupId, @Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId);
 }
