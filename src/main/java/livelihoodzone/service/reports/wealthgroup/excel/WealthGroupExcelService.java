@@ -57,7 +57,7 @@ public class WealthGroupExcelService {
         workbook = mainSourcesOfFoodAndIncomeExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = foodConsumptionPercentageExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = wgCropProductionExcelService.processData(countyId,wealthGroupId,workbook);
-        workbook = livestockOwnershipExcelService.processData(countyId,wealthGroupId,workbook);
+        workbook = livestockOwnershipExcelService.processData(countyId,wealthGroupId,workbook,null);
         workbook = livestockContributionExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = labourPatternsExcelService.processData(countyId,wealthGroupId,workbook);
         workbook = expenditurePatternsExcelService.processData(countyId,wealthGroupId,workbook);

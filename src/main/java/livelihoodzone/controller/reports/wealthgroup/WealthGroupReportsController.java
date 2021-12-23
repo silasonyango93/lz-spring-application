@@ -23,6 +23,7 @@ import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
 import livelihoodzone.service.reports.wealthgroup.excel.WealthGroupExcelService;
+import livelihoodzone.service.reports.wealthgroup.excel.WgMapExcelService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionExcelExporterService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
@@ -77,6 +78,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     MigrationPatternsRepository migrationPatternsRepository;
+
+    @Autowired
+    WgMapExcelService wgMapExcelService;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class, authorizations = {@Authorization(value = "apiKey")})
@@ -345,6 +349,29 @@ public class WealthGroupReportsController {
             response.setHeader(headerKey, headerValue);
 
             wealthGroupExcelService.export(response, countyId, wealthGroupId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @GetMapping("/export/excel/mapdata")
+    public void exportMapDataToExcel(HttpServletResponse response, @RequestParam("wealthGroupId") int wealthGroupId) throws IOException {
+
+        try {
+
+            WealthGroupEntity wealthGroupEntity = wealthGroupRepository.findByWealthGroupId(wealthGroupId);
+            String fileName = wealthGroupEntity.getWealthGroupDescription() + " ANALYSIS FILE";
+            response.setContentType("application/octet-stream");
+            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+            String currentDateTime = dateFormatter.format(new Date());
+
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=" + fileName + ".xlsx";
+            response.setHeader(headerKey, headerValue);
+
+            wgMapExcelService.export(response, wealthGroupId);
 
         } catch (Exception e) {
             e.printStackTrace();

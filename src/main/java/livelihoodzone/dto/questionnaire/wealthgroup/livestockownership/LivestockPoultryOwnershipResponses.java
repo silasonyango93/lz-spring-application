@@ -15,6 +15,7 @@ public class LivestockPoultryOwnershipResponses {
     private double fishPonds;
     private double improvedCattle;
     private double fishCages;
+    private double tlu = 0.0;
 
     public double getCattle() {
         return cattle;
@@ -126,5 +127,13 @@ public class LivestockPoultryOwnershipResponses {
 
     public void setFishCages(double fishCages) {
         this.fishCages = fishCages;
+    }
+
+    public double getTlu() {
+        return tlu;
+    }
+
+    public void setTlu(double tlu) {
+        this.tlu = tlu;
     }
 }

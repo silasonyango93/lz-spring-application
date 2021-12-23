@@ -136,6 +136,7 @@ public class Constants {
     public static final int IMPROVED_CHICKEN = 12;
     public static final int FISH_CAGES = 13;
     public static final int DAIRY_CATTLE = 14;
+    public static final int TLU = 0;
 
 
     //Livelihood zone activities

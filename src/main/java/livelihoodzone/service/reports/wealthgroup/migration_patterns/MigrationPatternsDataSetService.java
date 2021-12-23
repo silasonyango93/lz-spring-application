@@ -109,6 +109,9 @@ public class MigrationPatternsDataSetService {
             if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_OUT_MIGRANT_LABOUR) {
                 migrationPatternResponses.setOutMigrantLabour(wgMigrationPatternPercentagesEntity.getPercentage());
             }
+            if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_IN_MIGRANT_LABOUR) {
+                migrationPatternResponses.setInMigrantLabour(wgMigrationPatternPercentagesEntity.getPercentage());
+            }
             if (migrationPatternsRepository.findByMigrationPatternId(wgMigrationPatternPercentagesEntity.getMigrationPatternId()).getMigrationPatternCode() == Constants.MGR_FULLY_SETTLED) {
                 migrationPatternResponses.setFullysettled(wgMigrationPatternPercentagesEntity.getPercentage());
             }

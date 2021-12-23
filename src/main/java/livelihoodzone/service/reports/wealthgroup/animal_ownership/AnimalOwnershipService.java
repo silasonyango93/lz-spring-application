@@ -271,9 +271,28 @@ public class AnimalOwnershipService {
             if (animalsRepository.findByAnimalId(wgAveAnimalNoPerHouseholdEntity.getAnimalId()).getAnimalCode() == Constants.DAIRY_CATTLE && livestockCode == Constants.DAIRY_CATTLE) {
                 livestockPoultryOwnershipResponses.setDairyCattle(wgAveAnimalNoPerHouseholdEntity.getAverageNumber());
             }
+
+        }
+        if (livestockCode == Constants.TLU) {
+            double tlu = 1.0 * (getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.LOCAL_CATTLE) + getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.IMPROVED_CATTLE) +  + getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.DAIRY_CATTLE)) +
+                    (0.8 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.DONKEYS)) + (1.4 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.CAMELS)) + (0.2 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.PIGS)) + (0.1 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.GOATS)) +
+                    (0.1 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.SHEEP)) + (0.01 * (getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.LOCAL_CHICKEN) + getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.IMPROVED_CHICKEN))) + (0.01 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.DUCKS));
+            livestockPoultryOwnershipResponses.setTlu(tlu);
         }
         wgLivelihoodZoneDataObject.setLivestockAndPoultryOwnership(livestockPoultryOwnershipResponses);
         return wgLivelihoodZoneDataObject;
+    }
+
+    public double getNoOfASpecificLivestockType(List<WgAveAnimalNoPerHouseholdEntity> wgAveAnimalNoPerHouseholdEntityList, int livestockCode) {
+        List<WgAveAnimalNoPerHouseholdEntity> filterResult = wgAveAnimalNoPerHouseholdEntityList
+                .stream()
+                .filter(c -> animalsRepository.findByAnimalId(c.getAnimalId()).getAnimalCode() == livestockCode)
+                .collect(Collectors.toList());
+
+        if (!filterResult.isEmpty()) {
+            return filterResult.get(0).getAverageNumber();
+        }
+        return 0.0;
     }
 
 
