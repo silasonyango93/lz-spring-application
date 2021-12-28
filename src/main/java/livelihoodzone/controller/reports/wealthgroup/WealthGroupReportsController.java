@@ -357,7 +357,7 @@ public class WealthGroupReportsController {
 
 
     @GetMapping("/export/excel/mapdata")
-    public void exportMapDataToExcel(HttpServletResponse response, @RequestParam("wealthGroupId") int wealthGroupId) throws IOException {
+    public void exportMapDataToExcel(HttpServletResponse response, @RequestParam("wealthGroupId") int wealthGroupId, @RequestParam("questionnaireSectionCode") int questionnaireSectionCode) throws IOException {
 
         try {
 
@@ -371,7 +371,7 @@ public class WealthGroupReportsController {
             String headerValue = "attachment; filename=" + fileName + ".xlsx";
             response.setHeader(headerKey, headerValue);
 
-            wgMapExcelService.export(response, wealthGroupId);
+            wgMapExcelService.export(response, wealthGroupId,questionnaireSectionCode);
 
         } catch (Exception e) {
             e.printStackTrace();

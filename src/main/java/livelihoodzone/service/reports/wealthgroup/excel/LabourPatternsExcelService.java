@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.LABOUR_PATTERNS;
-import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.LIVESTOCK_CONTRIBUTION;
+import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.*;
 
 @Service
 public class LabourPatternsExcelService {
@@ -25,8 +24,8 @@ public class LabourPatternsExcelService {
     @Autowired
     WealthGroupChartsService wealthGroupChartsService;
 
-    private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook) {
-        XSSFSheet sheet = workbook.getSheet(LABOUR_PATTERNS);
+    private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook, String sheetName) {
+        XSSFSheet sheet = workbook.getSheet(sheetName);
         Row titleRow = sheet.createRow(rowNum);
         Row tableHeaderRow = sheet.createRow(rowNum + 3);
         sheet.setColumnWidth(0,20000);
@@ -70,7 +69,7 @@ public class LabourPatternsExcelService {
     }
 
 
-    private XSSFWorkbook writeDataLines(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int rowCount, XSSFWorkbook workbook) {
+    private XSSFWorkbook writeDataLines(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int rowCount, XSSFWorkbook workbook, String sheetName) {
         LabourPatternResponses labourPatterns = wgLivelihoodZoneDataObject.getLabourPatterns();
 
         CellStyle style = workbook.createCellStyle();
@@ -80,7 +79,7 @@ public class LabourPatternsExcelService {
         style.setAlignment(HorizontalAlignment.LEFT);
 
 
-        XSSFSheet sheet = workbook.getSheet(LABOUR_PATTERNS);
+        XSSFSheet sheet = workbook.getSheet(sheetName);
 
         //Labour on own farms (crop production)
         Row livestockRow = sheet.createRow(rowCount++);
@@ -178,15 +177,18 @@ public class LabourPatternsExcelService {
         return workbook;
     }
 
-    public XSSFWorkbook processData(int countyId,int wealthGroupId, XSSFWorkbook workbook) {
+    public XSSFWorkbook processData(int countyId,int wealthGroupId, XSSFWorkbook workbook, String sectionName) {
+
+        String sheetName = sectionName != null ? sectionName : LABOUR_PATTERNS;
+
         List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.prepareWealthGroupChart(countyId,wealthGroupId,5);
 
 
         int rowNum = 0;
         for (WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject : wgLivelihoodZoneDataObjectList) {
-            workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook);
+            workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook,sheetName);
             rowNum = rowNum + 4;
-            workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook);
+            workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook,sheetName);
             rowNum = rowNum + 19;
         }
         return workbook;

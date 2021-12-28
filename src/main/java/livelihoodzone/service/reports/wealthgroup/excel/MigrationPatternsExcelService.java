@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.EXPENDITURE_PATTERNS;
-import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.MIGRATION_PATTERNS;
+import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.*;
 
 @Service
 public class MigrationPatternsExcelService {
@@ -25,8 +24,8 @@ public class MigrationPatternsExcelService {
     @Autowired
     WealthGroupChartsService wealthGroupChartsService;
 
-    private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook) {
-        XSSFSheet sheet = workbook.getSheet(MIGRATION_PATTERNS);
+    private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook, String sheetName) {
+        XSSFSheet sheet = workbook.getSheet(sheetName);
         Row titleRow = sheet.createRow(rowNum);
         Row tableHeaderRow = sheet.createRow(rowNum + 3);
         sheet.setColumnWidth(0,20000);
@@ -66,7 +65,7 @@ public class MigrationPatternsExcelService {
     }
 
 
-    private XSSFWorkbook writeDataLines(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int rowCount, XSSFWorkbook workbook) {
+    private XSSFWorkbook writeDataLines(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int rowCount, XSSFWorkbook workbook, String sheetName) {
         MigrationPatternResponses settlementAndmigrationPatterns = wgLivelihoodZoneDataObject.getSettlementAndmigrationPatterns();
 
         CellStyle style = workbook.createCellStyle();
@@ -76,7 +75,7 @@ public class MigrationPatternsExcelService {
         style.setAlignment(HorizontalAlignment.LEFT);
 
 
-        XSSFSheet sheet = workbook.getSheet(MIGRATION_PATTERNS);
+        XSSFSheet sheet = workbook.getSheet(sheetName);
 
         //Fully Nomadic (no fixed abode, don’t settle)
         Row livestockRow = sheet.createRow(rowCount++);
@@ -117,15 +116,18 @@ public class MigrationPatternsExcelService {
         return workbook;
     }
 
-    public XSSFWorkbook processData(int countyId,int wealthGroupId, XSSFWorkbook workbook) {
+    public XSSFWorkbook processData(int countyId,int wealthGroupId, XSSFWorkbook workbook, String sectionName) {
+
+        String sheetName = sectionName != null ? sectionName : MIGRATION_PATTERNS;
+
         List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.prepareWealthGroupChart(countyId,wealthGroupId,7);
 
 
         int rowNum = 0;
         for (WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject : wgLivelihoodZoneDataObjectList) {
-            workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook);
+            workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook,sheetName);
             rowNum = rowNum + 4;
-            workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook);
+            workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook,sheetName);
             rowNum = rowNum + 19;
         }
         return workbook;

@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.MIGRATION_PATTERNS;
-import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.WG_CONSTRAINTS;
+import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.*;
 
 @Service
 public class WgConstraintsExcelService {
@@ -25,8 +24,8 @@ public class WgConstraintsExcelService {
     @Autowired
     WealthGroupChartsService wealthGroupChartsService;
 
-    private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook) {
-        XSSFSheet sheet = workbook.getSheet(WG_CONSTRAINTS);
+    private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook, String sheetName) {
+        XSSFSheet sheet = workbook.getSheet(sheetName);
         Row titleRow = sheet.createRow(rowNum);
         Row tableHeaderRow = sheet.createRow(rowNum + 3);
         sheet.setColumnWidth(0,20000);
@@ -68,7 +67,7 @@ public class WgConstraintsExcelService {
     }
 
 
-    private XSSFWorkbook writeDataLines(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int rowCount, XSSFWorkbook workbook) {
+    private XSSFWorkbook writeDataLines(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int rowCount, XSSFWorkbook workbook, String sheetName) {
         ConstraintsResponses constraintsToMainEconomicActivities = wgLivelihoodZoneDataObject.getConstraintsToMainEconomicActivities();
 
         WagedLabourIncomeConstraintsResponses wagedLabourIncomeConstraintsResponses = constraintsToMainEconomicActivities.getWagedLabourIncomeConstraintsResponses();
@@ -85,7 +84,7 @@ public class WgConstraintsExcelService {
         style.setAlignment(HorizontalAlignment.LEFT);
 
 
-        XSSFSheet sheet = workbook.getSheet(WG_CONSTRAINTS);
+        XSSFSheet sheet = workbook.getSheet(sheetName);
 
         //Low educational attainment/low skills
         Row livestockRow = sheet.createRow(rowCount++);
@@ -359,15 +358,18 @@ public class WgConstraintsExcelService {
         return workbook;
     }
 
-    public XSSFWorkbook processData(int countyId,int wealthGroupId, XSSFWorkbook workbook) {
+    public XSSFWorkbook processData(int countyId,int wealthGroupId, XSSFWorkbook workbook, String sectionName) {
+
+        String sheetName = sectionName != null ? sectionName : WG_CONSTRAINTS;
+
         List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.prepareWealthGroupChart(countyId,wealthGroupId,8);
 
 
         int rowNum = 0;
         for (WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject : wgLivelihoodZoneDataObjectList) {
-            workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook);
+            workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook,sheetName);
             rowNum = rowNum + 4;
-            workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook);
+            workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook,sheetName);
             rowNum = rowNum + 55;
         }
         return workbook;

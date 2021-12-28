@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.FOOD_CONSUMPTION_PERCENTAGES_EXCEL_SHEET_NAME;
+import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.LIVESTOCK_OWNERSHIP;
 
 @Service
 public class FoodConsumptionPercentageExcelService {
@@ -40,8 +41,8 @@ public class FoodConsumptionPercentageExcelService {
         cell.setCellStyle(style);
     }
 
-    private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook) {
-        XSSFSheet sheet = workbook.getSheet(FOOD_CONSUMPTION_PERCENTAGES_EXCEL_SHEET_NAME);
+    private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook, String sheetName) {
+        XSSFSheet sheet = workbook.getSheet(sheetName);
         Row titleRow = sheet.createRow(rowNum);
         Row tableHeaderRow = sheet.createRow(rowNum + 3);
         sheet.setColumnWidth(0,20000);
@@ -73,7 +74,7 @@ public class FoodConsumptionPercentageExcelService {
     }
 
 
-    private XSSFWorkbook writeDataLines(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int rowCount, XSSFWorkbook workbook) {
+    private XSSFWorkbook writeDataLines(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int rowCount, XSSFWorkbook workbook, String sheetName) {
         FoodConsumptionResponsesDto foodConsumptionResponsesDto = wgLivelihoodZoneDataObject.getFoodConsumptionPercentages();
 
         CellStyle style = workbook.createCellStyle();
@@ -83,7 +84,7 @@ public class FoodConsumptionPercentageExcelService {
         style.setAlignment(HorizontalAlignment.LEFT);
 
 
-        XSSFSheet sheet = workbook.getSheet(FOOD_CONSUMPTION_PERCENTAGES_EXCEL_SHEET_NAME);
+        XSSFSheet sheet = workbook.getSheet(sheetName);
 
         //Maize and posho
         Row livestockRow = sheet.createRow(rowCount++);
@@ -225,15 +226,18 @@ public class FoodConsumptionPercentageExcelService {
     }
 
 
-    public XSSFWorkbook processData(int countyId,int wealthGroupId, XSSFWorkbook workbook) {
+    public XSSFWorkbook processData(int countyId,int wealthGroupId, XSSFWorkbook workbook, String sectionName) {
+
+        String sheetName = sectionName != null ? sectionName : FOOD_CONSUMPTION_PERCENTAGES_EXCEL_SHEET_NAME;
+
         List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.prepareWealthGroupChart(countyId,wealthGroupId,2);
 
 
         int rowNum = 0;
         for (WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject : wgLivelihoodZoneDataObjectList) {
-            workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook);
+            workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook,sheetName);
             rowNum = rowNum + 4;
-            workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook);
+            workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook,sheetName);
             rowNum = rowNum + 22;
         }
         return workbook;

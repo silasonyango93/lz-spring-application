@@ -17,8 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.CROP_CONTRIBUTION;
-import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.MAIN_INCOME_SOURCES_EXCEL_SHEET_NAME;
+import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.*;
 
 @Service
 public class WgCropProductionExcelService {
@@ -26,8 +25,8 @@ public class WgCropProductionExcelService {
     @Autowired
     WealthGroupChartsService wealthGroupChartsService;
 
-    private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook) {
-        XSSFSheet sheet = workbook.getSheet(CROP_CONTRIBUTION);
+    private XSSFWorkbook writeHeaderLine(int rowNum, WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, XSSFWorkbook workbook, String sheetName) {
+        XSSFSheet sheet = workbook.getSheet(sheetName);
         Row titleRow = sheet.createRow(rowNum);
         Row tableHeaderRow = sheet.createRow(rowNum + 3);
         sheet.setColumnWidth(0,18000);
@@ -74,7 +73,7 @@ public class WgCropProductionExcelService {
 
 
 
-    private XSSFWorkbook writeDataLines(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int rowCount, XSSFWorkbook workbook) {
+    private XSSFWorkbook writeDataLines(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int rowCount, XSSFWorkbook workbook, String sheetName) {
         WgCropContributionChartObject wgCropContributionChartObject = wgLivelihoodZoneDataObject.getCropProduction();
 
         CellStyle style = workbook.createCellStyle();
@@ -84,7 +83,7 @@ public class WgCropProductionExcelService {
         style.setAlignment(HorizontalAlignment.LEFT);
 
 
-        XSSFSheet sheet = workbook.getSheet(CROP_CONTRIBUTION);
+        XSSFSheet sheet = workbook.getSheet(sheetName);
 
         List<WgCropContributionResponseItem> cropContributionResponseItems = wgCropContributionChartObject.getCropContributionResponseItems();
 
@@ -106,15 +105,18 @@ public class WgCropProductionExcelService {
 
 
 
-    public XSSFWorkbook processData(int countyId,int wealthGroupId, XSSFWorkbook workbook) {
+    public XSSFWorkbook processData(int countyId,int wealthGroupId, XSSFWorkbook workbook, String sectionName) {
+
+        String sheetName = sectionName != null ? sectionName : CROP_CONTRIBUTION;
+
         List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.prepareWealthGroupChart(countyId,wealthGroupId,3);
 
 
         int rowNum = 0;
         for (WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject : wgLivelihoodZoneDataObjectList) {
-            workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook);
+            workbook = writeHeaderLine(rowNum,wgLivelihoodZoneDataObject,workbook,sheetName);
             rowNum = rowNum + 4;
-            workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook);
+            workbook = writeDataLines(wgLivelihoodZoneDataObject, rowNum,workbook,sheetName);
             rowNum = rowNum + 19;
         }
         return workbook;

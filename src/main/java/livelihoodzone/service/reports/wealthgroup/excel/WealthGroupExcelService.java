@@ -54,15 +54,15 @@ public class WealthGroupExcelService {
         workbook.createSheet(MIGRATION_PATTERNS);
         workbook.createSheet(WG_CONSTRAINTS);
 
-        workbook = mainSourcesOfFoodAndIncomeExcelService.processData(countyId,wealthGroupId,workbook);
-        workbook = foodConsumptionPercentageExcelService.processData(countyId,wealthGroupId,workbook);
-        workbook = wgCropProductionExcelService.processData(countyId,wealthGroupId,workbook);
+        workbook = mainSourcesOfFoodAndIncomeExcelService.processData(countyId,wealthGroupId,workbook,null);
+        workbook = foodConsumptionPercentageExcelService.processData(countyId,wealthGroupId,workbook,null);
+        workbook = wgCropProductionExcelService.processData(countyId,wealthGroupId,workbook,null);
         workbook = livestockOwnershipExcelService.processData(countyId,wealthGroupId,workbook,null);
-        workbook = livestockContributionExcelService.processData(countyId,wealthGroupId,workbook);
-        workbook = labourPatternsExcelService.processData(countyId,wealthGroupId,workbook);
-        workbook = expenditurePatternsExcelService.processData(countyId,wealthGroupId,workbook);
-        workbook = migrationPatternsExcelService.processData(countyId,wealthGroupId,workbook);
-        workbook = wgConstraintsExcelService.processData(countyId,wealthGroupId,workbook);
+        workbook = livestockContributionExcelService.processData(countyId,wealthGroupId,workbook,null);
+        workbook = labourPatternsExcelService.processData(countyId,wealthGroupId,workbook,null);
+        workbook = expenditurePatternsExcelService.processData(countyId,wealthGroupId,workbook,null);
+        workbook = migrationPatternsExcelService.processData(countyId,wealthGroupId,workbook,null);
+        workbook = wgConstraintsExcelService.processData(countyId,wealthGroupId,workbook,null);
     }
 
 
