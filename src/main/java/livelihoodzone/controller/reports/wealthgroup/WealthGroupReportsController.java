@@ -8,6 +8,7 @@ import livelihoodzone.dto.reports.wealthgroup.charts.*;
 import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
+import livelihoodzone.entity.questionnaire.WgQuestionnaireSectionsEntity;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WealthGroupEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
@@ -15,6 +16,7 @@ import livelihoodzone.entity.questionnaire.wealthgroup.animal_contribution.Anima
 import livelihoodzone.entity.questionnaire.wealthgroup.income_food_sources.CashIncomeSourcesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.migration_patterns.MigrationPatternsEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
+import livelihoodzone.repository.questionnaire.WgQuestionnaireSectionsRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
@@ -26,6 +28,7 @@ import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
 import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
 import livelihoodzone.service.reports.wealthgroup.excel.WealthGroupExcelService;
 import livelihoodzone.service.reports.wealthgroup.excel.WgMapExcelService;
+import livelihoodzone.service.reports.wealthgroup.excel.coutry_files.WgCountryFileExcelService;
 import livelihoodzone.service.reports.wealthgroup.excel.wealth_group_comparison.WealthGroupComparisonExcelService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionExcelExporterService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
@@ -90,6 +93,12 @@ public class WealthGroupReportsController {
 
     @Autowired
     WealthGroupComparisonExcelService wealthGroupComparisonExcelService;
+
+    @Autowired
+    WgQuestionnaireSectionsRepository wgQuestionnaireSectionsRepository;
+
+    @Autowired
+    WgCountryFileExcelService wgCountryFileExcelService;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class, authorizations = {@Authorization(value = "apiKey")})
@@ -404,6 +413,29 @@ public class WealthGroupReportsController {
             response.setHeader(headerKey, headerValue);
 
             wealthGroupComparisonExcelService.export(response, countyId,livelihoodZoneId,questionnaireSectionCode);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @GetMapping("/export/excel/country-file")
+    public void exportCountryFileToExcel(HttpServletResponse response, @RequestParam("wealthGroupId") int wealthGroupId, @RequestParam("questionnaireSectionCode") int questionnaireSectionCode) throws IOException {
+
+        try {
+
+            WgQuestionnaireSectionsEntity wgQuestionnaireSectionsEntity = wgQuestionnaireSectionsRepository.findByWgQuestionnaireSectionCode(questionnaireSectionCode);
+            String fileName = wgQuestionnaireSectionsEntity.getWgQuestionnaireSectionName() + " Country File";
+            response.setContentType("application/octet-stream");
+            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+            String currentDateTime = dateFormatter.format(new Date());
+
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=" + fileName + ".xlsx";
+            response.setHeader(headerKey, headerValue);
+
+            wgCountryFileExcelService.export(response,wealthGroupId,questionnaireSectionCode);
 
         } catch (Exception e) {
             e.printStackTrace();

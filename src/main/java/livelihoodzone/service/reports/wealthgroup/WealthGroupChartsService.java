@@ -95,6 +95,7 @@ public class WealthGroupChartsService {
             wgLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
             wgLivelihoodZoneDataObject.setWealthGroupId(currentQuestionnaire.getWealthGroupId());
             wgLivelihoodZoneDataObject.setWealthGroupName(wealthGroupRepository.findByWealthGroupId(currentQuestionnaire.getWealthGroupId()).getWealthGroupDescription());
+            wgLivelihoodZoneDataObject.setCountyName(countiesRepository.findByCountyId(countyId).getCountyName());
 
             if (questionnaireSectionCode == Constants.MAIN_SOURCE_OF_INCOME_AND_FOOD) {
                 wgLivelihoodZoneDataObject = processMainSourceOfIncomeAndFood(wgLivelihoodZoneDataObject, currentQuestionnaire.getWgQuestionnaireSessionId());
