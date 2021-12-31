@@ -1,4 +1,4 @@
-package livelihoodzone.service.reports.wealthgroup.excel.coutry_files;
+package livelihoodzone.service.reports.wealthgroup.excel.country_files;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +8,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.LIVESTOCK_OWNERSHIP;
-import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.MAIN_INCOME_SOURCES_EXCEL_SHEET_NAME;
+import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.*;
 
 @Service
 public class WgCountryFileExcelService {
@@ -19,6 +18,9 @@ public class WgCountryFileExcelService {
 
     @Autowired
     MainSourcesOfFoodAndIncomeCountryFileExcelService mainSourcesOfFoodAndIncomeCountryFileExcelService;
+
+    @Autowired
+    MigrationPatternsCountryFileExcelService migrationPatternsCountryFileExcelService;
 
     private XSSFWorkbook workbook;
 
@@ -30,6 +32,10 @@ public class WgCountryFileExcelService {
         if (questionnaireSectionCode == 1) {
             workbook.createSheet(MAIN_INCOME_SOURCES_EXCEL_SHEET_NAME);
             workbook = mainSourcesOfFoodAndIncomeCountryFileExcelService.processData(wealthGroupId,workbook,null);
+        }
+        if (questionnaireSectionCode == 7) {
+            workbook.createSheet(MIGRATION_PATTERNS);
+            workbook = migrationPatternsCountryFileExcelService.processData(wealthGroupId,workbook,null);
         }
     }
 

@@ -1,11 +1,8 @@
 package livelihoodzone.controller.reports.wealthgroup;
 
 import io.swagger.annotations.*;
-import livelihoodzone.dto.questionnaire.CountyDataCollectionProgressReport;
-import livelihoodzone.dto.questionnaire.county.CountyRequestDto;
 import livelihoodzone.dto.reports.wealthgroup.*;
 import livelihoodzone.dto.reports.wealthgroup.charts.*;
-import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.questionnaire.WgQuestionnaireSectionsEntity;
@@ -25,18 +22,15 @@ import livelihoodzone.repository.questionnaire.wealthgroup.income_food_sources.C
 import livelihoodzone.repository.questionnaire.wealthgroup.migration_patterns.MigrationPatternsRepository;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
 import livelihoodzone.service.reports.wealthgroup.WealthGroupReportService;
-import livelihoodzone.service.reports.wealthgroup.animal_ownership.AnimalOwnershipService;
 import livelihoodzone.service.reports.wealthgroup.excel.WealthGroupExcelService;
 import livelihoodzone.service.reports.wealthgroup.excel.WgMapExcelService;
-import livelihoodzone.service.reports.wealthgroup.excel.coutry_files.WgCountryFileExcelService;
+import livelihoodzone.service.reports.wealthgroup.excel.country_files.WgCountryFileExcelService;
 import livelihoodzone.service.reports.wealthgroup.excel.wealth_group_comparison.WealthGroupComparisonExcelService;
-import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionExcelExporterService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +40,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController

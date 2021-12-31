@@ -1,4 +1,4 @@
-package livelihoodzone.service.reports.wealthgroup.excel.coutry_files;
+package livelihoodzone.service.reports.wealthgroup.excel.country_files;
 
 import livelihoodzone.dto.questionnaire.wealthgroup.livestockownership.LivestockPoultryOwnershipResponses;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
