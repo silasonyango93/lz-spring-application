@@ -22,6 +22,9 @@ public class WgCountryFileExcelService {
     @Autowired
     MigrationPatternsCountryFileExcelService migrationPatternsCountryFileExcelService;
 
+    @Autowired
+    WgCropProductionCountryFileExcelService wgCropProductionCountryFileExcelService;
+
     private XSSFWorkbook workbook;
 
     public void processData( int wealthGroupId, int questionnaireSectionCode) {
@@ -36,6 +39,10 @@ public class WgCountryFileExcelService {
         if (questionnaireSectionCode == 7) {
             workbook.createSheet(MIGRATION_PATTERNS);
             workbook = migrationPatternsCountryFileExcelService.processData(wealthGroupId,workbook,null);
+        }
+        if (questionnaireSectionCode == 3) {
+            workbook.createSheet(CROP_CONTRIBUTION);
+            workbook = wgCropProductionCountryFileExcelService.processData(wealthGroupId,workbook,null);
         }
     }
 
