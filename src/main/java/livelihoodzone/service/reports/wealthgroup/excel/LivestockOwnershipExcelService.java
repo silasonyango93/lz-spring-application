@@ -149,6 +149,11 @@ public class LivestockOwnershipExcelService {
         createCell(dairyCattleRow, 0, "Dairy Cattle", style);
         createCell(dairyCattleRow, 1, livestockAndPoultryOwnership.getDairyCattle(), style);
 
+        //TLU
+        Row tluRow = sheet.createRow(rowCount++);
+        createCell(tluRow, 0, "TLU", style);
+        createCell(tluRow, 1, livestockAndPoultryOwnership.getTlu(), style);
+
 
 
         return workbook;
