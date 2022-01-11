@@ -434,4 +434,22 @@ public class WealthGroupReportsController {
             e.printStackTrace();
         }
     }
+
+
+    @PostMapping("/tlu/byLivelihoodzone")
+    @ApiOperation(value = "${WealthGroupReports.charts}", response = WealthGroupNumberValuePair.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<WealthGroupNumberValuePair>> getTluByLivelihoodZoneChartData(@ApiParam("TLU chart by livelihood zone") @RequestBody TluByLivelihoodZoneRequestDto tluByLivelihoodZoneRequestDto) {
+
+        try {
+            List<WealthGroupNumberValuePair> wealthGroupNumberValuePairList = wealthGroupChartsService.processTluByLivelihoodZone(tluByLivelihoodZoneRequestDto.getCountyId(), tluByLivelihoodZoneRequestDto.getLivelihoodZoneId());
+            return new ResponseEntity<List<WealthGroupNumberValuePair>>(wealthGroupNumberValuePairList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<WealthGroupNumberValuePair>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
 }
