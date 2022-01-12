@@ -474,4 +474,30 @@ public class WealthGroupReportsController {
         }
 
     }
+
+
+    @GetMapping("/quality-check/country-wide-incomplete-questionnaires")
+    public ResponseEntity<List<Number>> getCountryWideIncompleteQuestionnaires(@RequestParam("questionnaireTypeId") int questionnaireTypeId) {
+
+        try {
+            List<Number> incompleteQuestionnaireIds = qualityChecksService.extractCountryWideIncompleteWealthGroupQuestionnaires(questionnaireTypeId);
+            return new ResponseEntity<List<Number>>(incompleteQuestionnaireIds, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<Number>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+    }
+
+
+    @GetMapping("/quality-check/missing-questionnaire-sections")
+    public ResponseEntity<WgIncompleteQuestionnaireResponseDto> getMissingQuestionnaireSections(@RequestParam("wgQuestionnaireSessionId") int wgQuestionnaireSessionId) {
+
+        try {
+            WgIncompleteQuestionnaireResponseDto wgIncompleteQuestionnaireResponseDto = qualityChecksService.returnMissingQuestionnaireSections(wgQuestionnaireSessionId);
+            return new ResponseEntity<WgIncompleteQuestionnaireResponseDto>(wgIncompleteQuestionnaireResponseDto, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<WgIncompleteQuestionnaireResponseDto>(new WgIncompleteQuestionnaireResponseDto(), HttpStatus.valueOf(500));
+        }
+    }
 }
