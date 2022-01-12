@@ -26,6 +26,7 @@ import livelihoodzone.service.reports.wealthgroup.excel.WealthGroupExcelService;
 import livelihoodzone.service.reports.wealthgroup.excel.WgMapExcelService;
 import livelihoodzone.service.reports.wealthgroup.excel.country_files.WgCountryFileExcelService;
 import livelihoodzone.service.reports.wealthgroup.excel.wealth_group_comparison.WealthGroupComparisonExcelService;
+import livelihoodzone.service.reports.wealthgroup.quality_checks.QualityChecksService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     WgCountryFileExcelService wgCountryFileExcelService;
+
+    @Autowired
+    QualityChecksService qualityChecksService;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class, authorizations = {@Authorization(value = "apiKey")})
@@ -449,6 +453,24 @@ public class WealthGroupReportsController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<List<WealthGroupNumberValuePair>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+    @PostMapping("/quality-check/incomplete-questionnaires")
+    @ApiOperation(value = "${WealthGroupReports.quality}", response = Number.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<Number>> getIncompleteQuestionnaires(@ApiParam("Incomplete questionnaires") @RequestBody IncompleteQuestionnairesRequestDto incompleteQuestionnairesRequestDto) {
+
+        try {
+            List<Number> incompleteQuestionnaireIds = qualityChecksService.extractIncompleteWealthGroupQuestionnaires(incompleteQuestionnairesRequestDto.getCountyId(),incompleteQuestionnairesRequestDto.getQuestionnaireTypeId());
+            return new ResponseEntity<List<Number>>(incompleteQuestionnaireIds, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<Number>>(new ArrayList<>(), HttpStatus.valueOf(500));
         }
 
     }
