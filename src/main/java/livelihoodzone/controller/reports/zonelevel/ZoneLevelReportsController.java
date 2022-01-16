@@ -3,6 +3,7 @@ package livelihoodzone.controller.reports.zonelevel;
 import io.swagger.annotations.*;
 import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.county.LzWaterSourceDataSetResponseObject;
+import livelihoodzone.dto.reports.wealthgroup.CropContributionAspectDto;
 import livelihoodzone.dto.reports.zonal.*;
 import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.dto.reports.zonal.charts.ZoneLevelChartsRequestDto;
@@ -10,7 +11,9 @@ import livelihoodzone.dto.reports.zonal.cropproduction.LzCropProductionReportObj
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsReportStringObject;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
+import livelihoodzone.entity.questionnaire.county.WaterSourcesEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
+import livelihoodzone.repository.questionnaire.county.WaterSourceRepository;
 import livelihoodzone.service.reports.zonal.ZoneLevelChartsService;
 import livelihoodzone.service.reports.zonal.ZoneLevelReportService;
 import livelihoodzone.service.reports.zonal.excel.ZonalExcelService;
@@ -30,6 +33,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static livelihoodzone.common.Constants.DRY_SEASON;
+import static livelihoodzone.common.Constants.WET_SEASON;
+
 @RestController
 @RequestMapping("/zone-level-reports")
 @Api(tags = "zone-level-reports")
@@ -46,6 +52,9 @@ public class ZoneLevelReportsController {
 
     @Autowired
     CountiesRepository countiesRepository;
+
+    @Autowired
+    WaterSourceRepository waterSourceRepository;
 
     @PostMapping(value = "/zone-level-report")
     @ApiOperation(value = "${ZoneLevelReports.zone-level-report}", response = ZoneLevelReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -166,4 +175,46 @@ public class ZoneLevelReportsController {
         }
 
     }
+
+
+    @PostMapping("/maps/main-water-sources")
+    @ApiOperation(value = "${ZoneLevelReports.main-water-sources}", response = LzLivelihoodZoneDataObject.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<LzLivelihoodZoneDataObject>> fetchWaterSourcesMapData(@ApiParam("Main Water Sources Map data") @RequestBody WaterSourcesMapDataRequestDto waterSourcesMapDataRequestDto) {
+
+        try {
+            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.processWaterSourcesMapData(waterSourcesMapDataRequestDto.getCountyId(), waterSourcesMapDataRequestDto.getWaterSourceCode(), waterSourcesMapDataRequestDto.getSeasonCode());
+            return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(lzLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+    @GetMapping(value = "/all-water-sources")
+    @ApiOperation(value = "${WealthGroupReports.all-water-sources}", response = WaterSourcesEntity.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token")})
+    public ResponseEntity<List<WaterSourcesEntity>> getAllWaterSources() {
+        return new ResponseEntity<List<WaterSourcesEntity>>(waterSourceRepository.findAll(), HttpStatus.valueOf(200));
+    }
+
+
+    @GetMapping(value = "/all-seasons-types")
+    @ApiOperation(value = "${WealthGroupReports.all-seasons-types}", response = SeasonTypesObject.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token")})
+    public ResponseEntity<List<SeasonTypesObject>> getAllSeasonTypes() {
+        List<SeasonTypesObject> seasonTypesObjectList = new ArrayList<>();
+        seasonTypesObjectList.add(DRY_SEASON);
+        seasonTypesObjectList.add(WET_SEASON);
+        return new ResponseEntity<List<SeasonTypesObject>>(seasonTypesObjectList, HttpStatus.valueOf(200));
+    }
+
 }

@@ -16,6 +16,7 @@ public class WaterSourcesResponsesDto {
     private WaterDependenceResponseItem waterTrucking;
     private WaterDependenceResponseItem roofCatchments;
     private WaterDependenceResponseItem others;
+    private double parameterValue;
 
     public WaterSourcesResponsesDto() {
     }
@@ -140,5 +141,13 @@ public class WaterSourcesResponsesDto {
 
     public void setOthers(WaterDependenceResponseItem others) {
         this.others = others;
+    }
+
+    public double getParameterValue() {
+        return parameterValue;
+    }
+
+    public void setParameterValue(double parameterValue) {
+        this.parameterValue = parameterValue;
     }
 }

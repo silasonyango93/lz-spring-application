@@ -198,4 +198,121 @@ public class WaterSourcesDataSetService {
         return lzLivelihoodZoneDataObject;
     }
 
+
+
+
+    public LzLivelihoodZoneDataObject processWaterSourcesChartByWaterSourceCode(LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject, int lzQuestionnaireSessionId, int waterSourceCode, int seasonCode) {
+        WaterSourcesResponsesDto waterSourceResponses = new WaterSourcesResponsesDto();
+        List<LzWaterSourceResponsesEntity> lzWaterSourceResponsesEntityList = lzWaterSourceResponsesRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+
+        for (LzWaterSourceResponsesEntity lzWaterSourceResponsesEntity : lzWaterSourceResponsesEntityList) {
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.RIVERS && waterSourceCode == Constants.RIVERS) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.TRADITIONAL_RIVERS && waterSourceCode == Constants.TRADITIONAL_RIVERS) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.NATURAL_PONDS && waterSourceCode == Constants.NATURAL_PONDS) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.PANS_AND_DAMS && waterSourceCode == Constants.PANS_AND_DAMS) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.SHALLOW_WELLS && waterSourceCode == Constants.SHALLOW_WELLS) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.BOREHOLES && waterSourceCode == Constants.BOREHOLES) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.SPRINGS && waterSourceCode == Constants.SPRINGS) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.LAKES && waterSourceCode == Constants.LAKES) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.ROCK_CATCHMENT && waterSourceCode == Constants.ROCK_CATCHMENT) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.PIPED_WATER && waterSourceCode == Constants.PIPED_WATER) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.WATER_TRUCKING && waterSourceCode == Constants.WATER_TRUCKING) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.ROOF_CATCHMENTS && waterSourceCode == Constants.ROOF_CATCHMENTS) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+            if (waterSourceRepository.findByWaterSourceId(lzWaterSourceResponsesEntity.getWaterSourceId()).getWaterSourceCode() == Constants.OTHERS && waterSourceCode == Constants.OTHERS) {
+                if (seasonCode == Constants.DRY_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getDrySeasonPercentage());
+                }
+                if (seasonCode == Constants.WET_SEASON.getSeasonCode()) {
+                    waterSourceResponses.setParameterValue(lzWaterSourceResponsesEntity.getWetSeasonPercentage());
+                }
+            }
+        }
+        lzLivelihoodZoneDataObject.setWaterSourceResponses(waterSourceResponses);
+        return lzLivelihoodZoneDataObject;
+    }
+
 }

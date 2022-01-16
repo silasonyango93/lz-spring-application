@@ -1,6 +1,7 @@
 package livelihoodzone.common;
 
 import livelihoodzone.dto.reports.wealthgroup.CropContributionAspectDto;
+import livelihoodzone.dto.reports.zonal.SeasonTypesObject;
 
 public class Constants {
 
@@ -298,6 +299,9 @@ public class Constants {
     public static final int HIGH = 1;
     public static final int MEDIUM = 2;
     public static final int LOW = 3;
+
+    public static final SeasonTypesObject DRY_SEASON = new SeasonTypesObject(1, "Dry Season");
+    public static final SeasonTypesObject WET_SEASON = new SeasonTypesObject(2, "Wet Season");
 
 
     public static final CropContributionAspectDto CASH_INCOME_RANK = new CropContributionAspectDto(1,"Cash Income Rank");

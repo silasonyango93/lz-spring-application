@@ -113,4 +113,23 @@ public class ZoneLevelChartsService {
         }
         return lzLivelihoodZoneDataObjectList;
     }
+
+
+    public List<LzLivelihoodZoneDataObject> processWaterSourcesMapData(int countyId, int waterSourceCode, int seasonCode) {
+        List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = new ArrayList<>();
+        List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
+
+        for (LzQuestionnaireSessionEntity currentQuestionnaire : lzQuestionnaireSessionEntityList) {
+
+            LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
+            lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
+            lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+
+
+            lzLivelihoodZoneDataObject = waterSourcesDataSetService.processWaterSourcesChartByWaterSourceCode(lzLivelihoodZoneDataObject,currentQuestionnaire.getLzQuestionnaireSessionId(),waterSourceCode,seasonCode);
+
+            lzLivelihoodZoneDataObjectList.add(lzLivelihoodZoneDataObject);
+        }
+        return lzLivelihoodZoneDataObjectList;
+    }
 }

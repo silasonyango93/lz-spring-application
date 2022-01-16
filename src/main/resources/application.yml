@@ -113,6 +113,9 @@ ZoneLevelReports:
   zone-level-report: A report on zone level questionnaire responses
   charts: Zone Level Charts
   wealth-group-population-distribution: Wealth group population distribution
+  main-water-sources: Main sources of water map data
+  all-water-sources: All water sources
+  all-seasons-types: All season types
 
 org:
   hibernate:
