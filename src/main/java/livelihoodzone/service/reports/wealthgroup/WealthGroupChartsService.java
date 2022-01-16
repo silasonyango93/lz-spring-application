@@ -254,6 +254,26 @@ public class WealthGroupChartsService {
     }
 
 
+    public List<WgLivelihoodZoneDataObject> cropContributionMapData(int countyId, int wealthGroupId, int cropId, int contributionAspectCode) {
+        List<WgLivelihoodZoneDataObject> livelihoodZoneDataObjectList = new ArrayList<>();
+        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionRepository.findByCountyIdAndWealthGroupIdAndWgQuestionnaireTypeId(countyId, wealthGroupId, 1);
+
+        for (WgQuestionnaireSessionEntity currentQuestionnaire : wgQuestionnaireSessionEntityList) {
+            WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject = new WgLivelihoodZoneDataObject();
+            wgLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
+            wgLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+            wgLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId, currentQuestionnaire.getLivelihoodZoneId()));
+            wgLivelihoodZoneDataObject.setCountyName(countiesRepository.findByCountyId(countyId).getCountyName());
+
+            wgLivelihoodZoneDataObject = cropContributionReportsService.processCropContributionByCrop(wgLivelihoodZoneDataObject, currentQuestionnaire.getWgQuestionnaireSessionId(), cropId, contributionAspectCode);
+
+            livelihoodZoneDataObjectList.add(wgLivelihoodZoneDataObject);
+        }
+
+        return livelihoodZoneDataObjectList;
+    }
+
+
     public WgLivelihoodZoneDataObject processMainSourceOfIncomeAndFood(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId) {
 
         IncomeAndFoodSourcesResponses incomeAndFoodSourcesResponses = new IncomeAndFoodSourcesResponses();

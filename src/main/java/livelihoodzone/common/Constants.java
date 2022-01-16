@@ -1,5 +1,7 @@
 package livelihoodzone.common;
 
+import livelihoodzone.dto.reports.wealthgroup.CropContributionAspectDto;
+
 public class Constants {
 
 
@@ -296,4 +298,10 @@ public class Constants {
     public static final int HIGH = 1;
     public static final int MEDIUM = 2;
     public static final int LOW = 3;
+
+
+    public static final CropContributionAspectDto CASH_INCOME_RANK = new CropContributionAspectDto(1,"Cash Income Rank");
+    public static final CropContributionAspectDto CASH_INCOME_APPROX_PERCENTAGE = new CropContributionAspectDto(2,"Cash Income Approx Percentage");
+    public static final CropContributionAspectDto FOOD_CONSUMPTION_RANK = new CropContributionAspectDto(3,"Food Consumption Rank");
+    public static final CropContributionAspectDto FOOD_CONSUMPTION_APPROX_PERCENTAGE = new CropContributionAspectDto(4,"Food Consumption Approx Percentage");
 }

@@ -1,5 +1,6 @@
 package livelihoodzone.service.reports.wealthgroup.crop_contribution;
 
+import livelihoodzone.common.Constants;
 import livelihoodzone.dto.questionnaire.wealthgroup.cropcontribution.WgCropContributionResponseItem;
 import livelihoodzone.dto.reports.wealthgroup.WgCropContributionReportResponseObject;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgCropContributionChartObject;
@@ -212,6 +213,41 @@ public class CropContributionReportsService {
             wgCropContributionResponseItem.getFoodConsumptionApproxPercentage().setActualValue(wgCropContributionsEntity.getFoodConsumptionApproxPercentage());
             wgCropContributionChartObject.getCropContributionResponseItems().add(wgCropContributionResponseItem);
         }
+        wgLivelihoodZoneDataObject.setCropProduction(wgCropContributionChartObject);
+        return wgLivelihoodZoneDataObject;
+    }
+
+
+    public WgLivelihoodZoneDataObject processCropContributionByCrop(WgLivelihoodZoneDataObject wgLivelihoodZoneDataObject, int questionnaireSessionId, int cropId, int contributionAspectCode) {
+        WgCropContributionChartObject wgCropContributionChartObject = new WgCropContributionChartObject(true);
+        WgCropContributionsEntity wgCropContributionsEntity = wgCropContributionsRepository.findByWgQuestionnaireSessionIdAndCropId(questionnaireSessionId,cropId);
+
+        if (wgCropContributionsEntity != null) {
+            WgCropContributionResponseItem wgCropContributionResponseItem = new WgCropContributionResponseItem(
+                    cropsRepository.findByCropId(cropId),
+                    true
+            );
+            wgCropContributionResponseItem.getCashIncomeRank().setActualValue(wgCropContributionsEntity.getCashIncomeRank());
+            wgCropContributionResponseItem.getCashIncomeApproxPercentage().setActualValue(wgCropContributionsEntity.getCashIncomeApproxPercentage());
+            wgCropContributionResponseItem.getFoodConsumptionRank().setActualValue(wgCropContributionsEntity.getFoodConsumptionRank());
+            wgCropContributionResponseItem.getFoodConsumptionApproxPercentage().setActualValue(wgCropContributionsEntity.getFoodConsumptionApproxPercentage());
+
+            if (contributionAspectCode == Constants.CASH_INCOME_RANK.getContributionAspectCode()) {
+                wgCropContributionResponseItem.setParameterValue(wgCropContributionsEntity.getCashIncomeRank());
+            }
+            if (contributionAspectCode == Constants.CASH_INCOME_APPROX_PERCENTAGE.getContributionAspectCode()) {
+                wgCropContributionResponseItem.setParameterValue(wgCropContributionsEntity.getCashIncomeApproxPercentage());
+            }
+            if (contributionAspectCode == Constants.FOOD_CONSUMPTION_RANK.getContributionAspectCode()) {
+                wgCropContributionResponseItem.setParameterValue(wgCropContributionsEntity.getFoodConsumptionRank());
+            }
+            if (contributionAspectCode == Constants.FOOD_CONSUMPTION_APPROX_PERCENTAGE.getContributionAspectCode()) {
+                wgCropContributionResponseItem.setParameterValue(wgCropContributionsEntity.getFoodConsumptionApproxPercentage());
+            }
+
+            wgCropContributionChartObject.getCropContributionResponseItems().add(wgCropContributionResponseItem);
+        }
+
         wgLivelihoodZoneDataObject.setCropProduction(wgCropContributionChartObject);
         return wgLivelihoodZoneDataObject;
     }

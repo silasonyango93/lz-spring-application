@@ -6,6 +6,7 @@ import livelihoodzone.dto.reports.wealthgroup.charts.*;
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupReportResponseDto;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.questionnaire.WgQuestionnaireSectionsEntity;
+import livelihoodzone.entity.questionnaire.crops.CropsEntity;
 import livelihoodzone.entity.questionnaire.livelihoodzones.LivelihoodZonesEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WealthGroupEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireTypesEntity;
@@ -14,6 +15,7 @@ import livelihoodzone.entity.questionnaire.wealthgroup.income_food_sources.CashI
 import livelihoodzone.entity.questionnaire.wealthgroup.migration_patterns.MigrationPatternsEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
 import livelihoodzone.repository.questionnaire.WgQuestionnaireSectionsRepository;
+import livelihoodzone.repository.questionnaire.crops.CropsRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
@@ -42,6 +44,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static livelihoodzone.common.Constants.*;
 
 @RestController
 @RequestMapping("/wealthgroup-reports")
@@ -96,6 +100,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     QualityChecksService qualityChecksService;
+
+    @Autowired
+    CropsRepository cropsRepository;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class, authorizations = {@Authorization(value = "apiKey")})
@@ -310,6 +317,39 @@ public class WealthGroupReportsController {
     }
 
 
+    @PostMapping("/maps/crop-contribution-map-data")
+    @ApiOperation(value = "${WealthGroupReports.crop-contribution-map-data}", response = WgLivelihoodZoneDataObject.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<WgLivelihoodZoneDataObject>> getIncomeSourcesMapData(@ApiParam("Crop contribution map data") @RequestBody CropContributionMapDataRequestDto cropContributionMapDataRequestDto) {
+
+        try {
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.cropContributionMapData(cropContributionMapDataRequestDto.getCountyId(), cropContributionMapDataRequestDto.getWealthGroupId(), cropContributionMapDataRequestDto.getCropId(),cropContributionMapDataRequestDto.getContributionAspectCode());
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+    @GetMapping(value = "/crop-contribution-aspects")
+    @ApiOperation(value = "${WealthGroupReports.crop-contribution-aspects}", response = CropContributionAspectDto.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token")})
+    public ResponseEntity<List<CropContributionAspectDto>> getAllCropContributionAspects() {
+        List<CropContributionAspectDto> cropContributionAspectDtoList = new ArrayList<>();
+        cropContributionAspectDtoList.add(CASH_INCOME_RANK);
+        cropContributionAspectDtoList.add(CASH_INCOME_APPROX_PERCENTAGE);
+        cropContributionAspectDtoList.add(FOOD_CONSUMPTION_RANK);
+        cropContributionAspectDtoList.add(FOOD_CONSUMPTION_APPROX_PERCENTAGE);
+        return new ResponseEntity<List<CropContributionAspectDto>>(cropContributionAspectDtoList, HttpStatus.valueOf(200));
+    }
+
+
     @PostMapping("/maps/migration-patterns-map-data")
     @ApiOperation(value = "${WealthGroupReports.migration-patterns-map-data}", response = WgLivelihoodZoneDataObject.class, responseContainer = "List")
     @ApiResponses(value = {//
@@ -335,6 +375,16 @@ public class WealthGroupReportsController {
             @ApiResponse(code = 403, message = "Access denied - invalid token")})
     public ResponseEntity<List<CashIncomeSourcesEntity>> getAllIncomeSources() {
         return new ResponseEntity<List<CashIncomeSourcesEntity>>(cashIncomeSourcesRepository.findAll(), HttpStatus.valueOf(200));
+    }
+
+
+    @GetMapping(value = "/all-crops")
+    @ApiOperation(value = "${WealthGroupReports.all-crops}", response = CropsEntity.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token")})
+    public ResponseEntity<List<CropsEntity>> getAllCrops() {
+        return new ResponseEntity<List<CropsEntity>>(cropsRepository.findAll(), HttpStatus.valueOf(200));
     }
 
 

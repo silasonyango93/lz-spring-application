@@ -5,6 +5,7 @@ public class WealthGroupPercentageResponse {
     private double poorResponse;
     private double mediumResponse;
     private double betterOfResponse;
+    private double parameterValue;
 
     public double getVerPoorResponse() {
         return verPoorResponse;
@@ -36,5 +37,13 @@ public class WealthGroupPercentageResponse {
 
     public void setBetterOfResponse(double betterOfResponse) {
         this.betterOfResponse = betterOfResponse;
+    }
+
+    public double getParameterValue() {
+        return parameterValue;
+    }
+
+    public void setParameterValue(double parameterValue) {
+        this.parameterValue = parameterValue;
     }
 }

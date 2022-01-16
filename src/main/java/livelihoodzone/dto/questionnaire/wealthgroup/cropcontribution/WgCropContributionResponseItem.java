@@ -8,6 +8,7 @@ public class WgCropContributionResponseItem {
     private CropContributionResponseValue cashIncomeApproxPercentage;
     private CropContributionResponseValue foodConsumptionRank;
     private CropContributionResponseValue foodConsumptionApproxPercentage;
+    private Number parameterValue;
 
     public WgCropContributionResponseItem() {
     }
@@ -60,5 +61,13 @@ public class WgCropContributionResponseItem {
 
     public void setFoodConsumptionApproxPercentage(CropContributionResponseValue foodConsumptionApproxPercentage) {
         this.foodConsumptionApproxPercentage = foodConsumptionApproxPercentage;
+    }
+
+    public Number getParameterValue() {
+        return parameterValue;
+    }
+
+    public void setParameterValue(Number parameterValue) {
+        this.parameterValue = parameterValue;
     }
 }

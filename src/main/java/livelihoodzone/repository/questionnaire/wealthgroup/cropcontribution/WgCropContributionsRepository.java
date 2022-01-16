@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface WgCropContributionsRepository extends JpaRepository<WgCropContributionsEntity, Long> {
     public List<WgCropContributionsEntity> findByWgQuestionnaireSessionId(@Param("WgQuestionnaireSessionId") int wgQuestionnaireSessionId);
+
+    public WgCropContributionsEntity findByWgQuestionnaireSessionIdAndCropId(@Param("WgQuestionnaireSessionId") int wgQuestionnaireSessionId, @Param("CropId") int cropId);
 }

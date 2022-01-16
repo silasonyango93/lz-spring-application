@@ -94,4 +94,23 @@ public class ZoneLevelChartsService {
         }
         return lzLivelihoodZoneDataObjectList;
     }
+
+
+    public List<LzLivelihoodZoneDataObject> processWealthGroupPopulationMapData(int countyId, int wealthGroupCode) {
+        List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = new ArrayList<>();
+        List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
+
+        for (LzQuestionnaireSessionEntity currentQuestionnaire : lzQuestionnaireSessionEntityList) {
+
+            LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
+            lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
+            lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+
+
+            lzLivelihoodZoneDataObject = lzWealthGroupDistributionReportsService.processWealthGroupPopulationPercentageChartByWealthGroup(lzLivelihoodZoneDataObject,currentQuestionnaire.getLzQuestionnaireSessionId(),wealthGroupCode);
+
+            lzLivelihoodZoneDataObjectList.add(lzLivelihoodZoneDataObject);
+        }
+        return lzLivelihoodZoneDataObjectList;
+    }
 }

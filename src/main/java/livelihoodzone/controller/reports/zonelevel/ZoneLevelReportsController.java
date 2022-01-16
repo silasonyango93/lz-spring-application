@@ -15,6 +15,7 @@ import livelihoodzone.service.reports.zonal.ZoneLevelChartsService;
 import livelihoodzone.service.reports.zonal.ZoneLevelReportService;
 import livelihoodzone.service.reports.zonal.excel.ZonalExcelService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionExcelExporterService;
+import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -146,5 +147,23 @@ public class ZoneLevelReportsController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    @PostMapping("/maps/wealth-group-population-distribution")
+    @ApiOperation(value = "${ZoneLevelReports.wealth-group-population-distribution}", response = LzLivelihoodZoneDataObject.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<LzLivelihoodZoneDataObject>> fetchWealthGroupMapData(@ApiParam("Wealth Group Map data") @RequestBody WealthGroupPopulationRequestDto wealthGroupPopulationRequestDto) {
+
+        try {
+            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.processWealthGroupPopulationMapData(wealthGroupPopulationRequestDto.getCountyId(),wealthGroupPopulationRequestDto.getWealthGroupCode());
+            return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(lzLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
     }
 }
