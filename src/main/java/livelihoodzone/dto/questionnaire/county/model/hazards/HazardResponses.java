@@ -25,6 +25,7 @@ public class HazardResponses {
     private HazardResponseItem drinkingWaterShortages;
     private HazardResponseItem invasivePlants;
     private HazardResponseItem others;
+    private Number parameterValue;
 
     public HazardResponses() {
     }
@@ -248,5 +249,13 @@ public class HazardResponses {
 
     public void setOthers(HazardResponseItem others) {
         this.others = others;
+    }
+
+    public Number getParameterValue() {
+        return parameterValue;
+    }
+
+    public void setParameterValue(Number parameterValue) {
+        this.parameterValue = parameterValue;
     }
 }

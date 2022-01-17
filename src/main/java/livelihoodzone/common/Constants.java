@@ -1,6 +1,7 @@
 package livelihoodzone.common;
 
 import livelihoodzone.dto.reports.wealthgroup.CropContributionAspectDto;
+import livelihoodzone.dto.reports.zonal.HazardAspectObject;
 import livelihoodzone.dto.reports.zonal.SeasonTypesObject;
 
 public class Constants {
@@ -302,6 +303,9 @@ public class Constants {
 
     public static final SeasonTypesObject DRY_SEASON = new SeasonTypesObject(1, "Dry Season");
     public static final SeasonTypesObject WET_SEASON = new SeasonTypesObject(2, "Wet Season");
+
+    public static final HazardAspectObject RANK_OF_IMPORTANCE = new HazardAspectObject(1,"Rank of Importance");
+    public static final HazardAspectObject NO_OF_YEARS = new HazardAspectObject(2,"No of years(In the last 10 years)");
 
 
     public static final CropContributionAspectDto CASH_INCOME_RANK = new CropContributionAspectDto(1,"Cash Income Rank");

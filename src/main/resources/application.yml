@@ -116,6 +116,8 @@ ZoneLevelReports:
   main-water-sources: Main sources of water map data
   all-water-sources: All water sources
   all-seasons-types: All season types
+  hazards: Hazards map data
+  hazard-aspects: Hazard aspects e.g rank or no of years
 
 org:
   hibernate:
