@@ -118,6 +118,8 @@ ZoneLevelReports:
   all-seasons-types: All season types
   hazards: Hazards map data
   hazard-aspects: Hazard aspects e.g rank or no of years
+  all-rainy-seasons: All rainy seasons
+  hunger-patterns: Hunger  patterns map data
 
 org:
   hibernate:

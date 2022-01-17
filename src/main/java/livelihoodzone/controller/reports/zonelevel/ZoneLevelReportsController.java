@@ -13,9 +13,11 @@ import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupCharectaristicsRe
 import livelihoodzone.dto.reports.zonal.wealthgroup.WealthGroupPopulationPercentageReportResponseObject;
 import livelihoodzone.entity.administrative_boundaries.counties.CountiesEntity;
 import livelihoodzone.entity.questionnaire.county.LzHazardsEntity;
+import livelihoodzone.entity.questionnaire.county.RainySeasonsEntity;
 import livelihoodzone.entity.questionnaire.county.WaterSourcesEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
 import livelihoodzone.repository.questionnaire.county.LzHazardsRepository;
+import livelihoodzone.repository.questionnaire.county.RainySeasonsRepository;
 import livelihoodzone.repository.questionnaire.county.WaterSourceRepository;
 import livelihoodzone.service.reports.zonal.ZoneLevelChartsService;
 import livelihoodzone.service.reports.zonal.ZoneLevelReportService;
@@ -60,6 +62,9 @@ public class ZoneLevelReportsController {
 
     @Autowired
     LzHazardsRepository lzHazardsRepository;
+
+    @Autowired
+    RainySeasonsRepository rainySeasonsRepository;
 
     @PostMapping(value = "/zone-level-report")
     @ApiOperation(value = "${ZoneLevelReports.zone-level-report}", response = ZoneLevelReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -261,6 +266,34 @@ public class ZoneLevelReportsController {
         hazardAspectObjectList.add(RANK_OF_IMPORTANCE);
         hazardAspectObjectList.add(NO_OF_YEARS);
         return new ResponseEntity<List<HazardAspectObject>>(hazardAspectObjectList, HttpStatus.valueOf(200));
+    }
+
+
+    @GetMapping(value = "/all-rainy-seasons")
+    @ApiOperation(value = "${WealthGroupReports.all-rainy-seasons}", response = RainySeasonsEntity.class, responseContainer = "List", authorizations = {@Authorization(value = "apiKey")})
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad Request"), //
+            @ApiResponse(code = 403, message = "Access denied - invalid token")})
+    public ResponseEntity<List<RainySeasonsEntity>> getAllRainySeasons() {
+        return new ResponseEntity<List<RainySeasonsEntity>>(rainySeasonsRepository.findAll(), HttpStatus.valueOf(200));
+    }
+
+
+    @PostMapping("/maps/hunger-patterns")
+    @ApiOperation(value = "${ZoneLevelReports.hunger-patterns}", response = LzLivelihoodZoneDataObject.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<LzLivelihoodZoneDataObject>> fetchHungerPatternsMapData(@ApiParam("Hunger patterns Map data") @RequestBody HungerPatternsMapDataRequestDto hungerPatternsMapDataRequestDto) {
+
+        try {
+            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.processHungerPatternsMapData(hungerPatternsMapDataRequestDto.getCountyId(),hungerPatternsMapDataRequestDto.getRainySeasonCode());
+            return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(lzLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
     }
 
 }

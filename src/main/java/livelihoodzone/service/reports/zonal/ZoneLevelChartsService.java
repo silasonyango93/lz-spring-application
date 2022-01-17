@@ -151,4 +151,23 @@ public class ZoneLevelChartsService {
         }
         return lzLivelihoodZoneDataObjectList;
     }
+
+
+    public List<LzLivelihoodZoneDataObject> processHungerPatternsMapData(int countyId, int rainySeasonCode) {
+        List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = new ArrayList<>();
+        List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
+
+        for (LzQuestionnaireSessionEntity currentQuestionnaire : lzQuestionnaireSessionEntityList) {
+
+            LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
+            lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
+            lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+
+
+            lzLivelihoodZoneDataObject = lzHungerPatternsDataSetService.processPatternsOfHungerChartBySeason(lzLivelihoodZoneDataObject,currentQuestionnaire.getLzQuestionnaireSessionId(),rainySeasonCode);
+
+            lzLivelihoodZoneDataObjectList.add(lzLivelihoodZoneDataObject);
+        }
+        return lzLivelihoodZoneDataObjectList;
+    }
 }

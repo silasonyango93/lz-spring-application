@@ -5,6 +5,7 @@ public class HungerPatternsResponses {
     private double endLongBeginShort;
     private double shortRainsPeriod;
     private double endShortBeginLong;
+    private double parameterValue;
 
     public double getLongRainsPeriod() {
         return longRainsPeriod;
@@ -36,5 +37,13 @@ public class HungerPatternsResponses {
 
     public void setEndShortBeginLong(double endShortBeginLong) {
         this.endShortBeginLong = endShortBeginLong;
+    }
+
+    public double getParameterValue() {
+        return parameterValue;
+    }
+
+    public void setParameterValue(double parameterValue) {
+        this.parameterValue = parameterValue;
     }
 }

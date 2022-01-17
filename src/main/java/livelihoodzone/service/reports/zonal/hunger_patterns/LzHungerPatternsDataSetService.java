@@ -114,4 +114,26 @@ public class LzHungerPatternsDataSetService {
     }
 
 
+    public LzLivelihoodZoneDataObject processPatternsOfHungerChartBySeason(LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject, int lzQuestionnaireSessionId, int rainySeasonCode) {
+        HungerPatternsResponses hungerPatternsResponses = new HungerPatternsResponses();
+        List<LzHungerPatternsResponsesEntity> lzHungerPatternsResponsesEntityList = lzHungerPatternsResponsesRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        for (LzHungerPatternsResponsesEntity lzHungerPatternsResponsesEntity : lzHungerPatternsResponsesEntityList) {
+            if (rainySeasonsRepository.findByRainySeasonId(lzHungerPatternsResponsesEntity.getRainySeasonId()).getRainySeasonCode() == Constants.LONG_RAINS_SEASON && rainySeasonCode == Constants.LONG_RAINS_SEASON) {
+                hungerPatternsResponses.setParameterValue(lzHungerPatternsResponsesEntity.getYearsOfWidespreadHunger());
+            }
+            if (rainySeasonsRepository.findByRainySeasonId(lzHungerPatternsResponsesEntity.getRainySeasonId()).getRainySeasonCode() == Constants.SHORT_RAINS_SEASON && rainySeasonCode == Constants.SHORT_RAINS_SEASON) {
+                hungerPatternsResponses.setParameterValue(lzHungerPatternsResponsesEntity.getYearsOfWidespreadHunger());
+            }
+            if (rainySeasonsRepository.findByRainySeasonId(lzHungerPatternsResponsesEntity.getRainySeasonId()).getRainySeasonCode() == Constants.BETWEEN_END_LONG_AND_BEGIN_SHORT && rainySeasonCode == Constants.BETWEEN_END_LONG_AND_BEGIN_SHORT) {
+                hungerPatternsResponses.setParameterValue(lzHungerPatternsResponsesEntity.getYearsOfWidespreadHunger());
+            }
+            if (rainySeasonsRepository.findByRainySeasonId(lzHungerPatternsResponsesEntity.getRainySeasonId()).getRainySeasonCode() == Constants.BETWEEN_END_SHORT_AND_BEGIN_LONG && rainySeasonCode == Constants.BETWEEN_END_SHORT_AND_BEGIN_LONG) {
+                hungerPatternsResponses.setParameterValue(lzHungerPatternsResponsesEntity.getYearsOfWidespreadHunger());
+            }
+        }
+        lzLivelihoodZoneDataObject.setHungerPatternsResponses(hungerPatternsResponses);
+        return lzLivelihoodZoneDataObject;
+    }
+
+
 }
