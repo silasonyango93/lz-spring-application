@@ -5,6 +5,7 @@ import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 import livelihoodzone.repository.questionnaire.county.LzQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
+import livelihoodzone.service.reports.wealthgroup.WealthGroupChartsService;
 import livelihoodzone.service.reports.zonal.cropproduction.LzCropProductionReportService;
 import livelihoodzone.service.reports.zonal.ethnic_groups.EthnicGroupsDataSetService;
 import livelihoodzone.service.reports.zonal.hazards.LzHazardsDataSetService;
@@ -52,6 +53,9 @@ public class ZoneLevelChartsService {
     @Autowired
     LzCropProductionReportService lzCropProductionReportService;
 
+    @Autowired
+    WealthGroupChartsService wealthGroupChartsService;
+
     public List<LzLivelihoodZoneDataObject> prepareZoneLevelChart(int countyId, int questionnaireSectionCode) {
         List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = new ArrayList<>();
         List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
@@ -61,6 +65,7 @@ public class ZoneLevelChartsService {
             LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
             lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
             lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+
 
             if (questionnaireSectionCode == Constants.WEALTH_GROUP_CHARACTERISTICS) {
                 lzLivelihoodZoneDataObject = lzWealthGroupDistributionReportsService.processWealthGroupCharacteristicsChart(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId());
@@ -105,6 +110,7 @@ public class ZoneLevelChartsService {
             LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
             lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
             lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId,currentQuestionnaire.getLivelihoodZoneId()));
 
 
             lzLivelihoodZoneDataObject = lzWealthGroupDistributionReportsService.processWealthGroupPopulationPercentageChartByWealthGroup(lzLivelihoodZoneDataObject,currentQuestionnaire.getLzQuestionnaireSessionId(),wealthGroupCode);
@@ -124,6 +130,7 @@ public class ZoneLevelChartsService {
             LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
             lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
             lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId,currentQuestionnaire.getLivelihoodZoneId()));
 
 
             lzLivelihoodZoneDataObject = waterSourcesDataSetService.processWaterSourcesChartByWaterSourceCode(lzLivelihoodZoneDataObject,currentQuestionnaire.getLzQuestionnaireSessionId(),waterSourceCode,seasonCode);
@@ -143,6 +150,7 @@ public class ZoneLevelChartsService {
             LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
             lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
             lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId,currentQuestionnaire.getLivelihoodZoneId()));
 
 
             lzLivelihoodZoneDataObject = lzHazardsDataSetService.processHazardsChartByHazard(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId(), hazardCode, hazardAspectCode);
@@ -162,6 +170,7 @@ public class ZoneLevelChartsService {
             LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
             lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
             lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
+            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId,currentQuestionnaire.getLivelihoodZoneId()));
 
 
             lzLivelihoodZoneDataObject = lzHungerPatternsDataSetService.processPatternsOfHungerChartBySeason(lzLivelihoodZoneDataObject,currentQuestionnaire.getLzQuestionnaireSessionId(),rainySeasonCode);

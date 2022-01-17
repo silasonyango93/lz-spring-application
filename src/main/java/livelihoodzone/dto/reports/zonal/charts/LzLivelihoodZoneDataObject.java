@@ -7,6 +7,9 @@ import livelihoodzone.dto.questionnaire.county.WealthGroupPercentageResponse;
 import livelihoodzone.dto.questionnaire.county.model.hazards.HazardResponses;
 import livelihoodzone.dto.questionnaire.county.model.hunger.HungerPatternsResponses;
 import livelihoodzone.dto.questionnaire.county.model.seasons.LzSeasonsResponses;
+import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
+
+import java.util.List;
 
 public class LzLivelihoodZoneDataObject {
     private int livelihoodZoneId;
@@ -20,6 +23,7 @@ public class LzLivelihoodZoneDataObject {
     private LzSeasonsResponses livelihoodZoneSeasonsResponses;
     private MarketTransactionObject marketTransactionObject;
     private EthnicityResponseObject ethnicityResponseObject;
+    private List<SubLocationEntity> subLocationsUnderTheLivelihoodZone;
 
     public int getLivelihoodZoneId() {
         return livelihoodZoneId;
@@ -107,5 +111,13 @@ public class LzLivelihoodZoneDataObject {
 
     public void setEthnicityResponseObject(EthnicityResponseObject ethnicityResponseObject) {
         this.ethnicityResponseObject = ethnicityResponseObject;
+    }
+
+    public List<SubLocationEntity> getSubLocationsUnderTheLivelihoodZone() {
+        return subLocationsUnderTheLivelihoodZone;
+    }
+
+    public void setSubLocationsUnderTheLivelihoodZone(List<SubLocationEntity> subLocationsUnderTheLivelihoodZone) {
+        this.subLocationsUnderTheLivelihoodZone = subLocationsUnderTheLivelihoodZone;
     }
 }
