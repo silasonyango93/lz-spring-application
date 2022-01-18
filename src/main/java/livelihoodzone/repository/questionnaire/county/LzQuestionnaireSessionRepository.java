@@ -13,6 +13,8 @@ public interface LzQuestionnaireSessionRepository extends JpaRepository<LzQuesti
 
     public List<LzQuestionnaireSessionEntity> findByCountyId(@Param("CountyId") int countyId);
 
+    public LzQuestionnaireSessionEntity findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
     @Query(nativeQuery = true)
     public List<LzQuestionnaireSessionEntity> fetchQuestionnaireSessionByCountyAndLivelihoodZone(int countyId, int livelihoodzoneId);
 }

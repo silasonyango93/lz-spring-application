@@ -22,6 +22,7 @@ import livelihoodzone.repository.questionnaire.county.WaterSourceRepository;
 import livelihoodzone.service.reports.zonal.ZoneLevelChartsService;
 import livelihoodzone.service.reports.zonal.ZoneLevelReportService;
 import livelihoodzone.service.reports.zonal.excel.ZonalExcelService;
+import livelihoodzone.service.reports.zonal.quality_checks.ZonalQualityChecksService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionExcelExporterService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,9 @@ public class ZoneLevelReportsController {
 
     @Autowired
     RainySeasonsRepository rainySeasonsRepository;
+
+    @Autowired
+    ZonalQualityChecksService zonalQualityChecksService;
 
     @PostMapping(value = "/zone-level-report")
     @ApiOperation(value = "${ZoneLevelReports.zone-level-report}", response = ZoneLevelReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
@@ -292,6 +296,61 @@ public class ZoneLevelReportsController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+    @GetMapping(value = "/quality-check/incomplete-questionnaires")
+    @ApiOperation(value = "${ZoneLevelReports.incomplete-questionnaires}", response = Number.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<Number>> getIncompleteQuestionnaires(@RequestParam("countyId") int countyId) {
+
+        try {
+            List<Number> incompleteQuestionnaireIds = zonalQualityChecksService.extractIncompleteQuestionnaires(countyId);
+            return new ResponseEntity<List<Number>>(incompleteQuestionnaireIds, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<Number>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+    @GetMapping(value = "/quality-check/country-wide-incomplete-questionnaires")
+    @ApiOperation(value = "${ZoneLevelReports.country-wide-incomplete-questionnaires}", response = Number.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<Number>> getCountryWideIncompleteQuestionnaires() {
+
+        try {
+            List<Number> incompleteQuestionnaireIds = zonalQualityChecksService.extractCountryWideIncompleteZoneLevelQuestionnaires();
+            return new ResponseEntity<List<Number>>(incompleteQuestionnaireIds, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<Number>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+
+    @GetMapping(value = "/quality-check/missing-questionnaire-sections")
+    @ApiOperation(value = "${ZoneLevelReports.missing-questionnaire-sections}", response = LzIncompleteQuestionnaireResponseDto.class)
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<LzIncompleteQuestionnaireResponseDto> returnMissingQuestionnaireSections(@RequestParam("lzQuestionnaireSessionId") int lzQuestionnaireSessionId) {
+
+        try {
+            LzIncompleteQuestionnaireResponseDto lzIncompleteQuestionnaireResponseDto = zonalQualityChecksService.returnMissingQuestionnaireSections(lzQuestionnaireSessionId);
+            return new ResponseEntity<LzIncompleteQuestionnaireResponseDto>(lzIncompleteQuestionnaireResponseDto, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<LzIncompleteQuestionnaireResponseDto>(new LzIncompleteQuestionnaireResponseDto(), HttpStatus.valueOf(500));
         }
 
     }

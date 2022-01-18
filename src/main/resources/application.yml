@@ -120,6 +120,9 @@ ZoneLevelReports:
   hazard-aspects: Hazard aspects e.g rank or no of years
   all-rainy-seasons: All rainy seasons
   hunger-patterns: Hunger  patterns map data
+  country-wide-incomplete-questionnaires: Country-wide incomplete questionnaires
+  incomplete-questionnaires: Incomplete questionnaires
+  missing-questionnaire-sections: Missing questionnaire sections
 
 org:
   hibernate:

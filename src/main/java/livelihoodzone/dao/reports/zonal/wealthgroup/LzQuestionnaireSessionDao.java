@@ -31,6 +31,11 @@ public class LzQuestionnaireSessionDao implements LzQuestionnaireSessionReposito
     }
 
     @Override
+    public LzQuestionnaireSessionEntity findByLzQuestionnaireSessionId(int lzQuestionnaireSessionId) {
+        return null;
+    }
+
+    @Override
     public List<LzQuestionnaireSessionEntity> fetchQuestionnaireSessionByCountyAndLivelihoodZone(int countyId, int livelihoodzoneId) {
         List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = manager.createNamedQuery("LzQuestionnaireSessionEntity.fetchQuestionnaireSessionByCountyAndLivelihoodZone", LzQuestionnaireSessionEntity.class)
                 .setParameter(1, countyId)
