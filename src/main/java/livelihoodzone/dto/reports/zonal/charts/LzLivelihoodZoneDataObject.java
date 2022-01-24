@@ -14,6 +14,8 @@ import java.util.List;
 public class LzLivelihoodZoneDataObject {
     private int livelihoodZoneId;
     private String livelihoodZoneName;
+    private int countyId;
+    private String countyName;
     private WealthGroupCharectaristicsResponses wealthGroupCharectariticsResponses;
     private WealthGroupPercentageResponse wealthGroupResponse;
     private LzCropProductionResponses lzCropProductionResponses;
@@ -119,5 +121,21 @@ public class LzLivelihoodZoneDataObject {
 
     public void setSubLocationsUnderTheLivelihoodZone(List<SubLocationEntity> subLocationsUnderTheLivelihoodZone) {
         this.subLocationsUnderTheLivelihoodZone = subLocationsUnderTheLivelihoodZone;
+    }
+
+    public int getCountyId() {
+        return countyId;
+    }
+
+    public void setCountyId(int countyId) {
+        this.countyId = countyId;
+    }
+
+    public String getCountyName() {
+        return countyName;
+    }
+
+    public void setCountyName(String countyName) {
+        this.countyName = countyName;
     }
 }

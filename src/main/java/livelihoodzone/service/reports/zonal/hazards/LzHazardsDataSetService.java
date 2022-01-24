@@ -260,7 +260,8 @@ public class LzHazardsDataSetService {
         for (LzHazardResponsesEntity lzHazardResponsesEntity : lzHazardResponsesEntityList) {
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_ANIMAL_RUSTLING && hazardCode == Constants.HZ_ANIMAL_RUSTLING) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    //hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -268,7 +269,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_BANDITRY && hazardCode == Constants.HZ_BANDITRY) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -276,7 +277,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_TERRORISM && hazardCode == Constants.HZ_TERRORISM) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -284,7 +285,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_ETHNIC_CONFLICT && hazardCode == Constants.HZ_ETHNIC_CONFLICT) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -292,7 +293,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_POLITICAL_CONFLICT && hazardCode == Constants.HZ_POLITICAL_CONFLICT) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -300,7 +301,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_DROUGHT && hazardCode == Constants.HZ_DROUGHT) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -308,7 +309,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_LIVESTOCK_PESTS_DISEASES && hazardCode == Constants.HZ_LIVESTOCK_PESTS_DISEASES) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -316,7 +317,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_HAILSTORMS_OR_FROST && hazardCode == Constants.HZ_HAILSTORMS_OR_FROST) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -324,7 +325,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_FLOODING && hazardCode == Constants.HZ_FLOODING) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -332,7 +333,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_LANDSLIDES && hazardCode == Constants.HZ_LANDSLIDES) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -340,7 +341,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_HIGH_WINDS && hazardCode == Constants.HZ_HIGH_WINDS) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -348,7 +349,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_BUSH_FIRES && hazardCode == Constants.HZ_BUSH_FIRES) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -356,7 +357,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_CROP_PESTS && hazardCode == Constants.HZ_CROP_PESTS) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -364,7 +365,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_LOCUST_INVASION && hazardCode == Constants.HZ_LOCUST_INVASION) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -372,7 +373,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_CROP_DISEASES && hazardCode == Constants.HZ_CROP_DISEASES) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -380,7 +381,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_TERMINAL_ILLNESS && hazardCode == Constants.HZ_TERMINAL_ILLNESS) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -388,7 +389,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_MALARIA_OUTBREAK && hazardCode == Constants.HZ_MALARIA_OUTBREAK) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -396,7 +397,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_WATER_BORNE_DISEASE && hazardCode == Constants.HZ_WATER_BORNE_DISEASE) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -404,7 +405,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_HUMAN_WILDLIFE_CONFLICT && hazardCode == Constants.HZ_HUMAN_WILDLIFE_CONFLICT) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -412,7 +413,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_HIGH_FOOD_PRICES && hazardCode == Constants.HZ_HIGH_FOOD_PRICES) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -420,7 +421,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_SHORTAGE_OF_FOOD_ON_MARKET && hazardCode == Constants.HZ_SHORTAGE_OF_FOOD_ON_MARKET) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -428,7 +429,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_DRINKING_WATER_SHORTAGES && hazardCode == Constants.HZ_DRINKING_WATER_SHORTAGES) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -436,7 +437,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_INVASIVE_PLANT_SPECIES && hazardCode == Constants.HZ_INVASIVE_PLANT_SPECIES) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
@@ -444,7 +445,7 @@ public class LzHazardsDataSetService {
             }
             if (lzHazardsRepository.findByLzHazardId(lzHazardResponsesEntity.getLzHazardId()).getLzHazardCode() == Constants.HZ_OTHERS && hazardCode == Constants.HZ_OTHERS) {
                 if (hazardAspectCode == Constants.RANK_OF_IMPORTANCE.getHazardAspectCode()) {
-                    hazardResponses.setParameterValue(Math.pow(lzHazardResponsesEntity.getRank(), -1) * 10);
+                    hazardResponses.setParameterValue(lzHazardResponsesEntity.getRank());
                 }
                 if (hazardAspectCode == Constants.NO_OF_YEARS.getHazardAspectCode()) {
                     hazardResponses.setParameterValue(lzHazardResponsesEntity.getYearsExperienced());
