@@ -29,6 +29,9 @@ public class QuestionnaireUpdateService {
     @Autowired
     ExpenditurePatternsUpdateExcelHelper expenditurePatternsUpdateExcelHelper;
 
+    @Autowired
+    MigrationPatternsUpdateExcelService migrationPatternsUpdateExcelService;
+
     public void processQuestionnaireUpdate(MultipartFile file, int wgQuestionnaireSessionId) {
 
         if (!qualityChecksService.hasIncomeSourcesSection(wgQuestionnaireSessionId)) {
@@ -53,6 +56,10 @@ public class QuestionnaireUpdateService {
 
         if (!qualityChecksService.hasExpenditurePatternsSection(wgQuestionnaireSessionId)) {
             expenditurePatternsUpdateExcelHelper.processExcelQuestionnaire(file,wgQuestionnaireSessionId);
+        }
+
+        if (!qualityChecksService.hasMigrationPatternsSection(wgQuestionnaireSessionId)) {
+            migrationPatternsUpdateExcelService.processExcelQuestionnaire(file,wgQuestionnaireSessionId);
         }
 
     }
