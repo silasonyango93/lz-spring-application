@@ -550,4 +550,22 @@ public class WealthGroupReportsController {
             return new ResponseEntity<WgIncompleteQuestionnaireResponseDto>(new WgIncompleteQuestionnaireResponseDto(), HttpStatus.valueOf(500));
         }
     }
+
+
+    @GetMapping("/livestock-ownership/tlu")
+    @ApiOperation(value = "${WealthGroupReports.tlu-map-data}", response = WgLivelihoodZoneDataObject.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<WgLivelihoodZoneDataObject>> getTluMapData(@RequestParam("countyId") int countyId, @RequestParam("wealthGroupId") int wealthGroupId) {
+
+        try {
+            List<WgLivelihoodZoneDataObject> wgLivelihoodZoneDataObjectList = wealthGroupChartsService.livestockOwnershipChartByLivestock(countyId, wealthGroupId, 0);
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(wgLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<WgLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
 }

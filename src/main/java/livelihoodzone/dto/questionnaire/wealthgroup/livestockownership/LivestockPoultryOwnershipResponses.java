@@ -16,6 +16,7 @@ public class LivestockPoultryOwnershipResponses {
     private double improvedCattle;
     private double fishCages;
     private double tlu = 0.0;
+    private double parameterValue;
 
     public double getCattle() {
         return cattle;
@@ -135,5 +136,13 @@ public class LivestockPoultryOwnershipResponses {
 
     public void setTlu(double tlu) {
         this.tlu = tlu;
+    }
+
+    public double getParameterValue() {
+        return parameterValue;
+    }
+
+    public void setParameterValue(double parameterValue) {
+        this.parameterValue = parameterValue;
     }
 }

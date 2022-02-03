@@ -283,6 +283,7 @@ public class AnimalOwnershipService {
                     (0.8 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.DONKEYS)) + (1.4 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.CAMELS)) + (0.2 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.PIGS)) + (0.1 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.GOATS)) +
                     (0.1 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.SHEEP)) + (0.01 * (getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.LOCAL_CHICKEN) + getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.IMPROVED_CHICKEN))) + (0.01 * getNoOfASpecificLivestockType(wgAveAnimalNoPerHouseholdEntityList, Constants.DUCKS));
             livestockPoultryOwnershipResponses.setTlu(tlu);
+            livestockPoultryOwnershipResponses.setParameterValue(tlu);
         }
         wgLivelihoodZoneDataObject.setLivestockAndPoultryOwnership(livestockPoultryOwnershipResponses);
         return wgLivelihoodZoneDataObject;

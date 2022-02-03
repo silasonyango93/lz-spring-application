@@ -2,6 +2,8 @@ package livelihoodzone.controller.ingestor;
 
 import livelihoodzone.service.ingestor.ExcelService;
 import livelihoodzone.service.ingestor.crops.CropsExcellService;
+import livelihoodzone.service.ingestor.questionnaire_update.IncomeSourcesUpdateExcelHelper;
+import livelihoodzone.service.ingestor.questionnaire_update.QuestionnaireUpdateService;
 import livelihoodzone.service.ingestor.tribe.TribeExcelService;
 import livelihoodzone.service.ingestor.users.UsersExcelService;
 import livelihoodzone.util.excel.ExcelHelper;
@@ -21,6 +23,9 @@ import springfox.documentation.service.ResponseMessage;
 @Controller
 @RequestMapping("/excel")
 public class IngestorController {
+
+    @Autowired
+    QuestionnaireUpdateService questionnaireUpdateService;
 
     @Autowired
     ExcelService fileService;
@@ -105,6 +110,28 @@ public class IngestorController {
         if (UsersExcelHelper.hasExcelFormat(file)) {
             try {
                 usersExcelService.signUpIngestedUsers(file);
+
+                message = "Uploaded the file successfully: " + file.getOriginalFilename();
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
+            }
+        }
+
+        message = "Please upload an excel file!";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
+
+    @PostMapping("/update-questionnaire")
+    public ResponseEntity<ResponseMessage> updateQuestionnaire(@RequestParam("file") MultipartFile file, @RequestParam("wgQuestionnaireSessionId") int wgQuestionnaireSessionId) {
+        String message = "";
+
+        if (UsersExcelHelper.hasExcelFormat(file)) {
+            try {
+                questionnaireUpdateService.processQuestionnaireUpdate(file,wgQuestionnaireSessionId);
 
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(null);
