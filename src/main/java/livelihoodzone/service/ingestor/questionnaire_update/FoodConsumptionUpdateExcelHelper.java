@@ -11,6 +11,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,6 +20,9 @@ import java.io.IOException;
 import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.FOOD_CONSUMPTION_PERCENTAGES_EXCEL_SHEET_NAME;
 import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.MAIN_INCOME_SOURCES_EXCEL_SHEET_NAME;
 
+
+@Service
+@Transactional
 public class FoodConsumptionUpdateExcelHelper {
 
     @Autowired

@@ -1,11 +1,8 @@
 package livelihoodzone.service.ingestor.questionnaire_update;
 
-import livelihoodzone.common.Constants;
 import livelihoodzone.entity.questionnaire.wealthgroup.cropcontribution.WgCropContributionsEntity;
-import livelihoodzone.entity.questionnaire.wealthgroup.migration_patterns.WgMigrationPatternPercentagesEntity;
-import livelihoodzone.repository.questionnaire.crops.CropsRepository;
-import livelihoodzone.repository.questionnaire.wealthgroup.cropcontribution.WgCropContributionsRepository;
-import org.apache.poi.ss.usermodel.Cell;
+import livelihoodzone.entity.questionnaire.wealthgroup.fgd_participants.FgdParticipantsEntity;
+import livelihoodzone.repository.questionnaire.wealthgroup.fgd_participants.FgdParticipantsRepository;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -21,16 +18,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.CROP_CONTRIBUTION;
+import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.WG_FGD_PARTICIPANTS;
 
 @Service
 @Transactional
-public class CropContributionUpdateExcelService {
+public class FgdParticipantsUpdateExcelHelper {
 
     @Autowired
-    WgCropContributionsRepository wgCropContributionsRepository;
-
-    @Autowired
-    CropsRepository cropsRepository;
+    FgdParticipantsRepository fgdParticipantsRepository;
 
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
@@ -43,13 +38,14 @@ public class CropContributionUpdateExcelService {
         return true;
     }
 
+
     public void processExcelQuestionnaire(MultipartFile file, int wgQuestionnaireSessionId) {
         try {
             Workbook workbook = new XSSFWorkbook(file.getInputStream());
 
-            Sheet sheet = workbook.getSheet(CROP_CONTRIBUTION);
+            Sheet sheet = workbook.getSheet(WG_FGD_PARTICIPANTS);
 
-            List<WgCropContributionsEntity> wgCropContributionsEntityList = new ArrayList<>();
+            List<FgdParticipantsEntity> fgdParticipantsEntityList = new ArrayList<>();
 
             Iterator<Row> rows = sheet.iterator();
 
@@ -65,26 +61,40 @@ public class CropContributionUpdateExcelService {
                     continue;
                 }
 
-                wgCropContributionsEntityList.add(new WgCropContributionsEntity(
+                fgdParticipantsEntityList.add(new FgdParticipantsEntity(
                         wgQuestionnaireSessionId,
-                        cropsRepository.findByCropName(currentRow.getCell(0).getStringCellValue()).getCropId(),
-                        (int) currentRow.getCell(1).getNumericCellValue(),
-                        currentRow.getCell(2).getNumericCellValue(),
+                        currentRow.getCell(0).getStringCellValue(),
+                        determineAgeBand(currentRow.getCell(1).getStringCellValue()),
+                        currentRow.getCell(2).getNumericCellValue() == 1 ? 2 : 1,
                         (int) currentRow.getCell(3).getNumericCellValue(),
-                        currentRow.getCell(4).getNumericCellValue()
+                        (int) currentRow.getCell(4).getNumericCellValue(),
+                        (int) currentRow.getCell(5).getNumericCellValue()
                 ));
 
 
             }
 
 
-            wgCropContributionsRepository.saveAll(wgCropContributionsEntityList);
+            fgdParticipantsRepository.saveAll(fgdParticipantsEntityList);
 
 
             workbook.close();
         } catch (IOException e) {
             throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
         }
+    }
+
+    public int determineAgeBand(String bandString) {
+        if (bandString.trim().equals("A")) {
+            return 1;
+        } else if (bandString.trim().equals("B")) {
+            return 2;
+        } else if (bandString.trim().equals("C")) {
+            return 3;
+        } else if (bandString.trim().equals("D")) {
+            return 4;
+        } else return 5;
+
     }
 
 }
