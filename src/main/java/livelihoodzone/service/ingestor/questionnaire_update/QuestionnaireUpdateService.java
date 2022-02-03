@@ -32,6 +32,9 @@ public class QuestionnaireUpdateService {
     @Autowired
     MigrationPatternsUpdateExcelService migrationPatternsUpdateExcelService;
 
+    @Autowired
+    CropContributionUpdateExcelService cropContributionUpdateExcelService;
+
     public void processQuestionnaireUpdate(MultipartFile file, int wgQuestionnaireSessionId) {
 
         if (!qualityChecksService.hasIncomeSourcesSection(wgQuestionnaireSessionId)) {
@@ -60,6 +63,10 @@ public class QuestionnaireUpdateService {
 
         if (!qualityChecksService.hasMigrationPatternsSection(wgQuestionnaireSessionId)) {
             migrationPatternsUpdateExcelService.processExcelQuestionnaire(file,wgQuestionnaireSessionId);
+        }
+
+        if (!qualityChecksService.hasCropProductionSection(wgQuestionnaireSessionId)) {
+            cropContributionUpdateExcelService.processExcelQuestionnaire(file,wgQuestionnaireSessionId);
         }
 
     }
