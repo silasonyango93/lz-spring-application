@@ -23,6 +23,12 @@ public class QuestionnaireUpdateService {
     @Autowired
     LivestockContributionUpdateExcelHelper livestockContributionUpdateExcelHelper;
 
+    @Autowired
+    LabourPatternsUpdateExcelHelper labourPatternsUpdateExcelHelper;
+
+    @Autowired
+    ExpenditurePatternsUpdateExcelHelper expenditurePatternsUpdateExcelHelper;
+
     public void processQuestionnaireUpdate(MultipartFile file, int wgQuestionnaireSessionId) {
 
         if (!qualityChecksService.hasIncomeSourcesSection(wgQuestionnaireSessionId)) {
@@ -39,6 +45,14 @@ public class QuestionnaireUpdateService {
 
         if (!qualityChecksService.hasLivestockContributionSection(wgQuestionnaireSessionId)) {
             livestockContributionUpdateExcelHelper.processExcelQuestionnaire(file,wgQuestionnaireSessionId);
+        }
+
+        if (!qualityChecksService.hasLabourPatternsSection(wgQuestionnaireSessionId)) {
+            labourPatternsUpdateExcelHelper.processExcelQuestionnaire(file,wgQuestionnaireSessionId);
+        }
+
+        if (!qualityChecksService.hasExpenditurePatternsSection(wgQuestionnaireSessionId)) {
+            expenditurePatternsUpdateExcelHelper.processExcelQuestionnaire(file,wgQuestionnaireSessionId);
         }
 
     }
