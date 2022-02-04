@@ -578,7 +578,7 @@ public class WealthGroupReportsController {
     public ResponseEntity<List<CropsEntity>> searchCrops(@ApiParam("Search crops") @RequestParam("cropName") String cropName) {
 
         try {
-            List<CropsEntity> returnedCrops = cropsRepository.findByCropNameLike(cropName);
+            List<CropsEntity> returnedCrops = cropsRepository.findByCropNameContainingIgnoreCase(cropName);
             return new ResponseEntity<List<CropsEntity>>(returnedCrops, HttpStatus.valueOf(200));
         } catch (Exception e) {
             e.printStackTrace();

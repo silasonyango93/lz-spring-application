@@ -11,5 +11,5 @@ public interface CropsRepository extends JpaRepository<CropsEntity, Long> {
 
     public CropsEntity findByCropName(@Param("CropName") String cropName);
 
-    public List<CropsEntity> findByCropNameLike(@Param("CropName") String cropName);
+    public List<CropsEntity> findByCropNameContainingIgnoreCase(@Param("CropName") String cropName);
 }
