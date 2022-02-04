@@ -568,4 +568,22 @@ public class WealthGroupReportsController {
         }
 
     }
+
+
+    @PostMapping("/crops/search-crop")
+    @ApiOperation(value = "${WealthGroupReports.search-crop}", response = CropsEntity.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<CropsEntity>> searchCrops(@ApiParam("Search crops") @RequestParam("cropName") String cropName) {
+
+        try {
+            List<CropsEntity> returnedCrops = cropsRepository.findByCropNameLike(cropName);
+            return new ResponseEntity<List<CropsEntity>>(returnedCrops, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<CropsEntity>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
 }

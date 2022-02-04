@@ -109,6 +109,7 @@ WealthGroupReports:
   crop-contribution-aspects: All crop contribution aspects
   all-crops: Returns all crops
   tlu-map-data: TLU map data
+  search-crop: Search crop
 
 ZoneLevelReports:
   zone-level-report: A report on zone level questionnaire responses

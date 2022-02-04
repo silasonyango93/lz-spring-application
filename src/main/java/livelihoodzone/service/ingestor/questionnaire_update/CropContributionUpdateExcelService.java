@@ -65,14 +65,16 @@ public class CropContributionUpdateExcelService {
                     continue;
                 }
 
-                wgCropContributionsEntityList.add(new WgCropContributionsEntity(
-                        wgQuestionnaireSessionId,
-                        cropsRepository.findByCropName(currentRow.getCell(0).getStringCellValue()).getCropId(),
-                        (int) currentRow.getCell(1).getNumericCellValue(),
-                        currentRow.getCell(2).getNumericCellValue(),
-                        (int) currentRow.getCell(3).getNumericCellValue(),
-                        currentRow.getCell(4).getNumericCellValue()
-                ));
+                if (currentRow.getCell(0).getNumericCellValue() != 0) {
+                    wgCropContributionsEntityList.add(new WgCropContributionsEntity(
+                            wgQuestionnaireSessionId,
+                            (int) currentRow.getCell(0).getNumericCellValue(),
+                            (int) currentRow.getCell(1).getNumericCellValue(),
+                            currentRow.getCell(2).getNumericCellValue(),
+                            (int) currentRow.getCell(3).getNumericCellValue(),
+                            currentRow.getCell(4).getNumericCellValue()
+                    ));
+                }
 
 
             }

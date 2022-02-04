@@ -51,16 +51,16 @@ public class LabourPatternsUpdateExcelHelper {
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.LABOUR_OWN_FARM).getLivelihoodActivityId(),
-                    sheet.getRow(4).getCell(1).getNumericCellValue(),
-                    sheet.getRow(4).getCell(2).getNumericCellValue()
+                    sheet.getRow(4).getCell(2).getNumericCellValue(),
+                    sheet.getRow(4).getCell(1).getNumericCellValue()
             ));
 
             //Livestock husbandry
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.LIVESTOCK_HUSBANDRY).getLivelihoodActivityId(),
-                    sheet.getRow(5).getCell(1).getNumericCellValue(),
-                    sheet.getRow(5).getCell(2).getNumericCellValue()
+                    sheet.getRow(5).getCell(2).getNumericCellValue(),
+                    sheet.getRow(5).getCell(1).getNumericCellValue()
             ));
 
 
@@ -68,8 +68,8 @@ public class LabourPatternsUpdateExcelHelper {
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.TRANSPORT_SERVICES).getLivelihoodActivityId(),
-                    sheet.getRow(17).getCell(1).getNumericCellValue(),
-                    sheet.getRow(17).getCell(2).getNumericCellValue()
+                    sheet.getRow(17).getCell(2).getNumericCellValue(),
+                    sheet.getRow(17).getCell(1).getNumericCellValue()
             ));
 
 
@@ -77,96 +77,96 @@ public class LabourPatternsUpdateExcelHelper {
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.WAGED_LABOUR).getLivelihoodActivityId(),
-                    sheet.getRow(6).getCell(1).getNumericCellValue(),
-                    sheet.getRow(6).getCell(2).getNumericCellValue()
+                    sheet.getRow(6).getCell(2).getNumericCellValue(),
+                    sheet.getRow(6).getCell(1).getNumericCellValue()
             ));
 
             //Low-skilled non farm labour (including paid manual.
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.LOW_SKILLED_NON_FARM_LABOUR).getLivelihoodActivityId(),
-                    sheet.getRow(7).getCell(1).getNumericCellValue(),
-                    sheet.getRow(7).getCell(2).getNumericCellValue()
+                    sheet.getRow(7).getCell(2).getNumericCellValue(),
+                    sheet.getRow(7).getCell(1).getNumericCellValue()
             ));
 
             //Skilled labor (carpentry, masonry, artisans, )
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.SKILLED_LABOUR).getLivelihoodActivityId(),
-                    sheet.getRow(8).getCell(1).getNumericCellValue(),
-                    sheet.getRow(8).getCell(2).getNumericCellValue()
+                    sheet.getRow(8).getCell(2).getNumericCellValue(),
+                    sheet.getRow(8).getCell(1).getNumericCellValue()
             ));
 
             //Formal employment
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.FORMAL_EMPLOYMENT).getLivelihoodActivityId(),
-                    sheet.getRow(9).getCell(1).getNumericCellValue(),
-                    sheet.getRow(9).getCell(2).getNumericCellValue()
+                    sheet.getRow(9).getCell(2).getNumericCellValue(),
+                    sheet.getRow(9).getCell(1).getNumericCellValue()
             ));
 
             //Hunting and gathering
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.HUNTING_AND_GATHERING_LZ_ACTIVITY).getLivelihoodActivityId(),
-                    sheet.getRow(10).getCell(1).getNumericCellValue(),
-                    sheet.getRow(10).getCell(2).getNumericCellValue()
+                    sheet.getRow(10).getCell(2).getNumericCellValue(),
+                    sheet.getRow(10).getCell(1).getNumericCellValue()
             ));
 
             //Fishing
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.FISHING_LZ_ACTIVITY).getLivelihoodActivityId(),
-                    sheet.getRow(11).getCell(1).getNumericCellValue(),
-                    sheet.getRow(11).getCell(2).getNumericCellValue()
+                    sheet.getRow(11).getCell(2).getNumericCellValue(),
+                    sheet.getRow(11).getCell(1).getNumericCellValue()
             ));
 
             //Trading
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.TRADING_LZ_ACTIVITY).getLivelihoodActivityId(),
-                    sheet.getRow(12).getCell(1).getNumericCellValue(),
-                    sheet.getRow(12).getCell(2).getNumericCellValue()
+                    sheet.getRow(12).getCell(2).getNumericCellValue(),
+                    sheet.getRow(12).getCell(1).getNumericCellValue()
             ));
 
             //Domestic (unpaid) work including childcare
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.DOMESTIC_UNPAID_WORK).getLivelihoodActivityId(),
-                    sheet.getRow(13).getCell(1).getNumericCellValue(),
-                    sheet.getRow(13).getCell(2).getNumericCellValue()
+                    sheet.getRow(13).getCell(2).getNumericCellValue(),
+                    sheet.getRow(13).getCell(1).getNumericCellValue()
             ));
 
             //Begging
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.BEGGING_LZ_ACTIVITY).getLivelihoodActivityId(),
-                    sheet.getRow(14).getCell(1).getNumericCellValue(),
-                    sheet.getRow(14).getCell(2).getNumericCellValue()
+                    sheet.getRow(14).getCell(2).getNumericCellValue(),
+                    sheet.getRow(14).getCell(1).getNumericCellValue()
             ));
 
             //Commercial sex work
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.COMMERCIAL_SEX_WORK).getLivelihoodActivityId(),
-                    sheet.getRow(15).getCell(1).getNumericCellValue(),
-                    sheet.getRow(15).getCell(2).getNumericCellValue()
+                    sheet.getRow(15).getCell(2).getNumericCellValue(),
+                    sheet.getRow(15).getCell(1).getNumericCellValue()
             ));
 
             //Leisure, socializing and entertainment
             wgGenderLivelihoodActivitiesRepository.save(new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.LEISURE_SOCIALIZING_ENTERTAINMENT).getLivelihoodActivityId(),
-                    sheet.getRow(16).getCell(1).getNumericCellValue(),
-                    sheet.getRow(16).getCell(2).getNumericCellValue()
+                    sheet.getRow(16).getCell(2).getNumericCellValue(),
+                    sheet.getRow(16).getCell(1).getNumericCellValue()
             ));
 
             //Others
             WgGenderLivelihoodActivitiesEntity othersObject = new WgGenderLivelihoodActivitiesEntity(
                     wgQuestionnaireSessionId,
                     livelihoodActivitiesRepository.findByLivelihoodActivityCode(Constants.OTHER_LIVELIHOOD_ACTIVITIES).getLivelihoodActivityId(),
-                    sheet.getRow(18).getCell(1).getNumericCellValue(),
-                    sheet.getRow(18).getCell(2).getNumericCellValue()
+                    sheet.getRow(18).getCell(2).getNumericCellValue(),
+                    sheet.getRow(18).getCell(1).getNumericCellValue()
             );
             wgGenderLivelihoodActivitiesRepository.save(othersObject);
 

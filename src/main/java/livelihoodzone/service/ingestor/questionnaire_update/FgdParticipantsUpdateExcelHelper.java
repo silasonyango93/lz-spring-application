@@ -49,27 +49,26 @@ public class FgdParticipantsUpdateExcelHelper {
 
             Iterator<Row> rows = sheet.iterator();
 
-            int rowNumber = 3;
+
 
             while (rows.hasNext()) {
 
                 Row currentRow = rows.next();
 
-                // skip header
-                if (rowNumber == 3) {
-                    rowNumber++;
-                    continue;
+                if (currentRow.getRowNum() > 3) {
+                    if (currentRow.getCell(4) != null && currentRow.getCell(4).getNumericCellValue() > 0) {
+                        fgdParticipantsEntityList.add(new FgdParticipantsEntity(
+                                wgQuestionnaireSessionId,
+                                currentRow.getCell(0).getStringCellValue(),
+                                determineAgeBand(currentRow.getCell(1).getStringCellValue()),
+                                currentRow.getCell(2).getNumericCellValue() == 1 ? 2 : 1,
+                                (int) currentRow.getCell(3).getNumericCellValue(),
+                                (int) currentRow.getCell(4).getNumericCellValue(),
+                                (int) currentRow.getCell(5).getNumericCellValue()
+                        ));
+                    }
                 }
 
-                fgdParticipantsEntityList.add(new FgdParticipantsEntity(
-                        wgQuestionnaireSessionId,
-                        currentRow.getCell(0).getStringCellValue(),
-                        determineAgeBand(currentRow.getCell(1).getStringCellValue()),
-                        currentRow.getCell(2).getNumericCellValue() == 1 ? 2 : 1,
-                        (int) currentRow.getCell(3).getNumericCellValue(),
-                        (int) currentRow.getCell(4).getNumericCellValue(),
-                        (int) currentRow.getCell(5).getNumericCellValue()
-                ));
 
 
             }

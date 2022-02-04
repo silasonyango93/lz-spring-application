@@ -348,6 +348,12 @@ public class WgConstraintsExcelService {
         createCell(taxesRow, 1, "Too many taxes, tax rates too high", style);
         createCell(taxesRow, 2, smallEnterpriseIncomeConstraintsResponses.getTooManyTaxes(), style);
 
+        //Lack of access to markets
+        Row lackMarketRow = sheet.createRow(rowCount++);
+        createCell(lackMarketRow, 0, "", style);
+        createCell(lackMarketRow, 1, "Lack of access to markets", style);
+        createCell(lackMarketRow, 2, smallEnterpriseIncomeConstraintsResponses.getLackOfAccessToMarket(), style);
+
         //Lack of expertise
         Row smeExpertiseRow = sheet.createRow(rowCount++);
         createCell(smeExpertiseRow, 0, "", style);

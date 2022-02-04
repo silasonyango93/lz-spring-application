@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.MIGRATION_PATTERNS;
+import static livelihoodzone.service.reports.wealthgroup.excel.ExcelSheetNamesConstants.WG_CONSTRAINTS;
 
 @Service
 public class ConstraintsUpdateExcelHelper {
@@ -45,7 +46,7 @@ public class ConstraintsUpdateExcelHelper {
         try {
             Workbook workbook = new XSSFWorkbook(file.getInputStream());
 
-            Sheet sheet = workbook.getSheet(MIGRATION_PATTERNS);
+            Sheet sheet = workbook.getSheet(WG_CONSTRAINTS);
 
 
             //Waged labour
@@ -241,7 +242,7 @@ public class ConstraintsUpdateExcelHelper {
                     wgQuestionnaireSessionId,
                     conIncomeSourcesRepository.findByConIncomeSourceCode(Constants.CONIN_LIVESTOCK_PRODUCTION).getConIncomeSourceId(),
                     incomeConstraintsRepository.findByIncomeConstraintCode(Constants.INCO_LP_LACK_OF_LIVESTOCK_EXTENSION_SERVICES).getIncomeConstraintId(),
-                    (int) sheet.getRow(33).getCell(2).getNumericCellValue()
+                    (int) sheet.getRow(32).getCell(2).getNumericCellValue()
             ));
 
             /******************************************************************************************************************/

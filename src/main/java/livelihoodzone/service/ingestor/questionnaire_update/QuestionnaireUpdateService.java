@@ -38,6 +38,9 @@ public class QuestionnaireUpdateService {
     @Autowired
     FgdParticipantsUpdateExcelHelper fgdParticipantsUpdateExcelHelper;
 
+    @Autowired
+    ConstraintsUpdateExcelHelper constraintsUpdateExcelHelper;
+
     public void processQuestionnaireUpdate(MultipartFile file, int wgQuestionnaireSessionId) {
 
         if (!qualityChecksService.hasIncomeSourcesSection(wgQuestionnaireSessionId)) {
@@ -74,6 +77,10 @@ public class QuestionnaireUpdateService {
 
         if (!qualityChecksService.hasFgdParticipantsSection(wgQuestionnaireSessionId)) {
             fgdParticipantsUpdateExcelHelper.processExcelQuestionnaire(file,wgQuestionnaireSessionId);
+        }
+
+        if (!qualityChecksService.hasConstraintsSection(wgQuestionnaireSessionId)) {
+            constraintsUpdateExcelHelper.processExcelQuestionnaire(file,wgQuestionnaireSessionId);
         }
 
     }
