@@ -1,6 +1,7 @@
 package livelihoodzone.repository.questionnaire.wealthgroup;
 
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
+import livelihoodzone.entity.questionnaire.crops.CropsEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireSessionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,8 @@ public interface WgQuestionnaireSessionRepository extends JpaRepository<WgQuesti
     public List<WgQuestionnaireSessionEntity> findByCountyIdAndLivelihoodZoneIdAndWgQuestionnaireTypeId(@Param("CountyId") int countyId, @Param("LivelihoodZoneId") int livelihoodZoneId, @Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId);
 
     public List<WgQuestionnaireSessionEntity> findByCountyIdAndWealthGroupIdAndWgQuestionnaireTypeId(@Param("CountyId") int countyId, @Param("WealthGroupId") int wealthGroupId, @Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId);
+
+    public List<WgQuestionnaireSessionEntity> findByQuestionnaireSessionDescriptionContainingIgnoreCaseAndWgQuestionnaireTypeId(@Param("QuestionnaireSessionDescription") String questionnaireSessionDescription, @Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId);
+
+    public List<WgQuestionnaireSessionEntity> findByCountyId(@Param("CountyId") int countyId);
 }

@@ -126,6 +126,11 @@ ZoneLevelReports:
   incomplete-questionnaires: Incomplete questionnaires
   missing-questionnaire-sections: Missing questionnaire sections
 
+
+Chores:
+  reset-fish-cages: Reset all fish cages ownership values to zero
+  update-fish-cages-value: Update fish cages value
+
 org:
   hibernate:
     ConnectionReleaseMode: ON_CLOSE

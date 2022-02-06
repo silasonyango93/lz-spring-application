@@ -47,6 +47,16 @@ public class WgQuestionnaireSessionDao implements WgQuestionnaireSessionReposito
         return null;
     }
 
+    @Override
+    public List<WgQuestionnaireSessionEntity> findByQuestionnaireSessionDescriptionContainingIgnoreCaseAndWgQuestionnaireTypeId(String questionnaireSessionDescription, int wgQuestionnaireTypeId) {
+        return null;
+    }
+
+    @Override
+    public List<WgQuestionnaireSessionEntity> findByCountyId(int countyId) {
+        return null;
+    }
+
 
     @Override
     public List<WgQuestionnaireSessionEntity> findAll() {

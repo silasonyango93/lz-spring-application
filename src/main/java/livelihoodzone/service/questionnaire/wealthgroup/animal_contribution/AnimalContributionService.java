@@ -117,7 +117,7 @@ public class AnimalContributionService {
         wgAveAnimalNoPerHouseholdRepository.save(new WgAveAnimalNoPerHouseholdEntity(
                 questionnaireSession.getWgQuestionnaireSessionId(),
                 animalsRepository.findByAnimalCode(Constants.FISH_CAGES).getAnimalId(),
-                livestockPoultryOwnershipResponses.getFishCages()
+                0.0 //livestockPoultryOwnershipResponses.getFishCages() -- Commented out since the live app sends improved chicken data to this field on the backend
         ));
 
         //Dairy Cattle
