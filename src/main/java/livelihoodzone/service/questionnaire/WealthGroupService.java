@@ -31,6 +31,7 @@ import livelihoodzone.service.retrofit.reports.wealthgroup.WgWealthGroupSummaryA
 import livelihoodzone.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -40,6 +41,7 @@ import java.util.stream.Collectors;
 import static livelihoodzone.configuration.EndPoints.NODE_SERVICE_BASE_URL;
 
 @Service
+@Transactional
 public class WealthGroupService {
 
     @Autowired

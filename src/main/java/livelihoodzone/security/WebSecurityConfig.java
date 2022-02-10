@@ -42,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/wealthgroup-reports/export/excel/mapdata").permitAll()//
             .antMatchers("/wealthgroup-reports/export/excel/wealthgroup-comparison").permitAll()//
             .antMatchers("/wealthgroup-reports/export/excel/country-file").permitAll()//
+            .antMatchers("/chores/excel/county-sampled-sub-locations").permitAll()//
             .antMatchers("/h2-console/**/**").permitAll()
             // Disallow everything else..
             .anyRequest().authenticated();
