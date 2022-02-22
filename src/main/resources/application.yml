@@ -130,6 +130,8 @@ ZoneLevelReports:
 Chores:
   reset-fish-cages: Reset all fish cages ownership values to zero
   update-fish-cages-value: Update fish cages value
+  search-crop: Search crops
+  wealthgroup-percentage-validation-issues: Wealth group percentage validation issues
 
 org:
   hibernate:

@@ -5,21 +5,21 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import livelihoodzone.dto.GenericResponse;
+import livelihoodzone.dto.IdsDto;
 import livelihoodzone.dto.reports.wealthgroup.charts.WgLivelihoodZoneDataObject;
+import livelihoodzone.dto.user_management.UserUpdateRequestDto;
 import livelihoodzone.entity.questionnaire.WgQuestionnaireSectionsEntity;
 import livelihoodzone.entity.questionnaire.crops.CropsEntity;
 import livelihoodzone.entity.questionnaire.wealthgroup.WgQuestionnaireSessionEntity;
 import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
 import livelihoodzone.service.chores.ChoresService;
+import livelihoodzone.service.chores.PercentageValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -42,6 +42,9 @@ public class ChoresController {
     @Autowired
     CountiesRepository countiesRepository;
 
+    @Autowired
+    PercentageValidationService percentageValidationService;
+
     @PostMapping("/reset-fish-cages")
     @ApiOperation(value = "${Chores.reset-fish-cages}", response = GenericResponse.class)
     @ApiResponses(value = {//
@@ -62,7 +65,7 @@ public class ChoresController {
 
 
     @PostMapping("/update-fish-cages-value")
-    @ApiOperation(value = "${WealthGroupReports.update-fish-cages-value}", response = GenericResponse.class)
+    @ApiOperation(value = "${Chores.update-fish-cages-value}", response = GenericResponse.class)
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad request"), //
             @ApiResponse(code = 422, message = "Unprocessable data")})
@@ -80,7 +83,7 @@ public class ChoresController {
 
 
     @PostMapping("/wealth-group/search-questionnaire")
-    @ApiOperation(value = "${WealthGroupReports.search-crop}", response = WgQuestionnaireSessionEntity.class, responseContainer = "List")
+    @ApiOperation(value = "${Chores.search-crop}", response = WgQuestionnaireSessionEntity.class, responseContainer = "List")
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad request"), //
             @ApiResponse(code = 422, message = "Unprocessable data")})
@@ -114,6 +117,24 @@ public class ChoresController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    @PostMapping("/wealthgroup-percentage-validation-issues")
+    @ApiOperation(value = "${Chores.wealthgroup-percentage-validation-issues}", response = String.class, responseContainer = "List")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<List<String>> getAllWealthGroupPercentageValidationIssues(@RequestBody IdsDto idsDto) {
+
+        try {
+            List<String> affectedQuestionnaires = percentageValidationService.getQuestionnairesWithPercentageValidationIssues(idsDto.getIds());
+            return new ResponseEntity<List<String>>(affectedQuestionnaires, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<String>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
     }
 
 

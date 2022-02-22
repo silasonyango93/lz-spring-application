@@ -146,22 +146,22 @@ public class ChoresService {
             if (countyLivelihoodZonesAssignmentEntity.getLivelihoodZoneId() != 17) {
 
                 //Add zone level sampled sub-locations
-                List<SubLocationEntity> CountyLivelihoodZoneSampledSubLocations = new ArrayList<>(generateZoneLevelSampledSubLocations(countyId, countyLivelihoodZonesAssignmentEntity.getLivelihoodZoneId()));
+                List<SubLocationEntity> countyLivelihoodZoneSampledSubLocations = new ArrayList<>(generateZoneLevelSampledSubLocations(countyId, countyLivelihoodZonesAssignmentEntity.getLivelihoodZoneId()));
 
                 //Add wealth group sampled sub-locations
-                CountyLivelihoodZoneSampledSubLocations.addAll(generateWealthGroupSampledSubLocations(countyId, countyLivelihoodZonesAssignmentEntity.getLivelihoodZoneId()));
+                countyLivelihoodZoneSampledSubLocations.addAll(generateWealthGroupSampledSubLocations(countyId, countyLivelihoodZonesAssignmentEntity.getLivelihoodZoneId()));
 
                 //Remove duplicate sub-locations
-                Set<SubLocationEntity> sublocationsSet = new HashSet<>(CountyLivelihoodZoneSampledSubLocations);
-                CountyLivelihoodZoneSampledSubLocations.clear();
-                CountyLivelihoodZoneSampledSubLocations.addAll(sublocationsSet);
+                Set<SubLocationEntity> sublocationsSet = new HashSet<>(countyLivelihoodZoneSampledSubLocations);
+                countyLivelihoodZoneSampledSubLocations.clear();
+                countyLivelihoodZoneSampledSubLocations.addAll(sublocationsSet);
 
-                CountyLivelihoodZoneSampledSubLocations.remove(subLocationRepository.findBySubLocationId(7597));
+                countyLivelihoodZoneSampledSubLocations.remove(subLocationRepository.findBySubLocationId(7597));
 
                 livelihoodZoneSampledSubLocationsObjectList.add(new LivelihoodZoneSampledSubLocationsObject(
                         countyLivelihoodZonesAssignmentEntity.getLivelihoodZoneId(),
                         livelihoodZonesRepository.findByLivelihoodZoneId(countyLivelihoodZonesAssignmentEntity.getLivelihoodZoneId()).getLivelihoodZoneName(),
-                        CountyLivelihoodZoneSampledSubLocations
+                        countyLivelihoodZoneSampledSubLocations
                 ));
 
             }

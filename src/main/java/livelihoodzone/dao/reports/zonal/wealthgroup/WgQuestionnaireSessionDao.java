@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +60,16 @@ public class WgQuestionnaireSessionDao implements WgQuestionnaireSessionReposito
 
     @Override
     public List<WgQuestionnaireSessionEntity> findByCountyId(int countyId) {
+        return null;
+    }
+
+    @Override
+    public List<WgQuestionnaireSessionEntity> findByWgQuestionnaireTypeId(int wgQuestionnaireTypeId) {
+        return null;
+    }
+
+    @Override
+    public List<WgQuestionnaireSessionEntity> findByCountyIdInAndWgQuestionnaireTypeId(Collection<Number> countyIds, int wgQuestionnaireTypeId) {
         return null;
     }
 
