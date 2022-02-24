@@ -18,6 +18,7 @@ import livelihoodzone.repository.questionnaire.WgQuestionnaireSectionsRepository
 import livelihoodzone.repository.questionnaire.crops.CropsRepository;
 import livelihoodzone.repository.questionnaire.livelihoodzones.LivelihoodZonesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WealthGroupRepository;
+import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireTypesRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.animal_contribution.AnimalsRepository;
 import livelihoodzone.repository.questionnaire.wealthgroup.income_food_sources.CashIncomeSourcesRepository;
@@ -103,6 +104,9 @@ public class WealthGroupReportsController {
 
     @Autowired
     CropsRepository cropsRepository;
+
+    @Autowired
+    WgQuestionnaireSessionRepository wgQuestionnaireSessionRepository;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class, authorizations = {@Authorization(value = "apiKey")})
@@ -472,8 +476,9 @@ public class WealthGroupReportsController {
 
         try {
 
+
             WgQuestionnaireSectionsEntity wgQuestionnaireSectionsEntity = wgQuestionnaireSectionsRepository.findByWgQuestionnaireSectionCode(questionnaireSectionCode);
-            String fileName = wgQuestionnaireSectionsEntity.getWgQuestionnaireSectionName() + " Country File";
+            String fileName = wgQuestionnaireSectionsEntity.getWgQuestionnaireSectionName() + " " + wealthGroupRepository.findByWealthGroupId(wealthGroupId).getWealthGroupDescription() + " Country File";
             response.setContentType("application/octet-stream");
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
             String currentDateTime = dateFormatter.format(new Date());

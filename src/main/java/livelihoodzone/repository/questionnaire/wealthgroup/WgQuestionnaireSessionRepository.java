@@ -30,4 +30,6 @@ public interface WgQuestionnaireSessionRepository extends JpaRepository<WgQuesti
     public List<WgQuestionnaireSessionEntity> findByWgQuestionnaireTypeId(@Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId);
 
     public List<WgQuestionnaireSessionEntity> findByCountyIdInAndWgQuestionnaireTypeId(Collection<Number> countyIds, @Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId);
+
+    public List<WgQuestionnaireSessionEntity> findByCountyIdAndLivelihoodZoneIdAndWgQuestionnaireTypeIdAndWealthGroupId(@Param("CountyId") int countyId, @Param("LivelihoodZoneId") int livelihoodZoneId, @Param("WgQuestionnaireTypeId") int wgQuestionnaireTypeId, @Param("WealthGroupId") int wealthGroupId);
 }

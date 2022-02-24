@@ -73,6 +73,11 @@ public class WgQuestionnaireSessionDao implements WgQuestionnaireSessionReposito
         return null;
     }
 
+    @Override
+    public List<WgQuestionnaireSessionEntity> findByCountyIdAndLivelihoodZoneIdAndWgQuestionnaireTypeIdAndWealthGroupId(int countyId, int livelihoodZoneId, int wgQuestionnaireTypeId, int wealthGroupId) {
+        return null;
+    }
+
 
     @Override
     public List<WgQuestionnaireSessionEntity> findAll() {

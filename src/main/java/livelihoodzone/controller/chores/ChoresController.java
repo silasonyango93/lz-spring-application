@@ -15,6 +15,7 @@ import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepo
 import livelihoodzone.repository.questionnaire.wealthgroup.WgQuestionnaireSessionRepository;
 import livelihoodzone.service.chores.ChoresService;
 import livelihoodzone.service.chores.PercentageValidationService;
+import livelihoodzone.service.chores.WgDuplicateQuestionnairesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,9 @@ public class ChoresController {
 
     @Autowired
     PercentageValidationService percentageValidationService;
+
+    @Autowired
+    WgDuplicateQuestionnairesService wgDuplicateQuestionnairesService;
 
     @PostMapping("/reset-fish-cages")
     @ApiOperation(value = "${Chores.reset-fish-cages}", response = GenericResponse.class)
@@ -135,6 +139,32 @@ public class ChoresController {
             return new ResponseEntity<List<String>>(new ArrayList<>(), HttpStatus.valueOf(500));
         }
 
+    }
+
+
+    @GetMapping("/country-wide-duplicate-wealthgroup-questionnaires")
+    public ResponseEntity<List<String>> getCountrywideDuplicateWealthGroupQuestionnaires() {
+
+        try {
+            List<String> incompleteQuestionnaireIds = wgDuplicateQuestionnairesService.fetchCountrywideDuplicateWealthGroupQuestionnaires();
+            return new ResponseEntity<List<String>>(incompleteQuestionnaireIds, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<String>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+    }
+
+
+    @GetMapping("/country-wide-duplicate-zone-level-questionnaires")
+    public ResponseEntity<List<String>> getCountrywideDuplicateZoneLevelQuestionnaires() {
+
+        try {
+            List<String> incompleteQuestionnaireIds = wgDuplicateQuestionnairesService.fetchCountrywideDuplicateZoneLevelQuestionnaires();
+            return new ResponseEntity<List<String>>(incompleteQuestionnaireIds, HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<List<String>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
     }
 
 
