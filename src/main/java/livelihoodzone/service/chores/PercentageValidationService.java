@@ -62,16 +62,10 @@ public class PercentageValidationService {
     public List<String> getQuestionnairesWithPercentageValidationIssues(List<Number> countyIds) {
         List<String> affectedQuestionnaires = new ArrayList<>();
 
-        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionRepository.findByCountyIdInAndWgQuestionnaireTypeId(countyIds,1);
+        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionRepository.findByWgQuestionnaireTypeId(1);
 
         for (WgQuestionnaireSessionEntity wgQuestionnaireSessionEntity : wgQuestionnaireSessionEntityList) {
-            if (incomeSourcesHasPercentageValidationError(wgQuestionnaireSessionEntity.getWgQuestionnaireSessionId())
-                    || foodConsumptionHasPercentageValidationError(wgQuestionnaireSessionEntity.getWgQuestionnaireSessionId())
-                    || cropContributionHasPercentageValidationError(wgQuestionnaireSessionEntity.getWgQuestionnaireSessionId())
-                    || livestockContributionHasPercentageValidationError(wgQuestionnaireSessionEntity.getWgQuestionnaireSessionId())
-                    || labourPatternsHasPercentageValidationError(wgQuestionnaireSessionEntity.getWgQuestionnaireSessionId())
-                    || expenditurePatternsHasPercentageValidationError(wgQuestionnaireSessionEntity.getWgQuestionnaireSessionId())
-                    || migrationPatternsHasPercentageValidationError(wgQuestionnaireSessionEntity.getWgQuestionnaireSessionId())) {
+            if (migrationPatternsHasPercentageValidationError(wgQuestionnaireSessionEntity.getWgQuestionnaireSessionId())) {
 
                 affectedQuestionnaires.add(wgQuestionnaireSessionEntity.getQuestionnaireSessionDescription());
 
@@ -184,7 +178,7 @@ public class PercentageValidationService {
             foodConsumptionPercentage = foodConsumptionPercentage + wgCropContributionsEntity.getFoodConsumptionApproxPercentage();
         }
 
-        return cashIncomePercentage != 100.0 || foodConsumptionPercentage != 100.0;
+        return (cashIncomePercentage != 100.0 && cashIncomePercentage != 0.0) || (foodConsumptionPercentage != 100.0 && foodConsumptionPercentage != 0.0);
     }
 
 
@@ -197,7 +191,7 @@ public class PercentageValidationService {
             cashIncomePercentage = cashIncomePercentage + wgAnimalContributionsEntity.getIncomeContributionApproxPercentage();
             foodConsumptionPercentage = foodConsumptionPercentage + wgAnimalContributionsEntity.getConsumptionContributionApproxPercentage();
         }
-        return cashIncomePercentage != 100.0 || foodConsumptionPercentage != 100.0;
+        return (cashIncomePercentage != 100.0 && cashIncomePercentage != 0.0) || (foodConsumptionPercentage != 100.0 && foodConsumptionPercentage != 0.0);
     }
 
 
@@ -252,10 +246,15 @@ public class PercentageValidationService {
     }
 
     public double extractPercentageOfExpenditureItem(int expenditureItemCode, List<WgExpenditurePercentagesEntity> wgExpenditurePercentagesEntityList) {
-        return wgExpenditurePercentagesEntityList
+        List<WgExpenditurePercentagesEntity> extractedList = wgExpenditurePercentagesEntityList
                 .stream()
                 .filter(item -> item.getExpenditureItemId() == wgExpenditureItemsRepository.findByExpenditureItemCode(expenditureItemCode).getExpenditureItemId())
-                .collect(Collectors.toList()).get(0).getExpenditurePercentage();
+                .collect(Collectors.toList());
+
+        if (!extractedList.isEmpty()) {
+            return extractedList.get(0).getExpenditurePercentage();
+        }
+        return 0.0;
     }
 
 

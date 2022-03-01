@@ -179,6 +179,14 @@ public class LivestockOwnershipCountryFileExcelService {
         createCell(dairyCattleRow, 3, livestockAndPoultryOwnership.getDairyCattle(), style);
 
 
+        //TLU
+        Row tluRow = sheet.createRow(rowCount++);
+        createCell(tluRow, 0, wgLivelihoodZoneDataObject.getCountyName(), style);
+        createCell(tluRow, 1, wgLivelihoodZoneDataObject.getLivelihoodZoneName(), style);
+        createCell(tluRow, 2, "TLU", style);
+        createCell(tluRow, 3, livestockAndPoultryOwnership.getTlu(), style);
+
+
 
         return workbook;
     }

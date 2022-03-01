@@ -38,10 +38,14 @@ public class ZonalExcelService {
     @Autowired
     LzCropProductionExcelService lzCropProductionExcelService;
 
+    @Autowired
+    LzWealthGroupCharacteristicsExcelService lzWealthGroupCharacteristicsExcelService;
+
     private XSSFWorkbook workbook;
 
     public void processData(int countyId) {
         workbook.createSheet(WEALTH_GROUP_POPULATION_DISTRIBUTION);
+        workbook.createSheet(WEALTH_GROUP_CHARACTERISTICS);
         workbook.createSheet(MAIN_WATER_SOURCES);
         workbook.createSheet(MARKETS_EXCEL_SHEET_NAME);
         workbook.createSheet(ETHNIC_GROUPS_EXCEL_SHEET_NAME);
@@ -51,6 +55,7 @@ public class ZonalExcelService {
         workbook.createSheet(LZ_CROP_PRODUCTION);
 
         workbook = lzWealthGroupDistributionExcelExporterService.processData(countyId,workbook);
+        workbook = lzWealthGroupCharacteristicsExcelService.processData(countyId,workbook);
         workbook = waterSourcesExcelService.processData(countyId,workbook);
         workbook = marketsExcelService.processData(countyId,workbook);
         workbook = societyAndEthnicityExcelService.processData(countyId,workbook);
