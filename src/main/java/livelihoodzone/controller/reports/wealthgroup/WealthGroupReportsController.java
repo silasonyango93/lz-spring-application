@@ -29,6 +29,7 @@ import livelihoodzone.service.reports.wealthgroup.excel.WealthGroupExcelService;
 import livelihoodzone.service.reports.wealthgroup.excel.WgMapExcelService;
 import livelihoodzone.service.reports.wealthgroup.excel.country_files.WgCountryFileExcelService;
 import livelihoodzone.service.reports.wealthgroup.excel.wealth_group_comparison.WealthGroupComparisonExcelService;
+import livelihoodzone.service.reports.wealthgroup.excel.wealth_group_comparison.WealthGroupComparisonPerZoneExcelService;
 import livelihoodzone.service.reports.wealthgroup.quality_checks.QualityChecksService;
 import livelihoodzone.service.reports.zonal.wealthgroup.LzWealthGroupDistributionReportsService;
 import livelihoodzone.service.retrofit.reports.wealthgroup.WgQuestionnaireDetailsRetrofitModel;
@@ -107,6 +108,10 @@ public class WealthGroupReportsController {
 
     @Autowired
     WgQuestionnaireSessionRepository wgQuestionnaireSessionRepository;
+
+
+    @Autowired
+    WealthGroupComparisonPerZoneExcelService wealthGroupComparisonPerZoneExcelService;
 
     @GetMapping(value = "/zone-wealthgroup-distribution")
     @ApiOperation(value = "${WealthGroupReports.wealthgroup-distribution}", response = WealthGroupReportResponseDto.class, authorizations = {@Authorization(value = "apiKey")})
@@ -590,5 +595,26 @@ public class WealthGroupReportsController {
             return new ResponseEntity<List<CropsEntity>>(new ArrayList<>(), HttpStatus.valueOf(500));
         }
 
+    }
+
+
+    @GetMapping("/export/excel/wealthgroup-comparison-all-zones")
+    public void exportWealthGroupComparisonAllZonesZoneToExcel(HttpServletResponse response, @RequestParam("countyId") int countyId, @RequestParam("questionnaireSectionCode") int questionnaireSectionCode) throws IOException {
+
+        try {
+
+            CountiesEntity countiesEntity = countiesRepository.findByCountyId(countyId);
+            String fileName = countiesEntity.getCountyName() + " COUNTY "+ " WEALTH GROUP COMPARISON";
+            response.setContentType("application/octet-stream");
+
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=" + fileName + ".xlsx";
+            response.setHeader(headerKey, headerValue);
+
+            wealthGroupComparisonPerZoneExcelService.export(response, countyId,questionnaireSectionCode);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

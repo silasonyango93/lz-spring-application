@@ -25,4 +25,23 @@ public class ExcelSheetNamesConstants {
     public static final String LZ_HAZARDS = "Hazards";
     public static final String SEASONAL_CALENDAR = "Seasonal Calendar";
     public static final String LZ_CROP_PRODUCTION = "Crop Production";
+
+
+
+    //Livelihood zones excel section names
+    public static final String PASTORAL_SHEET_NAME = "Pastoral";
+    public static final String AGRO_PASTORAL_SHEET_NAME = "Agro Pastoral";
+    public static final String MIXED_FARMING_SHEET_NAME = "Mixed Farming";
+    public static final String MIXED_FOOD_CROPPING_SHEET_NAME = "Mixed Food Cropping";
+    public static final String BUSINESS_TRADE_SHEET_NAME = "Business Trade";
+    public static final String FORMAL_UNSKILLED_SHEET_NAME = "Formal Unskilled";
+    public static final String CASH_CROPPING_SHEET_NAME = "Cash Cropping";
+    public static final String MARGINAL_MIXED_SHEET_NAME = "Marginal Mixed Farming";
+    public static final String CASUAL_WAGED_SHEET_NAME = "Casual Waged labour";
+    public static final String IRRIGATED_CROPPING_SHEET_NAME = "Irrigated Cropping";
+    public static final String MIXED_FARMING_HORTICULTURE_SHEET_NAME = "Mixed Farming Horticulture";
+    public static final String LIVESTOCK_FARMING_EX_PASTORALISM_SHEET_NAME = "Livestock Ex Pastoralism";
+    public static final String FISHING_SHEET_NAME = "Fishing";
+    public static final String MIXED_FARMING_DAIRY_SHEET_NAME = "Mixed Farming Dairy";
+    public static final String PROTECTED_AREAS_SHEET_NAME = "Protected Areas";
 }
