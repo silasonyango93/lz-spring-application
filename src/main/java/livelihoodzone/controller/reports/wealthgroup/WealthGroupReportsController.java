@@ -603,8 +603,9 @@ public class WealthGroupReportsController {
 
         try {
 
+            WgQuestionnaireSectionsEntity wgQuestionnaireSectionsEntity = wgQuestionnaireSectionsRepository.findByWgQuestionnaireSectionCode(questionnaireSectionCode);
             CountiesEntity countiesEntity = countiesRepository.findByCountyId(countyId);
-            String fileName = countiesEntity.getCountyName() + " COUNTY "+ " WEALTH GROUP COMPARISON";
+            String fileName = countiesEntity.getCountyName() + " COUNTY "+ wgQuestionnaireSectionsEntity.getWgQuestionnaireSectionName().toUpperCase() +  " WEALTH GROUP COMPARISON";
             response.setContentType("application/octet-stream");
 
             String headerKey = "Content-Disposition";

@@ -10,4 +10,6 @@ public interface CountyLivelihoodZonesAssignmentRepository extends JpaRepository
     public List<CountyLivelihoodZonesAssignmentEntity> findByCountyId(@Param("CountyId") int countyId);
 
     public List<CountyLivelihoodZonesAssignmentEntity> findByLivelihoodZoneId(@Param("LivelihoodZoneId") int livelihoodZoneId);
+
+    public List<CountyLivelihoodZonesAssignmentEntity> findByCountyIdAndLivelihoodZoneId(@Param("CountyId") int countyId, @Param("LivelihoodZoneId") int livelihoodZoneId);
 }

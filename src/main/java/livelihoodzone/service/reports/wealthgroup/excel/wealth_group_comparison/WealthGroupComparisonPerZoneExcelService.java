@@ -137,7 +137,13 @@ public class WealthGroupComparisonPerZoneExcelService {
     public void export(HttpServletResponse response, int countyId, int questionnaireSectionCode) throws IOException {
         this.workbook = new XSSFWorkbook();
 
+        List<CountyLivelihoodZonesAssignmentEntity> protectedAreas = countyLivelihoodZonesAssignmentRepository.findByCountyIdAndLivelihoodZoneId(countyId,17);
+
         List<CountyLivelihoodZonesAssignmentEntity> countyLivelihoodZonesAssignmentEntityList = countyLivelihoodZonesAssignmentRepository.findByCountyId(countyId);
+
+        if (!protectedAreas.isEmpty()) {
+            countyLivelihoodZonesAssignmentEntityList.remove(protectedAreas.get(0));
+        }
 
         for (CountyLivelihoodZonesAssignmentEntity countyLivelihoodZonesAssignmentEntity : countyLivelihoodZonesAssignmentEntityList) {
             processData(countyId,countyLivelihoodZonesAssignmentEntity.getLivelihoodZoneId(), questionnaireSectionCode);
