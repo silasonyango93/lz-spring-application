@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface LzWealthGroupPopulationPercentageRepository extends JpaRepository<LzWealthGroupPopulationPercentageEntity, Long> {
     public List<LzWealthGroupPopulationPercentageEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

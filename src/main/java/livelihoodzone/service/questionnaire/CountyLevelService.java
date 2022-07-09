@@ -630,10 +630,22 @@ public class CountyLevelService {
         saveLzWealthGroupcharacteristics(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
     }
 
+    public void updateWealthGroupPopulation(int lzQuestionnaireSessionId, WealthGroupPercentageResponse wealthGroupPercentageResponse) {
+        lzWealthGroupPopulationPercentageRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setWealthGroupResponse(wealthGroupPercentageResponse);
+        saveWealthGroupPopulationPercentages(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
     public void updateZoneLevelQuestionnaireSections(List<Number> lzQuestionnaireSectionCodes, LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject) {
         for (Number currentSectionCode : lzQuestionnaireSectionCodes) {
             if (currentSectionCode.intValue() == Constants.WEALTH_GROUP_CHARACTERISTICS) {
                 updateWealthGroupCharacteristics(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getWealthGroupCharectariticsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.WEALTH_GROUP_POPULATION_PERCENTAGE) {
+                updateWealthGroupPopulation(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getWealthGroupResponse());
             }
         }
     }
