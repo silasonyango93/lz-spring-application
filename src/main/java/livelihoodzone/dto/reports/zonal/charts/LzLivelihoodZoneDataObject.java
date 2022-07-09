@@ -8,6 +8,7 @@ import livelihoodzone.dto.questionnaire.county.model.hazards.HazardResponses;
 import livelihoodzone.dto.questionnaire.county.model.hunger.HungerPatternsResponses;
 import livelihoodzone.dto.questionnaire.county.model.seasons.LzSeasonsResponses;
 import livelihoodzone.entity.administrative_boundaries.sublocation.SubLocationEntity;
+import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class LzLivelihoodZoneDataObject {
     private String livelihoodZoneName;
     private int countyId;
     private String countyName;
+    private LzQuestionnaireSessionEntity lzQuestionnaireSessionEntity;
     private WealthGroupCharectaristicsResponses wealthGroupCharectariticsResponses;
     private WealthGroupPercentageResponse wealthGroupResponse;
     private LzCropProductionResponses lzCropProductionResponses;
@@ -137,5 +139,13 @@ public class LzLivelihoodZoneDataObject {
 
     public void setCountyName(String countyName) {
         this.countyName = countyName;
+    }
+
+    public LzQuestionnaireSessionEntity getLzQuestionnaireSessionEntity() {
+        return lzQuestionnaireSessionEntity;
+    }
+
+    public void setLzQuestionnaireSessionEntity(LzQuestionnaireSessionEntity lzQuestionnaireSessionEntity) {
+        this.lzQuestionnaireSessionEntity = lzQuestionnaireSessionEntity;
     }
 }

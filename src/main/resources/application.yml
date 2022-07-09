@@ -114,6 +114,8 @@ WealthGroupReports:
 ZoneLevelReports:
   zone-level-report: A report on zone level questionnaire responses
   charts: Zone Level Charts
+  retrieve-questionnaire: Retrieves a questionnaires data
+  update-questionnaire: Update questionnaires
   wealth-group-population-distribution: Wealth group population distribution
   main-water-sources: Main sources of water map data
   all-water-sources: All water sources

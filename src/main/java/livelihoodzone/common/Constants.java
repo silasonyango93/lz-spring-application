@@ -6,6 +6,9 @@ import livelihoodzone.dto.reports.zonal.SeasonTypesObject;
 
 public class Constants {
 
+    //Questionnaire types
+    public static final int ZONE_LEVEL_QUESTIONNAIRE = 1;
+    public static final int WEALTH_GROUP_QUESTIONNAIRE = 2;
 
     //Wealth group questionnaire types
     public static final int WEALTH_GROUP_SUMMARISED_QUESTIONNAIRE_TYPE_CODE = 1;

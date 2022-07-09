@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface LzWealthGroupCharacteristicsRepository extends JpaRepository<LzWealthGroupCharacteristicsEntity, Long> {
     public List<LzWealthGroupCharacteristicsEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

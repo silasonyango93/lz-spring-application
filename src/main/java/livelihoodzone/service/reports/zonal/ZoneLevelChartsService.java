@@ -105,6 +105,32 @@ public class ZoneLevelChartsService {
     }
 
 
+    public LzLivelihoodZoneDataObject fetchAnLzQuestionnaireData(int countyId, int livelihoodZoneId) {
+        List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyIdAndLivelihoodZoneId(countyId, livelihoodZoneId);
+        if (lzQuestionnaireSessionEntityList == null || lzQuestionnaireSessionEntityList.isEmpty()) {
+            return null;
+        }
+        LzQuestionnaireSessionEntity lzQuestionnaireSessionEntity = lzQuestionnaireSessionEntityList.get(0);
+        LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
+        lzLivelihoodZoneDataObject.setCountyId(countyId);
+        lzLivelihoodZoneDataObject.setCountyName(countiesRepository.findByCountyId(countyId).getCountyName());
+        lzLivelihoodZoneDataObject.setLivelihoodZoneId(livelihoodZoneId);
+        lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(livelihoodZoneId).getLivelihoodZoneName());
+        lzLivelihoodZoneDataObject.setLzQuestionnaireSessionEntity(lzQuestionnaireSessionEntity);
+
+        lzLivelihoodZoneDataObject = lzWealthGroupDistributionReportsService.processWealthGroupCharacteristicsChart(lzLivelihoodZoneDataObject, lzQuestionnaireSessionEntity.getLzQuestionnaireSessionId());
+        lzLivelihoodZoneDataObject = lzWealthGroupDistributionReportsService.processWealthGroupPopulationPercentageChart(lzLivelihoodZoneDataObject, lzQuestionnaireSessionEntity.getLzQuestionnaireSessionId());
+        lzLivelihoodZoneDataObject = waterSourcesDataSetService.processWaterSourcesChart(lzLivelihoodZoneDataObject, lzQuestionnaireSessionEntity.getLzQuestionnaireSessionId());
+        lzLivelihoodZoneDataObject = marketsReportService.processMarketsChart(lzLivelihoodZoneDataObject, lzQuestionnaireSessionEntity.getLzQuestionnaireSessionId());
+        lzLivelihoodZoneDataObject = lzHungerPatternsDataSetService.processPatternsOfHungerChart(lzLivelihoodZoneDataObject, lzQuestionnaireSessionEntity.getLzQuestionnaireSessionId());
+        lzLivelihoodZoneDataObject = lzHazardsDataSetService.processHazardsChart(lzLivelihoodZoneDataObject, lzQuestionnaireSessionEntity.getLzQuestionnaireSessionId());
+        lzLivelihoodZoneDataObject = ethnicGroupsDataSetService.processEthnicGroupsChart(lzLivelihoodZoneDataObject, lzQuestionnaireSessionEntity.getLzQuestionnaireSessionId());
+        lzLivelihoodZoneDataObject = lzSeasonalCalendarDataSetService.processSeasonalCalendarChart(lzLivelihoodZoneDataObject, lzQuestionnaireSessionEntity.getLzQuestionnaireSessionId());
+        lzLivelihoodZoneDataObject = lzCropProductionReportService.processCropProductionChart(lzLivelihoodZoneDataObject, lzQuestionnaireSessionEntity.getLzQuestionnaireSessionId());
+        return lzLivelihoodZoneDataObject;
+    }
+
+
     public List<LzLivelihoodZoneDataObject> processWealthGroupPopulationMapData(int countyId, int wealthGroupCode) {
         List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = new ArrayList<>();
         List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
@@ -114,12 +140,12 @@ public class ZoneLevelChartsService {
             LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
             lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
             lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
-            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId,currentQuestionnaire.getLivelihoodZoneId()));
+            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId, currentQuestionnaire.getLivelihoodZoneId()));
             lzLivelihoodZoneDataObject.setCountyId(countyId);
             lzLivelihoodZoneDataObject.setCountyName(countiesRepository.findByCountyId(countyId).getCountyName());
 
 
-            lzLivelihoodZoneDataObject = lzWealthGroupDistributionReportsService.processWealthGroupPopulationPercentageChartByWealthGroup(lzLivelihoodZoneDataObject,currentQuestionnaire.getLzQuestionnaireSessionId(),wealthGroupCode);
+            lzLivelihoodZoneDataObject = lzWealthGroupDistributionReportsService.processWealthGroupPopulationPercentageChartByWealthGroup(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId(), wealthGroupCode);
 
             lzLivelihoodZoneDataObjectList.add(lzLivelihoodZoneDataObject);
         }
@@ -136,12 +162,12 @@ public class ZoneLevelChartsService {
             LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
             lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
             lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
-            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId,currentQuestionnaire.getLivelihoodZoneId()));
+            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId, currentQuestionnaire.getLivelihoodZoneId()));
             lzLivelihoodZoneDataObject.setCountyId(countyId);
             lzLivelihoodZoneDataObject.setCountyName(countiesRepository.findByCountyId(countyId).getCountyName());
 
 
-            lzLivelihoodZoneDataObject = waterSourcesDataSetService.processWaterSourcesChartByWaterSourceCode(lzLivelihoodZoneDataObject,currentQuestionnaire.getLzQuestionnaireSessionId(),waterSourceCode,seasonCode);
+            lzLivelihoodZoneDataObject = waterSourcesDataSetService.processWaterSourcesChartByWaterSourceCode(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId(), waterSourceCode, seasonCode);
 
             lzLivelihoodZoneDataObjectList.add(lzLivelihoodZoneDataObject);
         }
@@ -158,7 +184,7 @@ public class ZoneLevelChartsService {
             LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
             lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
             lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
-            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId,currentQuestionnaire.getLivelihoodZoneId()));
+            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId, currentQuestionnaire.getLivelihoodZoneId()));
             lzLivelihoodZoneDataObject.setCountyId(countyId);
             lzLivelihoodZoneDataObject.setCountyName(countiesRepository.findByCountyId(countyId).getCountyName());
 
@@ -180,12 +206,12 @@ public class ZoneLevelChartsService {
             LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = new LzLivelihoodZoneDataObject();
             lzLivelihoodZoneDataObject.setLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId());
             lzLivelihoodZoneDataObject.setLivelihoodZoneName(livelihoodZonesRepository.findByLivelihoodZoneId(currentQuestionnaire.getLivelihoodZoneId()).getLivelihoodZoneName());
-            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId,currentQuestionnaire.getLivelihoodZoneId()));
+            lzLivelihoodZoneDataObject.setSubLocationsUnderTheLivelihoodZone(wealthGroupChartsService.fetchSubLocationsInALivelihoodZoneInAParticularCounty(countyId, currentQuestionnaire.getLivelihoodZoneId()));
             lzLivelihoodZoneDataObject.setCountyId(countyId);
             lzLivelihoodZoneDataObject.setCountyName(countiesRepository.findByCountyId(countyId).getCountyName());
 
 
-            lzLivelihoodZoneDataObject = lzHungerPatternsDataSetService.processPatternsOfHungerChartBySeason(lzLivelihoodZoneDataObject,currentQuestionnaire.getLzQuestionnaireSessionId(),rainySeasonCode);
+            lzLivelihoodZoneDataObject = lzHungerPatternsDataSetService.processPatternsOfHungerChartBySeason(lzLivelihoodZoneDataObject, currentQuestionnaire.getLzQuestionnaireSessionId(), rainySeasonCode);
 
             lzLivelihoodZoneDataObjectList.add(lzLivelihoodZoneDataObject);
         }

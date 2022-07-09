@@ -1,9 +1,12 @@
 package livelihoodzone.dto.questionnaire.county;
 
+import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class WealthGroupCharectaristicsResponses {
+    LzQuestionnaireSessionEntity lzQuestionnaireSessionEntity;
     private List<String> veryPoorCharectaristics;
     private List<String> poorCharectaristics;
     private List<String> mediumCharectaristics;
@@ -51,5 +54,13 @@ public class WealthGroupCharectaristicsResponses {
 
     public void setBetterOffCharectaristics(List<String> betterOffCharectaristics) {
         this.betterOffCharectaristics = betterOffCharectaristics;
+    }
+
+    public LzQuestionnaireSessionEntity getLzQuestionnaireSessionEntity() {
+        return lzQuestionnaireSessionEntity;
+    }
+
+    public void setLzQuestionnaireSessionEntity(LzQuestionnaireSessionEntity lzQuestionnaireSessionEntity) {
+        this.lzQuestionnaireSessionEntity = lzQuestionnaireSessionEntity;
     }
 }

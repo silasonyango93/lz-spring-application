@@ -1,6 +1,11 @@
 package livelihoodzone.controller.reports.zonelevel;
 
 import io.swagger.annotations.*;
+import livelihoodzone.common.Constants;
+import livelihoodzone.dto.GenericResponse;
+import livelihoodzone.dto.QuestionnaireDataRequestDto;
+import livelihoodzone.dto.QuestionnaireUpdateRequestDto;
+import livelihoodzone.dto.questionnaire.QuestionnaireDataObject;
 import livelihoodzone.dto.questionnaire.WealthGroupQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.county.LzWaterSourceDataSetResponseObject;
 import livelihoodzone.dto.reports.HazardsMapRequestDto;
@@ -19,6 +24,7 @@ import livelihoodzone.repository.administrative_boundaries.counties.CountiesRepo
 import livelihoodzone.repository.questionnaire.county.LzHazardsRepository;
 import livelihoodzone.repository.questionnaire.county.RainySeasonsRepository;
 import livelihoodzone.repository.questionnaire.county.WaterSourceRepository;
+import livelihoodzone.service.questionnaire.CountyLevelService;
 import livelihoodzone.service.reports.zonal.ZoneLevelChartsService;
 import livelihoodzone.service.reports.zonal.ZoneLevelReportService;
 import livelihoodzone.service.reports.zonal.excel.ZonalExcelService;
@@ -70,8 +76,11 @@ public class ZoneLevelReportsController {
     @Autowired
     ZonalQualityChecksService zonalQualityChecksService;
 
+    @Autowired
+    CountyLevelService countyLevelService;
+
     @PostMapping(value = "/zone-level-report")
-    @ApiOperation(value = "${ZoneLevelReports.zone-level-report}", response = ZoneLevelReportResponseDto.class ,authorizations = {@Authorization(value = "apiKey")})
+    @ApiOperation(value = "${ZoneLevelReports.zone-level-report}", response = ZoneLevelReportResponseDto.class, authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Bad Request"), //
             @ApiResponse(code = 403, message = "Access denied - invalid token"),
@@ -82,47 +91,47 @@ public class ZoneLevelReportsController {
         try {
             if (zoneLevelReportRequestDto.isQuestionnaireDetails()) {
                 QuestionnaireDetailsReportObjectDto questionnaireDetailsReportObjectDto = zoneLevelReportService.fetchQuestionnaireDetails();
-                zoneLevelReportResponseDto.setReportHashMapObject("questionnaireDetails",questionnaireDetailsReportObjectDto);
+                zoneLevelReportResponseDto.setReportHashMapObject("questionnaireDetails", questionnaireDetailsReportObjectDto);
             }
 
             if (zoneLevelReportRequestDto.isWealthGroupCharacteristics()) {
                 WealthGroupCharectaristicsReportStringObject wealthGroupCharacteristicsData = zoneLevelReportService.comprehensivelyFetchWealthGroupCharacteristicsReport();
-                zoneLevelReportResponseDto.setReportHashMapObject("wealthGroupCharacteristics",wealthGroupCharacteristicsData);
+                zoneLevelReportResponseDto.setReportHashMapObject("wealthGroupCharacteristics", wealthGroupCharacteristicsData);
             }
 
             if (zoneLevelReportRequestDto.isWealthGroupPopulationDistribution()) {
                 WealthGroupPopulationPercentageReportResponseObject wealthGroupPopulationPercentageReportResponseObject = zoneLevelReportService.fetchWealthGroupsPopulationPercentages();
-                zoneLevelReportResponseDto.setReportHashMapObject("wealthGroupsPopulationPercentages",wealthGroupPopulationPercentageReportResponseObject);
+                zoneLevelReportResponseDto.setReportHashMapObject("wealthGroupsPopulationPercentages", wealthGroupPopulationPercentageReportResponseObject);
             }
 
             if (zoneLevelReportRequestDto.isCropProduction()) {
                 LzCropProductionReportObjectDto lzCropProductionReportObjectDto = zoneLevelReportService.fetchZoneLevelCropProductionReport();
-                zoneLevelReportResponseDto.setReportHashMapObject("cropProduction",lzCropProductionReportObjectDto);
+                zoneLevelReportResponseDto.setReportHashMapObject("cropProduction", lzCropProductionReportObjectDto);
             }
 
             if (zoneLevelReportRequestDto.isMainSourcesOfWater()) {
                 LzWaterSourceDataSetResponseObject lzWaterSourceDataSetResponseObject = zoneLevelReportService.processWaterSourcesDataSet();
-                zoneLevelReportResponseDto.setReportHashMapObject("mainWaterSources",lzWaterSourceDataSetResponseObject);
+                zoneLevelReportResponseDto.setReportHashMapObject("mainWaterSources", lzWaterSourceDataSetResponseObject);
             }
 
             if (zoneLevelReportRequestDto.isPatternsOfHunger()) {
                 LzHungerPatternsDataSetObject lzHungerPatternsDataSetObject = zoneLevelReportService.processHungerPatterns();
-                zoneLevelReportResponseDto.setReportHashMapObject("patternsOfHunger",lzHungerPatternsDataSetObject);
+                zoneLevelReportResponseDto.setReportHashMapObject("patternsOfHunger", lzHungerPatternsDataSetObject);
             }
 
             if (zoneLevelReportRequestDto.isHazards()) {
                 LzHazardsDataSetObject lzHazardsDataSetObject = zoneLevelReportService.processHazards();
-                zoneLevelReportResponseDto.setReportHashMapObject("hazards",lzHazardsDataSetObject);
+                zoneLevelReportResponseDto.setReportHashMapObject("hazards", lzHazardsDataSetObject);
             }
 
             if (zoneLevelReportRequestDto.isEthnicGroups()) {
                 LzEthnicGroupsDataSetObject lzEthnicGroupsDataSetObject = zoneLevelReportService.processEthnicGroups();
-                zoneLevelReportResponseDto.setReportHashMapObject("ethnicGroups",lzEthnicGroupsDataSetObject);
+                zoneLevelReportResponseDto.setReportHashMapObject("ethnicGroups", lzEthnicGroupsDataSetObject);
             }
 
             if (zoneLevelReportRequestDto.isSeasonalCalendar()) {
                 LzSeasonalCalendarDataSetObject lzSeasonalCalendarDataSetObject = zoneLevelReportService.processSeasonalCalendar();
-                zoneLevelReportResponseDto.setReportHashMapObject("seasonalCalendar",lzSeasonalCalendarDataSetObject);
+                zoneLevelReportResponseDto.setReportHashMapObject("seasonalCalendar", lzSeasonalCalendarDataSetObject);
             }
 
 
@@ -142,11 +151,56 @@ public class ZoneLevelReportsController {
     public ResponseEntity<List<LzLivelihoodZoneDataObject>> getZoneLevelChartsData(@ApiParam("Zone Level charts") @RequestBody ZoneLevelChartsRequestDto zoneLevelChartsRequestDto) {
 
         try {
-            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.prepareZoneLevelChart(zoneLevelChartsRequestDto.getCountyId(),zoneLevelChartsRequestDto.getQuestionnaireSectionCode());
+            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.prepareZoneLevelChart(zoneLevelChartsRequestDto.getCountyId(), zoneLevelChartsRequestDto.getQuestionnaireSectionCode());
             return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(lzLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(new ArrayList<>(), HttpStatus.valueOf(500));
+        }
+
+    }
+
+
+    @PostMapping("/questionnaire-data")
+    @ApiOperation(value = "${ZoneLevelReports.retrieve-questionnaire}", response = QuestionnaireDataObject.class)
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<QuestionnaireDataObject> getQuestionnaireData(@ApiParam("Questionnaire data") @RequestBody QuestionnaireDataRequestDto questionnaireDataRequestDto) {
+        try {
+            if (questionnaireDataRequestDto.getQuestionnaireTypeId() == ZONE_LEVEL_QUESTIONNAIRE) {
+                QuestionnaireDataObject questionnaireDataObject = new QuestionnaireDataObject();
+                questionnaireDataObject.setResidentQuestionnaireType(ZONE_LEVEL_QUESTIONNAIRE);
+                LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject = zoneLevelChartsService.fetchAnLzQuestionnaireData(questionnaireDataRequestDto.getCountyId(), questionnaireDataRequestDto.getLivelihoodZoneId());
+                questionnaireDataObject.setLzLivelihoodZoneDataObject(lzLivelihoodZoneDataObject);
+                return new ResponseEntity<QuestionnaireDataObject>(questionnaireDataObject, HttpStatus.valueOf(200));
+            } else {
+                return new ResponseEntity<QuestionnaireDataObject>(new QuestionnaireDataObject(), HttpStatus.valueOf(500));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<QuestionnaireDataObject>(new QuestionnaireDataObject(), HttpStatus.valueOf(500));
+        }
+    }
+
+
+    @PostMapping("/questionnaire/update-questionnaire")
+    @ApiOperation(value = "${ZoneLevelReports.update-questionnaire}", response = GenericResponse.class)
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Bad request"), //
+            @ApiResponse(code = 422, message = "Unprocessable data")})
+    public ResponseEntity<GenericResponse> updateQuestionnaire(@ApiParam("Update questionnaire") @RequestBody QuestionnaireUpdateRequestDto questionnaireUpdateRequestDto) {
+
+        try {
+            if (questionnaireUpdateRequestDto.getQuestionnaireDataObject().getResidentQuestionnaireType() == ZONE_LEVEL_QUESTIONNAIRE) {
+                countyLevelService.updateZoneLevelQuestionnaireSections(questionnaireUpdateRequestDto.getQuestionnaireSectionCodes(),questionnaireUpdateRequestDto.getQuestionnaireDataObject().getLzLivelihoodZoneDataObject());
+            } else {
+                //Wealth Group
+            }
+            return new ResponseEntity<GenericResponse>(new GenericResponse(true,"Update was a success"), HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<GenericResponse>(new GenericResponse(false,"Update failed"), HttpStatus.valueOf(500));
         }
 
     }
@@ -166,7 +220,7 @@ public class ZoneLevelReportsController {
             String headerValue = "attachment; filename=" + fileName + ".xlsx";
             response.setHeader(headerKey, headerValue);
 
-            zonalExcelService.export(response,countyId);
+            zonalExcelService.export(response, countyId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -181,7 +235,7 @@ public class ZoneLevelReportsController {
     public ResponseEntity<List<LzLivelihoodZoneDataObject>> fetchWealthGroupMapData(@ApiParam("Wealth Group Map data") @RequestBody WealthGroupPopulationRequestDto wealthGroupPopulationRequestDto) {
 
         try {
-            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.processWealthGroupPopulationMapData(wealthGroupPopulationRequestDto.getCountyId(),wealthGroupPopulationRequestDto.getWealthGroupCode());
+            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.processWealthGroupPopulationMapData(wealthGroupPopulationRequestDto.getCountyId(), wealthGroupPopulationRequestDto.getWealthGroupCode());
             return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(lzLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
         } catch (Exception e) {
             e.printStackTrace();
@@ -291,7 +345,7 @@ public class ZoneLevelReportsController {
     public ResponseEntity<List<LzLivelihoodZoneDataObject>> fetchHungerPatternsMapData(@ApiParam("Hunger patterns Map data") @RequestBody HungerPatternsMapDataRequestDto hungerPatternsMapDataRequestDto) {
 
         try {
-            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.processHungerPatternsMapData(hungerPatternsMapDataRequestDto.getCountyId(),hungerPatternsMapDataRequestDto.getRainySeasonCode());
+            List<LzLivelihoodZoneDataObject> lzLivelihoodZoneDataObjectList = zoneLevelChartsService.processHungerPatternsMapData(hungerPatternsMapDataRequestDto.getCountyId(), hungerPatternsMapDataRequestDto.getRainySeasonCode());
             return new ResponseEntity<List<LzLivelihoodZoneDataObject>>(lzLivelihoodZoneDataObjectList, HttpStatus.valueOf(200));
         } catch (Exception e) {
             e.printStackTrace();
@@ -335,7 +389,6 @@ public class ZoneLevelReportsController {
         }
 
     }
-
 
 
     @GetMapping(value = "/quality-check/missing-questionnaire-sections")

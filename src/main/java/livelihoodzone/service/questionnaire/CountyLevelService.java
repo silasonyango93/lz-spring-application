@@ -11,6 +11,7 @@ import livelihoodzone.dto.questionnaire.county.WealthGroupCharectaristicsRespons
 import livelihoodzone.dto.questionnaire.county.WealthGroupPercentageResponse;
 import livelihoodzone.dto.questionnaire.county.model.cropproduction.WgCropProductionResponseItem;
 import livelihoodzone.dto.questionnaire.county.model.hunger.HungerPatternsResponses;
+import livelihoodzone.dto.reports.zonal.charts.LzLivelihoodZoneDataObject;
 import livelihoodzone.entity.questionnaire.QuestionnaireResponseStatus;
 import livelihoodzone.entity.questionnaire.county.*;
 import livelihoodzone.entity.questionnaire.county.seasonal_calendar.ZoneLevelSampledSubLocationsEntity;
@@ -186,7 +187,6 @@ public class CountyLevelService {
         }
         zoneLevelSampledSubLocationsRepository.saveAll(zoneLevelSampledSubLocationsEntityList);
     }
-
 
 
     public void saveLzWealthGroupcharacteristics(CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto, LzQuestionnaireSessionEntity savedQuestionnaireSession) {
@@ -500,7 +500,7 @@ public class CountyLevelService {
         unfilledWealthGroupLivelihoodZones.addAll(countyLivelihoodZonesAssignmentEntityList);
 
         List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyId(countyId);
-        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionRepository.findByCountyIdAndWgQuestionnaireTypeId(countyId,1);
+        List<WgQuestionnaireSessionEntity> wgQuestionnaireSessionEntityList = wgQuestionnaireSessionRepository.findByCountyIdAndWgQuestionnaireTypeId(countyId, 1);
 
 
         //Prepare Zone-level report
@@ -517,7 +517,6 @@ public class CountyLevelService {
         countyDataCollectionProgressReport.setPendingZoneLevelQuestionnaires(returnStringList(unfilledZoneLevelLivelihoodZones));
 
 
-
         //Prepare Wealth Group Report
         List<String> pendingWealthGroupQuestionnaires = new ArrayList<>();
         List<String> completedWealthGroupQuestionnaires = new ArrayList<>();
@@ -525,23 +524,23 @@ public class CountyLevelService {
 
             List<WgQuestionnaireSessionEntity> veryPoor = wgQuestionnaireSessionEntityList
                     .stream()
-                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() &&  c.getWealthGroupId() == 1)
+                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() && c.getWealthGroupId() == 1)
                     .collect(Collectors.toList());
 
             List<WgQuestionnaireSessionEntity> poor = wgQuestionnaireSessionEntityList
                     .stream()
-                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() &&  c.getWealthGroupId() == 2)
+                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() && c.getWealthGroupId() == 2)
                     .collect(Collectors.toList());
 
             List<WgQuestionnaireSessionEntity> medium = wgQuestionnaireSessionEntityList
                     .stream()
-                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() &&  c.getWealthGroupId() == 3)
+                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() && c.getWealthGroupId() == 3)
                     .collect(Collectors.toList());
 
 
             List<WgQuestionnaireSessionEntity> betterOff = wgQuestionnaireSessionEntityList
                     .stream()
-                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() &&  c.getWealthGroupId() == 4)
+                    .filter(c -> c.getLivelihoodZoneId() == currentLivelihoodZone.getLivelihoodZoneId() && c.getWealthGroupId() == 4)
                     .collect(Collectors.toList());
 
             if (!veryPoor.isEmpty() && !poor.isEmpty() && !medium.isEmpty() && !betterOff.isEmpty()) {
@@ -585,8 +584,57 @@ public class CountyLevelService {
         return stringList;
     }
 
+    public WealthGroupCharectaristicsResponses fetchWealthGroupCharacteristicsResponses(int countyId, int livelihoodZoneId) {
+        List<LzQuestionnaireSessionEntity> lzQuestionnaireSessionEntityList = lzQuestionnaireSessionRepository.findByCountyIdAndLivelihoodZoneId(countyId, livelihoodZoneId);
+        if (lzQuestionnaireSessionEntityList.isEmpty()) {
+            return null;
+        }
+        WealthGroupCharectaristicsResponses wealthGroupCharectaristicsResponses = new WealthGroupCharectaristicsResponses();
+        LzQuestionnaireSessionEntity lzQuestionnaireSessionEntity = lzQuestionnaireSessionEntityList.get(0);
+        wealthGroupCharectaristicsResponses.setLzQuestionnaireSessionEntity(lzQuestionnaireSessionEntity);
+        List<LzWealthGroupCharacteristicsEntity> lzWealthGroupCharacteristicsEntityList = lzWealthGroupCharacteristicsRepository.findByLzQuestionnaireSessionId(lzQuestionnaireSessionEntity.getLzQuestionnaireSessionId());
+        List<String> veryPoor = new ArrayList<>();
+        List<String> poor = new ArrayList<>();
+        List<String> medium = new ArrayList<>();
+        List<String> betterOff = new ArrayList<>();
+        for (LzWealthGroupCharacteristicsEntity lzWealthGroupCharacteristicsEntity : lzWealthGroupCharacteristicsEntityList) {
+            if (lzWealthGroupCharacteristicsEntity.getWealthGroupId() == Constants.VERY_POOR_CODE) {
+                veryPoor.add(lzWealthGroupCharacteristicsEntity.getCharectaristicDescription());
+            }
+            if (lzWealthGroupCharacteristicsEntity.getWealthGroupId() == Constants.POOR_CODE) {
+                poor.add(lzWealthGroupCharacteristicsEntity.getCharectaristicDescription());
+            }
+            if (lzWealthGroupCharacteristicsEntity.getWealthGroupId() == Constants.MEDIUM_CODE) {
+                medium.add(lzWealthGroupCharacteristicsEntity.getCharectaristicDescription());
+            }
+            if (lzWealthGroupCharacteristicsEntity.getWealthGroupId() == Constants.BETTER_OFF_CODE) {
+                betterOff.add(lzWealthGroupCharacteristicsEntity.getCharectaristicDescription());
+            }
+        }
+        wealthGroupCharectaristicsResponses.setVeryPoorCharectaristics(veryPoor);
+        wealthGroupCharectaristicsResponses.setPoorCharectaristics(poor);
+        wealthGroupCharectaristicsResponses.setMediumCharectaristics(medium);
+        wealthGroupCharectaristicsResponses.setBetterOffCharectaristics(betterOff);
+        return wealthGroupCharectaristicsResponses;
+    }
 
-    public void updateCountyLivelihoodZoneAssignments() {
-        
+    public void updateWealthGroupCharacteristics(int lzQuestionnaireSessionId, WealthGroupCharectaristicsResponses wealthGroupCharectaristicsResponses) {
+        if (wealthGroupCharectaristicsResponses == null) {
+            return;
+        }
+        lzWealthGroupCharacteristicsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setWealthGroupCharectariticsResponses(wealthGroupCharectaristicsResponses);
+        saveLzWealthGroupcharacteristics(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateZoneLevelQuestionnaireSections(List<Number> lzQuestionnaireSectionCodes, LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject) {
+        for (Number currentSectionCode : lzQuestionnaireSectionCodes) {
+            if (currentSectionCode.intValue() == Constants.WEALTH_GROUP_CHARACTERISTICS) {
+                updateWealthGroupCharacteristics(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getWealthGroupCharectariticsResponses());
+            }
+        }
     }
 }
