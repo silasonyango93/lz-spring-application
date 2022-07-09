@@ -10,4 +10,6 @@ public interface LzCropProductionResponsesRepository extends JpaRepository<LzCro
     public List<LzCropProductionResponsesEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
 
     public LzCropProductionResponsesEntity findByLzQuestionnaireSessionIdAndCropIdAndRainySeasonIdAndCropWaterAccessTypeId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId, @Param("CropId") int cropId, @Param("RainySeasonId") int rainySeasonId, @Param("CropWaterAccessTypeId") int cropWaterAccessTypeId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

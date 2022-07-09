@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface LzWaterSourceResponsesRepository extends JpaRepository<LzWaterSourceResponsesEntity, Long> {
     public List<LzWaterSourceResponsesEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }
