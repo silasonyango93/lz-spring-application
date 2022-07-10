@@ -465,7 +465,7 @@ public class CountyLevelService {
         LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
         savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
         countyLevelQuestionnaireRequestDto.setWaterSourceResponses(waterSourcesResponsesDto);
-        saveWaterSourceResponses(countyLevelQuestionnaireRequestDto,savedQuestionnaireSession);
+        saveWaterSourceResponses(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
     }
 
     public void updateZoneLevelQuestionnaireSections(List<Number> lzQuestionnaireSectionCodes, LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject) {
@@ -480,7 +480,10 @@ public class CountyLevelService {
                 updateCropProduction(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLzCropProductionResponses());
             }
             if (currentSectionCode.intValue() == Constants.MAIN_SOURCES_OF_WATER) {
-                updateSourcesOfWater(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(),lzLivelihoodZoneDataObject.getWaterSourceResponses());
+                updateSourcesOfWater(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getWaterSourceResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.MARKETS_SERVING_THE_LIVELIHOOD_ZONE) {
+                lzMarketTransactionsService.updateMarketTransactions(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getMarketTransactionObject());
             }
         }
     }

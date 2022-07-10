@@ -2,6 +2,7 @@ package livelihoodzone.service.questionnaire.zonelevel;
 
 import livelihoodzone.dto.questionnaire.CountyLevelQuestionnaireRequestDto;
 import livelihoodzone.dto.questionnaire.county.model.markets.MarketTransactionsItem;
+import livelihoodzone.dto.reports.zonal.charts.MarketTransactionObject;
 import livelihoodzone.entity.questionnaire.county.LzMarketTransactionsEntity;
 import livelihoodzone.entity.questionnaire.county.LzMarketsEntity;
 import livelihoodzone.entity.questionnaire.county.LzQuestionnaireSessionEntity;
@@ -55,5 +56,14 @@ public class LzMarketTransactionsService {
                     currentMarketItem.isLabourExchange() ? 1 : 0
             ));
         }
+    }
+
+    public void updateMarketTransactions(int lzQuestionnaireSessionId, MarketTransactionObject marketTransactionObject) {
+        lzMarketTransactionsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setMarketTransactionItems(marketTransactionObject.getMarketTransactionItems());
+        saveMarketTransactions(countyLevelQuestionnaireRequestDto,savedQuestionnaireSession);
     }
 }
