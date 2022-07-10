@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface LzEthnicGroupsPercentagesRepository extends JpaRepository<EthnicGroupsPercentagesEntity, Long> {
     public List<EthnicGroupsPercentagesEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

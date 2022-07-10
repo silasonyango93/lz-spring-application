@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface LzHungerPatternsResponsesRepository extends JpaRepository<LzHungerPatternsResponsesEntity, Long> {
     public List<LzHungerPatternsResponsesEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

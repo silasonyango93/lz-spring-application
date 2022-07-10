@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface LzHazardResponsesRepository extends JpaRepository<LzHazardResponsesEntity, Long> {
     public List<LzHazardResponsesEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

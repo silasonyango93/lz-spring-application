@@ -468,6 +468,15 @@ public class CountyLevelService {
         saveWaterSourceResponses(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
     }
 
+    public void updateHungerPatterns(int lzQuestionnaireSessionId, HungerPatternsResponses hungerPatternsResponses) {
+        lzHungerPatternsResponsesRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setHungerPatternsResponses(hungerPatternsResponses);
+        saveHungerPatterns(countyLevelQuestionnaireRequestDto,savedQuestionnaireSession);
+    }
+
     public void updateZoneLevelQuestionnaireSections(List<Number> lzQuestionnaireSectionCodes, LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject) {
         for (Number currentSectionCode : lzQuestionnaireSectionCodes) {
             if (currentSectionCode.intValue() == Constants.WEALTH_GROUP_CHARACTERISTICS) {
@@ -484,6 +493,15 @@ public class CountyLevelService {
             }
             if (currentSectionCode.intValue() == Constants.MARKETS_SERVING_THE_LIVELIHOOD_ZONE) {
                 lzMarketTransactionsService.updateMarketTransactions(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getMarketTransactionObject());
+            }
+            if (currentSectionCode.intValue() == Constants.SOCIETY_AND_ETHNICITY) {
+                lzEthnicGroupsService.updateEthnicGroups(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getEthnicityResponseObject());
+            }
+            if (currentSectionCode.intValue() == Constants.PATTERNS_OF_HUNGER) {
+                updateHungerPatterns(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getHungerPatternsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.HAZARDS) {
+                lzHazardsService.updateHazards(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getHazardResponses());
             }
         }
     }

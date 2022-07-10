@@ -214,4 +214,13 @@ public class LzHazardsService {
                 hazardResponses.getOthers().getNoExperiencedYears()
         ));
     }
+
+    public void updateHazards(int lzQuestionnaireSessionId, HazardResponses hazardResponses) {
+        lzHazardResponsesRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setHazardResponses(hazardResponses);
+        saveHazards(countyLevelQuestionnaireRequestDto,savedQuestionnaireSession);
+    }
 }
