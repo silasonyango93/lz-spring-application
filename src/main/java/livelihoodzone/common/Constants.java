@@ -37,6 +37,30 @@ public class Constants {
     public static final int PATTERNS_OF_HUNGER = 7;
     public static final int HAZARDS = 8;
     public static final int SEASONAL_CALENDAR = 9;
+    public static final int SC_SEASON_MONTHS = 10;
+    public static final int SC_LAND_PREPARATION = 11;
+    public static final int SC_PLANTING = 12;
+    public static final int SC_HARVESTING = 13;
+    public static final int SC_LIVESTOCK_MIGRATION = 14;
+    public static final int SC_MILK_PRODUCTION = 15;
+    public static final int SC_CALVING = 16;
+    public static final int SC_KIDDING = 17;
+    public static final int SC_FOOD_PRICES = 18;
+    public static final int SC_LIVESTOCK_PRICES = 19;
+    public static final int SC_AGRICULTURE_CASUAL_LABOUR_AVAILABILITY = 20;
+    public static final int SC_NON_AGRICULTURE_CASUAL_LABOUR_AVAILABILITY = 21;
+    public static final int SC_CASUAL_LABOUR_WAGES = 22;
+    public static final int SC_REMITTANCES = 23;
+    public static final int SC_FISHING = 24;
+    public static final int SC_MARKET_ACCESS = 25;
+    public static final int SC_DISEASE_OUTBREAK = 26;
+    public static final int SC_WATER_STRESS = 27;
+    public static final int SC_CONFLICT_RISKS = 28;
+    public static final int SC_CEREMONIES = 29;
+    public static final int SC_LEAN_SEASONS = 30;
+    public static final int SC_FOOD_SECURITY_ASSESSMENT = 31;
+
+
 
 
     //General boundaries

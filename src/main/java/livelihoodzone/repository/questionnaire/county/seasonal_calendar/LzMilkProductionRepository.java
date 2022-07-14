@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface LzMilkProductionRepository extends JpaRepository<LzMilkProductionEntity, Long> {
     public List<LzMilkProductionEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

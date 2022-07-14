@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface LzCalvingRepository extends JpaRepository<LzCalvingEntity, Long> {
     public List<LzCalvingEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

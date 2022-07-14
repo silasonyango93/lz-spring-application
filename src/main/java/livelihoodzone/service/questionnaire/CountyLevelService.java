@@ -474,7 +474,7 @@ public class CountyLevelService {
         LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
         savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
         countyLevelQuestionnaireRequestDto.setHungerPatternsResponses(hungerPatternsResponses);
-        saveHungerPatterns(countyLevelQuestionnaireRequestDto,savedQuestionnaireSession);
+        saveHungerPatterns(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
     }
 
     public void updateZoneLevelQuestionnaireSections(List<Number> lzQuestionnaireSectionCodes, LzLivelihoodZoneDataObject lzLivelihoodZoneDataObject) {
@@ -502,6 +502,72 @@ public class CountyLevelService {
             }
             if (currentSectionCode.intValue() == Constants.HAZARDS) {
                 lzHazardsService.updateHazards(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getHazardResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_SEASON_MONTHS) {
+                seasonalCalendarService.updateSeasonMonths(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_LAND_PREPARATION) {
+                seasonalCalendarService.updateLandPreparation(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLzCropProductionResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_PLANTING) {
+                seasonalCalendarService.updatePlanting(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLzCropProductionResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_HARVESTING) {
+                seasonalCalendarService.updateHarvesting(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLzCropProductionResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_LIVESTOCK_MIGRATION) {
+                seasonalCalendarService.updateLivestockMigration(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_MILK_PRODUCTION) {
+                seasonalCalendarService.updateMilkProduction(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_CALVING) {
+                seasonalCalendarService.updateCalving(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_KIDDING) {
+                seasonalCalendarService.updateKidding(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_FOOD_PRICES) {
+                seasonalCalendarService.updateFoodPrices(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_LIVESTOCK_PRICES) {
+                seasonalCalendarService.updateLivestockPrices(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_AGRICULTURE_CASUAL_LABOUR_AVAILABILITY) {
+                seasonalCalendarService.updateAgricultureCasualLabour(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_NON_AGRICULTURE_CASUAL_LABOUR_AVAILABILITY) {
+                seasonalCalendarService.updateNonAgricultureCasualLabour(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_CASUAL_LABOUR_WAGES) {
+                seasonalCalendarService.updateCasualLabourWages(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_REMITTANCES) {
+                seasonalCalendarService.updateRemittances(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_FISHING) {
+                seasonalCalendarService.updateFishing(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_MARKET_ACCESS) {
+                seasonalCalendarService.updateMarketAccess(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_DISEASE_OUTBREAK) {
+                seasonalCalendarService.updateDiseaseOutBreak(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_CONFLICT_RISKS) {
+                seasonalCalendarService.updateConflictRisks(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_WATER_STRESS) {
+                seasonalCalendarService.updateWaterStress(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_CEREMONIES) {
+                seasonalCalendarService.updateCeremonies(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_LEAN_SEASONS) {
+                seasonalCalendarService.updateLeanSeasons(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
+            }
+            if (currentSectionCode.intValue() == Constants.SC_FOOD_SECURITY_ASSESSMENT) {
+                seasonalCalendarService.updateFoodSecurityAssessment(lzLivelihoodZoneDataObject.getLzQuestionnaireSessionEntity().getLzQuestionnaireSessionId(), lzLivelihoodZoneDataObject.getLivelihoodZoneSeasonsResponses());
             }
         }
     }

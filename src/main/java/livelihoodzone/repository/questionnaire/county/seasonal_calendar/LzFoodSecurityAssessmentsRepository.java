@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface LzFoodSecurityAssessmentsRepository extends JpaRepository<LzFoodSecurityAssessmentsEntity, Long> {
     public List<LzFoodSecurityAssessmentsEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

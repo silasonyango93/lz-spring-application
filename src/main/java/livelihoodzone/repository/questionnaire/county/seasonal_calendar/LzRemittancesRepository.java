@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface LzRemittancesRepository extends JpaRepository<LzRemittancesEntity, Long> {
     public List<LzRemittancesEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

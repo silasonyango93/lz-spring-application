@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface LzCasualLabourWagesRepository extends JpaRepository<LzCasualLabourWagesEntity, Long> {
     public List<LzCasualLabourWagesEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

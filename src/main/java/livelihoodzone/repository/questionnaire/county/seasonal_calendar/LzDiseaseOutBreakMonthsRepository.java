@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface LzDiseaseOutBreakMonthsRepository extends JpaRepository<LzDiseaseOutBreakMonthsEntity, Long> {
     public List<LzDiseaseOutBreakMonthsEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

@@ -655,4 +655,207 @@ public class SeasonalCalendarService {
         }
         lzFoodSecurityAssessmentsRepository.saveAll(foodSecurityAssessmentsEntityList);
     }
+
+
+    /*
+     * UPDATES
+     * */
+
+    public void updateSeasonMonths(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzSeasonMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveSeasonMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateLandPreparation(int lzQuestionnaireSessionId, LzCropProductionResponses lzCropProductionResponses) {
+        lzLandPreparationMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLzCropProductionResponses(lzCropProductionResponses);
+        saveLandPreparationMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updatePlanting(int lzQuestionnaireSessionId, LzCropProductionResponses lzCropProductionResponses) {
+        lzPlantingMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLzCropProductionResponses(lzCropProductionResponses);
+        savePlantingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateHarvesting(int lzQuestionnaireSessionId, LzCropProductionResponses lzCropProductionResponses) {
+        lzHarvestingMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLzCropProductionResponses(lzCropProductionResponses);
+        saveHarvestingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateLivestockMigration(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        livestockMigrationMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveLivestockMigration(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateMilkProduction(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzMilkProductionRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveMilkProduction(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateCalving(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzCalvingRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveCalvingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateKidding(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzKiddingRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveKiddingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateFoodPrices(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzFoodPricesRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveFoodPricesMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateLivestockPrices(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzLivestockPricesRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveLivestockPricesMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateAgricultureCasualLabour(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzAgricultureCasualLabourAvailabilityRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveAgricultureCasualLabour(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateNonAgricultureCasualLabour(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzNonAgricCasualLabourAvailabilityRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveNonAgricultureCasualLabourAvailability(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateCasualLabourWages(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzCasualLabourWagesRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveCasualLabourWages(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateRemittances(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzRemittancesRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveRemittances(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateFishing(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzFishingMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveFishingMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateMarketAccess(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzMarketAccessMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveMarketAccessMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateDiseaseOutBreak(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzDiseaseOutBreakMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveDiseaseOutBreakMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateWaterStress(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzWaterStressMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveWaterStressMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateConflictRisks(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzConflictRisksMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveConflictRisksMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateCeremonies(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzCeremonyMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveCeremonyMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateLeanSeasons(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzLeanSeasonMonthsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveLeanSeasonMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
+
+    public void updateFoodSecurityAssessment(int lzQuestionnaireSessionId, LzSeasonsResponses lzSeasonsResponses) {
+        lzFoodSecurityAssessmentsRepository.deleteByLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        CountyLevelQuestionnaireRequestDto countyLevelQuestionnaireRequestDto = new CountyLevelQuestionnaireRequestDto();
+        LzQuestionnaireSessionEntity savedQuestionnaireSession = new LzQuestionnaireSessionEntity();
+        savedQuestionnaireSession.setLzQuestionnaireSessionId(lzQuestionnaireSessionId);
+        countyLevelQuestionnaireRequestDto.setLivelihoodZoneSeasonsResponses(lzSeasonsResponses);
+        saveFoodSecurityAssessmentMonths(countyLevelQuestionnaireRequestDto, savedQuestionnaireSession);
+    }
 }

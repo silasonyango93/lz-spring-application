@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface LzLivestockPricesRepository extends JpaRepository<LzLivestockPricesEntity, Long> {
     public List<LzLivestockPricesEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

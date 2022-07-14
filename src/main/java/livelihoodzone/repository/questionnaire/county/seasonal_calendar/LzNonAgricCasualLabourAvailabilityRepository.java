@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface LzNonAgricCasualLabourAvailabilityRepository extends JpaRepository<LzNonAgricCasualLabourAvailabilityEntity, Long> {
     public List<LzNonAgricCasualLabourAvailabilityEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

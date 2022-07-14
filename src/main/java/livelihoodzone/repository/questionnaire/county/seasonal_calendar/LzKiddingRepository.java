@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface LzKiddingRepository extends JpaRepository<LzKiddingEntity, Long> {
     public List<LzKiddingEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }

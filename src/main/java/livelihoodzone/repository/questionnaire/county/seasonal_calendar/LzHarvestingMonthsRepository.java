@@ -11,4 +11,6 @@ import java.util.List;
 public interface LzHarvestingMonthsRepository extends JpaRepository<LzHarvestingMonthsEntity, Long> {
     public List<LzHarvestingMonthsEntity> findByLzQuestionnaireSessionId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId);
     public List<LzHarvestingMonthsEntity> findByLzQuestionnaireSessionIdAndCropId(@Param("LzQuestionnaireSessionId") int lzQuestionnaireSessionId, @Param("CropId") int cropId);
+
+    public long deleteByLzQuestionnaireSessionId(int lzQuestionnaireSessionId);
 }
